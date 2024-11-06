@@ -2,28 +2,36 @@ import { cva } from "class-variance-authority";
 
 const tabsVariants = cva("", {
   variants: {
-    variant: {},
+    variant: {
+      primary: "",
+    },
   },
   defaultVariants: {},
 });
 
 const tabTriggerListVariants = cva("", {
   variants: {
-    variant: {},
+    variant: {
+      primary: "",
+    },
   },
   defaultVariants: {},
 });
 
 const tabContentListVariants = cva("", {
   variants: {
-    variant: {},
+    variant: {
+      primary: "",
+    },
   },
   defaultVariants: {},
 });
 
 const tabTriggerVariants = cva("", {
   variants: {
-    variant: {},
+    variant: {
+      primary: "",
+    },
     isActive: {
       true: "",
       false: "",
@@ -34,7 +42,9 @@ const tabTriggerVariants = cva("", {
 
 const tabContentVariants = cva("", {
   variants: {
-    variant: {},
+    variant: {
+      primary: "",
+    },
   },
   defaultVariants: {},
 });

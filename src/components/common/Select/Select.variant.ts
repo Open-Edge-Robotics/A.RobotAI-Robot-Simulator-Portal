@@ -6,7 +6,9 @@ const selectVariants = cva("whitespace-nowrap cursor-pointer", {
       true: "",
       false: "",
     },
-    variant: {},
+    variant: {
+      primary: "",
+    },
     disabled: {
       true: "",
       false: "",
@@ -17,21 +19,27 @@ const selectVariants = cva("whitespace-nowrap cursor-pointer", {
 
 const selectLabelVariants = cva("", {
   variants: {
-    variant: {},
+    variant: {
+      primary: "",
+    },
   },
   defaultVariants: {},
 });
 
 const selecTriggerVariants = cva("", {
   variants: {
-    variant: {},
+    variant: {
+      primary: "",
+    },
   },
   defaultVariants: {},
 });
 
 const selectValueTextVariants = cva("", {
   variants: {
-    variant: {},
+    variant: {
+      primary: "",
+    },
   },
   defaultVariants: {},
 });
@@ -42,14 +50,18 @@ const selectGroupVariants = cva("", {
       true: "visible",
       false: "invisible",
     },
-    variant: {},
+    variant: {
+      primary: "",
+    },
   },
   defaultVariants: {},
 });
 
 const selectItemVariants = cva("", {
   variants: {
-    variant: {},
+    variant: {
+      primary: "",
+    },
   },
   defaultVariants: {},
 });

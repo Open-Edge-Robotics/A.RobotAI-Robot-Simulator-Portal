@@ -12,6 +12,13 @@ import { cn } from "@/utils/core";
 import { VariantProps } from "class-variance-authority";
 import React from "react";
 
+type TabContextValue = VariantProps<typeof tabsVariants> & {
+  activeTab: string;
+  handleTabClick: (value: string) => void;
+};
+
+const TabContext = React.createContext<TabContextValue | undefined>(undefined);
+
 /**
  * @property {string} defaultValue: 기본으로 선택되는 탭 메뉴
  */
@@ -30,141 +37,94 @@ const Tabs = ({ defaultValue, children, variant }: TabsProps) => {
     setActiveTab(value);
   };
 
-  const tabTriggerList = React.Children.toArray(children)[0];
-  const tabContentList = React.Children.toArray(children)[1];
-
-  const modifiedTabTriggers = React.isValidElement(tabTriggerList)
-    ? React.cloneElement(
-        tabTriggerList as React.ReactElement<TabTriggerListProps>,
-        {
-          activeTab,
-          onClickInput: handleTabClick,
-          variant,
-        },
-      )
-    : null;
-
-  const modifiedTabContents = React.isValidElement(tabContentList)
-    ? React.cloneElement(
-        tabContentList as React.ReactElement<TabContentListProps>,
-        {
-          activeTab,
-          variant,
-        },
-      )
-    : null;
-
   return (
-    <div className={tabsVariants({ variant })}>
-      {modifiedTabTriggers}
-      {modifiedTabContents}
-    </div>
+    <TabContext.Provider value={{ activeTab, variant, handleTabClick }}>
+      <div className={tabsVariants({ variant })}>{children}</div>
+    </TabContext.Provider>
   );
 };
 
-type TabTriggerListProps = VariantProps<typeof tabsVariants> & {
+type TabTriggerListProps = {
   children: React.ReactNode;
-  activeTab?: string;
-  onClickInput?: (value: string) => void;
 };
 
 /**
  * @description 탭 메뉴들 묶음
  */
-const TabTriggerList = ({
-  children,
-  activeTab,
-  variant,
-  onClickInput,
-}: TabTriggerListProps) => {
-  return (
-    <div className={tabTriggerListVariants({ variant })}>
-      {React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && child.props.value) {
-          return React.cloneElement(
-            child as React.ReactElement<TabTriggerProps>,
-            {
-              isActive: child.props.value === activeTab,
-              variant,
-              onClickInput: () => onClickInput?.(child.props.value),
-            },
-          );
-        }
-        return child;
-      })}
-    </div>
-  );
+const TabTriggerList = ({ children }: TabTriggerListProps) => {
+  const context = React.useContext(TabContext);
+  if (!context)
+    throw new Error(
+      "TabContext is undefined. Ensure that Tabs component is used as a parent component.",
+    );
+  const { variant } = context;
+
+  return <div className={tabTriggerListVariants({ variant })}>{children}</div>;
 };
 
-type TabContentListProps = VariantProps<typeof tabsVariants> & {
+type TabContentListProps = {
   children: React.ReactNode;
-  activeTab?: string;
 };
 
 /**
  * @description 탭 메뉴 컨텐츠들 묶음
  */
-const TabContentList = ({
-  children,
-  activeTab,
-  variant,
-}: TabContentListProps) => {
-  return (
-    <div className={tabContentListVariants({ variant })}>
-      {React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && child.props.value) {
-          return React.cloneElement(
-            child as React.ReactElement<TabContentProps>,
-            {
-              isActive: child.props.value === activeTab,
-              variant,
-            },
-          );
-        }
-        return child;
-      })}
-    </div>
-  );
+const TabContentList = ({ children }: TabContentListProps) => {
+  const context = React.useContext(TabContext);
+  if (!context)
+    throw new Error(
+      "TabContext is undefined. Ensure that Tabs component is used as a parent component.",
+    );
+  const { variant } = context;
+
+  return <div className={tabContentListVariants({ variant })}>{children}</div>;
 };
 
-type TabTriggerProps = VariantProps<typeof tabTriggerVariants> &
-  VariantProps<typeof tabsVariants> & {
-    value: string;
-    children: React.ReactNode;
-    isActive?: boolean;
-    onClickInput?: () => void;
-  };
+type TabTriggerProps = {
+  value: string;
+  children: React.ReactNode;
+};
 
 /**
  * @description 탭 메뉴 버튼 하나
  */
-const TabTrigger = ({
-  children,
-  isActive,
-  variant,
-  onClickInput,
-}: TabTriggerProps) => {
+const TabTrigger = ({ value, children }: TabTriggerProps) => {
+  const context = React.useContext(TabContext);
+  if (!context)
+    throw new Error(
+      "TabContext is undefined. Ensure that Tabs component is used as a parent component.",
+    );
+  const { activeTab, variant, handleTabClick } = context;
+
   return (
     <Button
-      onClick={onClickInput}
-      className={cn(tabTriggerVariants({ isActive, variant }))}
+      onClick={() => handleTabClick(value)}
+      className={cn(
+        tabTriggerVariants({ isActive: activeTab === value, variant }),
+      )}
     >
       {children}
     </Button>
   );
 };
 
-type TabContentProps = VariantProps<typeof tabsVariants> & {
+type TabContentProps = {
   value: string;
   children: React.ReactNode;
-  isActive?: boolean;
 };
 
 /**
  * @description 탭 메뉴 하나당의 내용
  */
-const TabContent = ({ isActive, children, variant }: TabContentProps) => {
-  return isActive ? (
+const TabContent = ({ value, children }: TabContentProps) => {
+  const context = React.useContext(TabContext);
+  if (!context)
+    throw new Error(
+      "TabContext is undefined. Ensure that Tabs component is used as a parent component.",
+    );
+  const { activeTab, variant } = context;
+
+  return value === activeTab ? (
     <div className={tabContentVariants({ variant })}>{children}</div>
   ) : null;
 };
