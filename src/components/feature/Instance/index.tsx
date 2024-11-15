@@ -1,230 +1,110 @@
 "use client";
 
 import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { MENU_ITEMS } from "@/constants/navbar";
 import PageTitle from "@/components/common/PageTitle";
 import ButtonGroup from "@/components/shared/ButtonGroup";
-import FilterGroup from "@/components/shared/FilterGroup";
-import { Paper } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-
-const OPTION_LIST = [
-  { label: "React.js", value: "react" },
-  { label: "Vue.js", value: "vue" },
-  { label: "Angular", value: "angular" },
-  { label: "Svelte", value: "svelte" },
-];
-
-// TODO: API에서 받아오기
-const rows = [
-  {
-    id: 1,
-    name: "Instance A",
-    description: "First instance",
-    created_at: "2023-01-01",
-  },
-  {
-    id: 2,
-    name: "Instance B",
-    description: "Second instance",
-    created_at: "2023-02-14",
-  },
-  {
-    id: 3,
-    name: "Instance C",
-    description: "Third instance",
-    created_at: "2023-03-22",
-  },
-  {
-    id: 4,
-    name: "Instance D",
-    description: "Fourth instance",
-    created_at: "2023-04-05",
-  },
-  {
-    id: 5,
-    name: "Instance E",
-    description: "Fifth instance",
-    created_at: "2023-05-15",
-  },
-  {
-    id: 6,
-    name: "Instance F",
-    description: "Sixth instance",
-    created_at: "2023-06-10",
-  },
-  {
-    id: 7,
-    name: "Instance G",
-    description: "Seventh instance",
-    created_at: "2023-07-23",
-  },
-  {
-    id: 8,
-    name: "Instance H",
-    description: "Eighth instance",
-    created_at: "2023-08-30",
-  },
-  {
-    id: 9,
-    name: "Instance I",
-    description: "Ninth instance",
-    created_at: "2023-09-12",
-  },
-  {
-    id: 10,
-    name: "Instance J",
-    description: "Tenth instance",
-    created_at: "2023-10-01",
-  },
-  {
-    id: 11,
-    name: "Instance K",
-    description: "Eleventh instance",
-    created_at: "2023-11-15",
-  },
-  {
-    id: 12,
-    name: "Instance L",
-    description: "Twelfth instance",
-    created_at: "2023-12-10",
-  },
-  {
-    id: 13,
-    name: "Instance M",
-    description: "Thirteenth instance",
-    created_at: "2024-01-20",
-  },
-  {
-    id: 14,
-    name: "Instance N",
-    description: "Fourteenth instance",
-    created_at: "2024-02-25",
-  },
-  {
-    id: 15,
-    name: "Instance O",
-    description: "Fifteenth instance",
-    created_at: "2024-03-15",
-  },
-  {
-    id: 16,
-    name: "Instance P",
-    description: "Sixteenth instance",
-    created_at: "2024-04-05",
-  },
-  {
-    id: 17,
-    name: "Instance Q",
-    description: "Seventeenth instance",
-    created_at: "2024-05-25",
-  },
-  {
-    id: 18,
-    name: "Instance R",
-    description: "Eighteenth instance",
-    created_at: "2024-06-10",
-  },
-  {
-    id: 19,
-    name: "Instance S",
-    description: "Nineteenth instance",
-    created_at: "2024-07-01",
-  },
-  {
-    id: 20,
-    name: "Instance T",
-    description: "Twentieth instance",
-    created_at: "2024-08-18",
-  },
-  {
-    id: 21,
-    name: "Instance U",
-    description: "Twenty-first instance",
-    created_at: "2024-09-05",
-  },
-  {
-    id: 22,
-    name: "Instance V",
-    description: "Twenty-second instance",
-    created_at: "2024-10-12",
-  },
-  {
-    id: 23,
-    name: "Instance W",
-    description: "Twenty-third instance",
-    created_at: "2024-11-01",
-  },
-  {
-    id: 24,
-    name: "Instance X",
-    description: "Twenty-fourth instance",
-    created_at: "2024-12-25",
-  },
-  {
-    id: 25,
-    name: "Instance Y",
-    description: "Twenty-fifth instance",
-    created_at: "2025-01-10",
-  },
-  {
-    id: 26,
-    name: "Instance Z",
-    description: "Twenty-sixth instance",
-    created_at: "2025-02-20",
-  },
-  {
-    id: 27,
-    name: "Instance AA",
-    description: "Twenty-seventh instance",
-    created_at: "2025-03-30",
-  },
-  {
-    id: 28,
-    name: "Instance AB",
-    description: "Twenty-eighth instance",
-    created_at: "2025-04-10",
-  },
-  {
-    id: 29,
-    name: "Instance AC",
-    description: "Twenty-ninth instance",
-    created_at: "2025-05-22",
-  },
-  {
-    id: 30,
-    name: "Instance AD",
-    description: "Thirtieth instance",
-    created_at: "2025-06-15",
-  },
-];
-
-const columns: GridColDef[] = [
-  { field: "id", headerName: "인스턴스 ID", width: 200, resizable: false },
-  { field: "description", headerName: "설명", width: 400, resizable: false },
-  { field: "name", headerName: "이름", width: 200, resizable: false },
-  {
-    field: "created_at",
-    headerName: "생성일",
-    type: "string",
-    width: 200,
-    resizable: false,
-  },
-];
+import FilterGroup, {
+  FilterGroupFormData,
+} from "@/components/shared/FilterGroup";
+import {
+  MOCK_INSTANCE_LIST,
+  MOCK_OPTION_LIST,
+} from "@/constants/mockData/instance";
+import { COLUMN_LIST } from "@/constants/instance";
+import { filterShema } from "@/schema/filterSchema";
+import DataGridTable from "@/components/common/ListTable";
+import DetailTable from "@/components/common/DetailTable";
+import { HEADER_LIST } from "@/constants/detailTable";
+import { MOCK_DETAIL_TABLE_DATA } from "@/constants/mockData/detailTable";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
+const HEADERS_PER_COLUMN = 4;
+
+type Instance = {
+  id: number;
+  name: string;
+  description: string;
+  createdAt: string;
+};
+
+// TODO: select 선택 후 검색창 채우고 검색 버튼 누르면 필터링
+// TODO: row 클릭 시 하단에 인스턴스 상세 정보 보여주기
 const Instance = () => {
-  const [instanceId, setInstanceId] = React.useState("");
+  const [filterType, setFilterType] = React.useState<string>(
+    MOCK_OPTION_LIST[0].value,
+  );
+  const [selectedRow, setSelectedRow] = React.useState<Instance>({
+    id: 0,
+    name: "",
+    description: "",
+    createdAt: "",
+  });
+  const [instanceList, setInstanceList] =
+    React.useState<Instance[]>(MOCK_INSTANCE_LIST);
+  const [hasResult, setHasResult] = React.useState(true);
+  const [instanceDetail, setInstanceDetail] = React.useState(
+    MOCK_DETAIL_TABLE_DATA,
+  );
 
-  const [selectedRow, setSelectedRow] = React.useState<any>(null);
+  // TODO: 행 클릭 시 인스턴스 상세 정보 조회 -> 데이터 가공 -> DetailTable에 전달
+  const handleRowClick = (params: any) => {
+    const clickedRow = params.row;
+    setSelectedRow(clickedRow); // 클릭된 행 데이터를 상태에 저장
+    console.log("Clicked row data:", clickedRow); // 콘솔에 출력
+    // clikedRow에서 인스턴스 아이디 가져와 인스턴스 상세 조회
+    // 받은 리스폰스 가공
+    // instanceDetail 업데이트
+  };
 
-  // 행 선택 시 실행되는 handler
-  const handleRowSelection = (selectionModel: any) => {
-    if (selectionModel.length <= 0) setSelectedRow(null);
-    if (selectionModel.length > 0) {
-      const selectedRowData = rows.find((row) => row.id === selectionModel[0]);
-      setSelectedRow(selectedRowData);
+  const filterInstances = (
+    instances: Instance[],
+    keyword: string,
+    filterType: string,
+  ) => {
+    return instances.filter((instance) => {
+      if (filterType === MOCK_OPTION_LIST[0].value) {
+        return instance.id.toString().includes(keyword);
+      } else if (filterType === MOCK_OPTION_LIST[1].value) {
+        return instance.name.toLowerCase().includes(keyword.toLowerCase());
+      } else if (filterType === MOCK_OPTION_LIST[2].value) {
+        return instance.description
+          .toLowerCase()
+          .includes(keyword.toLowerCase());
+      } else if (filterType === MOCK_OPTION_LIST[3].value) {
+        return instance.createdAt.includes(keyword);
+      }
+      return true; // 기본적으로 모든 항목을 반환
+    });
+  };
+
+  const onSelect = (value: string) => {
+    setFilterType(value);
+  };
+
+  const { register, handleSubmit } = useForm<FilterGroupFormData>({
+    resolver: zodResolver(filterShema),
+    mode: "onChange",
+  });
+
+  const onSubmit = (data: FilterGroupFormData) => {
+    console.log(data.searchKeyword, filterType);
+    const filteredList = filterInstances(
+      MOCK_INSTANCE_LIST,
+      data.searchKeyword,
+      filterType,
+    );
+
+    console.log(filteredList);
+
+    if (filteredList.length <= 0) {
+      setHasResult(false);
+    } else {
+      setHasResult(true);
+      setInstanceList(filteredList);
     }
   };
 
@@ -235,22 +115,29 @@ const Instance = () => {
         <div className="flex justify-between">
           <ButtonGroup />
           <FilterGroup
-            optionList={OPTION_LIST}
-            placeholder="인스턴스를 선택하세요"
+            optionList={MOCK_OPTION_LIST}
+            filterType={filterType}
+            onSelect={onSelect}
+            register={register}
+            handleSubmit={handleSubmit(onSubmit)}
           />
         </div>
-        <Paper sx={{}} className="w-full rounded-[4px] px-4 py-2 text-center">
-          <DataGrid
-            className=""
-            rows={rows}
-            columns={columns}
-            initialState={{ pagination: { paginationModel } }}
-            pageSizeOptions={[5, 10]}
-            sx={{ border: 0 }}
-            onRowSelectionModelChange={handleRowSelection}
+        {hasResult && (
+          <DataGridTable
+            rows={instanceList}
+            columns={COLUMN_LIST}
+            paginationModel={paginationModel}
+            onRowClick={handleRowClick}
           />
-        </Paper>
+        )}
+        {!hasResult && <span>검색 결과 없음</span>}
       </div>
+      <DetailTable
+        headerList={HEADER_LIST}
+        // TODO: 행 클릭 시마다 바뀌어야 하는 정보 - > state
+        data={instanceDetail}
+        headersPerColumn={HEADERS_PER_COLUMN}
+      />
     </div>
   );
 };
