@@ -13,12 +13,13 @@ import {
 } from "@/components/common/Select/Select.variant";
 import useClickOutside from "@/hooks/useClickOutside";
 import { cn } from "@/utils/core";
+import { IoCaretDown, IoCaretUp } from "react-icons/io5";
 
 type SelectContextValue = VariantProps<typeof selectVariants> & {
   isOpen: boolean;
   handleToggleIsOpen: () => void;
-  selectedValue: string | null;
-  handleSelectOption: (value: string) => void;
+  selectedLabel: string | null;
+  handleSelectOption: (value: string, label: string) => void;
 };
 
 const SelectContext = React.createContext<SelectContextValue | undefined>(
@@ -29,11 +30,18 @@ type SelectProps = VariantProps<typeof selectVariants> & {
   children: React.ReactNode;
   className?: string;
   disabled?: boolean;
+  onSelect?: (value: string) => void;
 };
 
-const Select = ({ children, variant, className, disabled }: SelectProps) => {
+const Select = ({
+  children,
+  variant,
+  className,
+  disabled,
+  onSelect,
+}: SelectProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState<string | null>(null);
+  const [selectedLabel, setSelectedLabel] = React.useState<string | null>(null);
   const selectRef = React.useRef<HTMLDivElement>(null);
   const handleOutsideClick = () => setIsOpen(false);
 
@@ -43,9 +51,10 @@ const Select = ({ children, variant, className, disabled }: SelectProps) => {
     setIsOpen((prev) => !prev);
   };
 
-  const handleSelectOption = (value: string) => {
-    setSelectedValue(value);
+  const handleSelectOption = (value: string, label: string) => {
+    setSelectedLabel(label);
     setIsOpen(false);
+    onSelect?.(value);
   };
 
   return (
@@ -53,7 +62,7 @@ const Select = ({ children, variant, className, disabled }: SelectProps) => {
       value={{
         isOpen,
         variant,
-        selectedValue,
+        selectedLabel,
         handleToggleIsOpen,
         handleSelectOption,
       }}
@@ -105,6 +114,7 @@ const SelectTrigger = ({ children, className }: SelectTriggerProps) => {
     <Button
       className={cn(selecTriggerVariants({ variant }), className)}
       onClick={handleToggleIsOpen}
+      type="button"
     >
       {children}
     </Button>
@@ -122,11 +132,11 @@ const SelectValueText = ({ placeholder, className }: SelectValueTextProps) => {
     throw new Error(
       "SelectContext is undefined. Ensure that Tabs component is used as a parent component.",
     );
-  const { variant } = context;
+  const { variant, selectedLabel } = context;
 
   return (
     <span className={cn(selectValueTextVariants({ variant }), className)}>
-      {placeholder}
+      {selectedLabel ?? placeholder}
     </span>
   );
 };
@@ -154,10 +164,11 @@ const SelectGroup = ({ children, className }: SelectGroupProps) => {
 type SelectItemProps = {
   children: React.ReactNode;
   value: string;
+  label: string;
   className?: string;
 };
 
-const SelectItem = ({ value, className, children }: SelectItemProps) => {
+const SelectItem = ({ value, label, className, children }: SelectItemProps) => {
   const context = React.useContext(SelectContext);
   if (!context)
     throw new Error(
@@ -168,10 +179,29 @@ const SelectItem = ({ value, className, children }: SelectItemProps) => {
   return (
     <li
       className={cn(selectItemVariants({ variant }), className)}
-      onClick={() => handleSelectOption(value)}
+      onClick={() => handleSelectOption(value, label)}
     >
-      <Button>{children}</Button>
+      <Button type="button">{children}</Button>
     </li>
+  );
+};
+
+type SelectIconProps = {
+  color?: string;
+  className?: string;
+};
+const SelectIcon = ({ color, className }: SelectIconProps) => {
+  const context = React.useContext(SelectContext);
+  if (!context)
+    throw new Error(
+      "SelectContext is undefined. Ensure that Tabs component is used as a parent component.",
+    );
+  const { isOpen } = context;
+
+  return isOpen ? (
+    <IoCaretUp color={color} className={className} />
+  ) : (
+    <IoCaretDown color={color} className={className} />
   );
 };
 
@@ -182,4 +212,5 @@ export {
   SelectValueText,
   SelectGroup,
   SelectItem,
+  SelectIcon,
 };

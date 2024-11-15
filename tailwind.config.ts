@@ -11,6 +11,7 @@ const config: Config = {
       colors,
     },
   },
+  important: true,
   plugins: [],
 };
 export default config;

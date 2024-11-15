@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={cn("bg-white-100", pretendard.className)}>
+      <body className={cn("bg-black-800", pretendard.className)}>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

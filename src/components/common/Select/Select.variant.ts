@@ -35,7 +35,7 @@ const selecTriggerVariants = cva("", {
   defaultVariants: {},
 });
 
-const selectValueTextVariants = cva("", {
+const selectValueTextVariants = cva("no-wrap", {
   variants: {
     variant: {
       primary: "",
@@ -47,14 +47,16 @@ const selectValueTextVariants = cva("", {
 const selectGroupVariants = cva("", {
   variants: {
     isOpen: {
-      true: "visible",
-      false: "invisible",
+      true: "flex flex-col gap-1 absolute z-10",
+      false: "hidden",
     },
     variant: {
       primary: "",
     },
   },
-  defaultVariants: {},
+  defaultVariants: {
+    isOpen: false,
+  },
 });
 
 const selectItemVariants = cva("", {
