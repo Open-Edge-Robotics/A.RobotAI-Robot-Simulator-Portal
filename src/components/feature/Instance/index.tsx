@@ -25,7 +25,7 @@ const paginationModel = { page: 0, pageSize: 5 };
 const HEADERS_PER_COLUMN = 4;
 
 type Instance = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   createdAt: string;
@@ -38,7 +38,7 @@ const Instance = () => {
     MOCK_OPTION_LIST[0].value,
   );
   const [selectedRow, setSelectedRow] = React.useState<Instance>({
-    id: 0,
+    id: "0",
     name: "",
     description: "",
     createdAt: "",
