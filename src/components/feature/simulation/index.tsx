@@ -111,7 +111,7 @@ const Simulation = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <PageTitle className="text-white">{MENU_ITEMS[2].label}</PageTitle>
+      <PageTitle className="text-white">{MENU_ITEMS[3].label}</PageTitle>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between">
           <CreateButton onClick={handleClickCreate} />
