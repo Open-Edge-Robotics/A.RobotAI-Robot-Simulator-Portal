@@ -1,4 +1,4 @@
-import { HEADER_LIST } from "@/constants/detailTable";
+import { HEADER_LIST } from "@/constants/_tableHeader";
 import { TableData } from "@/type/_table";
 import { InstanceDetailResponse } from "@/type/response/instance";
 
