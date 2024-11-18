@@ -6,17 +6,17 @@ import PageTitle from "@/components/common/PageTitle";
 import FilterGroup, {
   FilterGroupFormData,
 } from "@/components/shared/FilterGroup";
-import { COLUMN_LIST } from "@/constants/instance";
+import { COLUMN_LIST } from "@/constants/_tableColumn";
 import {
   MOCK_INSTANCE_LIST,
   MOCK_SIMULATION_OPTION_LIST,
 } from "@/constants/mockData/instance";
-import { MENU_ITEMS } from "@/constants/navbar";
+import { MENU_ITEMS } from "@/constants/_navbar";
 import {
   createSimulationShema,
   filterShema,
   SCHEMA_NAME,
-} from "@/schema/filterSchema";
+} from "@/schema/_schema";
 import { filterDataList } from "@/utils/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Typography } from "@mui/material";

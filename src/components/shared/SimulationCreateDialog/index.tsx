@@ -4,7 +4,7 @@ import { Button, Typography } from "@mui/material";
 import { Input } from "@/components/common/Input";
 import { Label } from "@/components/common/Label";
 import Modal from "@/components/common/Modal";
-import { SCHEMA_NAME, SIMULATION_LENGTH_LIMIT } from "@/schema/filterSchema";
+import { SCHEMA_NAME, SIMULATION_LENGTH_LIMIT } from "@/schema/_schema";
 import { CreateSimulationFormData } from "@/type/_simulation";
 
 type SimulationCreateDialogProps = {

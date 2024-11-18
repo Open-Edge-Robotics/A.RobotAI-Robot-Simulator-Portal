@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MENU_ITEMS } from "@/constants/navbar";
+import { MENU_ITEMS } from "@/constants/_navbar";
 import PageTitle from "@/components/common/PageTitle";
 import ButtonGroup from "@/components/shared/ButtonGroup";
 import FilterGroup, {
@@ -13,11 +13,11 @@ import {
   MOCK_INSTANCE_LIST,
   MOCK_OPTION_LIST,
 } from "@/constants/mockData/instance";
-import { COLUMN_LIST } from "@/constants/instance";
-import { filterShema } from "@/schema/filterSchema";
+import { COLUMN_LIST } from "@/constants/_tableColumn";
+import { filterShema } from "@/schema/_schema";
 import DataGridTable from "@/components/common/ListTable";
 import DetailTable from "@/components/common/DetailTable";
-import { HEADER_LIST } from "@/constants/detailTable";
+import { HEADER_LIST } from "@/constants/_tableHeader";
 import { MOCK_DETAIL_TABLE_DATA } from "@/constants/mockData/detailTable";
 
 const paginationModel = { page: 0, pageSize: 5 };
