@@ -12,7 +12,8 @@ import {
   SelectTrigger,
   SelectValueText,
 } from "@/components/common/Select";
-import { SCHEMA_NAME } from "@/schema/filterSchema";
+import { SCHEMA_NAME } from "@/schema/_schema";
+import SearchButton from "@/components/shared/SearchButton";
 
 type Option = {
   label: string;
@@ -71,13 +72,7 @@ const FilterGroup = ({
           autoComplete="off"
           {...register(SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData)}
         />
-        <Button
-          variant="outlined"
-          type="submit"
-          className="border-emerald-300 bg-emerald-200 text-black-950"
-        >
-          검색
-        </Button>
+        <SearchButton />
       </form>
     </div>
   );
