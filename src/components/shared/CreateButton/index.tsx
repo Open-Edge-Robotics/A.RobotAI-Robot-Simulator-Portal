@@ -6,11 +6,7 @@ type CreateButtonProps = {
 
 const CreateButton = ({ onClick }: CreateButtonProps) => {
   return (
-    <Button
-      variant="outlined"
-      className="border-emerald-600 bg-emerald-200 text-sm text-black-950"
-      onClick={onClick}
-    >
+    <Button variant="contained" onClick={onClick} color="primary">
       생성
     </Button>
   );
