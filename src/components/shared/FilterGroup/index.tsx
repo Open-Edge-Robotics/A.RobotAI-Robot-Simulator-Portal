@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValueText,
 } from "@/components/common/Select";
+import { SCHEMA_NAME } from "@/schema/filterSchema";
 
 type Option = {
   label: string;
@@ -68,7 +69,7 @@ const FilterGroup = ({
           className="w-full px-4 py-2 text-sm placeholder:text-sm"
           placeholder="검색어를 입력해주세요"
           autoComplete="off"
-          {...register("searchKeyword")}
+          {...register(SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData)}
         />
         <Button
           variant="outlined"
