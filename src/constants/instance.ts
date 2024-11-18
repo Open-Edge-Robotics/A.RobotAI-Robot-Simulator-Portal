@@ -10,15 +10,8 @@ const COLUMN_STYLE = {
 const COLUMN_LIST: GridColDef[] = [
   {
     field: "id",
-    headerName: "인스턴스 ID",
+    headerName: "ID",
     flex: 1,
-    ...COLUMN_STYLE,
-  },
-  {
-    field: "description",
-    headerName: "설명",
-    flex: 3,
-
     ...COLUMN_STYLE,
   },
   {
@@ -28,6 +21,14 @@ const COLUMN_LIST: GridColDef[] = [
     ...COLUMN_STYLE,
   },
   {
+    field: "description",
+    headerName: "설명",
+    flex: 3,
+
+    ...COLUMN_STYLE,
+  },
+
+  {
     field: "createdAt",
     headerName: "생성일",
     flex: 1,
@@ -35,4 +36,10 @@ const COLUMN_LIST: GridColDef[] = [
   },
 ];
 
-export { COLUMN_LIST };
+const COLUMN_KEBAB = {
+  field: "actions",
+  headerName: "액션",
+  flex: 1,
+};
+
+export { COLUMN_STYLE, COLUMN_LIST, COLUMN_KEBAB };
