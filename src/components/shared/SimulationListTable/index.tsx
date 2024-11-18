@@ -1,7 +1,7 @@
 import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button, Menu, MenuItem } from "@mui/material";
-import { COLUMN_KEBAB, COLUMN_STYLE } from "@/constants/instance";
+import { COLUMN_KEBAB, COLUMN_STYLE } from "@/constants/_tableColumn";
 import KebabButton from "@/components/shared/KebabButton";
 
 type SimulationListTableProps = {
