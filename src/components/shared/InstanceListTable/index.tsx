@@ -50,6 +50,7 @@ const InstanceListTable = ({
       disableVirtualization
       checkboxSelection
       onRowSelectionModelChange={onMultipleRowClick}
+      pageSizeOptions={[paginationModel.pageSize]}
     />
   );
 };
