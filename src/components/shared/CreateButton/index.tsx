@@ -1,12 +1,10 @@
-import { Button } from "@mui/material";
+import { Button, ButtonProps } from "@mui/material";
 
-type CreateButtonProps = {
-  onClick: () => void;
-};
+type CreateButtonProps = {} & ButtonProps;
 
-const CreateButton = ({ onClick }: CreateButtonProps) => {
+const CreateButton = ({ ...props }: CreateButtonProps) => {
   return (
-    <Button variant="contained" onClick={onClick} color="primary">
+    <Button variant="contained" color="primary" {...props}>
       생성
     </Button>
   );
