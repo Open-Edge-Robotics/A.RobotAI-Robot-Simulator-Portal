@@ -35,7 +35,7 @@ const TableSection = ({
                 : "border-b border-b-gray-100",
             )}
           >
-            <th>{header}</th>
+            <th className="text-sm font-medium">{header}</th>
           </tr>
         ))}
       </thead>
@@ -51,7 +51,9 @@ const TableSection = ({
               isLastSection ? "border-r-0" : "border-r border-r-gray-100",
             )}
           >
-            <td>{data[HEADER_MAP[header] as keyof InstanceDetail]}</td>
+            <td className="text-sm font-normal">
+              {data[HEADER_MAP[header] as keyof InstanceDetail]}
+            </td>
           </tr>
         ))}
       </tbody>
