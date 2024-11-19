@@ -1,9 +1,8 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import { Button, Typography } from "@mui/material";
+import { Button, Dialog, Typography } from "@mui/material";
 import { Input } from "@/components/common/Input";
 import { Label } from "@/components/common/Label";
-import Modal from "@/components/common/Modal";
 import { SCHEMA_NAME, SIMULATION_LENGTH_LIMIT } from "@/schema/_schema";
 import { CreateSimulationFormData } from "@/type/_simulation";
 
@@ -21,7 +20,15 @@ const SimulationCreateDialog = ({
   handleSubmit,
 }: SimulationCreateDialogProps) => {
   return (
-    <Modal open={isOpen} onClose={handleCloseDialog}>
+    <Dialog
+      open={isOpen}
+      onClose={handleCloseDialog}
+      sx={{
+        "& .MuiPaper-root": {
+          width: "100%",
+        },
+      }}
+    >
       <form
         className="flex w-full flex-col items-center justify-center gap-8 p-8"
         onSubmit={handleSubmit}
@@ -65,7 +72,7 @@ const SimulationCreateDialog = ({
           </Button>
         </div>
       </form>
-    </Modal>
+    </Dialog>
   );
 };
 
