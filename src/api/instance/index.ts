@@ -21,7 +21,7 @@ const actionURL = BASE_API.ACTION;
  * @description 인스턴스 목록 조회
  * @returns {InstanceListResponse}
  */
-const getInstanceList = async (): Promise<InstanceListResponse> => {
+const getInstanceList = async (): Promise<Result<InstanceListResponse>> => {
   const result = await apiGet<Result<InstanceListResponse>>(instanceURL);
   return result.data;
 };
@@ -33,7 +33,7 @@ const getInstanceList = async (): Promise<InstanceListResponse> => {
  */
 const getInstanceDetail = async (
   request: InstanceIdParam,
-): Promise<InstanceDetailResponse> => {
+): Promise<Result<InstanceDetailResponse>> => {
   const result = await apiGet<Result<InstanceDetailResponse>>(
     `${instanceURL}/${request.instanceId}`,
   );
@@ -47,7 +47,7 @@ const getInstanceDetail = async (
  */
 const postInstance = async (
   request: InstancePostRequest,
-): Promise<InstancePostResponse> => {
+): Promise<Result<InstancePostResponse>> => {
   const result = await apiPost<Result<InstancePostResponse>>(
     instanceURL,
     request,
@@ -62,7 +62,7 @@ const postInstance = async (
  */
 const postInstanceAction = async (
   request: InstanceActionPostRequest,
-): Promise<InstanceActionResponse> => {
+): Promise<Result<InstanceActionResponse>> => {
   const result = await apiPost<Result<InstanceActionResponse>>(
     `${instanceURL}/${request.instanceId}/${actionURL}`,
     request,
@@ -77,14 +77,14 @@ const postInstanceAction = async (
  */
 const deleteInstance = async (
   request: InstanceIdParam,
-): Promise<SimulationActionResponse> => {
+): Promise<Result<SimulationActionResponse>> => {
   const result = await apiDelete<Result<SimulationActionResponse>>(
     `${instanceURL}/${request.instanceId}`,
   );
   return result.data;
 };
 
-export {
+export const instance = {
   getInstanceList,
   getInstanceDetail,
   postInstance,
