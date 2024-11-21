@@ -1,7 +1,7 @@
-import React from "react";
+import Simulation from "@/components/feature/simulation";
 
 const SimulationPage = () => {
-  return <div>SimulationPage</div>;
+  return <Simulation />;
 };
 
 export default SimulationPage;
