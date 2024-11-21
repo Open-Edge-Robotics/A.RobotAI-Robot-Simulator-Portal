@@ -186,6 +186,14 @@ const MOCK_OPTION_LIST = [
   { label: "설명", value: "description" },
   { label: "이름", value: "name" },
   { label: "생성일", value: "createdAt" },
+  { label: "ID1", value: "id1" },
+  { label: "설명", value: "description1" },
+  { label: "이름", value: "name1" },
+  { label: "생성일", value: "createdAt1" },
+  { label: "ID", value: "id2" },
+  { label: "설명", value: "description2" },
+  { label: "이름", value: "name2" },
+  { label: "생성일", value: "createdAt2" },
 ];
 
 const MOCK_SIMULATION_OPTION_LIST = [

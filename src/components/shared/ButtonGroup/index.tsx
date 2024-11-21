@@ -1,21 +1,27 @@
-import React from "react";
-import { Button } from "@mui/material";
+import CreateButton from "@/components/shared/CreateButton";
+import DeleteButton from "@/components/shared/DeleteButton";
+import ExecuteButton from "@/components/shared/ExecuteButton";
 
-const ButtonGroup = () => {
+type Props = {
+  isExecuteActive: boolean;
+  isDeleteActive: boolean;
+  onCreate: () => void;
+  onExecute: () => void;
+  onDelete: () => void;
+};
+
+const ButtonGroup = ({
+  isExecuteActive,
+  isDeleteActive,
+  onCreate,
+  onExecute,
+  onDelete,
+}: Props) => {
   return (
     <div className="flex gap-2">
-      <Button
-        variant="outlined"
-        className="border-emerald-600 bg-emerald-200 text-sm text-black-950"
-      >
-        생성
-      </Button>
-      <Button
-        variant="outlined"
-        className="border-navy-600 bg-navy-400 text-sm text-black-950"
-      >
-        실행
-      </Button>
+      <CreateButton onClick={onCreate} />
+      <ExecuteButton onClick={onExecute} disabled={!isExecuteActive} />
+      <DeleteButton onClick={onDelete} disabled={!isDeleteActive} />
     </div>
   );
 };

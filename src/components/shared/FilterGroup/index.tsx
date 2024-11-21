@@ -15,7 +15,7 @@ import {
 import { SCHEMA_NAME } from "@/schema/_schema";
 import SearchButton from "@/components/shared/SearchButton";
 
-type Option = {
+export type Option = {
   label: string;
   value: string;
   [key: string]: any;

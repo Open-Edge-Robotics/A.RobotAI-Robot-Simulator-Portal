@@ -47,7 +47,7 @@ const selectValueTextVariants = cva("no-wrap", {
 const selectGroupVariants = cva("", {
   variants: {
     isOpen: {
-      true: "flex flex-col gap-1 absolute z-10",
+      true: "flex flex-col gap-1 absolute z-10 overflow-y-auto",
       false: "hidden",
     },
     variant: {

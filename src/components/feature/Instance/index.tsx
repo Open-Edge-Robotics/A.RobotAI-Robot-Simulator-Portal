@@ -8,17 +8,28 @@ import PageTitle from "@/components/common/PageTitle";
 import ButtonGroup from "@/components/shared/ButtonGroup";
 import FilterGroup, {
   FilterGroupFormData,
+  Option,
 } from "@/components/shared/FilterGroup";
 import {
   MOCK_INSTANCE_LIST,
   MOCK_OPTION_LIST,
 } from "@/constants/mockData/instance";
 import { COLUMN_LIST } from "@/constants/_tableColumn";
-import { filterShema } from "@/schema/_schema";
-import DataGridTable from "@/components/common/ListTable";
+import {
+  createInstanceSchema,
+  filterShema,
+  SCHEMA_NAME,
+} from "@/schema/_schema";
+import DataGridTable from "@/components/shared/InstanceListTable";
 import DetailTable from "@/components/common/DetailTable";
 import { HEADER_LIST } from "@/constants/_tableHeader";
-import { MOCK_DETAIL_TABLE_DATA } from "@/constants/mockData/detailTable";
+import {
+  MOCK_INSTANCE_DETAIL,
+  MOCK_INSTANCE_DETAIL2,
+} from "@/constants/mockData/detailTable";
+import SimulationFilter from "@/components/shared/SimulationFilter";
+import InstanceCreateDialog from "@/components/shared/InstanceCreateDialog";
+import { CreateInstanceFormData } from "@/type/_instance";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -31,33 +42,44 @@ type Instance = {
   createdAt: string;
 };
 
-// TODO: select 선택 후 검색창 채우고 검색 버튼 누르면 필터링
+const MOCK_SIMULATION_LIST = [
+  { label: "시뮬레이션1", value: "시뮬레이션1" },
+  { label: "시뮬레이션2", value: "시뮬레이션2" },
+];
+
 // TODO: row 클릭 시 하단에 인스턴스 상세 정보 보여주기
 const Instance = () => {
+  // TODO: 시뮬레이션 리스트는 화면 첫 렌더링시 api 요청해서 setSimulationList 담기
+  // TODO: 인스턴스 생성, 중지, 실행, 삭제할때 refetch trigger
+  const [simulationList, setSimulationList] =
+    React.useState<Option[]>(MOCK_SIMULATION_LIST);
   const [filterType, setFilterType] = React.useState<string>(
     MOCK_OPTION_LIST[0].value,
   );
-  const [selectedRow, setSelectedRow] = React.useState<Instance>({
-    id: "0",
-    name: "",
-    description: "",
-    createdAt: "",
-  });
   const [instanceList, setInstanceList] =
     React.useState<Instance[]>(MOCK_INSTANCE_LIST);
   const [hasResult, setHasResult] = React.useState(true);
-  const [instanceDetail, setInstanceDetail] = React.useState(
-    MOCK_DETAIL_TABLE_DATA,
-  );
+  const [instanceDetail, setInstanceDetail] =
+    React.useState(MOCK_INSTANCE_DETAIL);
+  const [checkedRowList, setCheckedRowList] = React.useState<string[]>([]);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [selectedSimulationId, setSelectedSimulationId] = React.useState("");
+  const [selectedTemplateId, setSelectedTemplateId] = React.useState("");
 
   // TODO: 행 클릭 시 인스턴스 상세 정보 조회 -> 데이터 가공 -> DetailTable에 전달
   const handleRowClick = (params: any) => {
     const clickedRow = params.row;
-    setSelectedRow(clickedRow); // 클릭된 행 데이터를 상태에 저장
     console.log("Clicked row data:", clickedRow); // 콘솔에 출력
-    // clikedRow에서 인스턴스 아이디 가져와 인스턴스 상세 조회
-    // 받은 리스폰스 가공
-    // instanceDetail 업데이트
+    setInstanceDetail(MOCK_INSTANCE_DETAIL2);
+    // TODO: clikedRow에서 인스턴스 아이디 가져와 인스턴스 상세 조회
+    // TODO: instanceDetail 업데이트
+  };
+
+  // TODO: 1개 이상 체크박스 클릭 시 실행. 선택된 id들 배열로 state에 저장
+  const hanldeMultpleRowClick = (params: any) => {
+    const selectedIds = params as string[]; // 선택된 row의 ID 배열
+    // console.log(selectedIds, "selectedIds");
+    setCheckedRowList(selectedIds);
   };
 
   const filterInstances = (
@@ -77,7 +99,7 @@ const Instance = () => {
       } else if (filterType === MOCK_OPTION_LIST[3].value) {
         return instance.createdAt.includes(keyword);
       }
-      return true; // 기본적으로 모든 항목을 반환
+      return true;
     });
   };
 
@@ -91,14 +113,11 @@ const Instance = () => {
   });
 
   const onSubmit = (data: FilterGroupFormData) => {
-    console.log(data.searchKeyword, filterType);
     const filteredList = filterInstances(
       MOCK_INSTANCE_LIST,
-      data.searchKeyword,
+      data[SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData],
       filterType,
     );
-
-    console.log(filteredList);
 
     if (filteredList.length <= 0) {
       setHasResult(false);
@@ -108,12 +127,48 @@ const Instance = () => {
     }
   };
 
+  const handleCreate = () => {
+    setIsOpen(true);
+  };
+  const handleExecute = () => {};
+  const handleDelete = () => {};
+
+  // TODO: 시뮬레이션 선택에 따라 인스턴스 목록 변경됨
+  const handleSelectSimulation = () => {
+    // TODO: 인스턴스 목록 조회 api 결과로 인스턴스 목록 state 변경
+  };
+
+  const { register: instanceRegister, handleSubmit: instanceHandleSubmit } =
+    useForm<CreateInstanceFormData>({
+      resolver: zodResolver(createInstanceSchema),
+      mode: "onChange",
+    });
+
+  const onInstanceSubmit = (data: CreateInstanceFormData) => {
+    console.log(data, "데이터요");
+    console.log(selectedSimulationId, selectedTemplateId, "아이디 2개");
+  };
+
+  const onInstanceError = () => {};
+
   return (
     <div className="flex flex-col gap-4">
-      <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
+      <div className="flex flex-col gap-1">
+        <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
+        <SimulationFilter
+          optionList={simulationList}
+          onSelect={handleSelectSimulation}
+        />
+      </div>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between">
-          <ButtonGroup />
+          <ButtonGroup
+            isExecuteActive={checkedRowList?.length > 0}
+            isDeleteActive={checkedRowList?.length > 0}
+            onCreate={handleCreate}
+            onExecute={handleExecute}
+            onDelete={handleDelete}
+          />
           <FilterGroup
             optionList={MOCK_OPTION_LIST}
             filterType={filterType}
@@ -128,15 +183,23 @@ const Instance = () => {
             columns={COLUMN_LIST}
             paginationModel={paginationModel}
             onRowClick={handleRowClick}
+            onMultipleRowClick={hanldeMultpleRowClick}
           />
         )}
         {!hasResult && <span>검색 결과 없음</span>}
       </div>
       <DetailTable
         headerList={HEADER_LIST}
-        // TODO: 행 클릭 시마다 바뀌어야 하는 정보 - > state
         data={instanceDetail}
         headersPerColumn={HEADERS_PER_COLUMN}
+      />
+      <InstanceCreateDialog
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        register={instanceRegister}
+        handleSubmit={instanceHandleSubmit(onInstanceSubmit, onInstanceError)}
+        setSelectedSimulationId={setSelectedSimulationId}
+        setSelectedTemplateId={setSelectedTemplateId}
       />
     </div>
   );

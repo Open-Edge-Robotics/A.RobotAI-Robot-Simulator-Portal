@@ -1,19 +1,21 @@
 import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-type ListTableProps = {
+type InstanceListTableProps = {
   rows: { [key: string]: string | number }[];
   columns: GridColDef[];
   paginationModel: { page: number; pageSize: number };
-  onRowClick?: (params: any) => void;
+  onRowClick: (params: any) => void;
+  onMultipleRowClick: (params: any) => void;
 };
 
-const ListTable = ({
+const InstanceListTable = ({
   rows,
   columns,
   paginationModel,
   onRowClick,
-}: ListTableProps) => {
+  onMultipleRowClick,
+}: InstanceListTableProps) => {
   return (
     <DataGrid
       className="w-full rounded-[4px] bg-white px-2 text-center"
@@ -41,14 +43,16 @@ const ListTable = ({
       onRowClick={onRowClick}
       disableRowSelectionOnClick
       disableColumnResize
-      disableMultipleRowSelection
       disableColumnSorting
       disableColumnSelector
       disableColumnMenu
       disableDensitySelector
       disableVirtualization
+      checkboxSelection
+      onRowSelectionModelChange={onMultipleRowClick}
+      pageSizeOptions={[paginationModel.pageSize]}
     />
   );
 };
 
-export default ListTable;
+export default InstanceListTable;
