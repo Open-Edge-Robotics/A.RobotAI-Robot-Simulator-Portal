@@ -1,4 +1,4 @@
-export interface PostSimulation {
+export interface PostSimulationRequest {
   simulationName: string;
   simulationDescription: string;
 }
