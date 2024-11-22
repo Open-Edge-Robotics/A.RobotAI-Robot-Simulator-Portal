@@ -25,7 +25,7 @@ const SimulationFilter = ({ optionList, onSelect }: Props) => {
           placeholder={"시뮬레이션을 선택하세요"}
         />
       </SelectTrigger>
-      <SelectGroup className="top-10 w-full rounded-[4px] bg-white p-2 shadow-md">
+      <SelectGroup className="top-10 max-h-40 w-full rounded-[4px] bg-white p-2 shadow-md">
         {optionList.map((item) => (
           <SelectItem
             key={item.value}
