@@ -1,8 +1,6 @@
 import { Button, ButtonProps } from "@mui/material";
 
-type CreateButtonProps = {} & ButtonProps;
-
-const CreateButton = ({ ...props }: CreateButtonProps) => {
+const CreateButton = ({ ...props }: ButtonProps) => {
   return (
     <Button variant="contained" color="primary" {...props}>
       생성
