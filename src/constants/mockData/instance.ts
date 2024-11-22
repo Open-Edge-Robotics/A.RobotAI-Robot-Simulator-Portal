@@ -1,7 +1,7 @@
 import { InstanceListResponse } from "@/type/response/_instance";
-import { SimulationListResponse } from "@/type/response/_simulation";
+import { SimulationType } from "@/type/response/_simulation";
 
-const MOCK_SIMULATION_LIST: SimulationListResponse = [
+const MOCK_SIMULATION_LIST: SimulationType[] = [
   {
     simulationId: 1,
     simulationName: "Instance 1",

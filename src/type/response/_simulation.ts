@@ -3,11 +3,11 @@ import { BaseSimulation, SimulationIdField } from "@/type/_field";
 // 추후 추가 예정
 type SimulationStatusType = "RUNNING";
 
-interface Simulation extends BaseSimulation {
+export interface SimulationType extends BaseSimulation {
   simulationStatus: SimulationStatusType;
 }
 
-export type SimulationListResponse = Simulation[];
+export type SimulationListResponse = SimulationType[];
 
 export interface SimulationPostResponse extends BaseSimulation {}
 
