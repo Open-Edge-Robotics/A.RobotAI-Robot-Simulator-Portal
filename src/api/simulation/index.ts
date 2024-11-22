@@ -1,15 +1,13 @@
 import { apiDelete, apiGet, apiPost } from "@/lib/axios";
 import { BASE_API } from "@/constants/_apiPath";
-import {
-  SimulationIdParam,
-  PostSimulationRequest,
-} from "@/type/request/_simulation";
+import { PostSimulationRequest } from "@/type/request/_simulation";
 import { Result } from "@/type/response/_default";
 import {
   SimulationActionResponse,
   SimulationListResponse,
   SimulationPostResponse,
 } from "@/type/response/_simulation";
+import { SimulationIdField } from "@/type/_field";
 
 const simulationURL = BASE_API.SIMULATION;
 
@@ -38,11 +36,11 @@ const postSimulation = async (
 
 /**
  * @description 시뮬레이션 삭제
- * @param {SimulationIdParam} request - 시뮬레이션 ID
+ * @param {SimulationIdField} request - 시뮬레이션 ID
  * @returns {SimulationActionResponse}
  */
 const deleteSimulation = async (
-  request: SimulationIdParam,
+  request: SimulationIdField,
 ): Promise<Result<SimulationActionResponse>> => {
   const result = await apiDelete<Result<SimulationActionResponse>>(
     `${simulationURL}/${request.simulationId}`,

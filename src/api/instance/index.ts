@@ -2,7 +2,6 @@ import { apiDelete, apiGet, apiPost } from "@/lib/axios";
 import { BASE_API } from "@/constants/_apiPath";
 import {
   InstancePostRequest,
-  InstanceIdParam,
   InstanceActionPostRequest,
 } from "@/type/request/_instance";
 import {
@@ -13,6 +12,7 @@ import {
 } from "@/type/response/_instance";
 import { Result } from "@/type/response/_default";
 import { SimulationActionResponse } from "@/type/response/_simulation";
+import { InstanceIdField } from "@/type/_field";
 
 const instanceURL = BASE_API.INSTANCE;
 const actionURL = BASE_API.ACTION;
@@ -28,11 +28,11 @@ const getInstanceList = async (): Promise<Result<InstanceListResponse>> => {
 
 /**
  * @description 인스턴스 상세 조회
- * @param {InstanceIdParam} request : 인스턴스 ID
+ * @param {InstanceIdField} request : 인스턴스 ID
  * @returns {InstanceDetailResponse}
  */
 const getInstanceDetail = async (
-  request: InstanceIdParam,
+  request: InstanceIdField,
 ): Promise<Result<InstanceDetailResponse>> => {
   const result = await apiGet<Result<InstanceDetailResponse>>(
     `${instanceURL}/${request.instanceId}`,
@@ -72,11 +72,11 @@ const postInstanceAction = async (
 
 /**
  * @description 인스턴스 삭제
- * @param {InstanceIdParam} request - 삭제할 인스턴스 ID
+ * @param {InstanceIdField} request - 삭제할 인스턴스 ID
  템플릿 ID , 인스턴스 개수 {SimulationActionResponse}
  */
 const deleteInstance = async (
-  request: InstanceIdParam,
+  request: InstanceIdField,
 ): Promise<Result<SimulationActionResponse>> => {
   const result = await apiDelete<Result<SimulationActionResponse>>(
     `${instanceURL}/${request.instanceId}`,
