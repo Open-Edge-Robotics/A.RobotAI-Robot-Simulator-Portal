@@ -12,7 +12,7 @@ import FilterGroup, {
 } from "@/components/shared/FilterGroup";
 import {
   MOCK_INSTANCE_LIST,
-  MOCK_OPTION_LIST,
+  MOCK_SIMULATION_LIST,
 } from "@/constants/mockData/instance";
 import { INSTANCE_LIST_COLUMN_LIST } from "@/constants/_tableColumn";
 import {
@@ -29,32 +29,32 @@ import {
 } from "@/constants/mockData/detailTable";
 import SimulationFilter from "@/components/shared/SimulationFilter";
 import InstanceCreateDialog from "@/components/shared/InstanceCreateDialog";
-import { CreateInstanceFormData } from "@/type/_instance";
+import { CreateInstanceFormType } from "@/type/_instance";
 import { InstanceListResponse } from "@/type/response/_instance";
 import { INSTANCE_OPTION_LIST } from "@/constants/_filterOption";
-import {
-  InstanceCreatedAtField,
-  InstanceDescriptionField,
-  InstanceIdField,
-  InstanceNameField,
-} from "@/type/_field";
+import { filterInstances } from "@/utils/table";
+import { transformResponseToOptionList } from "@/utils/option";
+import { SimulationType } from "@/type/response/_simulation";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
 const HEADERS_PER_COLUMN = 4;
 
-const MOCK_SIMULATION_LIST = [
-  { label: "시뮬레이션1", value: "시뮬레이션1" },
-  { label: "시뮬레이션2", value: "시뮬레이션2" },
-];
-
 const Instance = () => {
-  // TODO: 시뮬레이션 리스트는 화면 첫 렌더링시 api 요청해서 setSimulationList 담기
-  // TODO: 인스턴스 생성, 중지, 실행, 삭제할때 refetch trigger
-  const [simulationList, setSimulationList] =
-    React.useState<Option[]>(MOCK_SIMULATION_LIST);
+  // TODO: 인스턴스 생성, 중지, 실행, 삭제할 때 refetch trigger
+  // TODO: 시뮬레이션 리스트는 화면 첫 렌더링시 api 요청 -> 데이터 가공해서 setSimulationOptionList 담기
+  const [simulationOptionList, setSimulationOptionList] = React.useState<
+    Option[]
+  >(
+    transformResponseToOptionList(
+      // TODO: 실 데이터로 교체
+      MOCK_SIMULATION_LIST,
+      SCHEMA_NAME.SIMULATION.ID as keyof SimulationType,
+      SCHEMA_NAME.SIMULATION.NAME as keyof SimulationType,
+    ),
+  );
   const [filterType, setFilterType] = React.useState<string>(
-    MOCK_OPTION_LIST[0].value,
+    INSTANCE_OPTION_LIST[0].value,
   );
   const [instanceList, setInstanceList] =
     React.useState<InstanceListResponse>(MOCK_INSTANCE_LIST);
@@ -75,45 +75,13 @@ const Instance = () => {
     // TODO: instanceDetail 업데이트
   };
 
-  // TODO: 1개 이상 체크박스 클릭 시 실행. 선택된 id들 배열로 state에 저장
   const hanldeMultpleRowClick = (params: any) => {
     const selectedIds = params as string[]; // 선택된 row의 ID 배열
     // console.log(selectedIds, "selectedIds");
     setCheckedRowList(selectedIds);
   };
 
-  const filterInstances = (
-    instances: InstanceListResponse,
-    keyword: string,
-    filterType: string,
-  ) => {
-    return instances.filter((instance) => {
-      if (filterType === MOCK_OPTION_LIST[0].value) {
-        return instance[INSTANCE_OPTION_LIST[0].value as keyof InstanceIdField]
-          .toString()
-          .includes(keyword);
-      } else if (filterType === MOCK_OPTION_LIST[1].value) {
-        return instance[
-          INSTANCE_OPTION_LIST[1].value as keyof InstanceNameField
-        ]
-          .toLowerCase()
-          .includes(keyword.toLowerCase());
-      } else if (filterType === MOCK_OPTION_LIST[2].value) {
-        return instance[
-          INSTANCE_OPTION_LIST[2].value as keyof InstanceDescriptionField
-        ]
-          .toLowerCase()
-          .includes(keyword.toLowerCase());
-      } else if (filterType === MOCK_OPTION_LIST[3].value) {
-        return instance[
-          INSTANCE_OPTION_LIST[3].value as keyof InstanceCreatedAtField
-        ].includes(keyword);
-      }
-      return true;
-    });
-  };
-
-  const onSelect = (value: string) => {
+  const onSelectFilter = (value: string) => {
     setFilterType(value);
   };
 
@@ -149,12 +117,12 @@ const Instance = () => {
   };
 
   const { register: instanceRegister, handleSubmit: instanceHandleSubmit } =
-    useForm<CreateInstanceFormData>({
+    useForm<CreateInstanceFormType>({
       resolver: zodResolver(createInstanceSchema),
       mode: "onChange",
     });
 
-  const onInstanceSubmit = (data: CreateInstanceFormData) => {
+  const onInstanceSubmit = (data: CreateInstanceFormType) => {
     console.log(data, "데이터요");
     console.log(selectedSimulationId, selectedTemplateId, "아이디 2개");
   };
@@ -166,7 +134,7 @@ const Instance = () => {
       <div className="flex flex-col gap-1">
         <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
         <SimulationFilter
-          optionList={simulationList}
+          optionList={simulationOptionList}
           onSelect={handleSelectSimulation}
         />
       </div>
@@ -180,9 +148,9 @@ const Instance = () => {
             onDelete={handleDelete}
           />
           <FilterGroup
-            optionList={MOCK_OPTION_LIST}
+            optionList={INSTANCE_OPTION_LIST}
             filterType={filterType}
-            onSelect={onSelect}
+            onSelect={onSelectFilter}
             register={register}
             handleSubmit={handleSubmit(onSubmit)}
           />
@@ -205,6 +173,7 @@ const Instance = () => {
       />
       <InstanceCreateDialog
         isOpen={isOpen}
+        simulationOptionList={simulationOptionList}
         onClose={() => setIsOpen(false)}
         register={instanceRegister}
         handleSubmit={instanceHandleSubmit(onInstanceSubmit, onInstanceError)}
