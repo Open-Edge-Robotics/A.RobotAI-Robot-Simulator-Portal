@@ -1,11 +1,7 @@
 import { Button, ButtonBaseProps } from "@mui/material";
 import React from "react";
 
-type Props = {
-  onClick: () => void;
-} & ButtonBaseProps;
-
-const ExecuteButton = ({ onClick, disabled }: Props) => {
+const ExecuteButton = ({ onClick, disabled }: ButtonBaseProps) => {
   return (
     <Button
       variant="contained"

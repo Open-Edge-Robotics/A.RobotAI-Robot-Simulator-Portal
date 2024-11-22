@@ -1,9 +1,7 @@
 import { Button, ButtonProps } from "@mui/material";
 import React from "react";
 
-type Props = {} & ButtonProps;
-
-const CancelButton = ({ ...props }: Props) => {
+const CancelButton = ({ ...props }: ButtonProps) => {
   return (
     <Button variant="outlined" color="info" type="button" {...props}>
       취소
