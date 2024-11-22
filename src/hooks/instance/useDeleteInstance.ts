@@ -1,9 +1,9 @@
 import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { instance } from "@/api/instance";
-import { InstanceIdParam } from "@/type/request/_instance";
 import { Result } from "@/type/response/_default";
 import { InstancePostResponse } from "@/type/response/_instance";
+import { InstanceIdField } from "@/type/_field";
 
 /**
  * @description 인스턴스 삭제 쿼리
@@ -12,8 +12,8 @@ export const useDeleteInstance = () => {
   return useMutation<
     Result<InstancePostResponse>,
     AxiosError<Result<null>>,
-    InstanceIdParam
+    InstanceIdField
   >({
-    mutationFn: (request: InstanceIdParam) => instance.deleteInstance(request),
+    mutationFn: (request: InstanceIdField) => instance.deleteInstance(request),
   });
 };
