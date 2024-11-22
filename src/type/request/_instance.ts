@@ -1,18 +1,21 @@
+import {
+  InstanceCountField,
+  InstanceDescriptionField,
+  InstanceIdField,
+  InstanceNameField,
+  SimulationIdField,
+  TemplateIdField,
+} from "@/type/_field";
+
 export type ActionType = "start" | "stop";
 
-export interface InstanceIdParam {
-  instanceId: string;
-}
+export interface InstancePostRequest
+  extends InstanceNameField,
+    InstanceDescriptionField,
+    SimulationIdField,
+    InstanceCountField,
+    TemplateIdField {}
 
-export interface InstancePostRequest {
-  instanceName: string;
-  instanceDescription: string;
-  simulationId: string;
-  templateId: string;
-  instanceCount: string;
-}
-
-export interface InstanceActionPostRequest {
-  instanceId: string;
+export interface InstanceActionPostRequest extends InstanceIdField {
   action: ActionType;
 }
