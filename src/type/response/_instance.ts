@@ -1,11 +1,13 @@
-interface Instance {
-  instanceId: string;
-  instanceName: string;
-  instanceDescription: string;
-  instanceCreatedAt: string;
-}
+import {
+  BaseInstance,
+  InstanceCountField,
+  InstanceDescriptionField,
+  InstanceIdField,
+  InstanceNameField,
+  SimulationIdField,
+} from "@/type/_field";
 
-export type InstanceListResponse = Instance[];
+export type InstanceListResponse = BaseInstance[];
 
 export interface InstanceDetailResponse {
   instanceNamespace: string;
@@ -18,15 +20,14 @@ export interface InstanceDetailResponse {
   topics: string;
 }
 
-export interface InstancePostResponse {
-  instanceName: string;
-  instanceDescription: string;
-  simulationId: string;
+export interface InstancePostResponse
+  extends InstanceNameField,
+    InstanceDescriptionField,
+    InstanceCountField,
+    SimulationIdField {
   templateId: string;
-  instanceCount: string;
 }
 
-export interface InstanceActionResponse {
+export interface InstanceActionResponse extends InstanceIdField {
   result: string;
-  instanceId: string;
 }
