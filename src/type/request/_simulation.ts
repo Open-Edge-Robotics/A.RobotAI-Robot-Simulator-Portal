@@ -1,8 +1,5 @@
-export interface PostSimulationRequest {
-  simulationName: string;
-  simulationDescription: string;
-}
+import { SimulationDescriptionField, SimulationNameField } from "@/type/_field";
 
-export interface SimulationIdParam {
-  simulationId: string;
-}
+export interface PostSimulationRequest
+  extends SimulationNameField,
+    SimulationDescriptionField {}
