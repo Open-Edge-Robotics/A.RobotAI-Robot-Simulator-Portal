@@ -13,6 +13,7 @@ import {
 import { Result } from "@/type/response/_default";
 import { SimulationActionResponse } from "@/type/response/_simulation";
 import { InstanceIdField } from "@/type/_field";
+import { SCHEMA_NAME } from "@/schema/_schema";
 
 const instanceURL = BASE_API.INSTANCE;
 const actionURL = BASE_API.ACTION;
@@ -35,7 +36,7 @@ const getInstanceDetail = async (
   request: InstanceIdField,
 ): Promise<Result<InstanceDetailResponse>> => {
   const result = await apiGet<Result<InstanceDetailResponse>>(
-    `${instanceURL}/${request.instanceId}`,
+    `${instanceURL}/${request[SCHEMA_NAME.INSTANCE.ID as keyof InstanceIdField]}`,
   );
   return result.data;
 };
@@ -64,7 +65,7 @@ const postInstanceAction = async (
   request: InstanceActionPostRequest,
 ): Promise<Result<InstanceActionResponse>> => {
   const result = await apiPost<Result<InstanceActionResponse>>(
-    `${instanceURL}/${request.instanceId}/${actionURL}`,
+    `${instanceURL}/${request[SCHEMA_NAME.INSTANCE.ID as keyof InstanceIdField]}/${actionURL}`,
     request,
   );
   return result.data;
@@ -79,7 +80,7 @@ const deleteInstance = async (
   request: InstanceIdField,
 ): Promise<Result<SimulationActionResponse>> => {
   const result = await apiDelete<Result<SimulationActionResponse>>(
-    `${instanceURL}/${request.instanceId}`,
+    `${instanceURL}/${request[SCHEMA_NAME.INSTANCE.ID as keyof InstanceIdField]}`,
   );
   return result.data;
 };
