@@ -1,8 +1,10 @@
 import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { InstanceListResponse } from "@/type/response/_instance";
+import { INSTANCE_OPTION_LIST } from "@/constants/_filterOption";
 
 type InstanceListTableProps = {
-  rows: { [key: string]: string | number }[];
+  rows: InstanceListResponse;
   columns: GridColDef[];
   paginationModel: { page: number; pageSize: number };
   onRowClick: (params: any) => void;
@@ -19,6 +21,7 @@ const InstanceListTable = ({
   return (
     <DataGrid
       className="w-full rounded-[4px] bg-white px-2 text-center"
+      getRowId={(row) => row[INSTANCE_OPTION_LIST[0].value]}
       rows={rows}
       columns={columns}
       initialState={{ pagination: { paginationModel } }}
