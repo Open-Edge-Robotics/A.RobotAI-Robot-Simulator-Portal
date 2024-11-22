@@ -14,7 +14,7 @@ import {
   MOCK_INSTANCE_LIST,
   MOCK_OPTION_LIST,
 } from "@/constants/mockData/instance";
-import { COLUMN_LIST } from "@/constants/_tableColumn";
+import { INSTANCE_LIST_COLUMN_LIST } from "@/constants/_tableColumn";
 import {
   createInstanceSchema,
   filterShema,
@@ -30,24 +30,24 @@ import {
 import SimulationFilter from "@/components/shared/SimulationFilter";
 import InstanceCreateDialog from "@/components/shared/InstanceCreateDialog";
 import { CreateInstanceFormData } from "@/type/_instance";
+import { InstanceListResponse } from "@/type/response/_instance";
+import { INSTANCE_OPTION_LIST } from "@/constants/_filterOption";
+import {
+  InstanceCreatedAtField,
+  InstanceDescriptionField,
+  InstanceIdField,
+  InstanceNameField,
+} from "@/type/_field";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
 const HEADERS_PER_COLUMN = 4;
-
-type Instance = {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: string;
-};
 
 const MOCK_SIMULATION_LIST = [
   { label: "시뮬레이션1", value: "시뮬레이션1" },
   { label: "시뮬레이션2", value: "시뮬레이션2" },
 ];
 
-// TODO: row 클릭 시 하단에 인스턴스 상세 정보 보여주기
 const Instance = () => {
   // TODO: 시뮬레이션 리스트는 화면 첫 렌더링시 api 요청해서 setSimulationList 담기
   // TODO: 인스턴스 생성, 중지, 실행, 삭제할때 refetch trigger
@@ -57,7 +57,7 @@ const Instance = () => {
     MOCK_OPTION_LIST[0].value,
   );
   const [instanceList, setInstanceList] =
-    React.useState<Instance[]>(MOCK_INSTANCE_LIST);
+    React.useState<InstanceListResponse>(MOCK_INSTANCE_LIST);
   const [hasResult, setHasResult] = React.useState(true);
   const [instanceDetail, setInstanceDetail] =
     React.useState(MOCK_INSTANCE_DETAIL);
@@ -83,21 +83,31 @@ const Instance = () => {
   };
 
   const filterInstances = (
-    instances: Instance[],
+    instances: InstanceListResponse,
     keyword: string,
     filterType: string,
   ) => {
     return instances.filter((instance) => {
       if (filterType === MOCK_OPTION_LIST[0].value) {
-        return instance.id.toString().includes(keyword);
+        return instance[INSTANCE_OPTION_LIST[0].value as keyof InstanceIdField]
+          .toString()
+          .includes(keyword);
       } else if (filterType === MOCK_OPTION_LIST[1].value) {
-        return instance.name.toLowerCase().includes(keyword.toLowerCase());
+        return instance[
+          INSTANCE_OPTION_LIST[1].value as keyof InstanceNameField
+        ]
+          .toLowerCase()
+          .includes(keyword.toLowerCase());
       } else if (filterType === MOCK_OPTION_LIST[2].value) {
-        return instance.description
+        return instance[
+          INSTANCE_OPTION_LIST[2].value as keyof InstanceDescriptionField
+        ]
           .toLowerCase()
           .includes(keyword.toLowerCase());
       } else if (filterType === MOCK_OPTION_LIST[3].value) {
-        return instance.createdAt.includes(keyword);
+        return instance[
+          INSTANCE_OPTION_LIST[3].value as keyof InstanceCreatedAtField
+        ].includes(keyword);
       }
       return true;
     });
@@ -180,7 +190,7 @@ const Instance = () => {
         {hasResult && (
           <DataGridTable
             rows={instanceList}
-            columns={COLUMN_LIST}
+            columns={INSTANCE_LIST_COLUMN_LIST}
             paginationModel={paginationModel}
             onRowClick={handleRowClick}
             onMultipleRowClick={hanldeMultpleRowClick}
