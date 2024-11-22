@@ -1,16 +1,20 @@
+import {
+  INSTANCE_OPTION_LIST,
+  SIMULATION_OPTION_LIST,
+} from "@/constants/_filterOption";
 import { z } from "zod";
 
 export const SCHEMA_NAME = {
   SEARCH_KEYWORD: "searchKeyword",
-  NAME: "name",
-  DESCRIPTION: "description",
   INSTANCE: {
-    NAME: "instanceName",
-    DESCRIPTION: "instanceDescription",
+    NAME: INSTANCE_OPTION_LIST[1].value,
+    DESCRIPTION: INSTANCE_OPTION_LIST[2].value,
     COUNT: "instanceCount",
   },
   SIMULATION: {
-    ID: "simulationId",
+    ID: SIMULATION_OPTION_LIST[0].value,
+    NAME: SIMULATION_OPTION_LIST[1].value,
+    DESCRIPTION: SIMULATION_OPTION_LIST[2].value,
   },
   TEMPLATE: {
     ID: "templateId",
@@ -56,11 +60,11 @@ export const filterShema = z.object({
 });
 
 export const createSimulationShema = z.object({
-  [SCHEMA_NAME.NAME]: z
+  [SCHEMA_NAME.SIMULATION.NAME]: z
     .string()
     .min(SIMULATION_LENGTH_LIMIT.NAME.MIN)
     .max(SIMULATION_LENGTH_LIMIT.NAME.MAX),
-  [SCHEMA_NAME.DESCRIPTION]: z
+  [SCHEMA_NAME.SIMULATION.DESCRIPTION]: z
     .string()
     .min(SIMULATION_LENGTH_LIMIT.DESCRIPTION.MIN)
     .max(SIMULATION_LENGTH_LIMIT.DESCRIPTION.MAX),
