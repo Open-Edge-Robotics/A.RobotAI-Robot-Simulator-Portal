@@ -1,8 +1,8 @@
-import Instance from "@/components/feature/Instance";
-import { Simulation } from "@/components/feature/simulation";
+import { BaseInstance } from "@/type/_field";
+import { SimulationType } from "@/type/response/_simulation";
 
 export const filterDataList = (
-  dataList: Instance[] | Simulation[],
+  dataList: BaseInstance[] | SimulationType[],
   optionList: { label: string; value: string }[],
   keyword: string,
   filterType: string,
@@ -20,6 +20,6 @@ export const filterDataList = (
 
     if (!filterKey) return true;
 
-    return value.toLowerCase().includes(keyword.toLowerCase());
+    return String(value).toLowerCase().includes(keyword.toLowerCase());
   });
 };
