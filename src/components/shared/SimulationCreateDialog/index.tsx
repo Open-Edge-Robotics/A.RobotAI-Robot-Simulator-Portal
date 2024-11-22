@@ -4,12 +4,12 @@ import { Button, Dialog, Typography } from "@mui/material";
 import { Input } from "@/components/common/Input";
 import { Label } from "@/components/common/Label";
 import { SCHEMA_NAME, SIMULATION_LENGTH_LIMIT } from "@/schema/_schema";
-import { CreateSimulationFormData } from "@/type/_simulation";
+import { CreateSimulationFormType } from "@/type/_simulation";
 
 type SimulationCreateDialogProps = {
   isOpen: boolean;
   handleCloseDialog: () => void;
-  register: UseFormRegister<CreateSimulationFormData>;
+  register: UseFormRegister<CreateSimulationFormType>;
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
 };
 
@@ -43,7 +43,7 @@ const SimulationCreateDialog = ({
               autoComplete="off"
               maxLength={SIMULATION_LENGTH_LIMIT.NAME.MAX}
               {...register(
-                SCHEMA_NAME.SIMULATION.NAME as keyof CreateSimulationFormData,
+                SCHEMA_NAME.SIMULATION.NAME as keyof CreateSimulationFormType,
               )}
             />
           </div>
@@ -56,7 +56,7 @@ const SimulationCreateDialog = ({
               maxLength={SIMULATION_LENGTH_LIMIT.DESCRIPTION.MAX}
               {...register(
                 SCHEMA_NAME.SIMULATION
-                  .DESCRIPTION as keyof CreateSimulationFormData,
+                  .DESCRIPTION as keyof CreateSimulationFormType,
               )}
             />
           </div>
