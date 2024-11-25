@@ -116,11 +116,19 @@ const Instance = () => {
     // TODO: 인스턴스 목록 조회 api 결과로 인스턴스 목록 state 변경
   };
 
-  const { register: instanceRegister, handleSubmit: instanceHandleSubmit } =
-    useForm<CreateInstanceFormType>({
-      resolver: zodResolver(createInstanceSchema),
-      mode: "onChange",
-    });
+  const handleCloseDialog = () => {
+    setIsOpen(false);
+    instanceReset();
+  };
+  const {
+    register: instanceRegister,
+    handleSubmit: instanceHandleSubmit,
+    formState: { errors },
+    reset: instanceReset,
+  } = useForm<CreateInstanceFormType>({
+    resolver: zodResolver(createInstanceSchema),
+    mode: "onChange",
+  });
 
   const onInstanceSubmit = (data: CreateInstanceFormType) => {
     console.log(data, "데이터요");
@@ -174,8 +182,9 @@ const Instance = () => {
       <InstanceCreateDialog
         isOpen={isOpen}
         simulationOptionList={simulationOptionList}
-        onClose={() => setIsOpen(false)}
+        onClose={handleCloseDialog}
         register={instanceRegister}
+        errors={errors}
         handleSubmit={instanceHandleSubmit(onInstanceSubmit, onInstanceError)}
         setSelectedSimulationId={setSelectedSimulationId}
         setSelectedTemplateId={setSelectedTemplateId}
