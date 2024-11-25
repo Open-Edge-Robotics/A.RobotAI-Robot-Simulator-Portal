@@ -11,6 +11,7 @@ const INSTANCE_OPTION_LIST = [
   { label: "이름", value: "instanceName" },
   { label: "설명", value: "instanceDescription" },
   { label: "생성일", value: "instanceCreatedAt" },
+  { label: "상태", value: "instanceStatus" },
 ];
 
 export { SIMULATION_OPTION_LIST, INSTANCE_OPTION_LIST };

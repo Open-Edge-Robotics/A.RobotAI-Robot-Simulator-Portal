@@ -5,6 +5,7 @@ import {
   InstanceIdField,
   InstanceNameField,
   SimulationIdField,
+  TemplateIdField,
 } from "@/type/_field";
 
 export type InstanceListResponse = BaseInstance[];
@@ -24,9 +25,8 @@ export interface InstancePostResponse
   extends InstanceNameField,
     InstanceDescriptionField,
     InstanceCountField,
-    SimulationIdField {
-  templateId: string;
-}
+    SimulationIdField,
+    TemplateIdField {}
 
 export interface InstanceActionResponse extends InstanceIdField {
   result: string;

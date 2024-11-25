@@ -1,10 +1,11 @@
 import { BaseSimulation, SimulationIdField } from "@/type/_field";
 
-// 추후 추가 예정
+// 타입 추후 추가 예정
 type SimulationStatusType = "RUNNING";
 
 export interface SimulationType extends BaseSimulation {
   simulationStatus: SimulationStatusType;
+  [key: string]: string | number;
 }
 
 export type SimulationListResponse = SimulationType[];

@@ -1,4 +1,5 @@
-export type CreateSimulationFormData = {
-  name: string;
-  description: string;
-};
+import { SimulationDescriptionField, SimulationNameField } from "@/type/_field";
+
+export interface CreateSimulationFormType
+  extends SimulationNameField,
+    SimulationDescriptionField {}

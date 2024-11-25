@@ -7,6 +7,7 @@ import { z } from "zod";
 export const SCHEMA_NAME = {
   SEARCH_KEYWORD: "searchKeyword",
   INSTANCE: {
+    ID: INSTANCE_OPTION_LIST[0].value,
     NAME: INSTANCE_OPTION_LIST[1].value,
     DESCRIPTION: INSTANCE_OPTION_LIST[2].value,
     COUNT: "instanceCount",
@@ -18,6 +19,8 @@ export const SCHEMA_NAME = {
   },
   TEMPLATE: {
     ID: "templateId",
+    TYPE: "templateType",
+    DESCRIPTION: "templateDescription",
   },
 };
 

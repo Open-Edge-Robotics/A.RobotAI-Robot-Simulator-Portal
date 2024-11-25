@@ -14,13 +14,13 @@ import {
   filterShema,
   SCHEMA_NAME,
 } from "@/schema/_schema";
-import { filterDataList } from "@/utils/table";
+import { filterSimulationList } from "@/utils/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Typography } from "@mui/material";
 import SimulationListTable from "@/components/shared/SimulationListTable";
 import CreateButton from "@/components/shared/CreateButton";
 import SimulationCreateDialog from "@/components/shared/SimulationCreateDialog";
-import { CreateSimulationFormData } from "@/type/_simulation";
+import { CreateSimulationFormType } from "@/type/_simulation";
 import { SimulationType } from "@/type/response/_simulation";
 import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
 
@@ -66,13 +66,13 @@ const Simulation = () => {
     });
 
   const { register: dialogRegister, handleSubmit: dialogHandleSubmit } =
-    useForm<CreateSimulationFormData>({
+    useForm<CreateSimulationFormType>({
       resolver: zodResolver(createSimulationShema),
       mode: "onChange",
     });
 
   const onFilterSubmit = (data: FilterGroupFormData) => {
-    const filteredList = filterDataList(
+    const filteredList = filterSimulationList(
       MOCK_SIMULATION_LIST,
       SIMULATION_OPTION_LIST,
       data[SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData],
@@ -94,8 +94,8 @@ const Simulation = () => {
   };
 
   // TODO: API 연결
-  const onSimulationSubmit = (data: CreateSimulationFormData) => {
-    console.log(data.description);
+  const onSimulationSubmit = (data: CreateSimulationFormType) => {
+    console.log(data);
   };
 
   // TODO: 시뮬레이션 생성 실패 UI 추가

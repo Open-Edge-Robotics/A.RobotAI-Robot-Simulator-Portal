@@ -51,3 +51,9 @@ export interface BaseSimulation
 export interface TemplateIdField {
   templateId: number;
 }
+export interface TemplateTypeField {
+  templateType: string;
+}
+export interface TemplateDescriptionField {
+  templateDescription: string;
+}

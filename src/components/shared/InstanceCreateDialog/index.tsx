@@ -1,18 +1,21 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import { CreateInstanceFormData } from "@/type/_instance";
+import { CreateInstanceFormType } from "@/type/_instance";
 import { Dialog, Typography } from "@mui/material";
 import { INSTANCE_LENGTH_LIMIT, SCHEMA_NAME } from "@/schema/_schema";
-import { MOCK_OPTION_LIST } from "@/constants/mockData/instance";
+import { MOCK_TEMPLATE_LIST } from "@/constants/mockData/instance";
 import InputField from "@/components/common/InputField";
 import CreateButton from "@/components/shared/CreateButton";
 import CancelButton from "@/components/shared/CancelButton/indext";
 import SelectField from "@/components/common/SelectField";
+import { Option } from "@/components/shared/FilterGroup";
+import { transformResponseToOptionList } from "@/utils/option";
 
 type Props = {
   isOpen: boolean;
+  simulationOptionList: Option[];
   onClose: () => void;
-  register: UseFormRegister<CreateInstanceFormData>;
+  register: UseFormRegister<CreateInstanceFormType>;
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
   setSelectedSimulationId: React.Dispatch<React.SetStateAction<string>>;
   setSelectedTemplateId: React.Dispatch<React.SetStateAction<string>>;
@@ -20,15 +23,20 @@ type Props = {
 
 const InstanceCreateDialog = ({
   isOpen,
+  simulationOptionList,
   onClose,
   register,
   handleSubmit,
   setSelectedSimulationId,
   setSelectedTemplateId,
 }: Props) => {
-  // TODO: API에서 시뮬레이션 및 템플릿 목록 불러오기
-  const [simulationList, setSimulationList] = React.useState(MOCK_OPTION_LIST);
-  const [templateList, setTemplateList] = React.useState(MOCK_OPTION_LIST);
+  const [templateOptionList, setTemplateOptionList] = React.useState(
+    transformResponseToOptionList(
+      MOCK_TEMPLATE_LIST,
+      SCHEMA_NAME.TEMPLATE.ID,
+      SCHEMA_NAME.TEMPLATE.TYPE,
+    ),
+  );
 
   const handleSimulationClick = (id: string) => {
     setSelectedSimulationId(id);
@@ -55,7 +63,7 @@ const InstanceCreateDialog = ({
         <Typography variant="h6">인스턴스 생성</Typography>
         <div className="flex w-full flex-col gap-3">
           <InputField
-            name={SCHEMA_NAME.INSTANCE.NAME as keyof CreateInstanceFormData}
+            name={SCHEMA_NAME.INSTANCE.NAME as keyof CreateInstanceFormType}
             label="이름"
             placeholder="인스턴스 이름을 입력해주세요"
             maxLength={INSTANCE_LENGTH_LIMIT.NAME.MAX}
@@ -63,7 +71,7 @@ const InstanceCreateDialog = ({
           />
           <InputField
             name={
-              SCHEMA_NAME.INSTANCE.DESCRIPTION as keyof CreateInstanceFormData
+              SCHEMA_NAME.INSTANCE.DESCRIPTION as keyof CreateInstanceFormType
             }
             label="설명"
             placeholder="인스턴스 설명을 입력해주세요"
@@ -71,19 +79,19 @@ const InstanceCreateDialog = ({
             register={register}
           />
           <SelectField
-            optionList={simulationList}
+            optionList={simulationOptionList}
             label="시뮬레이션"
             placeholder="시뮬레이션을 선택하세요."
             onSelect={handleSimulationClick}
           />
           <SelectField
-            optionList={templateList}
+            optionList={templateOptionList}
             label="템플릿"
             placeholder="템플릿을 선택하세요."
             onSelect={handleTemplateClick}
           />
           <InputField
-            name={SCHEMA_NAME.INSTANCE.COUNT as keyof CreateInstanceFormData}
+            name={SCHEMA_NAME.INSTANCE.COUNT as keyof CreateInstanceFormType}
             label="설명"
             type="number"
             defaultValue={1}
