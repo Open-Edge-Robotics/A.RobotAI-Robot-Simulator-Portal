@@ -42,6 +42,7 @@ const Simulation = () => {
 
   const handleCloseDialog = () => {
     setIsOpen(false);
+    dialogReset();
   };
 
   // TODO: API 연결
@@ -65,11 +66,15 @@ const Simulation = () => {
       mode: "onChange",
     });
 
-  const { register: dialogRegister, handleSubmit: dialogHandleSubmit } =
-    useForm<CreateSimulationFormType>({
-      resolver: zodResolver(createSimulationShema),
-      mode: "onChange",
-    });
+  const {
+    register: dialogRegister,
+    handleSubmit: dialogHandleSubmit,
+    formState: { errors },
+    reset: dialogReset,
+  } = useForm<CreateSimulationFormType>({
+    resolver: zodResolver(createSimulationShema),
+    mode: "onChange",
+  });
 
   const onFilterSubmit = (data: FilterGroupFormData) => {
     const filteredList = filterSimulationList(
@@ -144,6 +149,7 @@ const Simulation = () => {
         isOpen={isOpen}
         handleCloseDialog={handleCloseDialog}
         register={dialogRegister}
+        errors={errors}
         handleSubmit={dialogHandleSubmit(onSimulationSubmit, onSimulationError)}
       />
     </div>
