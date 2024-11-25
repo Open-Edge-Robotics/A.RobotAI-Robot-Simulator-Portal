@@ -42,7 +42,9 @@ const SimulationCreateDialog = ({
               placeholder="시뮬레이션 이름을 입력해주세요"
               autoComplete="off"
               maxLength={SIMULATION_LENGTH_LIMIT.NAME.MAX}
-              {...register(SCHEMA_NAME.NAME as keyof CreateSimulationFormData)}
+              {...register(
+                SCHEMA_NAME.SIMULATION.NAME as keyof CreateSimulationFormData,
+              )}
             />
           </div>
           <div className="items-centers flex w-full flex-col justify-center gap-2">
@@ -53,7 +55,8 @@ const SimulationCreateDialog = ({
               autoComplete="off"
               maxLength={SIMULATION_LENGTH_LIMIT.DESCRIPTION.MAX}
               {...register(
-                SCHEMA_NAME.DESCRIPTION as keyof CreateSimulationFormData,
+                SCHEMA_NAME.SIMULATION
+                  .DESCRIPTION as keyof CreateSimulationFormData,
               )}
             />
           </div>

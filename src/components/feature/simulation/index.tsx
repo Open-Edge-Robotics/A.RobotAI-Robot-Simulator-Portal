@@ -6,11 +6,8 @@ import PageTitle from "@/components/common/PageTitle";
 import FilterGroup, {
   FilterGroupFormData,
 } from "@/components/shared/FilterGroup";
-import { COLUMN_LIST } from "@/constants/_tableColumn";
-import {
-  MOCK_INSTANCE_LIST,
-  MOCK_SIMULATION_OPTION_LIST,
-} from "@/constants/mockData/instance";
+import { SIMULATION_LIST_COLUMN_LIST } from "@/constants/_tableColumn";
+import { MOCK_SIMULATION_LIST } from "@/constants/mockData/instance";
 import { MENU_ITEMS } from "@/constants/_navbar";
 import {
   createSimulationShema,
@@ -24,26 +21,22 @@ import SimulationListTable from "@/components/shared/SimulationListTable";
 import CreateButton from "@/components/shared/CreateButton";
 import SimulationCreateDialog from "@/components/shared/SimulationCreateDialog";
 import { CreateSimulationFormData } from "@/type/_simulation";
+import { SimulationType } from "@/type/response/_simulation";
+import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
 
 const paginationModel = { page: 0, pageSize: 10 };
 
-export type Simulation = {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: string;
-};
-
 const Simulation = () => {
   const [filterType, setFilterType] = React.useState<string>(
-    MOCK_SIMULATION_OPTION_LIST[0].value,
+    SIMULATION_OPTION_LIST[0].value,
   );
+  // TODO: 렌더링 시 시뮬레이션 리스트 받아서 초기값으로 넣기
   const [simulationList, setSimulationList] =
-    React.useState<Simulation[]>(MOCK_INSTANCE_LIST);
+    React.useState<SimulationType[]>(MOCK_SIMULATION_LIST);
   const [hasResult, setHasResult] = React.useState(true);
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const onSelect = (value: string) => {
+  const handleSelectFilter = (value: string) => {
     setFilterType(value);
   };
 
@@ -62,10 +55,15 @@ const Simulation = () => {
     console.log("삭제 버튼 클릭", id);
   };
 
-  const { register, handleSubmit } = useForm<FilterGroupFormData>({
-    resolver: zodResolver(filterShema),
-    mode: "onChange",
-  });
+  const handleClickCreate = () => {
+    setIsOpen(true);
+  };
+
+  const { register: filterRegister, handleSubmit: filterHandleSubmit } =
+    useForm<FilterGroupFormData>({
+      resolver: zodResolver(filterShema),
+      mode: "onChange",
+    });
 
   const { register: dialogRegister, handleSubmit: dialogHandleSubmit } =
     useForm<CreateSimulationFormData>({
@@ -73,14 +71,10 @@ const Simulation = () => {
       mode: "onChange",
     });
 
-  const handleClickCreate = () => {
-    setIsOpen(true);
-  };
-
-  const onSubmit = (data: FilterGroupFormData) => {
+  const onFilterSubmit = (data: FilterGroupFormData) => {
     const filteredList = filterDataList(
-      MOCK_INSTANCE_LIST,
-      MOCK_SIMULATION_OPTION_LIST,
+      MOCK_SIMULATION_LIST,
+      SIMULATION_OPTION_LIST,
       data[SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData],
       filterType,
     );
@@ -89,14 +83,14 @@ const Simulation = () => {
       setHasResult(false);
     } else {
       setHasResult(true);
-      setSimulationList(filteredList);
+      setSimulationList(filteredList as SimulationType[]);
     }
   };
 
   // form 스키마 통과 못했을 때 -> 검색어 X
-  const onError = () => {
+  const onFilterError = () => {
     setHasResult(true);
-    setSimulationList(MOCK_INSTANCE_LIST);
+    setSimulationList(MOCK_SIMULATION_LIST);
   };
 
   // TODO: API 연결
@@ -116,17 +110,17 @@ const Simulation = () => {
         <div className="flex justify-between">
           <CreateButton onClick={handleClickCreate} />
           <FilterGroup
-            optionList={MOCK_SIMULATION_OPTION_LIST}
+            optionList={SIMULATION_OPTION_LIST}
             filterType={filterType}
-            onSelect={onSelect}
-            register={register}
-            handleSubmit={handleSubmit(onSubmit, onError)}
+            onSelect={handleSelectFilter}
+            register={filterRegister}
+            handleSubmit={filterHandleSubmit(onFilterSubmit, onFilterError)}
           />
         </div>
         {hasResult && (
           <SimulationListTable
             rows={simulationList}
-            columns={COLUMN_LIST}
+            columns={SIMULATION_LIST_COLUMN_LIST}
             paginationModel={paginationModel}
             onExecute={handleExecute}
             onStop={handleClickStop}

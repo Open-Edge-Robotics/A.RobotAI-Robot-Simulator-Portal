@@ -1,11 +1,44 @@
 import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, Menu, MenuItem } from "@mui/material";
+import {
+  Button,
+  ButtonProps,
+  Menu,
+  MenuItem,
+  MenuItemProps,
+} from "@mui/material";
 import { COLUMN_KEBAB, COLUMN_STYLE } from "@/constants/_tableColumn";
 import KebabButton from "@/components/shared/KebabButton";
+import { SimulationListResponse } from "@/type/response/_simulation";
+import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
+
+type ActionMenuItemProps = {
+  buttonText: string;
+} & ButtonProps &
+  MenuItemProps;
+
+const ActionMenuItem = ({
+  onClick,
+  buttonText,
+  ...props
+}: ActionMenuItemProps) => (
+  <MenuItem
+    onClick={onClick}
+    sx={{
+      padding: "4px",
+      fontSize: "14px",
+      borderRadius: "4px",
+      justifyContent: "center",
+    }}
+  >
+    <Button variant="contained" {...props}>
+      {buttonText}
+    </Button>
+  </MenuItem>
+);
 
 type SimulationListTableProps = {
-  rows: { [key: string]: string | number }[];
+  rows: SimulationListResponse;
   columns: GridColDef[];
   paginationModel: { page: number; pageSize: number };
   onRowClick?: (params: any) => void;
@@ -28,7 +61,7 @@ const SimulationListTable = ({
 
   const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: string) => {
     setAnchorEl(event.currentTarget);
-    setSelectedRowId(rowId); // 해당 행의 ID를 저장
+    setSelectedRowId(rowId);
   };
 
   const handleClose = () => {
@@ -72,6 +105,7 @@ const SimulationListTable = ({
     <>
       <DataGrid
         className="w-full rounded-[4px] bg-white px-2 text-center"
+        getRowId={(row) => row[SIMULATION_OPTION_LIST[0].value]}
         rows={rows}
         columns={columnsWithActions}
         initialState={{ pagination: { paginationModel } }}
@@ -110,9 +144,9 @@ const SimulationListTable = ({
         onClose={handleClose}
         sx={{
           "& .MuiPaper-root": {
-            width: "fit-content", // 드롭다운의 너비
-            borderRadius: "4px", // 테두리 둥글게
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // 그림자
+            width: "fit-content",
+            borderRadius: "4px",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
             textAlign: "center",
           },
           "& .MuiPaper-root:hover": {
@@ -127,45 +161,21 @@ const SimulationListTable = ({
           },
         }}
       >
-        <MenuItem
+        <ActionMenuItem
           onClick={handleExecute}
-          sx={{
-            padding: "4px", // 메뉴 아이템의 패딩
-            fontSize: "14px", // 글자 크기
-            borderRadius: "4px",
-            justifyContent: "center",
-          }}
-        >
-          <Button variant="contained" color="primary">
-            실행
-          </Button>
-        </MenuItem>
-        <MenuItem
+          buttonText="실행"
+          color="primary"
+        />
+        <ActionMenuItem
           onClick={handleStop}
-          sx={{
-            padding: "4px", // 메뉴 아이템의 패딩
-            fontSize: "14px", // 글자 크기
-            borderRadius: "4px",
-            justifyContent: "center",
-          }}
-        >
-          <Button variant="contained" color="warning">
-            중지
-          </Button>
-        </MenuItem>
-        <MenuItem
+          buttonText="중지"
+          color="warning"
+        />
+        <ActionMenuItem
           onClick={handleDelete}
-          sx={{
-            padding: "4px", // 메뉴 아이템의 패딩
-            fontSize: "14px", // 글자 크기
-            borderRadius: "4px",
-            justifyContent: "center",
-          }}
-        >
-          <Button variant="contained" color="error">
-            삭제
-          </Button>
-        </MenuItem>
+          buttonText="삭제"
+          color="error"
+        />
       </Menu>
     </>
   );
