@@ -1,5 +1,5 @@
 import React from "react";
-import { UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { CreateInstanceFormType } from "@/type/_instance";
 import { Dialog, Typography } from "@mui/material";
 import { INSTANCE_LENGTH_LIMIT, SCHEMA_NAME } from "@/schema/_schema";
@@ -14,6 +14,7 @@ import { transformResponseToOptionList } from "@/utils/option";
 type Props = {
   isOpen: boolean;
   simulationOptionList: Option[];
+  errors: FieldErrors<CreateInstanceFormType>;
   onClose: () => void;
   register: UseFormRegister<CreateInstanceFormType>;
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
@@ -24,6 +25,7 @@ type Props = {
 const InstanceCreateDialog = ({
   isOpen,
   simulationOptionList,
+  errors,
   onClose,
   register,
   handleSubmit,
@@ -68,6 +70,7 @@ const InstanceCreateDialog = ({
             placeholder="인스턴스 이름을 입력해주세요"
             maxLength={INSTANCE_LENGTH_LIMIT.NAME.MAX}
             register={register}
+            errors={errors}
           />
           <InputField
             name={
@@ -77,28 +80,29 @@ const InstanceCreateDialog = ({
             placeholder="인스턴스 설명을 입력해주세요"
             maxLength={INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX}
             register={register}
+            errors={errors}
           />
           <SelectField
             optionList={simulationOptionList}
             label="시뮬레이션"
-            placeholder="시뮬레이션을 선택하세요."
+            placeholder="시뮬레이션을 선택하세요"
             onSelect={handleSimulationClick}
           />
           <SelectField
             optionList={templateOptionList}
             label="템플릿"
-            placeholder="템플릿을 선택하세요."
+            placeholder="템플릿을 선택하세요"
             onSelect={handleTemplateClick}
           />
           <InputField
             name={SCHEMA_NAME.INSTANCE.COUNT as keyof CreateInstanceFormType}
-            label="설명"
+            label="개수"
             type="number"
             defaultValue={1}
             min={1}
             max={30}
             inputMode="numeric"
-            placeholder="인스턴스 설명을 입력해주세요"
+            placeholder="인스턴스 개수를 입력해주세요"
             maxLength={INSTANCE_LENGTH_LIMIT.COUNT.MAX}
             register={register}
           />
