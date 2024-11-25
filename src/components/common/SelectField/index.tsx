@@ -19,7 +19,7 @@ type Props = {
 
 const SelectField = ({ optionList, label, placeholder, onSelect }: Props) => {
   return (
-    <div className="items-centers flex w-full flex-col justify-center gap-2">
+    <div className="items-centers flex w-full flex-col justify-center gap-2 pb-5">
       <Label>{label}</Label>
       <Select
         className="relative w-full rounded-[4px] border border-gray-300 text-center align-middle text-sm placeholder:text-sm"
