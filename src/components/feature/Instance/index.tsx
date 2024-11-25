@@ -63,8 +63,24 @@ const Instance = () => {
     React.useState(MOCK_INSTANCE_DETAIL);
   const [checkedRowList, setCheckedRowList] = React.useState<string[]>([]);
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedSimulationId, setSelectedSimulationId] = React.useState("");
-  const [selectedTemplateId, setSelectedTemplateId] = React.useState("");
+  const [selectedIds, setSelectedIds] = React.useState({
+    simulationId: "",
+    templateId: "",
+  });
+  const [isError, setIsError] = React.useState({
+    templateId: false,
+    simulationId: false,
+  });
+
+  const setSimulationId = (id: string) => {
+    setSelectedIds((prev) => ({ ...prev, simulationId: id }));
+    setIsError((prev) => ({ ...prev, simulationId: false }));
+  };
+
+  const setTemplateId = (id: string) => {
+    setSelectedIds((prev) => ({ ...prev, templateId: id }));
+    setIsError((prev) => ({ ...prev, templateId: false }));
+  };
 
   // TODO: 행 클릭 시 인스턴스 상세 정보 조회 -> 데이터 가공 -> DetailTable에 전달
   const handleRowClick = (params: any) => {
@@ -119,7 +135,12 @@ const Instance = () => {
   const handleCloseDialog = () => {
     setIsOpen(false);
     instanceReset();
+    setIsError({
+      simulationId: false,
+      templateId: false,
+    });
   };
+
   const {
     register: instanceRegister,
     handleSubmit: instanceHandleSubmit,
@@ -131,8 +152,21 @@ const Instance = () => {
   });
 
   const onInstanceSubmit = (data: CreateInstanceFormType) => {
-    console.log(data, "데이터요");
-    console.log(selectedSimulationId, selectedTemplateId, "아이디 2개");
+    if (!selectedIds.simulationId) {
+      setIsError((prev) => ({ ...prev, simulationId: true }));
+    }
+    if (!selectedIds.templateId) {
+      setIsError((prev) => ({ ...prev, templateId: true }));
+    }
+    if (selectedIds.simulationId && selectedIds.templateId) {
+      setIsError({ simulationId: false, templateId: false });
+      console.log(data, "데이터요");
+      console.log(
+        selectedIds.simulationId,
+        selectedIds.templateId,
+        "아이디 2개",
+      );
+    }
   };
 
   const onInstanceError = () => {};
@@ -186,8 +220,9 @@ const Instance = () => {
         register={instanceRegister}
         errors={errors}
         handleSubmit={instanceHandleSubmit(onInstanceSubmit, onInstanceError)}
-        setSelectedSimulationId={setSelectedSimulationId}
-        setSelectedTemplateId={setSelectedTemplateId}
+        setSelectedSimulationId={setSimulationId}
+        setSelectedTemplateId={setTemplateId}
+        isError={isError}
       />
     </div>
   );
