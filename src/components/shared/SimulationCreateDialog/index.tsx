@@ -1,13 +1,16 @@
 import React from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { Button, Dialog, Typography } from "@mui/material";
+import { Alert, Button, Dialog, Typography } from "@mui/material";
 import { SCHEMA_NAME, SIMULATION_LENGTH_LIMIT } from "@/schema/_schema";
 import { CreateSimulationFormType } from "@/type/_simulation";
 import InputField from "@/components/common/InputField";
+import { AxiosError } from "axios";
+import { Result } from "@/type/response/_default";
 
 type SimulationCreateDialogProps = {
   isOpen: boolean;
   errors: FieldErrors<CreateSimulationFormType>;
+  error: AxiosError<Result<null>, any> | null;
   handleCloseDialog: () => void;
   register: UseFormRegister<CreateSimulationFormType>;
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
@@ -16,6 +19,7 @@ type SimulationCreateDialogProps = {
 const SimulationCreateDialog = ({
   isOpen,
   errors,
+  error,
   handleCloseDialog,
   register,
   handleSubmit,
@@ -35,6 +39,15 @@ const SimulationCreateDialog = ({
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">시뮬레이션 생성</Typography>
+        {error?.response?.status === 409 && (
+          <Alert severity="error">이미 존재하는 시뮬레이션 이름입니다</Alert>
+        )}
+        {error?.response?.status === 500 && (
+          <Alert severity="error">데이터 저장 중 오류가 발생했습니다</Alert>
+        )}
+        {!error && (
+          <Alert severity="info">시뮬레이션 이름과 설명을 입력해주세요</Alert>
+        )}
         <div className="flex w-full flex-col gap-3">
           <InputField
             name={SCHEMA_NAME.SIMULATION.NAME as keyof CreateSimulationFormType}
