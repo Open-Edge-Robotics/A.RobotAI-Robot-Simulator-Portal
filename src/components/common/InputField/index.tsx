@@ -5,6 +5,7 @@ import {
   Path,
   UseFormRegister,
 } from "react-hook-form";
+import { cx } from "class-variance-authority";
 import { Label } from "@/components/common/Label";
 import { Input } from "@/components/common/Input";
 
@@ -32,7 +33,10 @@ const InputField = <T extends FieldValues>({
     <div className="items-centers relative flex w-full flex-col justify-center gap-1 pb-5">
       <Label className="w-28 text-nowrap">{label}</Label>
       <Input
-        className="w-full border border-gray-300 px-4 py-2 text-sm placeholder:text-sm"
+        className={cx(
+          "w-full border border-gray-300 px-4 py-2 text-sm placeholder:text-sm",
+          errorMessage && "border-green-500",
+        )}
         placeholder={placeholder}
         maxLength={maxLength}
         autoComplete="off"
