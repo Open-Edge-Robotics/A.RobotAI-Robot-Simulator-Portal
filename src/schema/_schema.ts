@@ -55,6 +55,29 @@ export const INSTANCE_LENGTH_LIMIT = {
   },
 };
 
+export const ERROR_MESSAGE = {
+  SIMULATION: {
+    NAME: {
+      MIN: `최소 ${SIMULATION_LENGTH_LIMIT.NAME.MIN}자 이상이어야 합니다`,
+      MAX: `최대 ${SIMULATION_LENGTH_LIMIT.NAME.MAX}자 입니다`,
+    },
+    DESCRIPTION: {
+      MIN: `최소 ${SIMULATION_LENGTH_LIMIT.DESCRIPTION.MIN}자 이상이어야 합니다`,
+      MAX: `최대 ${SIMULATION_LENGTH_LIMIT.DESCRIPTION.MAX}자 입니다`,
+    },
+  },
+  INSTANCE: {
+    NAME: {
+      MIN: `최소 ${INSTANCE_LENGTH_LIMIT.NAME.MIN}자 이상이어야 합니다`,
+      MAX: `최대 ${INSTANCE_LENGTH_LIMIT.NAME.MAX}자 입니다`,
+    },
+    DESCRIPTION: {
+      MIN: `최소 ${INSTANCE_LENGTH_LIMIT.DESCRIPTION.MIN}자 이상이어야 합니다`,
+      MAX: `최대 ${INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX}자 입니다`,
+    },
+  },
+};
+
 export const filterShema = z.object({
   [SCHEMA_NAME.SEARCH_KEYWORD]: z
     .string()
@@ -65,23 +88,39 @@ export const filterShema = z.object({
 export const createSimulationShema = z.object({
   [SCHEMA_NAME.SIMULATION.NAME]: z
     .string()
-    .min(SIMULATION_LENGTH_LIMIT.NAME.MIN)
-    .max(SIMULATION_LENGTH_LIMIT.NAME.MAX),
+    .min(SIMULATION_LENGTH_LIMIT.NAME.MIN, {
+      message: ERROR_MESSAGE.SIMULATION.NAME.MIN,
+    })
+    .max(SIMULATION_LENGTH_LIMIT.NAME.MAX, {
+      message: ERROR_MESSAGE.SIMULATION.NAME.MAX,
+    }),
   [SCHEMA_NAME.SIMULATION.DESCRIPTION]: z
     .string()
-    .min(SIMULATION_LENGTH_LIMIT.DESCRIPTION.MIN)
-    .max(SIMULATION_LENGTH_LIMIT.DESCRIPTION.MAX),
+    .min(SIMULATION_LENGTH_LIMIT.DESCRIPTION.MIN, {
+      message: ERROR_MESSAGE.SIMULATION.DESCRIPTION.MIN,
+    })
+    .max(SIMULATION_LENGTH_LIMIT.DESCRIPTION.MAX, {
+      message: ERROR_MESSAGE.SIMULATION.DESCRIPTION.MAX,
+    }),
 });
 
 export const createInstanceSchema = z.object({
   [SCHEMA_NAME.INSTANCE.NAME]: z
     .string()
-    .min(INSTANCE_LENGTH_LIMIT.NAME.MIN)
-    .max(INSTANCE_LENGTH_LIMIT.NAME.MAX),
+    .min(INSTANCE_LENGTH_LIMIT.NAME.MIN, {
+      message: ERROR_MESSAGE.INSTANCE.NAME.MIN,
+    })
+    .max(INSTANCE_LENGTH_LIMIT.NAME.MAX, {
+      message: ERROR_MESSAGE.INSTANCE.NAME.MAX,
+    }),
   [SCHEMA_NAME.INSTANCE.DESCRIPTION]: z
     .string()
-    .min(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MIN)
-    .max(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX),
+    .min(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MIN, {
+      message: ERROR_MESSAGE.INSTANCE.DESCRIPTION.MIN,
+    })
+    .max(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX, {
+      message: ERROR_MESSAGE.INSTANCE.DESCRIPTION.MAX,
+    }),
   [SCHEMA_NAME.INSTANCE.COUNT]: z
     .string()
     .min(INSTANCE_LENGTH_LIMIT.COUNT.MIN)
