@@ -23,6 +23,9 @@ import SimulationCreateDialog from "@/components/shared/SimulationCreateDialog";
 import { CreateSimulationFormType } from "@/type/_simulation";
 import { SimulationType } from "@/type/response/_simulation";
 import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
+import { usePostSimulation } from "@/hooks/simulation/usePostSimulation";
+import { Result } from "@/type/response/_default";
+import { useToastStore } from "@/stores/useToastStore";
 
 const paginationModel = { page: 0, pageSize: 10 };
 
@@ -35,6 +38,7 @@ const Simulation = () => {
     React.useState<SimulationType[]>(MOCK_SIMULATION_LIST);
   const [hasResult, setHasResult] = React.useState(true);
   const [isOpen, setIsOpen] = React.useState(false);
+  const showToast = useToastStore((state) => state.showToast);
 
   const handleSelectFilter = (value: string) => {
     setFilterType(value);
@@ -98,14 +102,23 @@ const Simulation = () => {
     setSimulationList(MOCK_SIMULATION_LIST);
   };
 
+  const { mutate: simulationCreateMutate, error: simulationCreateError } =
+    usePostSimulation();
   // TODO: API 연결
   const onSimulationSubmit = (data: CreateSimulationFormType) => {
-    console.log(data);
-  };
-
-  // TODO: 시뮬레이션 생성 실패 UI 추가
-  const onSimulationError = () => {
-    alert("시뮬레이션 생성 실패");
+    simulationCreateMutate(
+      {
+        simulationName: data.simulationName,
+        simulationDescription: data.simulationDescription,
+      },
+      {
+        onSuccess: ({ message }: Result<null>) => {
+          showToast(message, "success", 2000);
+          setIsOpen(false);
+        },
+      },
+    );
+    dialogReset();
   };
 
   return (
@@ -150,7 +163,8 @@ const Simulation = () => {
         handleCloseDialog={handleCloseDialog}
         register={dialogRegister}
         errors={errors}
-        handleSubmit={dialogHandleSubmit(onSimulationSubmit, onSimulationError)}
+        handleSubmit={dialogHandleSubmit(onSimulationSubmit)}
+        error={simulationCreateError}
       />
     </div>
   );
