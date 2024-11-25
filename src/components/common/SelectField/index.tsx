@@ -32,7 +32,7 @@ const SelectField = ({
       <Select
         className={cx(
           "relative w-full rounded-[4px] border border-gray-300 text-center align-middle text-sm placeholder:text-sm",
-          isError && "border-red-300",
+          isError && "border-green-500",
         )}
         onSelect={onSelect}
       >
@@ -54,7 +54,7 @@ const SelectField = ({
         <SelectIcon color="#000000" className="absolute right-2 top-3" />
       </Select>
       {isError && (
-        <span className="absolute bottom-0 text-xs text-red-500">
+        <span className="absolute bottom-0 text-xs text-green-500">
           {label}을 선택하세요
         </span>
       )}
