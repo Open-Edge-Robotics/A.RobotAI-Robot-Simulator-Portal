@@ -1,6 +1,8 @@
 import {
   BaseSimulation,
+  SimulationDescriptionField,
   SimulationIdField,
+  SimulationNameField,
   SimulationStatusField,
 } from "@/type/_field";
 
@@ -13,7 +15,10 @@ export interface SimulationType extends BaseSimulation, SimulationStatusField {
 
 export type SimulationListResponse = SimulationType[];
 
-export interface SimulationPostResponse extends BaseSimulation {}
+export interface SimulationPostResponse
+  extends SimulationNameField,
+    SimulationIdField,
+    SimulationDescriptionField {}
 
 export interface SimulationActionResponse extends SimulationIdField {
   result: string;
