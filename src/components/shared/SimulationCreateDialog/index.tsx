@@ -6,6 +6,7 @@ import { CreateSimulationFormType } from "@/type/_simulation";
 import InputField from "@/components/common/InputField";
 import { AxiosError } from "axios";
 import { Result } from "@/type/response/_default";
+import { API_ERROR_MESSAGE } from "@/constants/api/_errorMessage";
 
 type SimulationCreateDialogProps = {
   isOpen: boolean;
@@ -40,13 +41,19 @@ const SimulationCreateDialog = ({
       >
         <Typography variant="h6">시뮬레이션 생성</Typography>
         {error?.response?.status === 409 && (
-          <Alert severity="error">이미 존재하는 시뮬레이션 이름입니다</Alert>
+          <Alert severity="error">
+            {API_ERROR_MESSAGE.SIMULATION.CREATE[409]}
+          </Alert>
         )}
         {error?.response?.status === 500 && (
-          <Alert severity="error">데이터 저장 중 오류가 발생했습니다</Alert>
+          <Alert severity="error">
+            {API_ERROR_MESSAGE.SIMULATION.CREATE[500]}
+          </Alert>
         )}
         {!error && (
-          <Alert severity="info">시뮬레이션 이름과 설명을 입력해주세요</Alert>
+          <Alert severity="info">
+            {API_ERROR_MESSAGE.SIMULATION.CREATE.DEFAULT}
+          </Alert>
         )}
         <div className="flex w-full flex-col gap-3">
           <InputField
