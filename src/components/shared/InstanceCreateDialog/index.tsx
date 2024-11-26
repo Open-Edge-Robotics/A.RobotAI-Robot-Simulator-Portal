@@ -1,15 +1,18 @@
 import React from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { CreateInstanceFormType } from "@/type/_instance";
-import { Dialog, Typography } from "@mui/material";
+import { Alert, Dialog, Typography } from "@mui/material";
 import { INSTANCE_LENGTH_LIMIT, SCHEMA_NAME } from "@/schema/_schema";
-import { MOCK_TEMPLATE_LIST } from "@/constants/mockData/instance";
 import InputField from "@/components/common/InputField";
 import CreateButton from "@/components/shared/CreateButton";
 import CancelButton from "@/components/shared/CancelButton/indext";
 import SelectField from "@/components/common/SelectField";
 import { Option } from "@/components/shared/FilterGroup";
 import { transformResponseToOptionList } from "@/utils/option";
+import { useGetTemplateList } from "@/hooks/template/useGetTemplateList";
+import { AxiosError } from "axios";
+import { Result } from "@/type/response/_default";
+import { API_ERROR_MESSAGE } from "@/constants/api/_errorMessage";
 
 type Props = {
   isOpen: boolean;
@@ -19,6 +22,7 @@ type Props = {
     templateId: boolean;
     simulationId: boolean;
   };
+  error: AxiosError<Result<null>, any> | null;
   onClose: () => void;
   register: UseFormRegister<CreateInstanceFormType>;
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
@@ -31,28 +35,32 @@ const InstanceCreateDialog = ({
   simulationOptionList,
   errors,
   isError,
+  error,
   onClose,
   register,
   handleSubmit,
   setSelectedSimulationId,
   setSelectedTemplateId,
 }: Props) => {
-  // TODO: 템플릿 목록 조회해서 초기값 넣기
-  const [templateOptionList, _] = React.useState(
-    transformResponseToOptionList(
-      MOCK_TEMPLATE_LIST,
-      SCHEMA_NAME.TEMPLATE.ID,
-      SCHEMA_NAME.TEMPLATE.TYPE,
-    ),
+  const [templateOptionList, setTemplateOptionList] = React.useState<Option[]>(
+    [],
   );
 
-  const handleSimulationClick = (id: string) => {
-    setSelectedSimulationId(id);
-  };
+  const { data, isLoading } = useGetTemplateList();
 
-  const handleTemplateClick = (id: string) => {
-    setSelectedTemplateId(id);
-  };
+  React.useEffect(() => {
+    if (!isLoading && data) {
+      const formattedData = transformResponseToOptionList(
+        data.data,
+        SCHEMA_NAME.TEMPLATE.ID,
+        SCHEMA_NAME.TEMPLATE.TYPE,
+      );
+      setTemplateOptionList(formattedData);
+    }
+  }, [isLoading, data]);
+
+  const handleSimulationClick = (id: string) => setSelectedSimulationId(id);
+  const handleTemplateClick = (id: string) => setSelectedTemplateId(id);
 
   return (
     <Dialog
@@ -69,6 +77,22 @@ const InstanceCreateDialog = ({
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">인스턴스 생성</Typography>
+        {error?.response?.status === 404 && (
+          <Alert severity="error">
+            {API_ERROR_MESSAGE.INSTANCE.CREATE[404]}
+          </Alert>
+        )}
+        {error?.response?.status === 500 && (
+          <Alert severity="error">
+            {API_ERROR_MESSAGE.INSTANCE.CREATE[500]}
+          </Alert>
+        )}
+        {!error && (
+          <Alert severity="info">
+            {" "}
+            {API_ERROR_MESSAGE.INSTANCE.CREATE.DEFAULT}
+          </Alert>
+        )}
         <div className="flex w-full flex-col gap-3">
           <InputField
             name={SCHEMA_NAME.INSTANCE.NAME as keyof CreateInstanceFormType}
@@ -111,7 +135,6 @@ const InstanceCreateDialog = ({
             max={INSTANCE_LENGTH_LIMIT.COUNT.MAX}
             inputMode="numeric"
             placeholder="인스턴스 개수를 입력해주세요"
-            maxLength={INSTANCE_LENGTH_LIMIT.COUNT.MAX}
             register={register}
           />
         </div>
