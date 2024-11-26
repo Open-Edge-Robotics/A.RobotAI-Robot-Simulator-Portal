@@ -1,13 +1,13 @@
 import React from "react";
-import { UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { Button, Dialog, Typography } from "@mui/material";
-import { Input } from "@/components/common/Input";
-import { Label } from "@/components/common/Label";
 import { SCHEMA_NAME, SIMULATION_LENGTH_LIMIT } from "@/schema/_schema";
 import { CreateSimulationFormType } from "@/type/_simulation";
+import InputField from "@/components/common/InputField";
 
 type SimulationCreateDialogProps = {
   isOpen: boolean;
+  errors: FieldErrors<CreateSimulationFormType>;
   handleCloseDialog: () => void;
   register: UseFormRegister<CreateSimulationFormType>;
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
@@ -15,6 +15,7 @@ type SimulationCreateDialogProps = {
 
 const SimulationCreateDialog = ({
   isOpen,
+  errors,
   handleCloseDialog,
   register,
   handleSubmit,
@@ -35,31 +36,25 @@ const SimulationCreateDialog = ({
       >
         <Typography variant="h6">시뮬레이션 생성</Typography>
         <div className="flex w-full flex-col gap-3">
-          <div className="items-centers flex w-full flex-col justify-center gap-2">
-            <Label className="w-28 text-nowrap">이름</Label>
-            <Input
-              className="w-full border border-gray-300 px-4 py-2 text-sm placeholder:text-sm"
-              placeholder="시뮬레이션 이름을 입력해주세요"
-              autoComplete="off"
-              maxLength={SIMULATION_LENGTH_LIMIT.NAME.MAX}
-              {...register(
-                SCHEMA_NAME.SIMULATION.NAME as keyof CreateSimulationFormType,
-              )}
-            />
-          </div>
-          <div className="items-centers flex w-full flex-col justify-center gap-2">
-            <Label className="w-28 text-nowrap">설명</Label>
-            <Input
-              className="w-full border border-gray-300 px-4 py-2 text-sm placeholder:text-sm"
-              placeholder="시뮬레이션 설명을 입력해주세요"
-              autoComplete="off"
-              maxLength={SIMULATION_LENGTH_LIMIT.DESCRIPTION.MAX}
-              {...register(
-                SCHEMA_NAME.SIMULATION
-                  .DESCRIPTION as keyof CreateSimulationFormType,
-              )}
-            />
-          </div>
+          <InputField
+            name={SCHEMA_NAME.SIMULATION.NAME as keyof CreateSimulationFormType}
+            label="이름"
+            placeholder="시뮬레이션 이름을 입력해주세요"
+            maxLength={SIMULATION_LENGTH_LIMIT.NAME.MAX}
+            register={register}
+            errors={errors}
+          />
+          <InputField
+            name={
+              SCHEMA_NAME.SIMULATION
+                .DESCRIPTION as keyof CreateSimulationFormType
+            }
+            label="설명"
+            placeholder="시뮬레이션 설명을 입력해주세요"
+            maxLength={SIMULATION_LENGTH_LIMIT.DESCRIPTION.MAX}
+            register={register}
+            errors={errors}
+          />
         </div>
         <div className="ml-auto flex gap-2">
           <Button
