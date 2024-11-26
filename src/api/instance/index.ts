@@ -23,8 +23,8 @@ const actionURL = BASE_API.ACTION;
  * @returns {InstanceListResponse}
  */
 const getInstanceList = async (): Promise<Result<InstanceListResponse>> => {
-  const result = await apiGet<Result<InstanceListResponse>>(instanceURL);
-  return result.data;
+  const response = await apiGet<Result<InstanceListResponse>>(instanceURL);
+  return response.data;
 };
 
 /**
@@ -35,10 +35,10 @@ const getInstanceList = async (): Promise<Result<InstanceListResponse>> => {
 const getInstanceDetail = async (
   request: InstanceIdField,
 ): Promise<Result<InstanceDetailResponse>> => {
-  const result = await apiGet<Result<InstanceDetailResponse>>(
+  const response = await apiGet<Result<InstanceDetailResponse>>(
     `${instanceURL}/${request[SCHEMA_NAME.INSTANCE.ID as keyof InstanceIdField]}`,
   );
-  return result.data;
+  return response.data;
 };
 
 /**
@@ -49,11 +49,11 @@ const getInstanceDetail = async (
 const postInstance = async (
   request: InstancePostRequest,
 ): Promise<Result<InstancePostResponse>> => {
-  const result = await apiPost<Result<InstancePostResponse>>(
+  const response = await apiPost<Result<InstancePostResponse>>(
     instanceURL,
     request,
   );
-  return result.data;
+  return response.data;
 };
 
 /**
@@ -64,11 +64,11 @@ const postInstance = async (
 const postInstanceAction = async (
   request: InstanceActionPostRequest,
 ): Promise<Result<InstanceActionResponse>> => {
-  const result = await apiPost<Result<InstanceActionResponse>>(
+  const response = await apiPost<Result<InstanceActionResponse>>(
     `${instanceURL}/${request[SCHEMA_NAME.INSTANCE.ID as keyof InstanceIdField]}/${actionURL}`,
     request,
   );
-  return result.data;
+  return response.data;
 };
 
 /**
@@ -79,10 +79,10 @@ const postInstanceAction = async (
 const deleteInstance = async (
   request: InstanceIdField,
 ): Promise<Result<SimulationActionResponse>> => {
-  const result = await apiDelete<Result<SimulationActionResponse>>(
+  const response = await apiDelete<Result<SimulationActionResponse>>(
     `${instanceURL}/${request[SCHEMA_NAME.INSTANCE.ID as keyof InstanceIdField]}`,
   );
-  return result.data;
+  return response.data;
 };
 
 export const instance = {

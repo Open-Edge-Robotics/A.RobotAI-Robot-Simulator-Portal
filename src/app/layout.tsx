@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/utils/core";
 import ClientLayout from "@/app/clientLayout";
 import Providers from "@/contexts/Providers";
+import { ToastProvider } from "@/contexts/ToastProvider";
 
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.woff2",
@@ -27,6 +28,7 @@ export default function RootLayout({
         <Providers>
           <ClientLayout>{children}</ClientLayout>
         </Providers>
+        <ToastProvider />
       </body>
     </html>
   );
