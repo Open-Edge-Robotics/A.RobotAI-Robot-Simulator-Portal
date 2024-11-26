@@ -26,9 +26,9 @@ import {
 } from "@/type/response/_simulation";
 import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
 import { usePostSimulation } from "@/hooks/simulation/usePostSimulation";
-import { Result } from "@/type/response/_default";
 import { useToastStore } from "@/stores/useToastStore";
 import { useGetSimulationList } from "@/hooks/simulation/useGetSimulationList";
+import { Result } from "@/type/response/_default";
 
 const paginationModel = { page: 0, pageSize: 10 };
 
@@ -45,7 +45,7 @@ const Simulation = () => {
 
   React.useEffect(() => {
     if (!isLoading && data) {
-      const formattedData = formatSimulationCreatedAt(data);
+      const formattedData = formatSimulationCreatedAt(data.data);
       setSimulationList(formattedData);
     }
   }, [isLoading, data]);
@@ -90,8 +90,8 @@ const Simulation = () => {
   // 검색어 없이 검색 버튼 클릭 시
   const onFilterError = () => {
     setHasResult(true);
-    if (!data) return;
-    setSimulationList(formatSimulationCreatedAt(data) || []);
+    if (!data?.data) return;
+    setSimulationList(formatSimulationCreatedAt(data.data) || []);
   };
 
   const { mutate: simulationCreateMutate, error: simulationCreateError } =
