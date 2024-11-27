@@ -13,7 +13,7 @@ import {
   filterShema,
   SCHEMA_NAME,
 } from "@/schema/_schema";
-import { filterSimulationList, formatSimulationCreatedAt } from "@/utils/table";
+import { filterSimulationList, formatCreatedAt } from "@/utils/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Typography } from "@mui/material";
 import SimulationListTable from "@/components/shared/SimulationListTable";
@@ -45,7 +45,10 @@ const Simulation = () => {
 
   React.useEffect(() => {
     if (!isLoading && data) {
-      const formattedData = formatSimulationCreatedAt(data.data);
+      const formattedData = formatCreatedAt<SimulationType>(
+        data.data,
+        SIMULATION_OPTION_LIST[3].value,
+      );
       setSimulationList(formattedData);
     }
   }, [isLoading, data]);
@@ -83,7 +86,10 @@ const Simulation = () => {
       filterType,
     );
     setSimulationList(
-      formatSimulationCreatedAt(filteredList) as SimulationType[],
+      formatCreatedAt(
+        filteredList,
+        SIMULATION_OPTION_LIST[3].value,
+      ) as SimulationType[],
     );
   };
 
@@ -91,7 +97,9 @@ const Simulation = () => {
   const onFilterError = () => {
     setHasResult(true);
     if (!data?.data) return;
-    setSimulationList(formatSimulationCreatedAt(data.data) || []);
+    setSimulationList(
+      formatCreatedAt(data.data, SIMULATION_OPTION_LIST[3].value) || [],
+    );
   };
 
   const { mutate: simulationCreateMutate, error: simulationCreateError } =
