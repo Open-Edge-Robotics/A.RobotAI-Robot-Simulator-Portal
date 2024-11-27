@@ -7,6 +7,11 @@ import InputField from "@/components/common/InputField";
 import { AxiosError } from "axios";
 import { Result } from "@/type/response/_default";
 import { API_ERROR_MESSAGE } from "@/constants/api/_errorMessage";
+import Form from "@/components/common/Form";
+import FormTitle from "@/components/common/FormTitle";
+import FormButtonContainer from "@/components/common/FormButtonContainer";
+import CancelButton from "@/components/shared/button/CancelButton/indext";
+import CreateButton from "@/components/shared/button/CreateButton";
 
 type SimulationCreateDialogProps = {
   isOpen: boolean;
@@ -35,11 +40,8 @@ const SimulationCreateDialog = ({
         },
       }}
     >
-      <form
-        className="flex w-full flex-col items-center justify-center gap-8 p-8"
-        onSubmit={handleSubmit}
-      >
-        <Typography variant="h6">시뮬레이션 생성</Typography>
+      <Form onSubmit={handleSubmit}>
+        <FormTitle>시뮬레이션 생성</FormTitle>
         {error?.response?.status === 409 && (
           <Alert severity="error">
             {API_ERROR_MESSAGE.SIMULATION.CREATE[409]}
@@ -76,20 +78,11 @@ const SimulationCreateDialog = ({
             errors={errors}
           />
         </div>
-        <div className="ml-auto flex gap-2">
-          <Button
-            variant="outlined"
-            color="info"
-            type="button"
-            onClick={handleCloseDialog}
-          >
-            취소
-          </Button>
-          <Button variant="contained" color="primary" type="submit">
-            생성
-          </Button>
-        </div>
-      </form>
+        <FormButtonContainer>
+          <CancelButton onClick={handleCloseDialog} />
+          <CreateButton type="submit" />
+        </FormButtonContainer>
+      </Form>
     </Dialog>
   );
 };
