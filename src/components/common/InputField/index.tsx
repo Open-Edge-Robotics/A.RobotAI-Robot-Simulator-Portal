@@ -12,8 +12,6 @@ import { Input } from "@/components/common/Input";
 type Props<T extends FieldValues> = {
   name: Path<T>;
   label: string;
-  placeholder: string;
-  maxLength: number;
   errors?: FieldErrors<T>;
   register: UseFormRegister<T>;
 } & React.InputHTMLAttributes<HTMLInputElement>;
@@ -21,8 +19,6 @@ type Props<T extends FieldValues> = {
 const InputField = <T extends FieldValues>({
   name,
   label,
-  maxLength,
-  placeholder,
   errors,
   register,
   ...props
@@ -37,8 +33,6 @@ const InputField = <T extends FieldValues>({
           "w-full border border-gray-300 px-4 py-2 text-sm placeholder:text-sm",
           errorMessage && "border-green-500",
         )}
-        placeholder={placeholder}
-        maxLength={maxLength}
         autoComplete="off"
         {...props}
         {...register(name)}
