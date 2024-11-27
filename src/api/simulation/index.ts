@@ -1,5 +1,5 @@
 import { apiDelete, apiGet, apiPost } from "@/lib/axios";
-import { BASE_API } from "@/constants/_apiPath";
+import { BASE_API } from "@/constants/api/_apiPath";
 import { PostSimulationRequest } from "@/type/request/_simulation";
 import { Result } from "@/type/response/_default";
 import {
