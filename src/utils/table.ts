@@ -6,10 +6,7 @@ import {
   InstanceNameField,
 } from "@/type/_field";
 import { InstanceListResponse } from "@/type/response/_instance";
-import {
-  SimulationListResponse,
-  SimulationType,
-} from "@/type/response/_simulation";
+import { SimulationType } from "@/type/response/_simulation";
 
 export const filterSimulationList = (
   dataList: SimulationType[],
@@ -64,20 +61,16 @@ export const filterInstances = (
 };
 
 /**
- * @description 시뮬레이션 목록 조회 데이터 중 생성일 가공
- * @returns {SimulationListResponse}
+ * @description 시뮬레이션/인스턴스 목록 조회 데이터 중 생성일 가공
  * '2024-11-18 09:41:31.405853' -> '2024-11-18'
  */
-const processSimulationData = (date: string): string => {
-  const formattedDate = new Date(date);
+const processCreatedAt = (date: string): string => {
+  const formattedDate = new Date(date.toString());
   return formattedDate.toISOString().split("T")[0];
 };
-
-export const formatSimulationCreatedAt = (
-  data: SimulationListResponse,
-): SimulationListResponse => {
+export const formatCreatedAt = <T>(data: T[], createdAtKey: keyof T): T[] => {
   return data.map((item) => ({
     ...item,
-    simulationCreatedAt: processSimulationData(item.simulationCreatedAt),
+    [createdAtKey]: processCreatedAt(item[createdAtKey] as string),
   }));
 };
