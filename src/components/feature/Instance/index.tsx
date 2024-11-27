@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MENU_ITEMS } from "@/constants/_navbar";
 import PageTitle from "@/components/common/PageTitle";
-import ButtonGroup from "@/components/shared/ButtonGroup";
+import ButtonGroup from "@/components/shared/button/ButtonGroup";
 import FilterGroup, {
   FilterGroupFormData,
   Option,
@@ -16,11 +16,11 @@ import {
   filterShema,
   SCHEMA_NAME,
 } from "@/schema/_schema";
-import DataGridTable from "@/components/shared/InstanceListTable";
+import DataGridTable from "@/components/shared/instance/InstanceListTable";
 import DetailTable from "@/components/common/DetailTable";
 import { HEADER_LIST } from "@/constants/_tableHeader";
-import SimulationFilter from "@/components/shared/SimulationFilter";
-import InstanceCreateDialog from "@/components/shared/InstanceCreateDialog";
+import SimulationFilter from "@/components/shared/simulation/SimulationFilter";
+import InstanceCreateDialog from "@/components/shared/instance/InstanceCreateDialog";
 import { CreateInstanceFormType } from "@/type/_instance";
 import {
   InstanceDetailResponse,
@@ -37,6 +37,7 @@ import { useGetInstanceDetail } from "@/hooks/instance/useGetInstanceDetail";
 import { GridRowParams, GridRowSelectionModel } from "@mui/x-data-grid";
 import { Typography } from "@/components/common/Typography";
 import { BaseInstance } from "@/type/_field";
+import FlexColContainer from "@/components/common/FlexCol";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -45,14 +46,15 @@ const HEADERS_PER_COLUMN = 4;
 // TODO: 인스턴스 생성, 중지, 실행, 삭제할 때 refetch trigger
 const Instance = () => {
   const [selectedSimulationId, setSelectedSimulationId] = React.useState("");
-
+  // 체크박스 클릭한 시뮬레이션 리스트
   const [simulationOptionList, setSimulationOptionList] = React.useState<
     Option[]
   >([]);
+  // API: 시뮬레이션 목록 조회
   const { data: simulationListData, isLoading: isSimulationLoading } =
     useGetSimulationList();
 
-  // 화면 첫 렌더링 시 시뮬레이션 목록 조회 api 요청
+  // 시뮬레이션 목록 포맷팅 및 상태 업데이트
   React.useEffect(() => {
     if (!isSimulationLoading && simulationListData) {
       const formattedData = transformResponseToOptionList(
@@ -67,6 +69,7 @@ const Instance = () => {
   const [instanceList, setInstanceList] = React.useState<InstanceListResponse>(
     [],
   );
+  // API: 인스턴스 목록 조회
   const {
     data: instanceListData,
     isLoading: isInstanceLoading,
@@ -75,12 +78,12 @@ const Instance = () => {
     simulationId: Number(selectedSimulationId),
   });
 
-  // 화면 첫 렌더링시 전체 인스턴스 목록 조회 api 요청
+  // 전체 인스턴스 목록 상태 업데이트
   React.useEffect(() => {
     if (!isInstanceLoading && instanceListData) {
       const formattedData = formatCreatedAt<BaseInstance>(
         instanceListData.data,
-        "instanceCreatedAt" as keyof BaseInstance,
+        INSTANCE_OPTION_LIST[3].value as keyof BaseInstance,
       );
       setInstanceList(formattedData);
     }
@@ -107,16 +110,18 @@ const Instance = () => {
       podName: "",
     });
 
+  // API: 인스턴스 상세 조회
   const { data: instanceDetailData, isLoading: isInstanceDetailLoading } =
     useGetInstanceDetail({ instanceId: selectedInstanceId });
 
+  // 인스턴스 상세 상태 업데이트
   React.useEffect(() => {
     if (instanceDetailData && !isInstanceDetailLoading) {
       setInstanceDetail(instanceDetailData.data);
     }
   }, [instanceDetailData, isInstanceDetailLoading]);
 
-  // TODO: 행 클릭 시 인스턴스 상세 정보 조회 -> 데이터 가공 -> DetailTable에 전달
+  // 테이블 행 클릭 시 해당 행의 인스턴스 아이디 업데이트
   const handleRowClick = (params: GridRowParams) => {
     const { row } = params;
     setSelectedInstanceID(row.instanceId);
@@ -136,7 +141,6 @@ const Instance = () => {
     templateId: false,
     simulationId: false,
   });
-
   const showToast = useToastStore((state) => state.showToast);
 
   const setSimulationId = (id: string) => {
@@ -155,10 +159,12 @@ const Instance = () => {
     setCheckedRowList(selectedIds);
   };
 
+  // 필터 클릭 시
   const onSelectFilter = (value: string) => {
     setFilterType(value);
   };
 
+  // 필터 form 관련 hook
   const { register, handleSubmit } = useForm<FilterGroupFormData>({
     resolver: zodResolver(filterShema),
     mode: "onChange",
@@ -181,6 +187,7 @@ const Instance = () => {
     }
   };
 
+  // 테이블 케밥 버튼 하위 버튼들 handler
   const handleCreate = () => {
     setIsOpen(true);
   };
@@ -192,6 +199,7 @@ const Instance = () => {
     setSelectedSimulationId(value);
   };
 
+  // 인스턴스 생성 팝업 닫기 클릭 시
   const handleCloseDialog = () => {
     setIsOpen(false);
     instanceReset();
@@ -201,6 +209,7 @@ const Instance = () => {
     });
   };
 
+  // 인스턴스 생성 form 관련 hook
   const {
     register: instanceRegister,
     handleSubmit: instanceHandleSubmit,
@@ -211,10 +220,11 @@ const Instance = () => {
     mode: "onChange",
   });
 
+  // API: 인스턴스 생성
   const { mutate: instanceCreateMutate, error: instanceCreateError } =
     usePostInstance();
 
-  // 인스턴스 생성 모달에서 인스턴스 생성 시
+  // 인스턴스 생성 팝업 - 생성 버튼 클릭 시
   const onInstanceSubmit = (data: CreateInstanceFormType) => {
     if (!selectedIds.simulationId) {
       setIsError((prev) => ({ ...prev, simulationId: true }));
@@ -250,15 +260,15 @@ const Instance = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
+    <FlexColContainer className="gap-4">
+      <FlexColContainer className="gap-1">
         <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
         <SimulationFilter
           optionList={simulationOptionList}
           onSelect={handleSelectSimulation}
         />
-      </div>
-      <div className="flex flex-col gap-2">
+      </FlexColContainer>
+      <FlexColContainer className="gap-2">
         <div className="flex justify-between">
           <ButtonGroup
             isExecuteActive={checkedRowList?.length > 0}
@@ -285,7 +295,7 @@ const Instance = () => {
           />
         )}
         {!hasResult && <span>검색 결과 없음</span>}
-      </div>
+      </FlexColContainer>
       {!instanceDetail && <Typography tag="h6">로딩중</Typography>}
       {instanceDetail && (
         <DetailTable
@@ -306,7 +316,7 @@ const Instance = () => {
         isError={isError}
         error={instanceCreateError}
       />
-    </div>
+    </FlexColContainer>
   );
 };
 
