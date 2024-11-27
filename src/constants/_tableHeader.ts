@@ -4,7 +4,7 @@ const HEADER_LIST = [
   "age",
   "템플릿 타입",
   "인스턴스 볼륨",
-  "로그",
+  "파드명",
   "상태",
   "토픽",
 ];
@@ -15,7 +15,7 @@ const HEADER_MAP = {
   [HEADER_LIST[2]]: "instanceAge",
   [HEADER_LIST[3]]: "templateType",
   [HEADER_LIST[4]]: "instanceVolume",
-  [HEADER_LIST[5]]: "instanceLog",
+  [HEADER_LIST[5]]: "podName",
   [HEADER_LIST[6]]: "instanceStatus",
   [HEADER_LIST[7]]: "topics",
 };
