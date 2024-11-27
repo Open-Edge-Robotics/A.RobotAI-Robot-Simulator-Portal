@@ -1,5 +1,10 @@
 import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridRowParams,
+  GridRowSelectionModel,
+} from "@mui/x-data-grid";
 import { InstanceListResponse } from "@/type/response/_instance";
 import { INSTANCE_OPTION_LIST } from "@/constants/_filterOption";
 
@@ -7,8 +12,8 @@ type InstanceListTableProps = {
   rows: InstanceListResponse;
   columns: GridColDef[];
   paginationModel: { page: number; pageSize: number };
-  onRowClick: (params: any) => void;
-  onMultipleRowClick: (params: any) => void;
+  onRowClick: (params: GridRowParams) => void;
+  onMultipleRowClick: (rowSelectionModel: GridRowSelectionModel) => void;
 };
 
 const InstanceListTable = ({
