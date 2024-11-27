@@ -2,12 +2,12 @@
 
 import React from "react";
 import { cx } from "class-variance-authority";
-import { InstanceDetail } from "@/constants/mockData/detailTable";
 import { HEADER_LIST, HEADER_MAP } from "@/constants/_tableHeader";
+import { InstanceDetailResponse } from "@/type/response/_instance";
 
 type TableSectionProps = {
   headerList: typeof HEADER_LIST;
-  data: InstanceDetail;
+  data: InstanceDetailResponse;
   startIndex: number;
   endIndex: number;
   isLastSection?: boolean;
@@ -52,7 +52,7 @@ const TableSection = ({
             )}
           >
             <td className="text-sm font-normal">
-              {data[HEADER_MAP[header] as keyof InstanceDetail]}
+              {data[HEADER_MAP[header] as keyof InstanceDetailResponse]}
             </td>
           </tr>
         ))}
@@ -63,7 +63,7 @@ const TableSection = ({
 
 type DetailTableProps = {
   headerList: string[];
-  data: InstanceDetail;
+  data: InstanceDetailResponse;
   headersPerColumn: number;
 };
 
