@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Button } from "@mui/material";
 import { UseFormRegister } from "react-hook-form";
 import { Input } from "@/components/common/Input";
 import {
@@ -13,7 +12,7 @@ import {
   SelectValueText,
 } from "@/components/common/Select";
 import { SCHEMA_NAME } from "@/schema/_schema";
-import SearchButton from "@/components/shared/SearchButton";
+import SearchButton from "@/components/shared/button/SearchButton";
 
 export type Option = {
   label: string;
