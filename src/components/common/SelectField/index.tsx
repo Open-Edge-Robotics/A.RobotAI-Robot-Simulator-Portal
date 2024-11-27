@@ -10,6 +10,7 @@ import {
   SelectValueText,
 } from "@/components/common/Select";
 import { Option } from "@/components/shared/FilterGroup";
+import FlexCol from "@/components/common/FlexCol";
 
 type Props = {
   optionList: Option[];
@@ -27,7 +28,7 @@ const SelectField = ({
   onSelect,
 }: Props) => {
   return (
-    <div className="items-centers relative flex w-full flex-col justify-center gap-2 pb-5">
+    <FlexCol className="items-centers relative w-full justify-center gap-2 pb-5">
       <Label>{label}</Label>
       <Select
         className={cx(
@@ -58,7 +59,7 @@ const SelectField = ({
           {label}을 선택하세요
         </span>
       )}
-    </div>
+    </FlexCol>
   );
 };
 

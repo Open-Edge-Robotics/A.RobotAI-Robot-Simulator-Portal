@@ -17,6 +17,7 @@ import FormTitle from "@/components/common/FormTitle";
 import Form from "@/components/common/Form";
 import FormButtonContainer from "@/components/common/FormButtonContainer";
 import { LABEL, PLACE_HOLDER } from "@/constants/_form";
+import FlexCol from "@/components/common/FlexCol";
 
 type Props = {
   isOpen: boolean;
@@ -93,7 +94,7 @@ const InstanceCreateDialog = ({
             {API_ERROR_MESSAGE.INSTANCE.CREATE.DEFAULT}
           </Alert>
         )}
-        <div className="flex w-full flex-col gap-3">
+        <FlexCol className="w-full gap-3">
           <InputField
             name={SCHEMA_NAME.INSTANCE.NAME as keyof CreateInstanceFormType}
             label={LABEL.NAME}
@@ -137,7 +138,7 @@ const InstanceCreateDialog = ({
             placeholder={PLACE_HOLDER.INSTANCE_CREATE.COUNT}
             register={register}
           />
-        </div>
+        </FlexCol>
         <FormButtonContainer>
           <CancelButton onClick={onClose} />
           <CreateButton type="submit" />

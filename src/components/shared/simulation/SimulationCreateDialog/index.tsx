@@ -12,6 +12,7 @@ import FormTitle from "@/components/common/FormTitle";
 import FormButtonContainer from "@/components/common/FormButtonContainer";
 import CancelButton from "@/components/shared/button/CancelButton/indext";
 import CreateButton from "@/components/shared/button/CreateButton";
+import FlexCol from "@/components/common/FlexCol";
 
 type SimulationCreateDialogProps = {
   isOpen: boolean;
@@ -57,7 +58,7 @@ const SimulationCreateDialog = ({
             {API_ERROR_MESSAGE.SIMULATION.CREATE.DEFAULT}
           </Alert>
         )}
-        <div className="flex w-full flex-col gap-3">
+        <FlexCol className="w-full gap-3">
           <InputField
             name={SCHEMA_NAME.SIMULATION.NAME as keyof CreateSimulationFormType}
             label="이름"
@@ -77,7 +78,7 @@ const SimulationCreateDialog = ({
             register={register}
             errors={errors}
           />
-        </div>
+        </FlexCol>
         <FormButtonContainer>
           <CancelButton onClick={handleCloseDialog} />
           <CreateButton type="submit" />
