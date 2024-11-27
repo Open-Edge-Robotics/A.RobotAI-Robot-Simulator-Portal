@@ -1,5 +1,5 @@
 import { apiDelete, apiGet, apiPost } from "@/lib/axios";
-import { BASE_API } from "@/constants/_apiPath";
+import { BASE_API } from "@/constants/api/_apiPath";
 import {
   InstancePostRequest,
   InstanceActionPostRequest,
@@ -12,7 +12,7 @@ import {
 } from "@/type/response/_instance";
 import { Result } from "@/type/response/_default";
 import { SimulationActionResponse } from "@/type/response/_simulation";
-import { InstanceIdField } from "@/type/_field";
+import { InstanceIdField, SimulationIdField } from "@/type/_field";
 import { SCHEMA_NAME } from "@/schema/_schema";
 
 const instanceURL = BASE_API.INSTANCE;
@@ -22,8 +22,14 @@ const actionURL = BASE_API.ACTION;
  * @description 인스턴스 목록 조회
  * @returns {InstanceListResponse}
  */
-const getInstanceList = async (): Promise<Result<InstanceListResponse>> => {
-  const response = await apiGet<Result<InstanceListResponse>>(instanceURL);
+const getInstanceList = async ({
+  simulationId,
+}: SimulationIdField): Promise<Result<InstanceListResponse>> => {
+  const response = await apiGet<Result<InstanceListResponse>>(instanceURL, {
+    params: {
+      ...(simulationId != null && { simulationId }),
+    },
+  });
   return response.data;
 };
 
