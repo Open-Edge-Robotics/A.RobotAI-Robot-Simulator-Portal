@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  /* 얇은 스크롤바 */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+    border: 2px solid #f1f1f1;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb::-webkit-scrollbar-thumb {
+    background-color: #888; /* 우선순위 높이기 */
+  }
+
+  /* 스크롤바 숨기기 */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
