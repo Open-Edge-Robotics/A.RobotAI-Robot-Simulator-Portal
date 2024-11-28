@@ -1,15 +1,23 @@
 import React from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { CreateInstanceFormType } from "@/type/_instance";
-import { Dialog, Typography } from "@mui/material";
+import { Alert, Dialog } from "@mui/material";
 import { INSTANCE_LENGTH_LIMIT, SCHEMA_NAME } from "@/schema/_schema";
-import { MOCK_TEMPLATE_LIST } from "@/constants/mockData/instance";
 import InputField from "@/components/common/InputField";
-import CreateButton from "@/components/shared/CreateButton";
-import CancelButton from "@/components/shared/CancelButton/indext";
+import CreateButton from "@/components/shared/button/CreateButton";
+import CancelButton from "@/components/shared/button/CancelButton/indext";
 import SelectField from "@/components/common/SelectField";
 import { Option } from "@/components/shared/FilterGroup";
 import { transformResponseToOptionList } from "@/utils/option";
+import { useGetTemplateList } from "@/hooks/template/useGetTemplateList";
+import { AxiosError } from "axios";
+import { Result } from "@/type/response/_default";
+import { API_ERROR_MESSAGE } from "@/constants/api/_errorMessage";
+import FormTitle from "@/components/common/FormTitle";
+import Form from "@/components/common/Form";
+import FormButtonContainer from "@/components/common/FormButtonContainer";
+import { LABEL, PLACE_HOLDER } from "@/constants/_form";
+import FlexCol from "@/components/common/FlexCol";
 
 type Props = {
   isOpen: boolean;
@@ -19,6 +27,7 @@ type Props = {
     templateId: boolean;
     simulationId: boolean;
   };
+  error: AxiosError<Result<null>, any> | null;
   onClose: () => void;
   register: UseFormRegister<CreateInstanceFormType>;
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
@@ -31,28 +40,32 @@ const InstanceCreateDialog = ({
   simulationOptionList,
   errors,
   isError,
+  error,
   onClose,
   register,
   handleSubmit,
   setSelectedSimulationId,
   setSelectedTemplateId,
 }: Props) => {
-  // TODO: 템플릿 목록 조회해서 초기값 넣기
-  const [templateOptionList, _] = React.useState(
-    transformResponseToOptionList(
-      MOCK_TEMPLATE_LIST,
-      SCHEMA_NAME.TEMPLATE.ID,
-      SCHEMA_NAME.TEMPLATE.TYPE,
-    ),
+  const [templateOptionList, setTemplateOptionList] = React.useState<Option[]>(
+    [],
   );
 
-  const handleSimulationClick = (id: string) => {
-    setSelectedSimulationId(id);
-  };
+  const { data, isLoading } = useGetTemplateList();
 
-  const handleTemplateClick = (id: string) => {
-    setSelectedTemplateId(id);
-  };
+  React.useEffect(() => {
+    if (!isLoading && data) {
+      const formattedData = transformResponseToOptionList(
+        data.data,
+        SCHEMA_NAME.TEMPLATE.ID,
+        SCHEMA_NAME.TEMPLATE.TYPE,
+      );
+      setTemplateOptionList(formattedData);
+    }
+  }, [isLoading, data]);
+
+  const handleSimulationClick = (id: string) => setSelectedSimulationId(id);
+  const handleTemplateClick = (id: string) => setSelectedTemplateId(id);
 
   return (
     <Dialog
@@ -64,16 +77,28 @@ const InstanceCreateDialog = ({
         },
       }}
     >
-      <form
-        className="flex w-full scroll-m-0 flex-col items-center justify-center gap-8 p-8"
-        onSubmit={handleSubmit}
-      >
-        <Typography variant="h6">인스턴스 생성</Typography>
-        <div className="flex w-full flex-col gap-3">
+      <Form onSubmit={handleSubmit}>
+        <FormTitle>인스턴스 생성</FormTitle>
+        {error?.response?.status === 404 && (
+          <Alert severity="error">
+            {API_ERROR_MESSAGE.INSTANCE.CREATE[404]}
+          </Alert>
+        )}
+        {error?.response?.status === 500 && (
+          <Alert severity="error">
+            {API_ERROR_MESSAGE.INSTANCE.CREATE[500]}
+          </Alert>
+        )}
+        {!error && (
+          <Alert severity="info">
+            {API_ERROR_MESSAGE.INSTANCE.CREATE.DEFAULT}
+          </Alert>
+        )}
+        <FlexCol className="w-full gap-3">
           <InputField
             name={SCHEMA_NAME.INSTANCE.NAME as keyof CreateInstanceFormType}
-            label="이름"
-            placeholder="인스턴스 이름을 입력해주세요"
+            label={LABEL.NAME}
+            placeholder={PLACE_HOLDER.INSTANCE_CREATE.NAME}
             maxLength={INSTANCE_LENGTH_LIMIT.NAME.MAX}
             register={register}
             errors={errors}
@@ -82,44 +107,43 @@ const InstanceCreateDialog = ({
             name={
               SCHEMA_NAME.INSTANCE.DESCRIPTION as keyof CreateInstanceFormType
             }
-            label="설명"
-            placeholder="인스턴스 설명을 입력해주세요"
+            label={LABEL.DESCRIPTION}
+            placeholder={PLACE_HOLDER.INSTANCE_CREATE.DESCRIPTION}
             maxLength={INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX}
             register={register}
             errors={errors}
           />
           <SelectField
             optionList={simulationOptionList}
-            label="시뮬레이션"
-            placeholder="시뮬레이션을 선택하세요"
+            label={LABEL.SIMULATION}
+            placeholder={PLACE_HOLDER.INSTANCE_CREATE.SIMULATION}
             onSelect={handleSimulationClick}
             isError={isError.simulationId}
           />
           <SelectField
             optionList={templateOptionList}
-            label="템플릿"
-            placeholder="템플릿을 선택하세요"
+            label={LABEL.TEMPLATE}
+            placeholder={PLACE_HOLDER.INSTANCE_CREATE.TEMPLATE}
             onSelect={handleTemplateClick}
             isError={isError.templateId}
           />
           <InputField
             name={SCHEMA_NAME.INSTANCE.COUNT as keyof CreateInstanceFormType}
-            label="개수"
+            label={LABEL.COUNT}
             type="number"
             defaultValue={1}
             min={INSTANCE_LENGTH_LIMIT.COUNT.MIN}
             max={INSTANCE_LENGTH_LIMIT.COUNT.MAX}
             inputMode="numeric"
-            placeholder="인스턴스 개수를 입력해주세요"
-            maxLength={INSTANCE_LENGTH_LIMIT.COUNT.MAX}
+            placeholder={PLACE_HOLDER.INSTANCE_CREATE.COUNT}
             register={register}
           />
-        </div>
-        <div className="ml-auto flex gap-2">
+        </FlexCol>
+        <FormButtonContainer>
           <CancelButton onClick={onClose} />
           <CreateButton type="submit" />
-        </div>
-      </form>
+        </FormButtonContainer>
+      </Form>
     </Dialog>
   );
 };

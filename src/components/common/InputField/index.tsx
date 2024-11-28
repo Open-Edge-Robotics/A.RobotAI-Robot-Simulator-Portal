@@ -8,12 +8,11 @@ import {
 import { cx } from "class-variance-authority";
 import { Label } from "@/components/common/Label";
 import { Input } from "@/components/common/Input";
+import FlexCol from "@/components/common/FlexCol";
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
   label: string;
-  placeholder: string;
-  maxLength: number;
   errors?: FieldErrors<T>;
   register: UseFormRegister<T>;
 } & React.InputHTMLAttributes<HTMLInputElement>;
@@ -21,8 +20,6 @@ type Props<T extends FieldValues> = {
 const InputField = <T extends FieldValues>({
   name,
   label,
-  maxLength,
-  placeholder,
   errors,
   register,
   ...props
@@ -30,15 +27,13 @@ const InputField = <T extends FieldValues>({
   const errorMessage = errors?.[name]?.message;
 
   return (
-    <div className="items-centers relative flex w-full flex-col justify-center gap-1 pb-5">
+    <FlexCol className="items-centers relative w-full justify-center gap-1 pb-5">
       <Label className="w-28 text-nowrap">{label}</Label>
       <Input
         className={cx(
           "w-full border border-gray-300 px-4 py-2 text-sm placeholder:text-sm",
           errorMessage && "border-green-500",
         )}
-        placeholder={placeholder}
-        maxLength={maxLength}
         autoComplete="off"
         {...props}
         {...register(name)}
@@ -50,7 +45,7 @@ const InputField = <T extends FieldValues>({
             : String(errorMessage)}
         </span>
       )}
-    </div>
+    </FlexCol>
   );
 };
 

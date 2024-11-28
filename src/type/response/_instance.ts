@@ -1,32 +1,23 @@
 import {
   BaseInstance,
-  InstanceCountField,
-  InstanceDescriptionField,
+  BasePostInstance,
   InstanceIdField,
-  InstanceNameField,
-  SimulationIdField,
-  TemplateIdField,
+  PodNameField,
 } from "@/type/_field";
 
 export type InstanceListResponse = BaseInstance[];
 
-export interface InstanceDetailResponse {
+export interface InstanceDetailResponse extends PodNameField {
   instanceNamespace: string;
   instancePortNumber: string;
   instanceAge: string;
   templateType: string;
   instanceVolume: string;
-  instanceLog: string;
   instanceStatus: string;
   topics: string;
 }
 
-export interface InstancePostResponse
-  extends InstanceNameField,
-    InstanceDescriptionField,
-    InstanceCountField,
-    SimulationIdField,
-    TemplateIdField {}
+export type InstancePostResponse = BasePostInstance[];
 
 export interface InstanceActionResponse extends InstanceIdField {
   result: string;

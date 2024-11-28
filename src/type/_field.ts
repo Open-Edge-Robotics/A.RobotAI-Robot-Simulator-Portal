@@ -18,11 +18,29 @@ export interface InstanceCreatedAtField {
   instanceCreatedAt: string;
 }
 
+export interface PodNameField {
+  podName: string;
+}
+
+export interface PodStatusField {
+  podStatus: string;
+}
+
 export interface BaseInstance
   extends InstanceIdField,
     InstanceNameField,
     InstanceDescriptionField,
-    InstanceCreatedAtField {}
+    InstanceCreatedAtField,
+    PodNameField,
+    PodStatusField {}
+
+export interface BasePostInstance
+  extends InstanceIdField,
+    InstanceNameField,
+    InstanceDescriptionField,
+    PodNameField,
+    SimulationIdField,
+    TemplateIdField {}
 
 // simulaiton 필드
 export interface SimulationIdField {

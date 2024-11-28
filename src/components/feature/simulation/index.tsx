@@ -13,12 +13,12 @@ import {
   filterShema,
   SCHEMA_NAME,
 } from "@/schema/_schema";
-import { filterSimulationList, formatSimulationCreatedAt } from "@/utils/table";
+import { filterSimulationList, formatCreatedAt } from "@/utils/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Typography } from "@mui/material";
-import SimulationListTable from "@/components/shared/SimulationListTable";
-import CreateButton from "@/components/shared/CreateButton";
-import SimulationCreateDialog from "@/components/shared/SimulationCreateDialog";
+import SimulationListTable from "@/components/shared/simulation/SimulationListTable";
+import CreateButton from "@/components/shared/button/CreateButton";
+import SimulationCreateDialog from "@/components/shared/simulation/SimulationCreateDialog";
 import { CreateSimulationFormType } from "@/type/_simulation";
 import {
   SimulationListResponse,
@@ -29,13 +29,29 @@ import { usePostSimulation } from "@/hooks/simulation/usePostSimulation";
 import { useToastStore } from "@/stores/useToastStore";
 import { useGetSimulationList } from "@/hooks/simulation/useGetSimulationList";
 import { Result } from "@/type/response/_default";
+import FlexColContainer from "@/components/common/FlexCol";
 
+// datagrid 페이지네이션 설정
 const paginationModel = { page: 0, pageSize: 10 };
 
 const Simulation = () => {
+  // API: 시뮬레이션 목록 조회
   const { data, isLoading } = useGetSimulationList();
   const [simulationList, setSimulationList] =
     React.useState<SimulationListResponse>([]);
+
+  // 시뮬레이션 목록 포맷팅 및 상태 업데이트, 검색 결과 상태 업데이트
+  React.useEffect(() => {
+    if (!isLoading && data) {
+      const formattedData = formatCreatedAt<SimulationType>(
+        data.data,
+        SIMULATION_OPTION_LIST[3].value,
+      );
+      setSimulationList(formattedData);
+      setHasResult(formattedData.length > 0);
+    }
+  }, [isLoading, data]);
+
   const [filterType, setFilterType] = React.useState<string>(
     SIMULATION_OPTION_LIST[0].value,
   );
@@ -43,26 +59,15 @@ const Simulation = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const showToast = useToastStore((state) => state.showToast);
 
-  React.useEffect(() => {
-    if (!isLoading && data) {
-      const formattedData = formatSimulationCreatedAt(data.data);
-      setSimulationList(formattedData);
-    }
-  }, [isLoading, data]);
-
-  React.useEffect(() => {
-    setHasResult(simulationList.length > 0);
-  }, [simulationList]);
-
+  // 필터 선택 시 필터 타입 상태 업데이트
   const handleSelectFilter = (value: string) => setFilterType(value);
-
+  // 시뮬레이션 생성 팝업 닫기
   const handleCloseDialog = () => {
     setIsOpen(false);
     dialogReset();
   };
-
+  // 시뮬레이션 생성 버튼 클릭
   const handleClickCreate = () => setIsOpen(true);
-
   // TODO: API 연결
   const handleExecute = (id: string) => {
     console.log("실행버튼 클릭", id);
@@ -74,7 +79,25 @@ const Simulation = () => {
     console.log("삭제 버튼 클릭", id);
   };
 
-  // 검색 버튼 클릭 시 실행
+  // 필터 폼 관련 hook
+  const { register: filterRegister, handleSubmit: filterHandleSubmit } =
+    useForm<FilterGroupFormData>({
+      resolver: zodResolver(filterShema),
+      mode: "onChange",
+    });
+
+  // 시뮬레이션 생성 폼 관련 hook
+  const {
+    register: dialogRegister,
+    handleSubmit: dialogHandleSubmit,
+    formState: { errors },
+    reset: dialogReset,
+  } = useForm<CreateSimulationFormType>({
+    resolver: zodResolver(createSimulationShema),
+    mode: "onChange",
+  });
+
+  // 검색 버튼 클릭 시
   const onFilterSubmit = (data: FilterGroupFormData) => {
     const filteredList = filterSimulationList(
       simulationList,
@@ -83,7 +106,10 @@ const Simulation = () => {
       filterType,
     );
     setSimulationList(
-      formatSimulationCreatedAt(filteredList) as SimulationType[],
+      formatCreatedAt(
+        filteredList,
+        SIMULATION_OPTION_LIST[3].value,
+      ) as SimulationType[],
     );
   };
 
@@ -91,12 +117,16 @@ const Simulation = () => {
   const onFilterError = () => {
     setHasResult(true);
     if (!data?.data) return;
-    setSimulationList(formatSimulationCreatedAt(data.data) || []);
+    setSimulationList(
+      formatCreatedAt(data.data, SIMULATION_OPTION_LIST[3].value) || [],
+    );
   };
 
+  // API: 시뮬레이션 생성
   const { mutate: simulationCreateMutate, error: simulationCreateError } =
     usePostSimulation();
-  // 시뮬레이션 생성 모달에서 생성 버튼 클릭 시 실행
+
+  // 시뮬레이션 생성 모달에서 생성 버튼 클릭 시
   const onSimulationSubmit = (data: CreateSimulationFormType) => {
     const { simulationName, simulationDescription } = data;
     simulationCreateMutate(
@@ -114,22 +144,6 @@ const Simulation = () => {
     dialogReset();
   };
 
-  const { register: filterRegister, handleSubmit: filterHandleSubmit } =
-    useForm<FilterGroupFormData>({
-      resolver: zodResolver(filterShema),
-      mode: "onChange",
-    });
-
-  const {
-    register: dialogRegister,
-    handleSubmit: dialogHandleSubmit,
-    formState: { errors },
-    reset: dialogReset,
-  } = useForm<CreateSimulationFormType>({
-    resolver: zodResolver(createSimulationShema),
-    mode: "onChange",
-  });
-
   if (isLoading) {
     return (
       <Typography variant="h6" className="text-sm font-normal text-gray-900">
@@ -139,9 +153,9 @@ const Simulation = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <FlexColContainer className="gap-4">
       <PageTitle className="text-white">{MENU_ITEMS[3].label}</PageTitle>
-      <div className="flex flex-col gap-2">
+      <FlexColContainer className="gap-2">
         <div className="flex justify-between">
           <CreateButton onClick={handleClickCreate} />
           <FilterGroup
@@ -174,7 +188,7 @@ const Simulation = () => {
             </div>
           </div>
         )}
-      </div>
+      </FlexColContainer>
       <SimulationCreateDialog
         isOpen={isOpen}
         handleCloseDialog={handleCloseDialog}
@@ -183,7 +197,7 @@ const Simulation = () => {
         handleSubmit={dialogHandleSubmit(onSimulationSubmit)}
         error={simulationCreateError}
       />
-    </div>
+    </FlexColContainer>
   );
 };
 

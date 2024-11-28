@@ -1,6 +1,6 @@
-import CreateButton from "@/components/shared/CreateButton";
-import DeleteButton from "@/components/shared/DeleteButton";
-import ExecuteButton from "@/components/shared/ExecuteButton";
+import CreateButton from "@/components/shared/button/CreateButton";
+import DeleteButton from "@/components/shared/button/DeleteButton";
+import ExecuteButton from "@/components/shared/button/ExecuteButton";
 
 type Props = {
   isExecuteActive: boolean;

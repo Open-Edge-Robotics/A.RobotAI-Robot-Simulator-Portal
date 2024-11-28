@@ -1,4 +1,4 @@
-import { BASE_API } from "@/constants/_apiPath";
+import { BASE_API } from "@/constants/api/_apiPath";
 import { apiGet } from "@/lib/axios";
 import { Result } from "@/type/response/_default";
 import { TemplateListResponse } from "@/type/response/_template";

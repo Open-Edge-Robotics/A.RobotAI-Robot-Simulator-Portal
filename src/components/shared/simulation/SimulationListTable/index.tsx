@@ -8,7 +8,7 @@ import {
   MenuItemProps,
 } from "@mui/material";
 import { COLUMN_KEBAB, COLUMN_STYLE } from "@/constants/_tableColumn";
-import KebabButton from "@/components/shared/KebabButton";
+import KebabButton from "@/components/shared/button/KebabButton";
 import { SimulationListResponse } from "@/type/response/_simulation";
 import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
 

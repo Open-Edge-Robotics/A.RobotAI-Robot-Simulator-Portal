@@ -10,7 +10,7 @@ import { Option } from "@/components/shared/FilterGroup";
 
 type Props = {
   optionList: Option[];
-  onSelect: () => void;
+  onSelect: (value: string) => void;
 };
 
 const SimulationFilter = ({ optionList, onSelect }: Props) => {

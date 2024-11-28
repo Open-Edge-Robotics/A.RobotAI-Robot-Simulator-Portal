@@ -6,6 +6,13 @@ import { CreateSimulationFormType } from "@/type/_simulation";
 import InputField from "@/components/common/InputField";
 import { AxiosError } from "axios";
 import { Result } from "@/type/response/_default";
+import { API_ERROR_MESSAGE } from "@/constants/api/_errorMessage";
+import Form from "@/components/common/Form";
+import FormTitle from "@/components/common/FormTitle";
+import FormButtonContainer from "@/components/common/FormButtonContainer";
+import CancelButton from "@/components/shared/button/CancelButton/indext";
+import CreateButton from "@/components/shared/button/CreateButton";
+import FlexCol from "@/components/common/FlexCol";
 
 type SimulationCreateDialogProps = {
   isOpen: boolean;
@@ -34,21 +41,24 @@ const SimulationCreateDialog = ({
         },
       }}
     >
-      <form
-        className="flex w-full flex-col items-center justify-center gap-8 p-8"
-        onSubmit={handleSubmit}
-      >
-        <Typography variant="h6">시뮬레이션 생성</Typography>
+      <Form onSubmit={handleSubmit}>
+        <FormTitle>시뮬레이션 생성</FormTitle>
         {error?.response?.status === 409 && (
-          <Alert severity="error">이미 존재하는 시뮬레이션 이름입니다</Alert>
+          <Alert severity="error">
+            {API_ERROR_MESSAGE.SIMULATION.CREATE[409]}
+          </Alert>
         )}
         {error?.response?.status === 500 && (
-          <Alert severity="error">데이터 저장 중 오류가 발생했습니다</Alert>
+          <Alert severity="error">
+            {API_ERROR_MESSAGE.SIMULATION.CREATE[500]}
+          </Alert>
         )}
         {!error && (
-          <Alert severity="info">시뮬레이션 이름과 설명을 입력해주세요</Alert>
+          <Alert severity="info">
+            {API_ERROR_MESSAGE.SIMULATION.CREATE.DEFAULT}
+          </Alert>
         )}
-        <div className="flex w-full flex-col gap-3">
+        <FlexCol className="w-full gap-3">
           <InputField
             name={SCHEMA_NAME.SIMULATION.NAME as keyof CreateSimulationFormType}
             label="이름"
@@ -68,21 +78,12 @@ const SimulationCreateDialog = ({
             register={register}
             errors={errors}
           />
-        </div>
-        <div className="ml-auto flex gap-2">
-          <Button
-            variant="outlined"
-            color="info"
-            type="button"
-            onClick={handleCloseDialog}
-          >
-            취소
-          </Button>
-          <Button variant="contained" color="primary" type="submit">
-            생성
-          </Button>
-        </div>
-      </form>
+        </FlexCol>
+        <FormButtonContainer>
+          <CancelButton onClick={handleCloseDialog} />
+          <CreateButton type="submit" />
+        </FormButtonContainer>
+      </Form>
     </Dialog>
   );
 };
