@@ -39,9 +39,9 @@ const FilterGroup = ({
   handleSubmit,
 }: FilterGroupProps) => {
   return (
-    <div className="w-120 flex flex-row gap-2">
+    <div className="w-fix flex flex-row gap-2">
       <Select
-        className="relative min-w-32 text-center align-middle"
+        className="relative w-40 text-center align-middle"
         onSelect={onSelect}
       >
         <SelectTrigger className="w-full rounded-[4px] bg-white py-2 pl-14 pr-16">
@@ -50,7 +50,7 @@ const FilterGroup = ({
             placeholder={optionList[0].label}
           />
         </SelectTrigger>
-        <SelectGroup className="top-10 w-full rounded-[4px] bg-white p-2 shadow-md">
+        <SelectGroup className="top-[42px] w-full rounded-[4px] border border-gray-300 bg-white p-2 shadow-md">
           {optionList.map((item) => (
             <SelectItem
               key={item.value}
@@ -62,11 +62,14 @@ const FilterGroup = ({
             </SelectItem>
           ))}
         </SelectGroup>
-        <SelectIcon color="#000000" className="absolute right-2 top-3" />
+        <SelectIcon
+          color="#000000"
+          className="absolute right-2 top-[10px] z-20"
+        />
       </Select>
       <form className="flex w-80 flex-row gap-2" onSubmit={handleSubmit}>
         <Input
-          className="w-full px-4 py-2 text-sm placeholder:text-sm"
+          className="w-full border border-gray-300 px-4 py-2 text-sm placeholder:text-sm"
           placeholder="검색어를 입력해주세요"
           autoComplete="off"
           {...register(SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData)}
