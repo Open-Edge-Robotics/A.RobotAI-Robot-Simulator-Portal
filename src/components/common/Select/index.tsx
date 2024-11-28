@@ -14,6 +14,7 @@ import {
 import useClickOutside from "@/hooks/useClickOutside";
 import { cn } from "@/utils/core";
 import { IoCaretDown, IoCaretUp } from "react-icons/io5";
+import { IconBaseProps } from "react-icons/lib";
 
 type SelectContextValue = VariantProps<typeof selectVariants> & {
   isOpen: boolean;
@@ -189,8 +190,9 @@ const SelectItem = ({ value, label, className, children }: SelectItemProps) => {
 type SelectIconProps = {
   color?: string;
   className?: string;
-};
-const SelectIcon = ({ color, className }: SelectIconProps) => {
+} & IconBaseProps;
+
+const SelectIcon = ({ color, className, ...props }: SelectIconProps) => {
   const context = React.useContext(SelectContext);
   if (!context)
     throw new Error(
@@ -198,10 +200,14 @@ const SelectIcon = ({ color, className }: SelectIconProps) => {
     );
   const { isOpen } = context;
 
-  return isOpen ? (
-    <IoCaretUp color={color} className={className} />
-  ) : (
-    <IoCaretDown color={color} className={className} />
+  return (
+    <div className={className}>
+      {isOpen ? (
+        <IoCaretUp color={color} {...props} />
+      ) : (
+        <IoCaretDown color={color} {...props} />
+      )}
+    </div>
   );
 };
 
