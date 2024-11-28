@@ -26,7 +26,7 @@ const selectLabelVariants = cva("", {
   defaultVariants: {},
 });
 
-const selecTriggerVariants = cva("", {
+const selecTriggerVariants = cva("border border-gray-300", {
   variants: {
     variant: {
       primary: "",
@@ -44,7 +44,7 @@ const selectValueTextVariants = cva("no-wrap", {
   defaultVariants: {},
 });
 
-const selectGroupVariants = cva("", {
+const selectGroupVariants = cva("scrollbar-thin border border-gray-300", {
   variants: {
     isOpen: {
       true: "flex flex-col gap-1 absolute z-10 overflow-y-auto",
@@ -59,7 +59,7 @@ const selectGroupVariants = cva("", {
   },
 });
 
-const selectItemVariants = cva("", {
+const selectItemVariants = cva("hover:bg-gray-100", {
   variants: {
     variant: {
       primary: "",
