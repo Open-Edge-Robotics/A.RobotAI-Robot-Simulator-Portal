@@ -252,8 +252,10 @@ const Instance = () => {
             showToast(message, "success", 2000);
             setIsOpen(false);
             instanceListRefetch();
+            setSelectedIds({ simulationId: "", templateId: "" });
+            instanceReset();
           },
-          // 에러 처리는 인스턴스 생성 팝업에서 진행
+          // * 에러 처리는 인스턴스 생성 팝업에서 진행
         },
       );
     }
