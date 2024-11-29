@@ -112,7 +112,11 @@ const Instance = () => {
 
   // API: 인스턴스 상세 조회
   const { data: instanceDetailData, isLoading: isInstanceDetailLoading } =
-    useGetInstanceDetail({ instanceId: selectedInstanceId });
+    useGetInstanceDetail(
+      { instanceId: selectedInstanceId },
+      // selectedId가 0(초기값)이 아닐 때만 api 요청하기
+      { enabled: selectedInstanceId !== 0 },
+    );
 
   // 인스턴스 상세 상태 업데이트
   React.useEffect(() => {
@@ -252,8 +256,10 @@ const Instance = () => {
             showToast(message, "success", 2000);
             setIsOpen(false);
             instanceListRefetch();
+            setSelectedIds({ simulationId: "", templateId: "" });
+            instanceReset();
           },
-          // 에러 처리는 인스턴스 생성 팝업에서 진행
+          // * 에러 처리는 인스턴스 생성 팝업에서 진행
         },
       );
     }

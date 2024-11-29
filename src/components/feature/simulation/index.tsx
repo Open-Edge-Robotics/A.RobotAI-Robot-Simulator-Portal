@@ -36,7 +36,7 @@ const paginationModel = { page: 0, pageSize: 10 };
 
 const Simulation = () => {
   // API: 시뮬레이션 목록 조회
-  const { data, isLoading } = useGetSimulationList();
+  const { data, isLoading, refetch } = useGetSimulationList();
   const [simulationList, setSimulationList] =
     React.useState<SimulationListResponse>([]);
 
@@ -138,6 +138,7 @@ const Simulation = () => {
         onSuccess: ({ message }: Result<null>) => {
           showToast(message, "success", 2000);
           setIsOpen(false);
+          refetch();
         },
       },
     );
@@ -171,6 +172,7 @@ const Simulation = () => {
             rows={simulationList}
             columns={SIMULATION_LIST_COLUMN_LIST}
             paginationModel={paginationModel}
+            isLoading={isLoading}
             onExecute={handleExecute}
             onStop={handleClickStop}
             onDelete={handleClickDelete}

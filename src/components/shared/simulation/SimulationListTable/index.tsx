@@ -41,6 +41,7 @@ type SimulationListTableProps = {
   rows: SimulationListResponse;
   columns: GridColDef[];
   paginationModel: { page: number; pageSize: number };
+  isLoading: boolean;
   onRowClick?: (params: any) => void;
   onExecute?: (id: string) => void;
   onStop?: (id: string) => void;
@@ -51,6 +52,7 @@ const SimulationListTable = ({
   rows,
   columns,
   paginationModel,
+  isLoading,
   onRowClick,
   onExecute,
   onStop,
@@ -129,6 +131,8 @@ const SimulationListTable = ({
           },
         }}
         onRowClick={onRowClick}
+        disableAutosize
+        loading={isLoading}
         disableRowSelectionOnClick
         disableColumnResize
         disableMultipleRowSelection
