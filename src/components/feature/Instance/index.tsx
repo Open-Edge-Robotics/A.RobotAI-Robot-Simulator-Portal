@@ -35,9 +35,10 @@ import { useToastStore } from "@/stores/useToastStore";
 import { useGetInstanceList } from "@/hooks/instance/useGetInstanceList";
 import { useGetInstanceDetail } from "@/hooks/instance/useGetInstanceDetail";
 import { GridRowParams, GridRowSelectionModel } from "@mui/x-data-grid";
-import { Typography } from "@/components/common/Typography";
 import { BaseInstance } from "@/type/_field";
-import FlexColContainer from "@/components/common/FlexCol";
+import FlexCol from "@/components/common/FlexCol";
+import { Typography } from "@mui/material";
+import NonContent from "@/components/common/NonContent";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -90,7 +91,7 @@ const Instance = () => {
   }, [isInstanceLoading, instanceListData]);
 
   const [selectedInstanceId, setSelectedInstanceID] = React.useState<number>(0);
-
+  const [hasResult, setHasResult] = React.useState(true);
   // instanceList가 업데이트되면 selectedInstanceId를 첫 번째 인스턴스로 설정
   React.useEffect(() => {
     if (instanceList.length > 0) {
@@ -120,9 +121,10 @@ const Instance = () => {
 
   // 인스턴스 상세 상태 업데이트
   React.useEffect(() => {
-    if (instanceDetailData && !isInstanceDetailLoading) {
+    if (!isInstanceDetailLoading && instanceDetailData?.data.instanceAge) {
       setInstanceDetail(instanceDetailData.data);
     }
+    setHasResult(!!instanceDetailData?.data.instanceAge);
   }, [instanceDetailData, isInstanceDetailLoading]);
 
   // 테이블 행 클릭 시 해당 행의 인스턴스 아이디 업데이트
@@ -134,7 +136,7 @@ const Instance = () => {
   const [filterType, setFilterType] = React.useState<string>(
     INSTANCE_OPTION_LIST[0].value,
   );
-  const [hasResult, setHasResult] = React.useState(true);
+
   const [checkedRowList, setCheckedRowList] = React.useState<string[]>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedIds, setSelectedIds] = React.useState({
@@ -266,15 +268,15 @@ const Instance = () => {
   };
 
   return (
-    <FlexColContainer className="gap-4">
-      <FlexColContainer className="gap-1">
+    <FlexCol className="gap-4">
+      <FlexCol className="gap-1">
         <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
         <SimulationFilter
           optionList={simulationOptionList}
           onSelect={handleSelectSimulation}
         />
-      </FlexColContainer>
-      <FlexColContainer className="gap-2">
+      </FlexCol>
+      <FlexCol className="gap-2">
         <div className="flex justify-between">
           <ButtonGroup
             isExecuteActive={checkedRowList?.length > 0}
@@ -300,10 +302,10 @@ const Instance = () => {
             onMultipleRowClick={hanldeMultpleRowClick}
           />
         )}
-        {!hasResult && <span>검색 결과 없음</span>}
-      </FlexColContainer>
-      {!instanceDetail && <Typography tag="h6">로딩중</Typography>}
-      {instanceDetail && (
+        {!hasResult && <NonContent />}
+      </FlexCol>
+      {!instanceDetail && <Typography variant="h6">로딩중</Typography>}
+      {instanceDetail.instanceAge && (
         <DetailTable
           headerList={HEADER_LIST}
           data={instanceDetail}
@@ -322,7 +324,7 @@ const Instance = () => {
         isError={isError}
         error={instanceCreateError}
       />
-    </FlexColContainer>
+    </FlexCol>
   );
 };
 
