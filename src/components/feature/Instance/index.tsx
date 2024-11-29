@@ -46,7 +46,10 @@ const HEADERS_PER_COLUMN = 4;
 
 // TODO: 인스턴스 생성, 중지, 실행, 삭제할 때 refetch trigger
 const Instance = () => {
-  const [selectedSimulationId, setSelectedSimulationId] = React.useState("");
+  const [selectedSimulationId, setSelectedSimulationId] = React.useState<
+    undefined | string
+  >(undefined);
+
   // 체크박스 클릭한 시뮬레이션 리스트
   const [simulationOptionList, setSimulationOptionList] = React.useState<
     Option[]
@@ -76,7 +79,7 @@ const Instance = () => {
     isLoading: isInstanceLoading,
     refetch: instanceListRefetch,
   } = useGetInstanceList({
-    simulationId: Number(selectedSimulationId),
+    simulationId: Number(selectedSimulationId) || undefined,
   });
 
   // 전체 인스턴스 목록 상태 업데이트
