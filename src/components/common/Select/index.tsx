@@ -101,9 +101,14 @@ const SelectLabel = ({ children, className }: SelectLabelProps) => {
 type SelectTriggerProps = {
   children: React.ReactNode;
   className?: string;
+  disabled?: boolean;
 };
 
-const SelectTrigger = ({ children, className }: SelectTriggerProps) => {
+const SelectTrigger = ({
+  children,
+  disabled,
+  className,
+}: SelectTriggerProps) => {
   const context = React.useContext(SelectContext);
   if (!context)
     throw new Error(
@@ -116,6 +121,7 @@ const SelectTrigger = ({ children, className }: SelectTriggerProps) => {
       className={cn(selecTriggerVariants({ variant }), className)}
       onClick={handleToggleIsOpen}
       type="button"
+      disabled={disabled}
     >
       {children}
     </Button>
