@@ -19,3 +19,7 @@ export interface InstancePostRequest
 export interface InstanceActionPostRequest extends InstanceIdField {
   action: ActionType;
 }
+
+export interface GetInstanceListRequest {
+  simulationId?: number;
+}
