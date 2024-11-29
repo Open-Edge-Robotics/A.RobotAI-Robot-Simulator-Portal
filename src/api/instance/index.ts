@@ -3,6 +3,7 @@ import { BASE_API } from "@/constants/api/_apiPath";
 import {
   InstancePostRequest,
   InstanceActionPostRequest,
+  GetInstanceListRequest,
 } from "@/type/request/_instance";
 import {
   InstanceActionResponse,
@@ -12,7 +13,7 @@ import {
 } from "@/type/response/_instance";
 import { Result } from "@/type/response/_default";
 import { SimulationActionResponse } from "@/type/response/_simulation";
-import { InstanceIdField, SimulationIdField } from "@/type/_field";
+import { InstanceIdField } from "@/type/_field";
 import { SCHEMA_NAME } from "@/schema/_schema";
 
 const instanceURL = BASE_API.INSTANCE;
@@ -22,12 +23,12 @@ const actionURL = BASE_API.ACTION;
  * @description 인스턴스 목록 조회
  * @returns {InstanceListResponse}
  */
-const getInstanceList = async ({
-  simulationId,
-}: SimulationIdField): Promise<Result<InstanceListResponse>> => {
+const getInstanceList = async (
+  simulationId: GetInstanceListRequest,
+): Promise<Result<InstanceListResponse>> => {
   const response = await apiGet<Result<InstanceListResponse>>(instanceURL, {
     params: {
-      ...(simulationId != null && { simulationId }),
+      ...(simulationId !== undefined && simulationId),
     },
   });
   return response.data;
