@@ -29,7 +29,8 @@ import { usePostSimulation } from "@/hooks/simulation/usePostSimulation";
 import { useToastStore } from "@/stores/useToastStore";
 import { useGetSimulationList } from "@/hooks/simulation/useGetSimulationList";
 import { Result } from "@/type/response/_default";
-import FlexColContainer from "@/components/common/FlexCol";
+import FlexCol from "@/components/common/FlexCol";
+import NonContent from "@/components/common/NonContent";
 
 // datagrid 페이지네이션 설정
 const paginationModel = { page: 0, pageSize: 10 };
@@ -39,6 +40,7 @@ const Simulation = () => {
   const { data, isLoading, refetch } = useGetSimulationList();
   const [simulationList, setSimulationList] =
     React.useState<SimulationListResponse>([]);
+  const [hasResult, setHasResult] = React.useState(true);
 
   // 시뮬레이션 목록 포맷팅 및 상태 업데이트, 검색 결과 상태 업데이트
   React.useEffect(() => {
@@ -55,7 +57,7 @@ const Simulation = () => {
   const [filterType, setFilterType] = React.useState<string>(
     SIMULATION_OPTION_LIST[0].value,
   );
-  const [hasResult, setHasResult] = React.useState(true);
+
   const [isOpen, setIsOpen] = React.useState(false);
   const showToast = useToastStore((state) => state.showToast);
 
@@ -154,9 +156,9 @@ const Simulation = () => {
   }
 
   return (
-    <FlexColContainer className="gap-4">
+    <FlexCol className="gap-4">
       <PageTitle className="text-white">{MENU_ITEMS[3].label}</PageTitle>
-      <FlexColContainer className="gap-2">
+      <FlexCol className="gap-2">
         <div className="flex justify-between">
           <CreateButton onClick={handleClickCreate} />
           <FilterGroup
@@ -178,19 +180,8 @@ const Simulation = () => {
             onDelete={handleClickDelete}
           />
         )}
-        {!hasResult && (
-          <div className="flex h-80 w-full justify-center rounded-[4px] bg-white p-2">
-            <div className="self-center">
-              <Typography
-                variant="h6"
-                className="text-sm font-normal text-gray-900"
-              >
-                검색 결과가 없습니다.
-              </Typography>
-            </div>
-          </div>
-        )}
-      </FlexColContainer>
+        {!hasResult && <NonContent />}
+      </FlexCol>
       <SimulationCreateDialog
         isOpen={isOpen}
         handleCloseDialog={handleCloseDialog}
@@ -199,7 +190,7 @@ const Simulation = () => {
         handleSubmit={dialogHandleSubmit(onSimulationSubmit)}
         error={simulationCreateError}
       />
-    </FlexColContainer>
+    </FlexCol>
   );
 };
 
