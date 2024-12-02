@@ -39,6 +39,7 @@ import { BaseInstance } from "@/type/_field";
 import FlexCol from "@/components/common/FlexCol";
 import { Typography } from "@mui/material";
 import NonContent from "@/components/common/NonContent";
+import { useDeleteInstanceList } from "@/hooks/instance/useDeleteInstanceList";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -105,11 +106,11 @@ const Instance = () => {
   const [instanceDetail, setInstanceDetail] =
     React.useState<InstanceDetailResponse>({
       instanceNamespace: "",
-      instancePortNumber: "",
-      instanceAge: "",
-      templateType: "",
-      instanceVolume: "",
       instanceStatus: "",
+      instanceImage: "",
+      instanceAge: "",
+      instanceLabel: "",
+      templateType: "",
       topics: "",
       podName: "",
     });
@@ -200,10 +201,24 @@ const Instance = () => {
   const handleCreate = () => {
     setIsOpen(true);
   };
+  // 체크박스 선택 후 실행버튼 클릭 시
   const handleExecute = () => {};
-  const handleDelete = () => {};
 
-  // TODO: 시뮬레이션 선택에 따라 인스턴스 목록 변경됨
+  const { mutate: instanceListDeleteMutate } = useDeleteInstanceList();
+  // 체크박스 선택 후 삭제버튼 클릭 시
+  const handleDelete = () => {
+    instanceListDeleteMutate(checkedRowList, {
+      onSuccess(response) {
+        showToast(response[0].message, "success", 2000);
+        instanceListRefetch();
+      },
+      onError(error) {
+        showToast(error!.response!.data.message, "warning", 2000);
+      },
+    });
+  };
+
+  // 필터에서 시뮬레이션 선택 시
   const handleSelectSimulation = (value: string) => {
     setSelectedSimulationId(value);
   };
@@ -244,7 +259,8 @@ const Instance = () => {
     if (selectedIds.simulationId && selectedIds.templateId) {
       setIsError({ simulationId: false, templateId: false });
 
-      const { instanceName, instanceCount, instanceDescription } = data;
+      const { instanceName, instanceCount, instanceDescription, podNamespace } =
+        data;
       const simulationId = Number(selectedIds.simulationId);
       const templateId = Number(selectedIds.templateId);
 
@@ -252,6 +268,7 @@ const Instance = () => {
         {
           instanceName,
           instanceDescription,
+          podNamespace,
           simulationId,
           templateId,
           instanceCount,
