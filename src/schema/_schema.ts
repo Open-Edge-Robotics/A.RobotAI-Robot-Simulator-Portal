@@ -11,6 +11,7 @@ export const SCHEMA_NAME = {
     NAME: INSTANCE_OPTION_LIST[1].value,
     DESCRIPTION: INSTANCE_OPTION_LIST[2].value,
     COUNT: "instanceCount",
+    POD_NAMESPACE: "podNamespace",
   },
   SIMULATION: {
     ID: SIMULATION_OPTION_LIST[0].value,
@@ -49,6 +50,10 @@ export const INSTANCE_LENGTH_LIMIT = {
     MIN: 2,
     MAX: 100,
   },
+  POD_NAMESPACE: {
+    MIN: 2,
+    MAX: 30,
+  },
   COUNT: {
     MIN: 1,
     MAX: 30,
@@ -74,6 +79,10 @@ export const ERROR_MESSAGE = {
     DESCRIPTION: {
       MIN: `최소 ${INSTANCE_LENGTH_LIMIT.DESCRIPTION.MIN}자 이상이어야 합니다`,
       MAX: `최대 ${INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX}자 입니다`,
+    },
+    POD_NAMESPACE: {
+      MIN: `최소 ${INSTANCE_LENGTH_LIMIT.POD_NAMESPACE.MIN}자 이상이어야 합니다`,
+      MAX: `최대 ${INSTANCE_LENGTH_LIMIT.POD_NAMESPACE.MAX}자 입니다`,
     },
   },
 };
@@ -120,6 +129,14 @@ export const createInstanceSchema = z.object({
     })
     .max(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX, {
       message: ERROR_MESSAGE.INSTANCE.DESCRIPTION.MAX,
+    }),
+  [SCHEMA_NAME.INSTANCE.POD_NAMESPACE]: z
+    .string()
+    .min(INSTANCE_LENGTH_LIMIT.POD_NAMESPACE.MIN, {
+      message: ERROR_MESSAGE.INSTANCE.POD_NAMESPACE.MIN,
+    })
+    .max(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX, {
+      message: ERROR_MESSAGE.INSTANCE.POD_NAMESPACE.MAX,
     }),
   [SCHEMA_NAME.INSTANCE.COUNT]: z
     .string()
