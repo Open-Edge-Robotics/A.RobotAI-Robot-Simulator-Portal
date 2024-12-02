@@ -7,12 +7,12 @@ import {
 } from "@/type/request/_instance";
 import {
   InstanceActionResponse,
+  InstanceDeleteResponse,
   InstanceDetailResponse,
   InstanceListResponse,
   InstancePostResponse,
 } from "@/type/response/_instance";
 import { Result } from "@/type/response/_default";
-import { SimulationActionResponse } from "@/type/response/_simulation";
 import { InstanceIdField } from "@/type/_field";
 import { SCHEMA_NAME } from "@/schema/_schema";
 
@@ -21,6 +21,9 @@ const actionURL = BASE_API.ACTION;
 
 /**
  * @description 인스턴스 목록 조회
+ * 시뮬레이션 ID가 undefined면 전체 인스턴스 목록 조회
+ * 시뮬레이션 ID가 있으면 해당 시뮬레이션 인스턴스 목록 조회
+ * @param {GetInstanceListRequest} simulationId - 시뮬레이션 ID(옵셔널)
  * @returns {InstanceListResponse}
  */
 const getInstanceList = async (
@@ -36,14 +39,14 @@ const getInstanceList = async (
 
 /**
  * @description 인스턴스 상세 조회
- * @param {InstanceIdField} request : 인스턴스 ID
+ * @param {InstanceIdField} instanceID - 인스턴스 ID
  * @returns {InstanceDetailResponse}
  */
 const getInstanceDetail = async (
-  request: InstanceIdField,
+  instanceID: InstanceIdField,
 ): Promise<Result<InstanceDetailResponse>> => {
   const response = await apiGet<Result<InstanceDetailResponse>>(
-    `${instanceURL}/${request[SCHEMA_NAME.INSTANCE.ID as keyof InstanceIdField]}`,
+    `${instanceURL}/${instanceID[SCHEMA_NAME.INSTANCE.ID as keyof InstanceIdField]}`,
   );
   return response.data;
 };
@@ -65,7 +68,7 @@ const postInstance = async (
 
 /**
  * @description 인스턴스 실행/중지
- * @param {InstanceActionPostRequest} request - 실행 or 중지
+ * @param {InstanceActionPostRequest} request - 인스턴스 ID, 액션(실행 or 중지)
  * @returns {InstanceActionResponse}
  */
 const postInstanceAction = async (
@@ -79,17 +82,32 @@ const postInstanceAction = async (
 };
 
 /**
- * @description 인스턴스 삭제
+ * @description 인스턴스 단일 삭제
  * @param {InstanceIdField} request - 삭제할 인스턴스 ID
- 템플릿 ID , 인스턴스 개수 {SimulationActionResponse}
+ * @returns {InstanceDeleteResponse}
  */
 const deleteInstance = async (
   request: InstanceIdField,
-): Promise<Result<SimulationActionResponse>> => {
-  const response = await apiDelete<Result<SimulationActionResponse>>(
+): Promise<Result<InstanceDeleteResponse>> => {
+  const response = await apiDelete<Result<InstanceDeleteResponse>>(
     `${instanceURL}/${request[SCHEMA_NAME.INSTANCE.ID as keyof InstanceIdField]}`,
   );
   return response.data;
+};
+
+/**
+ * @description 인스턴스 목록 삭제
+ * @param {string[]} requests - 인스턴스 목록에서 체크된 인스턴스 ID 배열
+ * @return {Promise<Result<null>[]>} - 인스턴스 단일 삭제 response 배열
+ */
+const deleteInstanceList = async (
+  requests: string[],
+): Promise<Result<null>[]> => {
+  const deletePromises = requests.map((request) =>
+    deleteInstance({ instanceId: Number(request) }),
+  );
+  const response = await Promise.all(deletePromises);
+  return response;
 };
 
 export const instance = {
@@ -98,4 +116,5 @@ export const instance = {
   postInstance,
   postInstanceAction,
   deleteInstance,
+  deleteInstanceList,
 };
