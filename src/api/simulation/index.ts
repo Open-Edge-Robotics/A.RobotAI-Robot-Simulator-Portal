@@ -3,7 +3,7 @@ import { BASE_API } from "@/constants/api/_apiPath";
 import { PostSimulationRequest } from "@/type/request/_simulation";
 import { Result } from "@/type/response/_default";
 import {
-  SimulationActionResponse,
+  SimulaionDeleteResponse,
   SimulationListResponse,
   SimulationPostResponse,
 } from "@/type/response/_simulation";
@@ -41,14 +41,13 @@ const postSimulation = async ({
 /**
  * @description 시뮬레이션 삭제
  * @param {SimulationIdField} - 시뮬레이션 ID
- * @returns {SimulationActionResponse}
+ * @returns {SimulaionDeleteResponse}
  */
 const deleteSimulation = async ({
   simulationId,
-}: SimulationIdField): Promise<Result<SimulationActionResponse>> => {
-  const response = await apiDelete<Result<SimulationActionResponse>>(
-    simulationURL,
-    { params: simulationId },
+}: SimulationIdField): Promise<Result<SimulaionDeleteResponse>> => {
+  const response = await apiDelete<Result<SimulaionDeleteResponse>>(
+    `${simulationURL}/${simulationId}`,
   );
   return response.data;
 };
