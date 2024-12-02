@@ -16,7 +16,7 @@ import {
   filterShema,
   SCHEMA_NAME,
 } from "@/schema/_schema";
-import DataGridTable from "@/components/shared/instance/InstanceListTable";
+import InstanceListTable from "@/components/shared/instance/InstanceListTable";
 import DetailTable from "@/components/common/DetailTable";
 import { HEADER_LIST } from "@/constants/_tableHeader";
 import SimulationFilter from "@/components/shared/simulation/SimulationFilter";
@@ -204,12 +204,16 @@ const Instance = () => {
   // 체크박스 선택 후 실행버튼 클릭 시
   const handleExecute = () => {};
 
-  const { mutate: instanceListDeleteMutate } = useDeleteInstanceList();
+  const {
+    mutate: instanceListDeleteMutate,
+    isPending: isInstanceDeletePending,
+  } = useDeleteInstanceList();
   // 체크박스 선택 후 삭제버튼 클릭 시
   const handleDelete = () => {
     instanceListDeleteMutate(checkedRowList, {
       onSuccess(response) {
         showToast(response[0].message, "success", 2000);
+        setSelectedSimulationId(undefined);
         instanceListRefetch();
       },
       onError(error) {
@@ -300,7 +304,9 @@ const Instance = () => {
         <div className="flex justify-between">
           <ButtonGroup
             isExecuteActive={checkedRowList?.length > 0}
-            isDeleteActive={checkedRowList?.length > 0}
+            isDeleteActive={
+              checkedRowList?.length > 0 && !isInstanceDeletePending
+            }
             onCreate={handleCreate}
             onExecute={handleExecute}
             onDelete={handleDelete}
@@ -314,7 +320,7 @@ const Instance = () => {
           />
         </div>
         {hasResult && (
-          <DataGridTable
+          <InstanceListTable
             rows={instanceList}
             columns={INSTANCE_LIST_COLUMN_LIST}
             paginationModel={paginationModel}
