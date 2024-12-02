@@ -35,6 +35,7 @@ export interface BaseInstance
     InstanceDescriptionField,
     InstanceCreatedAtField,
     PodNameField,
+    podNamespaceField,
     PodStatusField {}
 
 export interface BasePostInstance
