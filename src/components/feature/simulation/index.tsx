@@ -31,13 +31,19 @@ import { useGetSimulationList } from "@/hooks/simulation/useGetSimulationList";
 import { Result } from "@/type/response/_default";
 import FlexCol from "@/components/common/FlexCol";
 import NonContent from "@/components/common/NonContent";
+import { useDeleteSimulation } from "@/hooks/simulation/useDeleteSimulation";
+import { AxiosError } from "axios";
 
 // datagrid 페이지네이션 설정
 const paginationModel = { page: 0, pageSize: 10 };
 
 const Simulation = () => {
   // API: 시뮬레이션 목록 조회
-  const { data, isLoading, refetch } = useGetSimulationList();
+  const {
+    data,
+    isLoading,
+    refetch: simulationListRefetch,
+  } = useGetSimulationList();
   const [simulationList, setSimulationList] =
     React.useState<SimulationListResponse>([]);
   const [hasResult, setHasResult] = React.useState(true);
@@ -71,14 +77,33 @@ const Simulation = () => {
   // 시뮬레이션 생성 버튼 클릭
   const handleClickCreate = () => setIsOpen(true);
   // TODO: API 연결
-  const handleExecute = (id: string) => {
+  const handleExecute = (id: number) => {
     console.log("실행버튼 클릭", id);
   };
-  const handleClickStop = (id: string) => {
+  const handleClickStop = (id: number) => {
     console.log("중지 버튼 클릭", id);
   };
-  const handleClickDelete = (id: string) => {
-    console.log("삭제 버튼 클릭", id);
+
+  // API: 시뮬레이션 삭제
+  const { mutate: simulationDeleteMutate } = useDeleteSimulation();
+
+  // 시뮬레이션 삭제 버튼 클릭
+  const handleClickDelete = (id: number) => {
+    console.log("삭제 버튼 클릭", id, typeof id);
+    simulationDeleteMutate(
+      {
+        simulationId: id,
+      },
+      {
+        onSuccess: ({ message }: Result<null>) => {
+          showToast(message, "success", 2000);
+          simulationListRefetch();
+        },
+        onError: (error: AxiosError<Result<null>>) => {
+          showToast(error!.response!.data.message, "warning", 2000);
+        },
+      },
+    );
   };
 
   // 필터 폼 관련 hook
@@ -140,7 +165,7 @@ const Simulation = () => {
         onSuccess: ({ message }: Result<null>) => {
           showToast(message, "success", 2000);
           setIsOpen(false);
-          refetch();
+          simulationListRefetch();
         },
       },
     );
