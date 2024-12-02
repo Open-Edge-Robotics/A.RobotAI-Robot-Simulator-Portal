@@ -61,13 +61,31 @@ const INSTANCE_LIST_COLUMN_LIST: GridColDef[] = [
   {
     field: INSTANCE_OPTION_LIST[2].value,
     headerName: INSTANCE_OPTION_LIST[2].label,
-    flex: 3,
+    flex: 2,
 
     ...COLUMN_STYLE,
   },
   {
     field: INSTANCE_OPTION_LIST[3].value,
     headerName: INSTANCE_OPTION_LIST[3].label,
+    flex: 1,
+    ...COLUMN_STYLE,
+  },
+  {
+    field: INSTANCE_OPTION_LIST[4].value,
+    headerName: INSTANCE_OPTION_LIST[4].label,
+    flex: 2,
+    ...COLUMN_STYLE,
+  },
+  {
+    field: INSTANCE_OPTION_LIST[5].value,
+    headerName: INSTANCE_OPTION_LIST[5].label,
+    flex: 1,
+    ...COLUMN_STYLE,
+  },
+  {
+    field: INSTANCE_OPTION_LIST[6].value,
+    headerName: INSTANCE_OPTION_LIST[6].label,
     flex: 1,
     ...COLUMN_STYLE,
   },
