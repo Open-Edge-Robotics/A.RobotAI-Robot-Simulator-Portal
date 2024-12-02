@@ -21,6 +21,9 @@ export interface InstanceCreatedAtField {
 export interface PodNameField {
   podName: string;
 }
+export interface podNamespaceField {
+  podNamespace: string;
+}
 
 export interface PodStatusField {
   podStatus: string;

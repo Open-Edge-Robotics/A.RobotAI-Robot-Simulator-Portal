@@ -9,11 +9,11 @@ export type InstanceListResponse = BaseInstance[];
 
 export interface InstanceDetailResponse extends PodNameField {
   instanceNamespace: string;
-  instancePortNumber: string;
-  instanceAge: string;
-  templateType: string;
-  instanceVolume: string;
   instanceStatus: string;
+  instanceImage: string;
+  instanceAge: string;
+  instanceLabel: string;
+  templateType: string;
   topics: string;
 }
 
@@ -22,3 +22,5 @@ export type InstancePostResponse = BasePostInstance[];
 export interface InstanceActionResponse extends InstanceIdField {
   result: string;
 }
+
+export interface InstanceDeleteResponse extends InstanceIdField {}
