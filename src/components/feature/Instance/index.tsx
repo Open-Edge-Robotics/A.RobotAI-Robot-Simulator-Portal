@@ -40,6 +40,7 @@ import FlexCol from "@/components/common/FlexCol";
 import { Typography } from "@mui/material";
 import NonContent from "@/components/common/NonContent";
 import { useDeleteInstanceList } from "@/hooks/instance/useDeleteInstanceList";
+import { API_MESSAGE } from "@/constants/api/_errorMessage";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -85,7 +86,13 @@ const Instance = () => {
 
   // 전체 인스턴스 목록 상태 업데이트
   React.useEffect(() => {
-    if (!isInstanceLoading && instanceListData) {
+    if (!instanceListData?.data?.[0]?.instanceCreatedAt) {
+      setHasResult(false);
+      return;
+    }
+
+    if (!isInstanceLoading && instanceListData?.data) {
+      setHasResult(true);
       const formattedData = formatCreatedAt<BaseInstance>(
         instanceListData.data,
         INSTANCE_OPTION_LIST[3].value as keyof BaseInstance,
@@ -211,13 +218,13 @@ const Instance = () => {
   // 체크박스 선택 후 삭제버튼 클릭 시
   const handleDelete = () => {
     instanceListDeleteMutate(checkedRowList, {
-      onSuccess(response) {
-        showToast(response[0].message, "success", 2000);
+      onSuccess() {
+        showToast(API_MESSAGE.INSTANCE.DELETE[201], "success", 2000);
         setSelectedSimulationId(undefined);
         instanceListRefetch();
       },
-      onError(error) {
-        showToast(error!.response!.data.message, "warning", 2000);
+      onError() {
+        showToast(API_MESSAGE.INSTANCE.DELETE[500], "warning", 2000);
       },
     });
   };
@@ -278,12 +285,13 @@ const Instance = () => {
           instanceCount,
         },
         {
-          onSuccess: ({ message }) => {
-            showToast(message, "success", 2000);
+          onSuccess: () => {
+            showToast(API_MESSAGE.INSTANCE.CREATE[201], "success", 2000);
             setIsOpen(false);
             instanceListRefetch();
             setSelectedIds({ simulationId: "", templateId: "" });
             instanceReset();
+            setSelectedSimulationId(undefined);
           },
           // * 에러 처리는 인스턴스 생성 팝업에서 진행
         },
