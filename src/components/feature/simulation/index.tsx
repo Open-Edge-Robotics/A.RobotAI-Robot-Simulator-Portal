@@ -33,6 +33,7 @@ import FlexCol from "@/components/common/FlexCol";
 import NonContent from "@/components/common/NonContent";
 import { useDeleteSimulation } from "@/hooks/simulation/useDeleteSimulation";
 import { AxiosError } from "axios";
+import { API_MESSAGE } from "@/constants/api/_errorMessage";
 
 // datagrid 페이지네이션 설정
 const paginationModel = { page: 0, pageSize: 10 };
@@ -89,18 +90,21 @@ const Simulation = () => {
 
   // 시뮬레이션 삭제 버튼 클릭
   const handleClickDelete = (id: number) => {
-    console.log("삭제 버튼 클릭", id, typeof id);
     simulationDeleteMutate(
       {
         simulationId: id,
       },
       {
-        onSuccess: ({ message }: Result<null>) => {
-          showToast(message, "success", 2000);
+        onSuccess: () => {
+          showToast(API_MESSAGE.SIMULATION.DELETE[201], "success", 2000);
           simulationListRefetch();
         },
         onError: (error: AxiosError<Result<null>>) => {
-          showToast(error!.response!.data.message, "warning", 2000);
+          if (error.response?.status === 403) {
+            showToast(API_MESSAGE.SIMULATION.DELETE[403], "warning", 2000);
+          } else if (error.response?.status === 500) {
+            showToast(API_MESSAGE.SIMULATION.DELETE[500], "warning", 2000);
+          }
         },
       },
     );
@@ -162,8 +166,8 @@ const Simulation = () => {
         simulationDescription,
       },
       {
-        onSuccess: ({ message }: Result<null>) => {
-          showToast(message, "success", 2000);
+        onSuccess: () => {
+          showToast(API_MESSAGE.SIMULATION.CREATE[201], "success", 2000);
           setIsOpen(false);
           simulationListRefetch();
         },
