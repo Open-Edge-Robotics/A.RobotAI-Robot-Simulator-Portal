@@ -41,6 +41,7 @@ import { Typography } from "@mui/material";
 import NonContent from "@/components/common/NonContent";
 import { useDeleteInstanceList } from "@/hooks/instance/useDeleteInstanceList";
 import { API_MESSAGE } from "@/constants/api/_errorMessage";
+import { useStartInstanceList } from "@/hooks/instance/useStartInstanceList";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -208,8 +209,21 @@ const Instance = () => {
   const handleCreate = () => {
     setIsOpen(true);
   };
+
+  // API : 인스턴스 실행
+  const { mutate: intanceListStartMutate } = useStartInstanceList();
+
   // 체크박스 선택 후 실행버튼 클릭 시
-  const handleExecute = () => {};
+  const handleExecute = () => {
+    intanceListStartMutate(checkedRowList, {
+      onSuccess() {
+        showToast(API_MESSAGE.INSTANCE.START[200], "success", 2000);
+      },
+      onError() {
+        showToast(API_MESSAGE.INSTANCE.START[500], "warning", 2000);
+      },
+    });
+  };
 
   const {
     mutate: instanceListDeleteMutate,
