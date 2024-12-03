@@ -16,7 +16,7 @@ import {
   filterShema,
   SCHEMA_NAME,
 } from "@/schema/_schema";
-import DataGridTable from "@/components/shared/instance/InstanceListTable";
+import InstanceListTable from "@/components/shared/instance/InstanceListTable";
 import DetailTable from "@/components/common/DetailTable";
 import { HEADER_LIST } from "@/constants/_tableHeader";
 import SimulationFilter from "@/components/shared/simulation/SimulationFilter";
@@ -39,6 +39,7 @@ import { BaseInstance } from "@/type/_field";
 import FlexCol from "@/components/common/FlexCol";
 import { Typography } from "@mui/material";
 import NonContent from "@/components/common/NonContent";
+import { useDeleteInstanceList } from "@/hooks/instance/useDeleteInstanceList";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -46,7 +47,10 @@ const HEADERS_PER_COLUMN = 4;
 
 // TODO: 인스턴스 생성, 중지, 실행, 삭제할 때 refetch trigger
 const Instance = () => {
-  const [selectedSimulationId, setSelectedSimulationId] = React.useState("");
+  const [selectedSimulationId, setSelectedSimulationId] = React.useState<
+    undefined | string
+  >(undefined);
+
   // 체크박스 클릭한 시뮬레이션 리스트
   const [simulationOptionList, setSimulationOptionList] = React.useState<
     Option[]
@@ -76,7 +80,7 @@ const Instance = () => {
     isLoading: isInstanceLoading,
     refetch: instanceListRefetch,
   } = useGetInstanceList({
-    simulationId: Number(selectedSimulationId),
+    simulationId: Number(selectedSimulationId) || undefined,
   });
 
   // 전체 인스턴스 목록 상태 업데이트
@@ -102,11 +106,11 @@ const Instance = () => {
   const [instanceDetail, setInstanceDetail] =
     React.useState<InstanceDetailResponse>({
       instanceNamespace: "",
-      instancePortNumber: "",
-      instanceAge: "",
-      templateType: "",
-      instanceVolume: "",
       instanceStatus: "",
+      instanceImage: "",
+      instanceAge: "",
+      instanceLabel: "",
+      templateType: "",
       topics: "",
       podName: "",
     });
@@ -197,10 +201,28 @@ const Instance = () => {
   const handleCreate = () => {
     setIsOpen(true);
   };
+  // 체크박스 선택 후 실행버튼 클릭 시
   const handleExecute = () => {};
-  const handleDelete = () => {};
 
-  // TODO: 시뮬레이션 선택에 따라 인스턴스 목록 변경됨
+  const {
+    mutate: instanceListDeleteMutate,
+    isPending: isInstanceDeletePending,
+  } = useDeleteInstanceList();
+  // 체크박스 선택 후 삭제버튼 클릭 시
+  const handleDelete = () => {
+    instanceListDeleteMutate(checkedRowList, {
+      onSuccess(response) {
+        showToast(response[0].message, "success", 2000);
+        setSelectedSimulationId(undefined);
+        instanceListRefetch();
+      },
+      onError(error) {
+        showToast(error!.response!.data.message, "warning", 2000);
+      },
+    });
+  };
+
+  // 필터에서 시뮬레이션 선택 시
   const handleSelectSimulation = (value: string) => {
     setSelectedSimulationId(value);
   };
@@ -241,7 +263,8 @@ const Instance = () => {
     if (selectedIds.simulationId && selectedIds.templateId) {
       setIsError({ simulationId: false, templateId: false });
 
-      const { instanceName, instanceCount, instanceDescription } = data;
+      const { instanceName, instanceCount, instanceDescription, podNamespace } =
+        data;
       const simulationId = Number(selectedIds.simulationId);
       const templateId = Number(selectedIds.templateId);
 
@@ -249,6 +272,7 @@ const Instance = () => {
         {
           instanceName,
           instanceDescription,
+          podNamespace,
           simulationId,
           templateId,
           instanceCount,
@@ -280,7 +304,9 @@ const Instance = () => {
         <div className="flex justify-between">
           <ButtonGroup
             isExecuteActive={checkedRowList?.length > 0}
-            isDeleteActive={checkedRowList?.length > 0}
+            isDeleteActive={
+              checkedRowList?.length > 0 && !isInstanceDeletePending
+            }
             onCreate={handleCreate}
             onExecute={handleExecute}
             onDelete={handleDelete}
@@ -294,7 +320,7 @@ const Instance = () => {
           />
         </div>
         {hasResult && (
-          <DataGridTable
+          <InstanceListTable
             rows={instanceList}
             columns={INSTANCE_LIST_COLUMN_LIST}
             paginationModel={paginationModel}

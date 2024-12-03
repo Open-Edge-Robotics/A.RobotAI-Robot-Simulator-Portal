@@ -1,5 +1,5 @@
 import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import {
   Button,
   ButtonProps,
@@ -43,9 +43,9 @@ type SimulationListTableProps = {
   paginationModel: { page: number; pageSize: number };
   isLoading: boolean;
   onRowClick?: (params: any) => void;
-  onExecute?: (id: string) => void;
-  onStop?: (id: string) => void;
-  onDelete?: (id: string) => void;
+  onExecute?: (id: number) => void;
+  onStop?: (id: number) => void;
+  onDelete?: (id: number) => void;
 };
 
 const SimulationListTable = ({
@@ -59,9 +59,9 @@ const SimulationListTable = ({
   onDelete,
 }: SimulationListTableProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [selectedRowId, setSelectedRowId] = React.useState<string | null>(null);
+  const [selectedRowId, setSelectedRowId] = React.useState<number | null>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: string) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: number) => {
     setAnchorEl(event.currentTarget);
     setSelectedRowId(rowId);
   };
@@ -89,16 +89,17 @@ const SimulationListTable = ({
     handleClose();
   };
 
-  const columnsWithActions = [
+  const columnsWithActions: GridColDef[] = [
     ...columns,
     {
       ...COLUMN_KEBAB,
-      renderCell: (params: any) => (
+      renderCell: (params: GridCellParams) => (
         <KebabButton
-          id={params.id}
-          onClick={(e) => handleClick(e, params.id)}
+          id={params.row.simulationId}
+          onClick={(e) => handleClick(e, params.row.simulationId)}
         />
       ),
+      type: "actions",
       ...COLUMN_STYLE,
     },
   ];

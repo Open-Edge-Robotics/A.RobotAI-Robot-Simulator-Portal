@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { simulation } from "@/api/simulation";
 import { Result } from "@/type/response/_default";
-import { SimulationActionResponse } from "@/type/response/_simulation";
+import { SimulaionDeleteResponse } from "@/type/response/_simulation";
 import { SimulationIdField } from "@/type/_field";
 
 /**
@@ -10,7 +10,7 @@ import { SimulationIdField } from "@/type/_field";
  */
 export const useDeleteSimulation = () => {
   return useMutation<
-    Result<SimulationActionResponse>,
+    Result<SimulaionDeleteResponse>,
     AxiosError<Result<null>>,
     SimulationIdField
   >({

@@ -113,6 +113,16 @@ const InstanceCreateDialog = ({
             register={register}
             errors={errors}
           />
+          <InputField
+            name={
+              SCHEMA_NAME.INSTANCE.POD_NAMESPACE as keyof CreateInstanceFormType
+            }
+            label={LABEL.POD_NAMESPACE}
+            placeholder={PLACE_HOLDER.INSTANCE_CREATE.POD_NAMESPACE}
+            maxLength={INSTANCE_LENGTH_LIMIT.POD_NAMESPACE.MAX}
+            register={register}
+            errors={errors}
+          />
           <SelectField
             optionList={simulationOptionList}
             label={LABEL.SIMULATION}

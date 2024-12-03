@@ -23,3 +23,5 @@ export interface SimulationPostResponse
 export interface SimulationActionResponse extends SimulationIdField {
   result: string;
 }
+
+export interface SimulaionDeleteResponse extends SimulationIdField {}

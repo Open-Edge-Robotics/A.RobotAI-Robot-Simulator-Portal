@@ -9,7 +9,7 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const RETRY = 1;
-const STALE_TIME = 1000 * 60;
+const STALE_TIME = 1000 * 30;
 
 const queryClientOption: QueryClientConfig = {
   defaultOptions: {

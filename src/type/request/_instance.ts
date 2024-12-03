@@ -3,6 +3,7 @@ import {
   InstanceDescriptionField,
   InstanceIdField,
   InstanceNameField,
+  podNamespaceField,
   SimulationIdField,
   TemplateIdField,
 } from "@/type/_field";
@@ -13,9 +14,14 @@ export interface InstancePostRequest
   extends InstanceNameField,
     InstanceDescriptionField,
     SimulationIdField,
+    TemplateIdField,
     InstanceCountField,
-    TemplateIdField {}
+    podNamespaceField {}
 
 export interface InstanceActionPostRequest extends InstanceIdField {
   action: ActionType;
+}
+
+export interface GetInstanceListRequest {
+  simulationId?: number;
 }
