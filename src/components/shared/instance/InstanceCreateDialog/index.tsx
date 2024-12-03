@@ -12,7 +12,7 @@ import { transformResponseToOptionList } from "@/utils/option";
 import { useGetTemplateList } from "@/hooks/template/useGetTemplateList";
 import { AxiosError } from "axios";
 import { Result } from "@/type/response/_default";
-import { API_ERROR_MESSAGE } from "@/constants/api/_errorMessage";
+import { API_MESSAGE } from "@/constants/api/_errorMessage";
 import FormTitle from "@/components/common/FormTitle";
 import Form from "@/components/common/Form";
 import FormButtonContainer from "@/components/common/FormButtonContainer";
@@ -80,19 +80,13 @@ const InstanceCreateDialog = ({
       <Form onSubmit={handleSubmit}>
         <FormTitle>인스턴스 생성</FormTitle>
         {error?.response?.status === 404 && (
-          <Alert severity="error">
-            {API_ERROR_MESSAGE.INSTANCE.CREATE[404]}
-          </Alert>
+          <Alert severity="error">{API_MESSAGE.INSTANCE.CREATE[404]}</Alert>
         )}
         {error?.response?.status === 500 && (
-          <Alert severity="error">
-            {API_ERROR_MESSAGE.INSTANCE.CREATE[500]}
-          </Alert>
+          <Alert severity="error">{API_MESSAGE.INSTANCE.CREATE[500]}</Alert>
         )}
         {!error && (
-          <Alert severity="info">
-            {API_ERROR_MESSAGE.INSTANCE.CREATE.DEFAULT}
-          </Alert>
+          <Alert severity="info">{API_MESSAGE.INSTANCE.CREATE.DEFAULT}</Alert>
         )}
         <FlexCol className="w-full gap-3">
           <InputField

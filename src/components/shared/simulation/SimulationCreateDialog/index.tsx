@@ -1,12 +1,12 @@
 import React from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { Alert, Button, Dialog, Typography } from "@mui/material";
+import { Alert, Dialog } from "@mui/material";
 import { SCHEMA_NAME, SIMULATION_LENGTH_LIMIT } from "@/schema/_schema";
 import { CreateSimulationFormType } from "@/type/_simulation";
 import InputField from "@/components/common/InputField";
 import { AxiosError } from "axios";
 import { Result } from "@/type/response/_default";
-import { API_ERROR_MESSAGE } from "@/constants/api/_errorMessage";
+import { API_MESSAGE } from "@/constants/api/_errorMessage";
 import Form from "@/components/common/Form";
 import FormTitle from "@/components/common/FormTitle";
 import FormButtonContainer from "@/components/common/FormButtonContainer";
@@ -44,19 +44,13 @@ const SimulationCreateDialog = ({
       <Form onSubmit={handleSubmit}>
         <FormTitle>시뮬레이션 생성</FormTitle>
         {error?.response?.status === 409 && (
-          <Alert severity="error">
-            {API_ERROR_MESSAGE.SIMULATION.CREATE[409]}
-          </Alert>
+          <Alert severity="error">{API_MESSAGE.SIMULATION.CREATE[409]}</Alert>
         )}
         {error?.response?.status === 500 && (
-          <Alert severity="error">
-            {API_ERROR_MESSAGE.SIMULATION.CREATE[500]}
-          </Alert>
+          <Alert severity="error">{API_MESSAGE.SIMULATION.CREATE[500]}</Alert>
         )}
         {!error && (
-          <Alert severity="info">
-            {API_ERROR_MESSAGE.SIMULATION.CREATE.DEFAULT}
-          </Alert>
+          <Alert severity="info">{API_MESSAGE.SIMULATION.CREATE.DEFAULT}</Alert>
         )}
         <FlexCol className="w-full gap-3">
           <InputField
