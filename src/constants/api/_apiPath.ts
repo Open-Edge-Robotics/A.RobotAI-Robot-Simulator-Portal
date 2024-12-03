@@ -1,9 +1,12 @@
 /**
  * @description base API endpoints
  */
+
+const API = "/api";
+
 export const BASE_API = {
-  TEMPLATE: "/template",
-  SIMULATION: "/simulation",
-  INSTANCE: "/instance",
-  ACTION: "/action",
+  TEMPLATE: `${API}/template`,
+  SIMULATION: `${API}/simulation`,
+  INSTANCE: `${API}/instance`,
+  ACTION: `${API}/action`,
 };
