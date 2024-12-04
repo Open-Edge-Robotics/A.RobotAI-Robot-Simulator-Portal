@@ -7,15 +7,15 @@ import { z } from "zod";
 export const SCHEMA_NAME = {
   SEARCH_KEYWORD: "searchKeyword",
   INSTANCE: {
-    ID: INSTANCE_OPTION_LIST[0].value,
-    NAME: INSTANCE_OPTION_LIST[1].value,
+    NAME: INSTANCE_OPTION_LIST[0].value,
+    ID: INSTANCE_OPTION_LIST[1].value,
     DESCRIPTION: INSTANCE_OPTION_LIST[2].value,
     COUNT: "instanceCount",
     POD_NAMESPACE: "podNamespace",
   },
   SIMULATION: {
-    ID: SIMULATION_OPTION_LIST[0].value,
-    NAME: SIMULATION_OPTION_LIST[1].value,
+    NAME: SIMULATION_OPTION_LIST[0].value,
+    ID: SIMULATION_OPTION_LIST[1].value,
     DESCRIPTION: SIMULATION_OPTION_LIST[2].value,
   },
   TEMPLATE: {
