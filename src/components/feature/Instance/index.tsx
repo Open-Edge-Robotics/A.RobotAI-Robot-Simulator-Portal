@@ -88,6 +88,7 @@ const Instance = () => {
   // 전체 인스턴스 목록 상태 업데이트
   React.useEffect(() => {
     if (!instanceListData?.data?.[0]?.instanceCreatedAt) {
+      setInstanceList([]);
       setHasResult(false);
       return;
     }
@@ -103,11 +104,27 @@ const Instance = () => {
   }, [isInstanceLoading, instanceListData]);
 
   const [selectedInstanceId, setSelectedInstanceID] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    console.log(selectedInstanceId, "<==");
+  }, [selectedInstanceId]);
+
   const [hasResult, setHasResult] = React.useState(true);
   // instanceList가 업데이트되면 selectedInstanceId를 첫 번째 인스턴스로 설정
   React.useEffect(() => {
     if (instanceList.length > 0) {
       setSelectedInstanceID(instanceList[0]?.instanceId);
+    } else {
+      setInstanceDetail({
+        instanceNamespace: "",
+        instanceStatus: "",
+        instanceImage: "",
+        instanceAge: "",
+        instanceLabel: "",
+        templateType: "",
+        topics: "",
+        podName: "",
+      });
     }
   }, [instanceList]);
 
@@ -245,7 +262,11 @@ const Instance = () => {
 
   // 필터에서 시뮬레이션 선택 시
   const handleSelectSimulation = (value: string) => {
-    setSelectedSimulationId(value);
+    if (value === "undefined") {
+      setSelectedSimulationId(undefined);
+    } else {
+      setSelectedSimulationId(value);
+    }
   };
 
   // 인스턴스 생성 팝업 닫기 클릭 시
@@ -317,10 +338,15 @@ const Instance = () => {
     <FlexCol className="gap-4">
       <FlexCol className="gap-1">
         <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
-        <SimulationFilter
-          optionList={simulationOptionList}
-          onSelect={handleSelectSimulation}
-        />
+        <div className="flex gap-2">
+          <SimulationFilter
+            optionList={[
+              { value: "undefined", label: "시뮬레이션 전체" },
+              ...simulationOptionList,
+            ]}
+            onSelect={handleSelectSimulation}
+          />
+        </div>
       </FlexCol>
       <FlexCol className="gap-2">
         <div className="flex justify-between">
