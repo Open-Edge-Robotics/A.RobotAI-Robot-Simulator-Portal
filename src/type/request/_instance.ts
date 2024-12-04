@@ -15,8 +15,7 @@ export interface InstancePostRequest
     InstanceDescriptionField,
     SimulationIdField,
     TemplateIdField,
-    InstanceCountField,
-    podNamespaceField {}
+    InstanceCountField {}
 
 export interface InstanceActionPostRequest extends InstanceIdField {
   action: ActionType;
@@ -24,4 +23,9 @@ export interface InstanceActionPostRequest extends InstanceIdField {
 
 export interface GetInstanceListRequest {
   simulationId?: number;
+}
+
+export interface InstanceListStartRequest {
+  instanceIds: string[];
+  action: string;
 }
