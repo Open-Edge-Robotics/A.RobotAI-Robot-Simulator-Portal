@@ -61,12 +61,6 @@ const NavItem = ({
 const Navbar = () => {
   const pathname = usePathname();
 
-  const defaultTab = MENU_ITEMS[0].href;
-  const selectedTab =
-    MENU_ITEMS.find(
-      (menu) => pathname.startsWith(menu.href) || pathname === menu.href,
-    )?.href ?? defaultTab;
-
   return (
     <nav className="stickytop-0 flex h-screen w-60 min-w-60 flex-col bg-black-900 text-gray-200">
       <Typography

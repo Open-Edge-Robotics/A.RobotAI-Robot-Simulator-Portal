@@ -108,7 +108,7 @@ const SimulationListTable = ({
     <>
       <DataGrid
         className="w-full rounded-[4px] bg-white px-2 text-center"
-        getRowId={(row) => row[SIMULATION_OPTION_LIST[0].value]}
+        getRowId={(row) => row[SIMULATION_OPTION_LIST[1].value]}
         rows={rows}
         columns={columnsWithActions}
         initialState={{ pagination: { paginationModel } }}
