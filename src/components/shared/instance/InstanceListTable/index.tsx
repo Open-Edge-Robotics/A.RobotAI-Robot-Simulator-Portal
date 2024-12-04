@@ -50,7 +50,6 @@ const InstanceListTable = ({
       }}
       onRowClick={onRowClick}
       hideFooterSelectedRowCount
-      disableRowSelectionOnClick
       disableColumnResize
       disableColumnSorting
       disableColumnSelector
