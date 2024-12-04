@@ -4,7 +4,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 
-const AXIOS_TIMEOUT = 10 * 1000;
+// 타임아웃 2분
+const AXIOS_TIMEOUT = 1000 * 10 * 6 * 2;
 
 const instance = axios.create({
   headers: {

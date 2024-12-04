@@ -26,7 +26,7 @@ const InstanceListTable = ({
   return (
     <DataGrid
       className="w-full rounded-[4px] bg-white px-2 text-center"
-      getRowId={(row) => row[INSTANCE_OPTION_LIST[0].value]}
+      getRowId={(row) => row[INSTANCE_OPTION_LIST[1].value]}
       rows={rows}
       columns={columns}
       initialState={{ pagination: { paginationModel } }}
