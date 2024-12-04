@@ -1,5 +1,4 @@
 import { Button, ButtonBaseProps } from "@mui/material";
-import React from "react";
 
 const ExecuteButton = ({ onClick, disabled }: ButtonBaseProps) => {
   return (
@@ -8,7 +7,7 @@ const ExecuteButton = ({ onClick, disabled }: ButtonBaseProps) => {
       color="success"
       onClick={onClick}
       disabled={disabled}
-      className="bg-green-400 hover:bg-green-500"
+      className="bg-green-400 hover:bg-green-500 disabled:bg-gray-400 disabled:text-white"
     >
       실행
     </Button>
