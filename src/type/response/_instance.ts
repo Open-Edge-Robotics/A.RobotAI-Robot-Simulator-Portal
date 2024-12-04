@@ -24,3 +24,7 @@ export interface InstanceActionResponse extends InstanceIdField {
 }
 
 export interface InstanceDeleteResponse extends InstanceIdField {}
+
+export interface InstanceListStartResponse {
+  status: string;
+}
