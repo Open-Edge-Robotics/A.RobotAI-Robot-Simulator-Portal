@@ -223,18 +223,22 @@ const Instance = () => {
   };
 
   // API : 인스턴스 실행
-  const { mutate: intanceListStartMutate } = useStartInstanceList();
+  const { mutate: intanceListStartMutate, isPending: isInstanceStartPending } =
+    useStartInstanceList();
 
   // 체크박스 선택 후 실행버튼 클릭 시
   const handleExecute = () => {
-    intanceListStartMutate(checkedRowList, {
-      onSuccess() {
-        showToast(API_MESSAGE.INSTANCE.START[200], "success", 2000);
+    intanceListStartMutate(
+      { instanceIds: checkedRowList, action: "start" },
+      {
+        onSuccess() {
+          showToast(API_MESSAGE.INSTANCE.START[200], "success", 1000);
+        },
+        onError() {
+          showToast(API_MESSAGE.INSTANCE.START[500], "warning", 1000);
+        },
       },
-      onError() {
-        showToast(API_MESSAGE.INSTANCE.START[500], "warning", 2000);
-      },
-    });
+    );
   };
 
   const {
@@ -245,12 +249,12 @@ const Instance = () => {
   const handleDelete = () => {
     instanceListDeleteMutate(checkedRowList, {
       onSuccess() {
-        showToast(API_MESSAGE.INSTANCE.DELETE[201], "success", 2000);
+        showToast(API_MESSAGE.INSTANCE.DELETE[201], "success", 1000);
         setSelectedSimulationId(undefined);
         instanceListRefetch();
       },
       onError() {
-        showToast(API_MESSAGE.INSTANCE.DELETE[500], "warning", 2000);
+        showToast(API_MESSAGE.INSTANCE.DELETE[500], "warning", 1000);
       },
     });
   };
@@ -309,14 +313,13 @@ const Instance = () => {
         {
           instanceName,
           instanceDescription,
-          podNamespace,
           simulationId,
           templateId,
           instanceCount,
         },
         {
           onSuccess: () => {
-            showToast(API_MESSAGE.INSTANCE.CREATE[201], "success", 2000);
+            showToast(API_MESSAGE.INSTANCE.CREATE[201], "success", 1000);
             setIsOpen(false);
             instanceListRefetch();
             setSelectedIds({ simulationId: "", templateId: "" });
@@ -346,7 +349,9 @@ const Instance = () => {
       <FlexCol className="gap-2">
         <div className="flex justify-between">
           <ButtonGroup
-            isExecuteActive={checkedRowList?.length > 0}
+            isExecuteActive={
+              checkedRowList?.length > 0 && !isInstanceStartPending
+            }
             isDeleteActive={
               checkedRowList?.length > 0 && !isInstanceDeletePending
             }
