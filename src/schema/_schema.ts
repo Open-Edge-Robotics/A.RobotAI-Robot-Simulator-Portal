@@ -75,6 +75,7 @@ export const ERROR_MESSAGE = {
     NAME: {
       MIN: `최소 ${INSTANCE_LENGTH_LIMIT.NAME.MIN}자 이상이어야 합니다`,
       MAX: `최대 ${INSTANCE_LENGTH_LIMIT.NAME.MAX}자 입니다`,
+      REGIX: "공백없이 영어, 숫자 혹은 -(하이픈)만 입력 가능합니다",
     },
     DESCRIPTION: {
       MIN: `최소 ${INSTANCE_LENGTH_LIMIT.DESCRIPTION.MIN}자 이상이어야 합니다`,
@@ -87,6 +88,7 @@ export const ERROR_MESSAGE = {
   },
 };
 
+// 시뮬레이션 생성 zod 스키마
 export const filterShema = z.object({
   [SCHEMA_NAME.SEARCH_KEYWORD]: z
     .string()
@@ -94,6 +96,7 @@ export const filterShema = z.object({
     .max(KEYWORD_LENGTH_LIMIT.MAX),
 });
 
+// 검색 필터 zod 스키마
 export const createSimulationShema = z.object({
   [SCHEMA_NAME.SIMULATION.NAME]: z
     .string()
@@ -113,6 +116,7 @@ export const createSimulationShema = z.object({
     }),
 });
 
+// 인스턴스 생성 zod 스키마
 export const createInstanceSchema = z.object({
   [SCHEMA_NAME.INSTANCE.NAME]: z
     .string()
@@ -121,7 +125,9 @@ export const createInstanceSchema = z.object({
     })
     .max(INSTANCE_LENGTH_LIMIT.NAME.MAX, {
       message: ERROR_MESSAGE.INSTANCE.NAME.MAX,
-    }),
+    })
+    .regex(/^[A-Za-z0-9-]+$/, ERROR_MESSAGE.INSTANCE.NAME.REGIX)
+    .trim(), // 문자열 앞뒤 공백 제거 (공백 허용을 하지 않음),
   [SCHEMA_NAME.INSTANCE.DESCRIPTION]: z
     .string()
     .min(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MIN, {
@@ -130,14 +136,14 @@ export const createInstanceSchema = z.object({
     .max(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX, {
       message: ERROR_MESSAGE.INSTANCE.DESCRIPTION.MAX,
     }),
-  [SCHEMA_NAME.INSTANCE.POD_NAMESPACE]: z
-    .string()
-    .min(INSTANCE_LENGTH_LIMIT.POD_NAMESPACE.MIN, {
-      message: ERROR_MESSAGE.INSTANCE.POD_NAMESPACE.MIN,
-    })
-    .max(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX, {
-      message: ERROR_MESSAGE.INSTANCE.POD_NAMESPACE.MAX,
-    }),
+  // [SCHEMA_NAME.INSTANCE.POD_NAMESPACE]: z
+  //   .string()
+  //   .min(INSTANCE_LENGTH_LIMIT.POD_NAMESPACE.MIN, {
+  //     message: ERROR_MESSAGE.INSTANCE.POD_NAMESPACE.MIN,
+  //   })
+  //   .max(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX, {
+  //     message: ERROR_MESSAGE.INSTANCE.POD_NAMESPACE.MAX,
+  //   }),
   [SCHEMA_NAME.INSTANCE.COUNT]: z
     .string()
     .min(INSTANCE_LENGTH_LIMIT.COUNT.MIN)
