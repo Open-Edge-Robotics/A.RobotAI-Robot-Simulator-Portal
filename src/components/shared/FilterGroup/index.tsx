@@ -39,7 +39,7 @@ const FilterGroup = ({
   handleSubmit,
 }: FilterGroupProps) => {
   return (
-    <div className="w-fix flex flex-row gap-2">
+    <div className="flex w-fit flex-row gap-2">
       <Select
         className="relative w-40 text-center align-middle"
         onSelect={onSelect}

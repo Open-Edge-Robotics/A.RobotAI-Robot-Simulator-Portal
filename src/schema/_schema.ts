@@ -56,7 +56,7 @@ export const INSTANCE_LENGTH_LIMIT = {
   },
   COUNT: {
     MIN: 1,
-    MAX: 30,
+    MAX: 100,
   },
 };
 

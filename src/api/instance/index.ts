@@ -75,10 +75,25 @@ const postInstanceAction = async (
   request: InstanceActionPostRequest,
 ): Promise<Result<InstanceActionResponse>> => {
   const response = await apiPost<Result<InstanceActionResponse>>(
-    `${instanceURL}/${request[SCHEMA_NAME.INSTANCE.ID as keyof InstanceIdField]}/${actionURL}`,
+    `${instanceURL}${actionURL}`,
     request,
   );
   return response.data;
+};
+
+/**
+ * @description 인스턴스 목록 실행
+ * @param {string[]} requests - 인스턴스 ID 목록
+ * @return {Promise<Result<null>[]>} - 인스턴스 단일 삭제 response 배열
+ */
+const startInstanceList = async (
+  requests: string[],
+): Promise<Result<null>[]> => {
+  const startPromises = requests.map((request) =>
+    postInstanceAction({ instanceId: Number(request), action: "start" }),
+  );
+  const response = await Promise.all(startPromises);
+  return response;
 };
 
 /**
@@ -115,6 +130,7 @@ export const instance = {
   getInstanceDetail,
   postInstance,
   postInstanceAction,
+  startInstanceList,
   deleteInstance,
   deleteInstanceList,
 };

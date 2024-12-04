@@ -40,6 +40,8 @@ import FlexCol from "@/components/common/FlexCol";
 import { Typography } from "@mui/material";
 import NonContent from "@/components/common/NonContent";
 import { useDeleteInstanceList } from "@/hooks/instance/useDeleteInstanceList";
+import { API_MESSAGE } from "@/constants/api/_errorMessage";
+import { useStartInstanceList } from "@/hooks/instance/useStartInstanceList";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -85,7 +87,14 @@ const Instance = () => {
 
   // 전체 인스턴스 목록 상태 업데이트
   React.useEffect(() => {
-    if (!isInstanceLoading && instanceListData) {
+    if (!instanceListData?.data?.[0]?.instanceCreatedAt) {
+      setInstanceList([]);
+      setHasResult(false);
+      return;
+    }
+
+    if (!isInstanceLoading && instanceListData?.data) {
+      setHasResult(true);
       const formattedData = formatCreatedAt<BaseInstance>(
         instanceListData.data,
         INSTANCE_OPTION_LIST[3].value as keyof BaseInstance,
@@ -95,11 +104,27 @@ const Instance = () => {
   }, [isInstanceLoading, instanceListData]);
 
   const [selectedInstanceId, setSelectedInstanceID] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    console.log(selectedInstanceId, "<==");
+  }, [selectedInstanceId]);
+
   const [hasResult, setHasResult] = React.useState(true);
   // instanceList가 업데이트되면 selectedInstanceId를 첫 번째 인스턴스로 설정
   React.useEffect(() => {
     if (instanceList.length > 0) {
       setSelectedInstanceID(instanceList[0]?.instanceId);
+    } else {
+      setInstanceDetail({
+        instanceNamespace: "",
+        instanceStatus: "",
+        instanceImage: "",
+        instanceAge: "",
+        instanceLabel: "",
+        templateType: "",
+        topics: "",
+        podName: "",
+      });
     }
   }, [instanceList]);
 
@@ -201,8 +226,21 @@ const Instance = () => {
   const handleCreate = () => {
     setIsOpen(true);
   };
+
+  // API : 인스턴스 실행
+  const { mutate: intanceListStartMutate } = useStartInstanceList();
+
   // 체크박스 선택 후 실행버튼 클릭 시
-  const handleExecute = () => {};
+  const handleExecute = () => {
+    intanceListStartMutate(checkedRowList, {
+      onSuccess() {
+        showToast(API_MESSAGE.INSTANCE.START[200], "success", 2000);
+      },
+      onError() {
+        showToast(API_MESSAGE.INSTANCE.START[500], "warning", 2000);
+      },
+    });
+  };
 
   const {
     mutate: instanceListDeleteMutate,
@@ -211,20 +249,24 @@ const Instance = () => {
   // 체크박스 선택 후 삭제버튼 클릭 시
   const handleDelete = () => {
     instanceListDeleteMutate(checkedRowList, {
-      onSuccess(response) {
-        showToast(response[0].message, "success", 2000);
+      onSuccess() {
+        showToast(API_MESSAGE.INSTANCE.DELETE[201], "success", 2000);
         setSelectedSimulationId(undefined);
         instanceListRefetch();
       },
-      onError(error) {
-        showToast(error!.response!.data.message, "warning", 2000);
+      onError() {
+        showToast(API_MESSAGE.INSTANCE.DELETE[500], "warning", 2000);
       },
     });
   };
 
   // 필터에서 시뮬레이션 선택 시
   const handleSelectSimulation = (value: string) => {
-    setSelectedSimulationId(value);
+    if (value === "undefined") {
+      setSelectedSimulationId(undefined);
+    } else {
+      setSelectedSimulationId(value);
+    }
   };
 
   // 인스턴스 생성 팝업 닫기 클릭 시
@@ -278,12 +320,13 @@ const Instance = () => {
           instanceCount,
         },
         {
-          onSuccess: ({ message }) => {
-            showToast(message, "success", 2000);
+          onSuccess: () => {
+            showToast(API_MESSAGE.INSTANCE.CREATE[201], "success", 2000);
             setIsOpen(false);
             instanceListRefetch();
             setSelectedIds({ simulationId: "", templateId: "" });
             instanceReset();
+            setSelectedSimulationId(undefined);
           },
           // * 에러 처리는 인스턴스 생성 팝업에서 진행
         },
@@ -295,10 +338,15 @@ const Instance = () => {
     <FlexCol className="gap-4">
       <FlexCol className="gap-1">
         <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
-        <SimulationFilter
-          optionList={simulationOptionList}
-          onSelect={handleSelectSimulation}
-        />
+        <div className="flex gap-2">
+          <SimulationFilter
+            optionList={[
+              { value: "undefined", label: "시뮬레이션 전체" },
+              ...simulationOptionList,
+            ]}
+            onSelect={handleSelectSimulation}
+          />
+        </div>
       </FlexCol>
       <FlexCol className="gap-2">
         <div className="flex justify-between">
