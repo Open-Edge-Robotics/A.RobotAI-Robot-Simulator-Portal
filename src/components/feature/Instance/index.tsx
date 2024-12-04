@@ -104,11 +104,6 @@ const Instance = () => {
   }, [isInstanceLoading, instanceListData]);
 
   const [selectedInstanceId, setSelectedInstanceID] = React.useState<number>(0);
-
-  React.useEffect(() => {
-    console.log(selectedInstanceId, "<==");
-  }, [selectedInstanceId]);
-
   const [hasResult, setHasResult] = React.useState(true);
   // instanceList가 업데이트되면 selectedInstanceId를 첫 번째 인스턴스로 설정
   React.useEffect(() => {
