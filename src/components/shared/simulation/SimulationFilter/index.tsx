@@ -28,9 +28,7 @@ const SimulationFilter = ({ optionList, onSelect }: Props) => {
         <SelectValueText
           className="text-sm"
           placeholder={
-            isOptionsEmpty
-              ? "생성된 시뮬레이션이 없습니다"
-              : "조회할 시뮬레이션을 선택하세요"
+            isOptionsEmpty ? "생성된 시뮬레이션이 없습니다" : "시뮬레이션 전체"
           }
         />
       </SelectTrigger>
