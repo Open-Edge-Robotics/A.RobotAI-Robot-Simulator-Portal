@@ -42,6 +42,7 @@ import NonContent from "@/components/common/NonContent";
 import { useDeleteInstanceList } from "@/hooks/instance/useDeleteInstanceList";
 import { API_MESSAGE } from "@/constants/api/_errorMessage";
 import { useStartInstanceList } from "@/hooks/instance/useStartInstanceList";
+import LoadingBar from "@/components/common/LoadingBar";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -378,6 +379,12 @@ const Instance = () => {
         )}
         {!hasResult && <NonContent />}
       </FlexCol>
+      {isInstanceStartPending && (
+        <LoadingBar
+          isOpen={isInstanceStartPending}
+          message="인스턴스 실행 준비 중입니다"
+        />
+      )}
       {!instanceDetail && <Typography variant="h6">로딩중</Typography>}
       {instanceDetail.instanceAge && (
         <DetailTable
