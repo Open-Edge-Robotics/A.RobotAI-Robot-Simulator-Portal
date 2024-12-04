@@ -4,12 +4,14 @@ import {
   InstancePostRequest,
   InstanceActionPostRequest,
   GetInstanceListRequest,
+  InstanceListStartRequest,
 } from "@/type/request/_instance";
 import {
   InstanceActionResponse,
   InstanceDeleteResponse,
   InstanceDetailResponse,
   InstanceListResponse,
+  InstanceListStartResponse,
   InstancePostResponse,
 } from "@/type/response/_instance";
 import { Result } from "@/type/response/_default";
@@ -83,17 +85,17 @@ const postInstanceAction = async (
 
 /**
  * @description 인스턴스 목록 실행
- * @param {string[]} requests - 인스턴스 ID 목록
+ * @param {string[]} request - 인스턴스 ID 목록
  * @return {Promise<Result<null>[]>} - 인스턴스 단일 삭제 response 배열
  */
 const startInstanceList = async (
-  requests: string[],
-): Promise<Result<null>[]> => {
-  const startPromises = requests.map((request) =>
-    postInstanceAction({ instanceId: Number(request), action: "start" }),
+  request: InstanceListStartRequest,
+): Promise<Result<InstanceListStartResponse>> => {
+  const response = await apiPost<Result<InstanceListStartResponse>>(
+    `${instanceURL}${actionURL}`,
+    request,
   );
-  const response = await Promise.all(startPromises);
-  return response;
+  return response.data;
 };
 
 /**
