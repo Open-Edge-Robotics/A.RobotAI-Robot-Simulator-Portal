@@ -34,15 +34,16 @@ import NonContent from "@/components/common/NonContent";
 import { useDeleteSimulation } from "@/hooks/simulation/useDeleteSimulation";
 import { AxiosError } from "axios";
 import { API_MESSAGE } from "@/constants/api/_errorMessage";
+import ReloadButton from "@/components/shared/button/ReloadButton";
 
 // datagrid 페이지네이션 설정
-const paginationModel = { page: 0, pageSize: 10 };
+const paginationModel = { page: 0, pageSize: 20 };
 
 const Simulation = () => {
   // API: 시뮬레이션 목록 조회
   const {
     data,
-    isLoading,
+    isLoading: isSimulationListLoading,
     refetch: simulationListRefetch,
   } = useGetSimulationList();
   const [simulationList, setSimulationList] =
@@ -51,7 +52,7 @@ const Simulation = () => {
 
   // 시뮬레이션 목록 포맷팅 및 상태 업데이트, 검색 결과 상태 업데이트
   React.useEffect(() => {
-    if (!isLoading && data) {
+    if (!isSimulationListLoading && data) {
       const formattedData = formatCreatedAt<SimulationType>(
         data.data,
         SIMULATION_OPTION_LIST[3].value,
@@ -59,7 +60,7 @@ const Simulation = () => {
       setSimulationList(formattedData);
       setHasResult(formattedData.length > 0);
     }
-  }, [isLoading, data]);
+  }, [isSimulationListLoading, data]);
 
   const [filterType, setFilterType] = React.useState<string>(
     SIMULATION_OPTION_LIST[0].value,
@@ -136,21 +137,28 @@ const Simulation = () => {
       data[SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData],
       filterType,
     );
-    setSimulationList(
-      formatCreatedAt(
-        filteredList,
-        SIMULATION_OPTION_LIST[3].value,
-      ) as SimulationType[],
+    const formattedData = formatCreatedAt<SimulationType>(
+      filteredList,
+      SIMULATION_OPTION_LIST[3].value,
     );
+
+    if (filteredList.length <= 0) {
+      setHasResult(false);
+    } else {
+      setSimulationList(formattedData);
+      setHasResult(true);
+    }
   };
 
   // 검색어 없이 검색 버튼 클릭 시
   const onFilterError = () => {
-    setHasResult(true);
     if (!data?.data) return;
-    setSimulationList(
-      formatCreatedAt(data.data, SIMULATION_OPTION_LIST[3].value) || [],
+    const formattedData = formatCreatedAt<SimulationType>(
+      data.data,
+      SIMULATION_OPTION_LIST[3].value,
     );
+    setSimulationList(formattedData);
+    setHasResult(true);
   };
 
   // API: 시뮬레이션 생성
@@ -176,40 +184,38 @@ const Simulation = () => {
     dialogReset();
   };
 
-  if (isLoading) {
-    return (
-      <Typography variant="h6" className="text-sm font-normal text-gray-900">
-        Loading...
-      </Typography>
-    );
-  }
-
   return (
     <FlexCol className="gap-4">
       <PageTitle className="text-white">{MENU_ITEMS[3].label}</PageTitle>
       <FlexCol className="gap-2">
         <div className="flex justify-between">
           <CreateButton onClick={handleClickCreate} />
-          <FilterGroup
-            optionList={SIMULATION_OPTION_LIST}
-            filterType={filterType}
-            onSelect={handleSelectFilter}
-            register={filterRegister}
-            handleSubmit={filterHandleSubmit(onFilterSubmit, onFilterError)}
-          />
+          <div className="flex gap-2">
+            <ReloadButton />
+            <FilterGroup
+              optionList={SIMULATION_OPTION_LIST}
+              filterType={filterType}
+              onSelect={handleSelectFilter}
+              register={filterRegister}
+              handleSubmit={filterHandleSubmit(onFilterSubmit, onFilterError)}
+            />
+          </div>
         </div>
-        {hasResult && (
+        {isSimulationListLoading && (
+          <NonContent message="데이터를 불러오는 중입니다" />
+        )}
+        {hasResult && !isSimulationListLoading && (
           <SimulationListTable
             rows={simulationList}
             columns={SIMULATION_LIST_COLUMN_LIST}
             paginationModel={paginationModel}
-            isLoading={isLoading}
+            isLoading={isSimulationListLoading}
             onExecute={handleExecute}
             onStop={handleClickStop}
             onDelete={handleClickDelete}
           />
         )}
-        {!hasResult && <NonContent />}
+        {!hasResult && !isSimulationListLoading && <NonContent />}
       </FlexCol>
       <SimulationCreateDialog
         isOpen={isOpen}

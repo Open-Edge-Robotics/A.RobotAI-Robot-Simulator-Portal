@@ -7,6 +7,7 @@ import {
   SelectValueText,
 } from "@/components/common/Select";
 import { Option } from "@/components/shared/FilterGroup";
+import { cx } from "class-variance-authority";
 
 type Props = {
   optionList: Option[];
@@ -34,12 +35,15 @@ const SimulationFilter = ({ optionList, onSelect }: Props) => {
       </SelectTrigger>
       {!isOptionsEmpty && (
         <SelectGroup className="top-[42px] max-h-40 w-full rounded-[4px] bg-white p-2 shadow-md">
-          {optionList.map((item) => (
+          {optionList.map((item, index) => (
             <SelectItem
               key={item.value}
               value={item.value}
               label={item.label}
-              className="w-full rounded-[4px] px-2 py-1 text-sm"
+              className={cx(
+                "w-full rounded-[4px] px-2 py-1 text-sm",
+                index === 0 ? "font-semibold" : "",
+              )}
             >
               {item.label}
             </SelectItem>

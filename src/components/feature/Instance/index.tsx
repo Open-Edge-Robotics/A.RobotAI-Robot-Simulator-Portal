@@ -43,8 +43,10 @@ import { useDeleteInstanceList } from "@/hooks/instance/useDeleteInstanceList";
 import { API_MESSAGE } from "@/constants/api/_errorMessage";
 import { useStartInstanceList } from "@/hooks/instance/useStartInstanceList";
 import LoadingBar from "@/components/common/LoadingBar";
+import ReloadButton from "@/components/shared/button/ReloadButton";
+import { useQueryClient } from "@tanstack/react-query";
 
-const paginationModel = { page: 0, pageSize: 5 };
+const paginationModel = { page: 0, pageSize: 15 };
 
 const HEADERS_PER_COLUMN = 4;
 
@@ -80,7 +82,7 @@ const Instance = () => {
   // API: 인스턴스 목록 조회
   const {
     data: instanceListData,
-    isLoading: isInstanceLoading,
+    isLoading: isInstanceListLoading,
     refetch: instanceListRefetch,
   } = useGetInstanceList({
     simulationId: Number(selectedSimulationId) || undefined,
@@ -94,7 +96,7 @@ const Instance = () => {
       return;
     }
 
-    if (!isInstanceLoading && instanceListData?.data) {
+    if (!isInstanceListLoading && instanceListData?.data) {
       setHasResult(true);
       const formattedData = formatCreatedAt<BaseInstance>(
         instanceListData.data,
@@ -102,7 +104,7 @@ const Instance = () => {
       );
       setInstanceList(formattedData);
     }
-  }, [isInstanceLoading, instanceListData]);
+  }, [isInstanceListLoading, instanceListData]);
 
   const [selectedInstanceId, setSelectedInstanceID] = React.useState<number>(0);
   const [hasResult, setHasResult] = React.useState(true);
@@ -202,8 +204,8 @@ const Instance = () => {
   });
 
   // 필터링 검색 버튼 클릭 시
-  const onSubmit = (data: FilterGroupFormData) => {
-    if (!instanceListData) return;
+  const onFilerSubmit = (data: FilterGroupFormData) => {
+    if (!instanceListData?.data) return;
     const filteredList = filterInstances(
       instanceListData.data,
       data[SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData],
@@ -213,9 +215,20 @@ const Instance = () => {
     if (filteredList.length <= 0) {
       setHasResult(false);
     } else {
-      setHasResult(true);
       setInstanceList(filteredList);
+      setHasResult(true);
     }
+  };
+
+  // 검색어 없이 검색 버튼 클릭 시 원래 리스트 그대로 보여주기
+  const onFilterError = () => {
+    if (!instanceListData?.data) return;
+    const formattedData = formatCreatedAt<BaseInstance>(
+      instanceListData.data,
+      INSTANCE_OPTION_LIST[3].value as keyof BaseInstance,
+    );
+    setInstanceList(formattedData);
+    setHasResult(true);
   };
 
   // 테이블 케밥 버튼 하위 버튼들 handler
@@ -294,6 +307,8 @@ const Instance = () => {
   const { mutate: instanceCreateMutate, error: instanceCreateError } =
     usePostInstance();
 
+  const queryClient = useQueryClient();
+
   // 인스턴스 생성 팝업 - 생성 버튼 클릭 시
   const onInstanceSubmit = (data: CreateInstanceFormType) => {
     if (!selectedIds.simulationId) {
@@ -305,8 +320,7 @@ const Instance = () => {
     if (selectedIds.simulationId && selectedIds.templateId) {
       setIsError({ simulationId: false, templateId: false });
 
-      const { instanceName, instanceCount, instanceDescription, podNamespace } =
-        data;
+      const { instanceName, instanceCount, instanceDescription } = data;
       const simulationId = Number(selectedIds.simulationId);
       const templateId = Number(selectedIds.templateId);
 
@@ -326,6 +340,11 @@ const Instance = () => {
             setSelectedIds({ simulationId: "", templateId: "" });
             instanceReset();
             setSelectedSimulationId(undefined);
+
+            // 인스턴스 생성 후에는 파드 상태 pending -> ready 빠르게 업데이트되는 것 보이도록
+            setTimeout(() => {
+              instanceListRefetch(); // 10초 뒤에 데이터를 다시 가져오기
+            }, 10000); // 10000ms = 10초
           },
           // * 에러 처리는 인스턴스 생성 팝업에서 진행
         },
@@ -337,15 +356,15 @@ const Instance = () => {
     <FlexCol className="gap-4">
       <FlexCol className="gap-1">
         <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
-        <div className="flex gap-2">
-          <SimulationFilter
-            optionList={[
-              { value: "undefined", label: "시뮬레이션 전체" },
-              ...simulationOptionList,
-            ]}
-            onSelect={handleSelectSimulation}
-          />
-        </div>
+        {/* <div className="flex gap-2"> */}
+        <SimulationFilter
+          optionList={[
+            { value: "undefined", label: "시뮬레이션 전체" },
+            ...simulationOptionList,
+          ]}
+          onSelect={handleSelectSimulation}
+        />
+        {/* </div> */}
       </FlexCol>
       <FlexCol className="gap-2">
         <div className="flex justify-between">
@@ -360,15 +379,21 @@ const Instance = () => {
             onExecute={handleExecute}
             onDelete={handleDelete}
           />
-          <FilterGroup
-            optionList={INSTANCE_OPTION_LIST}
-            filterType={filterType}
-            onSelect={onSelectFilter}
-            register={register}
-            handleSubmit={handleSubmit(onSubmit)}
-          />
+          <div className="flex gap-2">
+            <ReloadButton />
+            <FilterGroup
+              optionList={INSTANCE_OPTION_LIST}
+              filterType={filterType}
+              onSelect={onSelectFilter}
+              register={register}
+              handleSubmit={handleSubmit(onFilerSubmit, onFilterError)}
+            />
+          </div>
         </div>
-        {hasResult && (
+        {isInstanceListLoading && (
+          <NonContent message="데이터를 불러오는 중입니다" />
+        )}
+        {hasResult && !isInstanceListLoading && (
           <InstanceListTable
             rows={instanceList}
             columns={INSTANCE_LIST_COLUMN_LIST}
@@ -377,7 +402,7 @@ const Instance = () => {
             onMultipleRowClick={hanldeMultpleRowClick}
           />
         )}
-        {!hasResult && <NonContent />}
+        {!hasResult && !isInstanceListLoading && <NonContent />}
       </FlexCol>
       {isInstanceStartPending && (
         <LoadingBar

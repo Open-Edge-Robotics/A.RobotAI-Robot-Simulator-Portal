@@ -8,6 +8,8 @@ import {
 import { InstanceListResponse } from "@/type/response/_instance";
 import { INSTANCE_OPTION_LIST } from "@/constants/_filterOption";
 
+export const PAGE_SIZE_OPTION_LIST = [15, 20, 25, 30];
+
 type InstanceListTableProps = {
   rows: InstanceListResponse;
   columns: GridColDef[];
@@ -26,10 +28,6 @@ const InstanceListTable = ({
   return (
     <DataGrid
       className="w-full rounded-[4px] bg-white px-2 text-center"
-      getRowId={(row) => row[INSTANCE_OPTION_LIST[1].value]}
-      rows={rows}
-      columns={columns}
-      initialState={{ pagination: { paginationModel } }}
       sx={{
         border: 0,
         "& .MuiDataGrid-cell:focus": {
@@ -48,6 +46,11 @@ const InstanceListTable = ({
           cursor: "default",
         },
       }}
+      rows={rows}
+      columns={columns}
+      getRowId={(row) => row[INSTANCE_OPTION_LIST[1].value]}
+      pageSizeOptions={PAGE_SIZE_OPTION_LIST}
+      initialState={{ pagination: { paginationModel } }}
       onRowClick={onRowClick}
       hideFooterSelectedRowCount
       disableColumnResize
@@ -58,7 +61,6 @@ const InstanceListTable = ({
       disableVirtualization
       checkboxSelection
       onRowSelectionModelChange={onMultipleRowClick}
-      pageSizeOptions={[paginationModel.pageSize]}
     />
   );
 };

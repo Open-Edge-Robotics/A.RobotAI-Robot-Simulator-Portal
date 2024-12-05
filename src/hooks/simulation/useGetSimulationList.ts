@@ -1,5 +1,4 @@
 import { simulation } from "@/api/simulation";
-import { Result } from "@/type/response/_default";
 import { SimulationListResponse } from "@/type/response/_simulation";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";

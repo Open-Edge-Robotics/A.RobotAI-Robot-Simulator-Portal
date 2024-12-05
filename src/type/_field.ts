@@ -66,6 +66,9 @@ export interface SimulationCreatedAtField {
 export interface SimulationStatusField {
   simulationStatus: string;
 }
+export interface SimulationNamespaceField {
+  simulationNamespace: string;
+}
 
 export interface BaseSimulation
   extends SimulationIdField,

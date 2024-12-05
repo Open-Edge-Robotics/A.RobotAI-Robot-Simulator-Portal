@@ -4,6 +4,7 @@ const SIMULATION_OPTION_LIST = [
   { label: "설명", value: "simulationDescription" },
   { label: "생성일", value: "simulationCreatedAt" },
   { label: "상태", value: "simulationStatus" },
+  { label: "네임 스페이스", value: "simulationNamespace" },
 ];
 
 const INSTANCE_OPTION_LIST = [
