@@ -13,7 +13,7 @@ const ReloadButton = ({ ...props }: ButtonProps) => {
       type="button"
       variant="contained"
       color="inherit"
-      className="px-2 py-2 text-sm font-normal"
+      className="min-w-fit text-sm font-normal"
       onClick={handleReload}
       {...props}
     >
