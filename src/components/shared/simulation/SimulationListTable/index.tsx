@@ -11,6 +11,7 @@ import { COLUMN_KEBAB, COLUMN_STYLE } from "@/constants/_tableColumn";
 import KebabButton from "@/components/shared/button/KebabButton";
 import { SimulationListResponse } from "@/type/response/_simulation";
 import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
+import { PAGE_SIZE_OPTION_LIST } from "@/components/shared/instance/InstanceListTable";
 
 type ActionMenuItemProps = {
   buttonText: string;
@@ -108,11 +109,6 @@ const SimulationListTable = ({
     <>
       <DataGrid
         className="w-full rounded-[4px] bg-white px-2 text-center"
-        getRowId={(row) => row[SIMULATION_OPTION_LIST[1].value]}
-        rows={rows}
-        columns={columnsWithActions}
-        initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[paginationModel.pageSize]}
         sx={{
           border: 0,
           "& .MuiDataGrid-cell:focus": {
@@ -131,6 +127,11 @@ const SimulationListTable = ({
             cursor: "default",
           },
         }}
+        rows={rows}
+        columns={columnsWithActions}
+        getRowId={(row) => row[SIMULATION_OPTION_LIST[1].value]}
+        initialState={{ pagination: { paginationModel } }}
+        pageSizeOptions={PAGE_SIZE_OPTION_LIST}
         onRowClick={onRowClick}
         disableAutosize
         loading={isLoading}
