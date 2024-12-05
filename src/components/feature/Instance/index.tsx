@@ -43,6 +43,7 @@ import { useDeleteInstanceList } from "@/hooks/instance/useDeleteInstanceList";
 import { API_MESSAGE } from "@/constants/api/_errorMessage";
 import { useStartInstanceList } from "@/hooks/instance/useStartInstanceList";
 import LoadingBar from "@/components/common/LoadingBar";
+import ReloadButton from "@/components/shared/button/ReloadButton";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -202,8 +203,8 @@ const Instance = () => {
   });
 
   // 필터링 검색 버튼 클릭 시
-  const onSubmit = (data: FilterGroupFormData) => {
-    if (!instanceListData) return;
+  const onFilerSubmit = (data: FilterGroupFormData) => {
+    if (!instanceListData?.data) return;
     const filteredList = filterInstances(
       instanceListData.data,
       data[SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData],
@@ -213,9 +214,20 @@ const Instance = () => {
     if (filteredList.length <= 0) {
       setHasResult(false);
     } else {
-      setHasResult(true);
       setInstanceList(filteredList);
+      setHasResult(true);
     }
+  };
+
+  // 검색어 없이 검색 버튼 클릭 시 원래 리스트 그대로 보여주기
+  const onFilterError = () => {
+    if (!instanceListData?.data) return;
+    const formattedData = formatCreatedAt<BaseInstance>(
+      instanceListData.data,
+      INSTANCE_OPTION_LIST[3].value as keyof BaseInstance,
+    );
+    setInstanceList(formattedData);
+    setHasResult(true);
   };
 
   // 테이블 케밥 버튼 하위 버튼들 handler
@@ -337,15 +349,15 @@ const Instance = () => {
     <FlexCol className="gap-4">
       <FlexCol className="gap-1">
         <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
-        <div className="flex gap-2">
-          <SimulationFilter
-            optionList={[
-              { value: "undefined", label: "시뮬레이션 전체" },
-              ...simulationOptionList,
-            ]}
-            onSelect={handleSelectSimulation}
-          />
-        </div>
+        {/* <div className="flex gap-2"> */}
+        <SimulationFilter
+          optionList={[
+            { value: "undefined", label: "시뮬레이션 전체" },
+            ...simulationOptionList,
+          ]}
+          onSelect={handleSelectSimulation}
+        />
+        {/* </div> */}
       </FlexCol>
       <FlexCol className="gap-2">
         <div className="flex justify-between">
@@ -360,13 +372,16 @@ const Instance = () => {
             onExecute={handleExecute}
             onDelete={handleDelete}
           />
-          <FilterGroup
-            optionList={INSTANCE_OPTION_LIST}
-            filterType={filterType}
-            onSelect={onSelectFilter}
-            register={register}
-            handleSubmit={handleSubmit(onSubmit)}
-          />
+          <div className="flex gap-2">
+            <ReloadButton />
+            <FilterGroup
+              optionList={INSTANCE_OPTION_LIST}
+              filterType={filterType}
+              onSelect={onSelectFilter}
+              register={register}
+              handleSubmit={handleSubmit(onFilerSubmit, onFilterError)}
+            />
+          </div>
         </div>
         {hasResult && (
           <InstanceListTable
