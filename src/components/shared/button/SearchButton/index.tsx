@@ -7,7 +7,7 @@ const SearchButton = () => {
       variant="contained"
       type="submit"
       color="inherit"
-      // className="border-emerald-500 bg-emerald-300 text-black-950 hover:bg-emerald-400"
+      className="text-sm font-normal"
     >
       검색
     </Button>
