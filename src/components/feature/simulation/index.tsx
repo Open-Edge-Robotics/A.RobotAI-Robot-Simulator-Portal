@@ -34,6 +34,7 @@ import NonContent from "@/components/common/NonContent";
 import { useDeleteSimulation } from "@/hooks/simulation/useDeleteSimulation";
 import { AxiosError } from "axios";
 import { API_MESSAGE } from "@/constants/api/_errorMessage";
+import ReloadButton from "@/components/shared/button/ReloadButton";
 
 // datagrid 페이지네이션 설정
 const paginationModel = { page: 0, pageSize: 10 };
@@ -136,21 +137,22 @@ const Simulation = () => {
       data[SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData],
       filterType,
     );
-    setSimulationList(
-      formatCreatedAt(
-        filteredList,
-        SIMULATION_OPTION_LIST[3].value,
-      ) as SimulationType[],
+    const formattedData = formatCreatedAt<SimulationType>(
+      filteredList,
+      SIMULATION_OPTION_LIST[3].value,
     );
+    setSimulationList(formattedData);
   };
 
   // 검색어 없이 검색 버튼 클릭 시
   const onFilterError = () => {
-    setHasResult(true);
     if (!data?.data) return;
-    setSimulationList(
-      formatCreatedAt(data.data, SIMULATION_OPTION_LIST[3].value) || [],
+    const formattedData = formatCreatedAt<SimulationType>(
+      data.data,
+      SIMULATION_OPTION_LIST[3].value,
     );
+    setSimulationList(formattedData);
+    setHasResult(true);
   };
 
   // API: 시뮬레이션 생성
@@ -190,13 +192,16 @@ const Simulation = () => {
       <FlexCol className="gap-2">
         <div className="flex justify-between">
           <CreateButton onClick={handleClickCreate} />
-          <FilterGroup
-            optionList={SIMULATION_OPTION_LIST}
-            filterType={filterType}
-            onSelect={handleSelectFilter}
-            register={filterRegister}
-            handleSubmit={filterHandleSubmit(onFilterSubmit, onFilterError)}
-          />
+          <div className="flex gap-2">
+            <ReloadButton />
+            <FilterGroup
+              optionList={SIMULATION_OPTION_LIST}
+              filterType={filterType}
+              onSelect={handleSelectFilter}
+              register={filterRegister}
+              handleSubmit={filterHandleSubmit(onFilterSubmit, onFilterError)}
+            />
+          </div>
         </div>
         {hasResult && (
           <SimulationListTable
