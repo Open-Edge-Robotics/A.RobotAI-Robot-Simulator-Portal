@@ -8,7 +8,7 @@ import {
 import { InstanceListResponse } from "@/type/response/_instance";
 import { INSTANCE_OPTION_LIST } from "@/constants/_filterOption";
 
-export const PAGE_SIZE_OPTION_LIST = [5, 10, 15, 20];
+export const PAGE_SIZE_OPTION_LIST = [15, 20, 25, 30];
 
 type InstanceListTableProps = {
   rows: InstanceListResponse;
