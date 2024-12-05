@@ -4,8 +4,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 
-// 타임아웃 2분
-const AXIOS_TIMEOUT = 1000 * 10 * 6 * 2;
+// 타임아웃 5분(테스트용)
+const AXIOS_TIMEOUT = 1000 * 10 * 6 * 5;
 
 const instance = axios.create({
   headers: {
@@ -13,6 +13,7 @@ const instance = axios.create({
   },
   // withCredentials: true,
   timeout: AXIOS_TIMEOUT,
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
 });
 
 instance.interceptors.request.use(
