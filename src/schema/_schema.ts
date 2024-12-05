@@ -88,7 +88,7 @@ export const ERROR_MESSAGE = {
   },
 };
 
-// 시뮬레이션 생성 zod 스키마
+// 검색 필터 zod 스키마
 export const filterShema = z.object({
   [SCHEMA_NAME.SEARCH_KEYWORD]: z
     .string()
@@ -96,7 +96,7 @@ export const filterShema = z.object({
     .max(KEYWORD_LENGTH_LIMIT.MAX),
 });
 
-// 검색 필터 zod 스키마
+// 시뮬레이션 생성 zod 스키마
 export const createSimulationShema = z.object({
   [SCHEMA_NAME.SIMULATION.NAME]: z
     .string()
@@ -136,14 +136,6 @@ export const createInstanceSchema = z.object({
     .max(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX, {
       message: ERROR_MESSAGE.INSTANCE.DESCRIPTION.MAX,
     }),
-  // [SCHEMA_NAME.INSTANCE.POD_NAMESPACE]: z
-  //   .string()
-  //   .min(INSTANCE_LENGTH_LIMIT.POD_NAMESPACE.MIN, {
-  //     message: ERROR_MESSAGE.INSTANCE.POD_NAMESPACE.MIN,
-  //   })
-  //   .max(INSTANCE_LENGTH_LIMIT.DESCRIPTION.MAX, {
-  //     message: ERROR_MESSAGE.INSTANCE.POD_NAMESPACE.MAX,
-  //   }),
   [SCHEMA_NAME.INSTANCE.COUNT]: z
     .string()
     .min(INSTANCE_LENGTH_LIMIT.COUNT.MIN)
