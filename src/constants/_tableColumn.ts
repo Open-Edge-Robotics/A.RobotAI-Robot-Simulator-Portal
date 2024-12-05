@@ -43,6 +43,12 @@ const SIMULATION_LIST_COLUMN_LIST: GridColDef[] = [
     flex: 1,
     ...COLUMN_STYLE,
   },
+  {
+    field: SIMULATION_OPTION_LIST[5].value,
+    headerName: SIMULATION_OPTION_LIST[5].label,
+    flex: 1,
+    ...COLUMN_STYLE,
+  },
 ];
 
 const INSTANCE_LIST_COLUMN_LIST: GridColDef[] = [
