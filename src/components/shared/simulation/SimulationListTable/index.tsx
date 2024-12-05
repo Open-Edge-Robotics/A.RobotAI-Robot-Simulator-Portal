@@ -12,6 +12,7 @@ import KebabButton from "@/components/shared/button/KebabButton";
 import { SimulationListResponse } from "@/type/response/_simulation";
 import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
 import { PAGE_SIZE_OPTION_LIST } from "@/components/shared/instance/InstanceListTable";
+import AlertModal from "@/components/common/AlertModal";
 
 type ActionMenuItemProps = {
   buttonText: string;
@@ -72,19 +73,28 @@ const SimulationListTable = ({
     setSelectedRowId(null);
   };
 
+  // 실행 버튼 클릭 시
   const handleExecute = () => {
     if (!onExecute || !selectedRowId) return;
     onExecute(selectedRowId);
     handleClose();
   };
 
+  // 중지 버튼 클릭 시
   const handleStop = () => {
     if (!onStop || !selectedRowId) return;
     onStop(selectedRowId);
     handleClose();
   };
 
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const handleModalOpen = () => setIsModalOpen(true);
+  const handleModalClose = () => setIsModalOpen(false);
+
+  // 삭제 버튼 클릭 -> 삭제 모달에서 삭제 클릭 시
   const handleDelete = () => {
+    handleModalClose();
     if (!onDelete || !selectedRowId) return;
     onDelete(selectedRowId);
     handleClose();
@@ -178,11 +188,18 @@ const SimulationListTable = ({
           color="warning"
         />
         <ActionMenuItem
-          onClick={handleDelete}
+          onClick={handleModalOpen}
           buttonText="삭제"
           color="error"
         />
       </Menu>
+      <AlertModal
+        isOpen={isModalOpen}
+        title="경고"
+        message="시뮬레이션 삭제 시 되돌릴 수 없습니다. 그래도 삭제하시겠습니까?"
+        onClose={handleModalClose}
+        onAccept={handleDelete}
+      />
     </>
   );
 };
