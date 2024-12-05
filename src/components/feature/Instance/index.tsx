@@ -44,8 +44,9 @@ import { API_MESSAGE } from "@/constants/api/_errorMessage";
 import { useStartInstanceList } from "@/hooks/instance/useStartInstanceList";
 import LoadingBar from "@/components/common/LoadingBar";
 import ReloadButton from "@/components/shared/button/ReloadButton";
+import { useQueryClient } from "@tanstack/react-query";
 
-const paginationModel = { page: 0, pageSize: 5 };
+const paginationModel = { page: 0, pageSize: 15 };
 
 const HEADERS_PER_COLUMN = 4;
 
@@ -81,7 +82,7 @@ const Instance = () => {
   // API: 인스턴스 목록 조회
   const {
     data: instanceListData,
-    isLoading: isInstanceLoading,
+    isLoading: isInstanceListLoading,
     refetch: instanceListRefetch,
   } = useGetInstanceList({
     simulationId: Number(selectedSimulationId) || undefined,
@@ -95,7 +96,7 @@ const Instance = () => {
       return;
     }
 
-    if (!isInstanceLoading && instanceListData?.data) {
+    if (!isInstanceListLoading && instanceListData?.data) {
       setHasResult(true);
       const formattedData = formatCreatedAt<BaseInstance>(
         instanceListData.data,
@@ -103,7 +104,7 @@ const Instance = () => {
       );
       setInstanceList(formattedData);
     }
-  }, [isInstanceLoading, instanceListData]);
+  }, [isInstanceListLoading, instanceListData]);
 
   const [selectedInstanceId, setSelectedInstanceID] = React.useState<number>(0);
   const [hasResult, setHasResult] = React.useState(true);
@@ -306,6 +307,8 @@ const Instance = () => {
   const { mutate: instanceCreateMutate, error: instanceCreateError } =
     usePostInstance();
 
+  const queryClient = useQueryClient();
+
   // 인스턴스 생성 팝업 - 생성 버튼 클릭 시
   const onInstanceSubmit = (data: CreateInstanceFormType) => {
     if (!selectedIds.simulationId) {
@@ -317,8 +320,7 @@ const Instance = () => {
     if (selectedIds.simulationId && selectedIds.templateId) {
       setIsError({ simulationId: false, templateId: false });
 
-      const { instanceName, instanceCount, instanceDescription, podNamespace } =
-        data;
+      const { instanceName, instanceCount, instanceDescription } = data;
       const simulationId = Number(selectedIds.simulationId);
       const templateId = Number(selectedIds.templateId);
 
@@ -338,6 +340,11 @@ const Instance = () => {
             setSelectedIds({ simulationId: "", templateId: "" });
             instanceReset();
             setSelectedSimulationId(undefined);
+
+            // 인스턴스 생성 후에는 파드 상태 pending -> ready 빠르게 업데이트되는 것 보이도록
+            setTimeout(() => {
+              instanceListRefetch(); // 10초 뒤에 데이터를 다시 가져오기
+            }, 10000); // 10000ms = 10초
           },
           // * 에러 처리는 인스턴스 생성 팝업에서 진행
         },
@@ -383,7 +390,10 @@ const Instance = () => {
             />
           </div>
         </div>
-        {hasResult && (
+        {isInstanceListLoading && (
+          <NonContent message="데이터를 불러오는 중입니다" />
+        )}
+        {hasResult && !isInstanceListLoading && (
           <InstanceListTable
             rows={instanceList}
             columns={INSTANCE_LIST_COLUMN_LIST}
@@ -392,7 +402,7 @@ const Instance = () => {
             onMultipleRowClick={hanldeMultpleRowClick}
           />
         )}
-        {!hasResult && <NonContent />}
+        {!hasResult && !isInstanceListLoading && <NonContent />}
       </FlexCol>
       {isInstanceStartPending && (
         <LoadingBar
