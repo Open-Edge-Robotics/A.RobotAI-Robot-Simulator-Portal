@@ -13,12 +13,6 @@ const COLUMN_STYLE = {
 
 const SIMULATION_LIST_COLUMN_LIST: GridColDef[] = [
   {
-    field: SIMULATION_OPTION_LIST[1].value,
-    headerName: SIMULATION_OPTION_LIST[1].label,
-    flex: 1,
-    ...COLUMN_STYLE,
-  },
-  {
     field: SIMULATION_OPTION_LIST[0].value,
     headerName: SIMULATION_OPTION_LIST[0].label,
     flex: 2,
@@ -29,6 +23,12 @@ const SIMULATION_LIST_COLUMN_LIST: GridColDef[] = [
     headerName: SIMULATION_OPTION_LIST[2].label,
     flex: 3,
 
+    ...COLUMN_STYLE,
+  },
+  {
+    field: SIMULATION_OPTION_LIST[1].value,
+    headerName: SIMULATION_OPTION_LIST[1].label,
+    flex: 1,
     ...COLUMN_STYLE,
   },
   {
@@ -46,7 +46,7 @@ const SIMULATION_LIST_COLUMN_LIST: GridColDef[] = [
   {
     field: SIMULATION_OPTION_LIST[5].value,
     headerName: SIMULATION_OPTION_LIST[5].label,
-    flex: 1,
+    flex: 2,
     ...COLUMN_STYLE,
   },
 ];
