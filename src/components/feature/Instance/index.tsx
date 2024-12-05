@@ -352,11 +352,13 @@ const Instance = () => {
     }
   };
 
+  const isExecuteActive = checkedRowList?.length > 0 && !isInstanceStartPending;
+  const isDeleteActive = checkedRowList?.length > 0 && !isInstanceDeletePending;
+
   return (
     <FlexCol className="gap-4">
       <FlexCol className="gap-1">
         <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
-        {/* <div className="flex gap-2"> */}
         <SimulationFilter
           optionList={[
             { value: "undefined", label: "시뮬레이션 전체" },
@@ -364,17 +366,12 @@ const Instance = () => {
           ]}
           onSelect={handleSelectSimulation}
         />
-        {/* </div> */}
       </FlexCol>
       <FlexCol className="gap-2">
         <div className="flex justify-between">
           <ButtonGroup
-            isExecuteActive={
-              checkedRowList?.length > 0 && !isInstanceStartPending
-            }
-            isDeleteActive={
-              checkedRowList?.length > 0 && !isInstanceDeletePending
-            }
+            isExecuteActive={isExecuteActive}
+            isDeleteActive={isDeleteActive}
             onCreate={handleCreate}
             onExecute={handleExecute}
             onDelete={handleDelete}
