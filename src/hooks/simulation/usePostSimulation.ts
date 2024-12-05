@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { simulation } from "@/api/simulation";
 import { PostSimulationRequest } from "@/type/request/_simulation";
