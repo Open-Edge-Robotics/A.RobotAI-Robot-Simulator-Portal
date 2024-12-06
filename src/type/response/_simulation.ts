@@ -25,8 +25,6 @@ export interface SimulationPostResponse
     SimulationDescriptionField,
     SimulationNamespaceField {}
 
-export interface SimulationActionResponse extends SimulationIdField {
-  result: string;
-}
+export interface SimulationPostActionResponse extends SimulationIdField {}
 
 export interface SimulaionDeleteResponse extends SimulationIdField {}
