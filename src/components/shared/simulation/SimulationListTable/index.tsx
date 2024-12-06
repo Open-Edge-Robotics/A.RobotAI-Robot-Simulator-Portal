@@ -1,7 +1,10 @@
 import React from "react";
 import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import { Menu } from "@mui/material";
-import { COLUMN_KEBAB, COLUMN_STYLE } from "@/constants/_tableColumn";
+import {
+  COLUMN_KEBAB_SIMULATION,
+  COLUMN_STYLE,
+} from "@/constants/_tableColumn";
 import KebabButton from "@/components/shared/button/KebabButton";
 import { SimulationListResponse } from "@/type/response/_simulation";
 import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
@@ -71,7 +74,7 @@ const SimulationListTable = ({
   const columnsWithActions: GridColDef[] = [
     ...columns,
     {
-      ...COLUMN_KEBAB,
+      ...COLUMN_KEBAB_SIMULATION,
       renderCell: (params: GridCellParams) => (
         <KebabButton
           id={params.row[SIMULATION_OPTION_LIST[1].value]}
