@@ -27,7 +27,7 @@ import {
   InstanceListResponse,
 } from "@/type/response/_instance";
 import { INSTANCE_OPTION_LIST } from "@/constants/_filterOption";
-import { filterInstances, formatCreatedAt } from "@/utils/table";
+import { filterListByKeyword, formatCreatedAt } from "@/utils/table";
 import { transformResponseToOptionList } from "@/utils/option";
 import { useGetSimulationList } from "@/hooks/simulation/useGetSimulationList";
 import { usePostInstance } from "@/hooks/instance/usePostInstance";
@@ -206,8 +206,10 @@ const Instance = () => {
   // 필터링 검색 버튼 클릭 시
   const onFilerSubmit = (data: FilterGroupFormData) => {
     if (!instanceListData?.data) return;
-    const filteredList = filterInstances(
+
+    const filteredList = filterListByKeyword<BaseInstance>(
       instanceListData.data,
+      INSTANCE_OPTION_LIST,
       data[SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData],
       filterType,
     );
