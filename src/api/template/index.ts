@@ -1,7 +1,11 @@
 import { BASE_API } from "@/constants/api/_apiPath";
-import { apiGet } from "@/lib/axios";
+import { apiDelete, apiGet } from "@/lib/axios";
+import { TemplateIdField } from "@/type/_field";
 import { Result } from "@/type/response/_default";
-import { TemplateListResponse } from "@/type/response/_template";
+import {
+  TemplateDeleteResponse,
+  TemplateListResponse,
+} from "@/type/response/_template";
 
 /**
  * @description 템플릿 목록 조회
@@ -14,6 +18,20 @@ const getTemplateList = async (): Promise<Result<TemplateListResponse>> => {
   return response.data;
 };
 
+/**
+ * @description 템플릿 삭제
+ * @returns {TemplateDeleteResponse} - 템플릿 ID
+ */
+const deleteTemplate = async (
+  request: TemplateIdField,
+): Promise<Result<TemplateDeleteResponse>> => {
+  const response = await apiDelete<Result<TemplateDeleteResponse>>(
+    `${BASE_API.TEMPLATE}/${request.templateId}`,
+  );
+  return response.data;
+};
+
 export const template = {
   getTemplateList,
+  deleteTemplate,
 };

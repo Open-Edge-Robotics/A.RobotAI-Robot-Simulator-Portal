@@ -17,7 +17,7 @@ const ReloadButton = ({ ...props }: ButtonProps) => {
       onClick={handleReload}
       {...props}
     >
-      <IoReload width={16} height={16} />
+      <IoReload size={18} />
     </Button>
   );
 };

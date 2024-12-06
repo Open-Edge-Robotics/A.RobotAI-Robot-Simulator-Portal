@@ -1,6 +1,7 @@
 import {
   INSTANCE_OPTION_LIST,
   SIMULATION_OPTION_LIST,
+  TEMPLATE_OPTION_LIST,
 } from "@/constants/_filterOption";
 import { GridColDef } from "@mui/x-data-grid";
 
@@ -97,6 +98,27 @@ const INSTANCE_LIST_COLUMN_LIST: GridColDef[] = [
   },
 ];
 
+const TEMPLATE_LIST_COLUMN_LIST: GridColDef[] = [
+  {
+    field: TEMPLATE_OPTION_LIST[0].value,
+    headerName: TEMPLATE_OPTION_LIST[0].label,
+    flex: 2,
+    ...COLUMN_STYLE,
+  },
+  {
+    field: TEMPLATE_OPTION_LIST[1].value,
+    headerName: TEMPLATE_OPTION_LIST[1].label,
+    flex: 1,
+    ...COLUMN_STYLE,
+  },
+  {
+    field: TEMPLATE_OPTION_LIST[2].value,
+    headerName: TEMPLATE_OPTION_LIST[2].label,
+    flex: 3,
+    ...COLUMN_STYLE,
+  },
+];
+
 const COLUMN_KEBAB = {
   field: "actions",
   headerName: "액션",
@@ -107,5 +129,6 @@ export {
   COLUMN_STYLE,
   SIMULATION_LIST_COLUMN_LIST,
   INSTANCE_LIST_COLUMN_LIST,
+  TEMPLATE_LIST_COLUMN_LIST,
   COLUMN_KEBAB,
 };

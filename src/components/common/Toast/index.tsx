@@ -35,13 +35,13 @@ const Toast = ({ message, variant, duration = 3000, onClose }: ToastProps) => {
     <div className="w-88 text-black-950shadow-lg fixed right-3 top-1/4 z-50 rounded-lg border-[1px] border-gray-300 bg-white p-4">
       <div className="mb-2 flex items-center gap-2">
         {variant === "normal" && (
-          <IoInformationCircleOutline color="#676b73" width={20} height={20} />
+          <IoInformationCircleOutline color="#676b73" size={20} />
         )}
         {variant === "success" && (
-          <IoCheckmarkCircleOutline color="#4d7aaa" width={20} height={20} />
+          <IoCheckmarkCircleOutline color="#4d7aaa" size={20} />
         )}
         {variant === "warning" && (
-          <IoWarningOutline color="#ef4444" width={20} height={20} />
+          <IoWarningOutline color="#ef4444" size={20} />
         )}
         <span>{message}</span>
       </div>

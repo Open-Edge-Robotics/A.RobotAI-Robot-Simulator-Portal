@@ -8,17 +8,19 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-const RETRY = 1;
-const STALE_TIME = 1000 * 30;
+export const QUERY_RETRY = 2;
+export const STALE_TIME = 1000 * 30;
+export const REFETCH_INTERVAL = 1000 * 30;
 
 const queryClientOption: QueryClientConfig = {
   defaultOptions: {
     queries: {
-      retry: RETRY,
+      retry: QUERY_RETRY,
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       networkMode: "always",
       staleTime: STALE_TIME,
+      refetchInterval: REFETCH_INTERVAL,
       throwOnError: true,
     },
     mutations: {

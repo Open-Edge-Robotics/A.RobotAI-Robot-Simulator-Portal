@@ -1,33 +1,29 @@
-import React from "react";
-import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
-import { Menu } from "@mui/material";
-import { COLUMN_KEBAB, COLUMN_STYLE } from "@/constants/_tableColumn";
-import KebabButton from "@/components/shared/button/KebabButton";
-import { SimulationListResponse } from "@/type/response/_simulation";
-import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
-import { PAGE_SIZE_OPTION_LIST } from "@/components/shared/instance/InstanceListTable";
-import AlertModal from "@/components/common/AlertModal";
 import ActionMenuItem from "@/components/common/ActionMenuItem";
+import AlertModal from "@/components/common/AlertModal";
+import KebabButton from "@/components/shared/button/KebabButton";
+import { PAGE_SIZE_OPTION_LIST } from "@/components/shared/instance/InstanceListTable";
+import { TEMPLATE_OPTION_LIST } from "@/constants/_filterOption";
+import { COLUMN_KEBAB, COLUMN_STYLE } from "@/constants/_tableColumn";
+import { TemplateListResponse } from "@/type/response/_template";
+import { Menu } from "@mui/material";
+import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
+import React from "react";
 
-type SimulationListTableProps = {
-  rows: SimulationListResponse;
+type Props = {
+  rows: TemplateListResponse;
   columns: GridColDef[];
   paginationModel: { page: number; pageSize: number };
   isLoading: boolean;
-  onExecute?: (id: number) => void;
-  onStop?: (id: number) => void;
-  onDelete?: (id: number) => void;
+  onDelete: (id: number) => void;
 };
 
-const SimulationListTable = ({
+const TemplateListTable = ({
   rows,
   columns,
   paginationModel,
   isLoading,
-  onExecute,
-  onStop,
   onDelete,
-}: SimulationListTableProps) => {
+}: Props) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [selectedRowId, setSelectedRowId] = React.useState<number | null>(null);
 
@@ -39,20 +35,6 @@ const SimulationListTable = ({
   const handleClose = () => {
     setAnchorEl(null);
     setSelectedRowId(null);
-  };
-
-  // 실행 버튼 클릭 시
-  const handleExecute = () => {
-    if (!onExecute || !selectedRowId) return;
-    onExecute(selectedRowId);
-    handleClose();
-  };
-
-  // 중지 버튼 클릭 시
-  const handleStop = () => {
-    if (!onStop || !selectedRowId) return;
-    onStop(selectedRowId);
-    handleClose();
   };
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -74,9 +56,9 @@ const SimulationListTable = ({
       ...COLUMN_KEBAB,
       renderCell: (params: GridCellParams) => (
         <KebabButton
-          id={params.row[SIMULATION_OPTION_LIST[1].value]}
+          id={params.row[TEMPLATE_OPTION_LIST[1].value]}
           onClick={(e) =>
-            handleClick(e, params.row[SIMULATION_OPTION_LIST[1].value])
+            handleClick(e, params.row[TEMPLATE_OPTION_LIST[1].value])
           }
         />
       ),
@@ -109,7 +91,7 @@ const SimulationListTable = ({
         }}
         rows={rows}
         columns={columnsWithActions}
-        getRowId={(row) => row[SIMULATION_OPTION_LIST[1].value]}
+        getRowId={(row) => row[TEMPLATE_OPTION_LIST[1].value]}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={PAGE_SIZE_OPTION_LIST}
         disableAutosize
@@ -147,16 +129,6 @@ const SimulationListTable = ({
         }}
       >
         <ActionMenuItem
-          onClick={handleExecute}
-          buttonText="실행"
-          color="primary"
-        />
-        <ActionMenuItem
-          onClick={handleStop}
-          buttonText="중지"
-          color="warning"
-        />
-        <ActionMenuItem
           onClick={handleModalOpen}
           buttonText="삭제"
           color="error"
@@ -165,7 +137,7 @@ const SimulationListTable = ({
       <AlertModal
         isOpen={isModalOpen}
         title="경고"
-        message="시뮬레이션 삭제 시 되돌릴 수 없습니다. 그래도 삭제하시겠습니까?"
+        message="템플릿 삭제 시 되돌릴 수 없습니다. 그래도 삭제하시겠습니까?"
         onClose={handleModalClose}
         onAccept={handleDelete}
       />
@@ -173,4 +145,4 @@ const SimulationListTable = ({
   );
 };
 
-export default SimulationListTable;
+export default TemplateListTable;
