@@ -1,50 +1,19 @@
 import React from "react";
 import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
-import {
-  Button,
-  ButtonProps,
-  Menu,
-  MenuItem,
-  MenuItemProps,
-} from "@mui/material";
+import { Menu } from "@mui/material";
 import { COLUMN_KEBAB, COLUMN_STYLE } from "@/constants/_tableColumn";
 import KebabButton from "@/components/shared/button/KebabButton";
 import { SimulationListResponse } from "@/type/response/_simulation";
 import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
 import { PAGE_SIZE_OPTION_LIST } from "@/components/shared/instance/InstanceListTable";
 import AlertModal from "@/components/common/AlertModal";
-
-type ActionMenuItemProps = {
-  buttonText: string;
-} & ButtonProps &
-  MenuItemProps;
-
-const ActionMenuItem = ({
-  onClick,
-  buttonText,
-  ...props
-}: ActionMenuItemProps) => (
-  <MenuItem
-    onClick={onClick}
-    sx={{
-      padding: "4px",
-      fontSize: "14px",
-      borderRadius: "4px",
-      justifyContent: "center",
-    }}
-  >
-    <Button variant="contained" {...props}>
-      {buttonText}
-    </Button>
-  </MenuItem>
-);
+import ActionMenuItem from "@/components/common/ActionMenuItem";
 
 type SimulationListTableProps = {
   rows: SimulationListResponse;
   columns: GridColDef[];
   paginationModel: { page: number; pageSize: number };
   isLoading: boolean;
-  onRowClick?: (params: any) => void;
   onExecute?: (id: number) => void;
   onStop?: (id: number) => void;
   onDelete?: (id: number) => void;
@@ -55,7 +24,6 @@ const SimulationListTable = ({
   columns,
   paginationModel,
   isLoading,
-  onRowClick,
   onExecute,
   onStop,
   onDelete,
@@ -106,8 +74,10 @@ const SimulationListTable = ({
       ...COLUMN_KEBAB,
       renderCell: (params: GridCellParams) => (
         <KebabButton
-          id={params.row.simulationId}
-          onClick={(e) => handleClick(e, params.row.simulationId)}
+          id={params.row[SIMULATION_OPTION_LIST[1].value]}
+          onClick={(e) =>
+            handleClick(e, params.row[SIMULATION_OPTION_LIST[1].value])
+          }
         />
       ),
       type: "actions",
@@ -142,7 +112,6 @@ const SimulationListTable = ({
         getRowId={(row) => row[SIMULATION_OPTION_LIST[1].value]}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={PAGE_SIZE_OPTION_LIST}
-        onRowClick={onRowClick}
         disableAutosize
         loading={isLoading}
         disableRowSelectionOnClick
