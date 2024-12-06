@@ -13,9 +13,8 @@ import {
   filterShema,
   SCHEMA_NAME,
 } from "@/schema/_schema";
-import { filterSimulationList, formatCreatedAt } from "@/utils/table";
+import { filterListByKeyword, formatCreatedAt } from "@/utils/table";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Typography } from "@mui/material";
 import SimulationListTable from "@/components/shared/simulation/SimulationListTable";
 import CreateButton from "@/components/shared/button/CreateButton";
 import SimulationCreateDialog from "@/components/shared/simulation/SimulationCreateDialog";
@@ -37,7 +36,7 @@ import { API_MESSAGE } from "@/constants/api/_errorMessage";
 import ReloadButton from "@/components/shared/button/ReloadButton";
 
 // datagrid 페이지네이션 설정
-const paginationModel = { page: 0, pageSize: 20 };
+export const paginationModel = { page: 0, pageSize: 20 };
 
 const Simulation = () => {
   // API: 시뮬레이션 목록 조회
@@ -129,9 +128,9 @@ const Simulation = () => {
     mode: "onChange",
   });
 
-  // 검색 버튼 클릭 시
+  // 검색 버튼 클릭 시 (검색어 있을 때)
   const onFilterSubmit = (data: FilterGroupFormData) => {
-    const filteredList = filterSimulationList(
+    const filteredList = filterListByKeyword<SimulationType>(
       simulationList,
       SIMULATION_OPTION_LIST,
       data[SCHEMA_NAME.SEARCH_KEYWORD as keyof FilterGroupFormData],
@@ -150,7 +149,7 @@ const Simulation = () => {
     }
   };
 
-  // 검색어 없이 검색 버튼 클릭 시
+  // 검색 버튼 클릭 시 (검색어 없을 때)
   const onFilterError = () => {
     if (!data?.data) return;
     const formattedData = formatCreatedAt<SimulationType>(
