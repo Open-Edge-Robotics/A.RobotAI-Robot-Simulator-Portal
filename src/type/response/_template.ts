@@ -12,3 +12,5 @@ export interface TemplateBase
 }
 
 export type TemplateListResponse = TemplateBase[];
+
+export interface TemplateDeleteResponse extends TemplateIdField {}
