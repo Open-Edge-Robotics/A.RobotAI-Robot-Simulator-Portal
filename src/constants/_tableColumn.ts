@@ -119,9 +119,15 @@ const TEMPLATE_LIST_COLUMN_LIST: GridColDef[] = [
   },
 ];
 
-const COLUMN_KEBAB = {
+const COLUMN_KEBAB_SIMULATION = {
   field: "actions",
   headerName: "액션",
+  flex: 1,
+};
+
+const COLUMN_KEBAB_TEMPLATE = {
+  field: "actions",
+  headerName: "",
   flex: 1,
 };
 
@@ -130,5 +136,6 @@ export {
   SIMULATION_LIST_COLUMN_LIST,
   INSTANCE_LIST_COLUMN_LIST,
   TEMPLATE_LIST_COLUMN_LIST,
-  COLUMN_KEBAB,
+  COLUMN_KEBAB_SIMULATION,
+  COLUMN_KEBAB_TEMPLATE,
 };
