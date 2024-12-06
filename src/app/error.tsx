@@ -1,3 +1,5 @@
+"use client";
+
 import FlexCol from "@/components/common/FlexCol";
 import { MENU_ITEMS } from "@/constants/_navbar";
 import { Button, Typography } from "@mui/material";
