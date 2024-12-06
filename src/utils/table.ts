@@ -1,15 +1,13 @@
-import { INSTANCE_OPTION_LIST } from "@/constants/_filterOption";
-import {
-  InstanceCreatedAtField,
-  InstanceDescriptionField,
-  InstanceIdField,
-  InstanceNameField,
-} from "@/type/_field";
-import { InstanceListResponse } from "@/type/response/_instance";
-import { SimulationType } from "@/type/response/_simulation";
-
-export const filterSimulationList = (
-  dataList: SimulationType[],
+/**
+ * @description 검색어와 필터타입으로 필터링하는 함수
+ * @param dataList - 검색어와 필터타입으로 필터할 데이터 배열
+ * @param optionList - 필터에 사용되는 옵션 리스트
+ * @param keyword - 검색어
+ * @param filterType - 필터 타입 (ex 이름 or ID or 설명 등)
+ * @returns 검색 결과 배열
+ */
+export const filterListByKeyword = <T>(
+  dataList: T[],
   optionList: { label: string; value: string }[],
   keyword: string,
   filterType: string,
@@ -28,35 +26,6 @@ export const filterSimulationList = (
     if (!filterKey) return true;
 
     return String(value).toLowerCase().includes(keyword.toLowerCase());
-  });
-};
-
-export const filterInstances = (
-  instances: InstanceListResponse,
-  keyword: string,
-  filterType: string,
-) => {
-  return instances.filter((instance) => {
-    if (filterType === INSTANCE_OPTION_LIST[0].value) {
-      return instance[INSTANCE_OPTION_LIST[0].value as keyof InstanceIdField]
-        .toString()
-        .includes(keyword);
-    } else if (filterType === INSTANCE_OPTION_LIST[1].value) {
-      return instance[INSTANCE_OPTION_LIST[1].value as keyof InstanceNameField]
-        .toLowerCase()
-        .includes(keyword.toLowerCase());
-    } else if (filterType === INSTANCE_OPTION_LIST[2].value) {
-      return instance[
-        INSTANCE_OPTION_LIST[2].value as keyof InstanceDescriptionField
-      ]
-        .toLowerCase()
-        .includes(keyword.toLowerCase());
-    } else if (filterType === INSTANCE_OPTION_LIST[3].value) {
-      return instance[
-        INSTANCE_OPTION_LIST[3].value as keyof InstanceCreatedAtField
-      ].includes(keyword);
-    }
-    return true;
   });
 };
 
