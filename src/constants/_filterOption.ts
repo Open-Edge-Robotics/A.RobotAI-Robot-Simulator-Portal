@@ -17,4 +17,10 @@ const INSTANCE_OPTION_LIST = [
   { label: "파드 상태", value: "podStatus" },
 ];
 
-export { SIMULATION_OPTION_LIST, INSTANCE_OPTION_LIST };
+const TEMPLATE_OPTION_LIST = [
+  { label: "템플릿 타입", value: "templateType" },
+  { label: "ID", value: "templateId" },
+  { label: "설명", value: "templateDescription" },
+];
+
+export { SIMULATION_OPTION_LIST, INSTANCE_OPTION_LIST, TEMPLATE_OPTION_LIST };
