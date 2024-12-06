@@ -246,10 +246,10 @@ const Instance = () => {
       { instanceIds: checkedRowList, action: "start" },
       {
         onSuccess() {
-          showToast(API_MESSAGE.INSTANCE.START[200], "success", 1000);
+          showToast(API_MESSAGE.INSTANCE.START[200], "success", 2000);
         },
         onError() {
-          showToast(API_MESSAGE.INSTANCE.START[500], "warning", 1000);
+          showToast(API_MESSAGE.INSTANCE.START[500], "warning", 2000);
         },
       },
     );
@@ -263,12 +263,12 @@ const Instance = () => {
   const handleDelete = () => {
     instanceListDeleteMutate(checkedRowList, {
       onSuccess() {
-        showToast(API_MESSAGE.INSTANCE.DELETE[201], "success", 1000);
+        showToast(API_MESSAGE.INSTANCE.DELETE[201], "success", 2000);
         setSelectedSimulationId(undefined);
         instanceListRefetch();
       },
       onError() {
-        showToast(API_MESSAGE.INSTANCE.DELETE[500], "warning", 1000);
+        showToast(API_MESSAGE.INSTANCE.DELETE[500], "warning", 2000);
       },
     });
   };
@@ -334,7 +334,7 @@ const Instance = () => {
         },
         {
           onSuccess: () => {
-            showToast(API_MESSAGE.INSTANCE.CREATE[201], "success", 1000);
+            showToast(API_MESSAGE.INSTANCE.CREATE[201], "success", 2000);
             setIsOpen(false);
             instanceListRefetch();
             setSelectedIds({ simulationId: "", templateId: "" });
@@ -344,7 +344,7 @@ const Instance = () => {
             // 인스턴스 생성 후에는 파드 상태 pending -> ready 빠르게 업데이트되는 것 보이도록
             setTimeout(() => {
               instanceListRefetch(); // 10초 뒤에 데이터를 다시 가져오기
-            }, 10000); // 10000ms = 10초
+            }, 20000); // 20000ms = 10초
           },
           // * 에러 처리는 인스턴스 생성 팝업에서 진행
         },
@@ -352,11 +352,13 @@ const Instance = () => {
     }
   };
 
+  const isExecuteActive = checkedRowList?.length > 0 && !isInstanceStartPending;
+  const isDeleteActive = checkedRowList?.length > 0 && !isInstanceDeletePending;
+
   return (
     <FlexCol className="gap-4">
       <FlexCol className="gap-1">
         <PageTitle className="text-white">{MENU_ITEMS[1].label}</PageTitle>
-        {/* <div className="flex gap-2"> */}
         <SimulationFilter
           optionList={[
             { value: "undefined", label: "시뮬레이션 전체" },
@@ -364,17 +366,12 @@ const Instance = () => {
           ]}
           onSelect={handleSelectSimulation}
         />
-        {/* </div> */}
       </FlexCol>
       <FlexCol className="gap-2">
         <div className="flex justify-between">
           <ButtonGroup
-            isExecuteActive={
-              checkedRowList?.length > 0 && !isInstanceStartPending
-            }
-            isDeleteActive={
-              checkedRowList?.length > 0 && !isInstanceDeletePending
-            }
+            isExecuteActive={isExecuteActive}
+            isDeleteActive={isDeleteActive}
             onCreate={handleCreate}
             onExecute={handleExecute}
             onDelete={handleDelete}
@@ -407,7 +404,7 @@ const Instance = () => {
       {isInstanceStartPending && (
         <LoadingBar
           isOpen={isInstanceStartPending}
-          message="인스턴스 실행 준비 중입니다"
+          message="인스턴스 실행 중입니다"
         />
       )}
       {!instanceDetail && <Typography variant="h6">로딩중</Typography>}

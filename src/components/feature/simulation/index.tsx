@@ -97,14 +97,14 @@ const Simulation = () => {
       },
       {
         onSuccess: () => {
-          showToast(API_MESSAGE.SIMULATION.DELETE[201], "success", 1000);
+          showToast(API_MESSAGE.SIMULATION.DELETE[201], "success", 2000);
           simulationListRefetch();
         },
         onError: (error: AxiosError<Result<null>>) => {
           if (error.response?.status === 403) {
-            showToast(API_MESSAGE.SIMULATION.DELETE[403], "warning", 1000);
+            showToast(API_MESSAGE.SIMULATION.DELETE[403], "warning", 2000);
           } else if (error.response?.status === 500) {
-            showToast(API_MESSAGE.SIMULATION.DELETE[500], "warning", 1000);
+            showToast(API_MESSAGE.SIMULATION.DELETE[500], "warning", 2000);
           }
         },
       },
@@ -175,7 +175,7 @@ const Simulation = () => {
       },
       {
         onSuccess: () => {
-          showToast(API_MESSAGE.SIMULATION.CREATE[201], "success", 1000);
+          showToast(API_MESSAGE.SIMULATION.CREATE[201], "success", 2000);
           setIsOpen(false);
           simulationListRefetch();
         },
