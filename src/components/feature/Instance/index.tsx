@@ -106,12 +106,12 @@ const Instance = () => {
     }
   }, [isInstanceListLoading, instanceListData]);
 
-  const [selectedInstanceId, setSelectedInstanceID] = React.useState<number>(0);
+  const [selectedInstanceId, setSelectedInstanceId] = React.useState<number>(0);
   const [hasResult, setHasResult] = React.useState(true);
-  // instanceList가 업데이트되면 selectedInstanceId를 첫 번째 인스턴스로 설정
+  // instanceList가 업데이트되면 가장 최근 인스턴스ID를 selectedInstanceId로 설정
   React.useEffect(() => {
     if (instanceList.length > 0) {
-      setSelectedInstanceID(instanceList[0]?.instanceId);
+      setSelectedInstanceId(instanceList[0]?.instanceId);
     } else {
       setInstanceDetail({
         instanceNamespace: "",
@@ -157,7 +157,7 @@ const Instance = () => {
   // 테이블 행 클릭 시 해당 행의 인스턴스 아이디 업데이트
   const handleRowClick = (params: GridRowParams) => {
     const { row } = params;
-    setSelectedInstanceID(row.instanceId);
+    setSelectedInstanceId(row.instanceId);
   };
 
   const [filterType, setFilterType] = React.useState<string>(
@@ -397,6 +397,7 @@ const Instance = () => {
             rows={instanceList}
             columns={INSTANCE_LIST_COLUMN_LIST}
             paginationModel={paginationModel}
+            isCheckable
             onRowClick={handleRowClick}
             onMultipleRowClick={hanldeMultpleRowClick}
           />
