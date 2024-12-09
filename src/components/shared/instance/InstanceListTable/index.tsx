@@ -14,14 +14,16 @@ type InstanceListTableProps = {
   rows: InstanceListResponse;
   columns: GridColDef[];
   paginationModel: { page: number; pageSize: number };
+  isCheckable?: boolean;
   onRowClick: (params: GridRowParams) => void;
-  onMultipleRowClick: (rowSelectionModel: GridRowSelectionModel) => void;
+  onMultipleRowClick?: (rowSelectionModel: GridRowSelectionModel) => void;
 };
 
 const InstanceListTable = ({
   rows,
   columns,
   paginationModel,
+  isCheckable,
   onRowClick,
   onMultipleRowClick,
 }: InstanceListTableProps) => {
@@ -59,7 +61,7 @@ const InstanceListTable = ({
       disableColumnMenu
       disableDensitySelector
       disableVirtualization
-      checkboxSelection
+      checkboxSelection={isCheckable}
       onRowSelectionModelChange={onMultipleRowClick}
     />
   );
