@@ -3,7 +3,7 @@ import AlertModal from "@/components/common/AlertModal";
 import KebabButton from "@/components/shared/button/KebabButton";
 import { PAGE_SIZE_OPTION_LIST } from "@/components/shared/instance/InstanceListTable";
 import { TEMPLATE_OPTION_LIST } from "@/constants/_filterOption";
-import { COLUMN_KEBAB, COLUMN_STYLE } from "@/constants/_tableColumn";
+import { COLUMN_KEBAB_TEMPLATE, COLUMN_STYLE } from "@/constants/_tableColumn";
 import { TemplateListResponse } from "@/type/response/_template";
 import { Menu } from "@mui/material";
 import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
@@ -53,7 +53,7 @@ const TemplateListTable = ({
   const columnsWithActions: GridColDef[] = [
     ...columns,
     {
-      ...COLUMN_KEBAB,
+      ...COLUMN_KEBAB_TEMPLATE,
       renderCell: (params: GridCellParams) => (
         <KebabButton
           id={params.row[TEMPLATE_OPTION_LIST[1].value]}

@@ -70,6 +70,11 @@ export interface SimulationNamespaceField {
   simulationNamespace: string;
 }
 
+type ActionType = "start" | "stop";
+export interface ActionField {
+  action: ActionType;
+}
+
 export interface BaseSimulation
   extends SimulationIdField,
     SimulationNameField,
@@ -85,4 +90,12 @@ export interface TemplateTypeField {
 }
 export interface TemplateDescriptionField {
   templateDescription: string;
+}
+
+export interface TopicsField {
+  topics: string;
+}
+
+export interface CreatedAtField {
+  createdAt: string;
 }
