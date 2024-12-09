@@ -54,7 +54,7 @@ const postSimulationAction = async ({
   Result<SimulationPostActionResponse>
 > => {
   const response = await apiPost<Result<SimulationPostActionResponse>>(
-    `${simulationURL}/${actionURL}`,
+    `${simulationURL}${actionURL}`,
     {
       simulationId,
       action,
