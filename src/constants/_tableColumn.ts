@@ -12,6 +12,7 @@ const COLUMN_STYLE = {
   headerAlign: "center" as const,
 };
 
+// 시뮬레이션 목록 테이블 컬럼 목록
 const SIMULATION_LIST_COLUMN_LIST: GridColDef[] = [
   {
     field: SIMULATION_OPTION_LIST[0].value,
@@ -35,7 +36,7 @@ const SIMULATION_LIST_COLUMN_LIST: GridColDef[] = [
   {
     field: SIMULATION_OPTION_LIST[3].value,
     headerName: SIMULATION_OPTION_LIST[3].label,
-    flex: 2,
+    flex: 1,
     ...COLUMN_STYLE,
   },
   {
@@ -52,6 +53,7 @@ const SIMULATION_LIST_COLUMN_LIST: GridColDef[] = [
   },
 ];
 
+// 인스턴스 목록 테이블 컬럼 목록
 const INSTANCE_LIST_COLUMN_LIST: GridColDef[] = [
   {
     field: INSTANCE_OPTION_LIST[0].value,
@@ -87,7 +89,7 @@ const INSTANCE_LIST_COLUMN_LIST: GridColDef[] = [
   {
     field: INSTANCE_OPTION_LIST[5].value,
     headerName: INSTANCE_OPTION_LIST[5].label,
-    flex: 1,
+    flex: 2,
     ...COLUMN_STYLE,
   },
   {
@@ -98,6 +100,7 @@ const INSTANCE_LIST_COLUMN_LIST: GridColDef[] = [
   },
 ];
 
+// 템플릿 목록 테이블 컬럼 목록
 const TEMPLATE_LIST_COLUMN_LIST: GridColDef[] = [
   {
     field: TEMPLATE_OPTION_LIST[0].value,
@@ -117,11 +120,23 @@ const TEMPLATE_LIST_COLUMN_LIST: GridColDef[] = [
     flex: 3,
     ...COLUMN_STYLE,
   },
+  {
+    field: TEMPLATE_OPTION_LIST[3].value,
+    headerName: TEMPLATE_OPTION_LIST[3].label,
+    flex: 3,
+    ...COLUMN_STYLE,
+  },
+  {
+    field: TEMPLATE_OPTION_LIST[4].value,
+    headerName: TEMPLATE_OPTION_LIST[4].label,
+    flex: 1,
+    ...COLUMN_STYLE,
+  },
 ];
 
 const COLUMN_KEBAB_SIMULATION = {
   field: "actions",
-  headerName: "액션",
+  headerName: "",
   flex: 1,
 };
 
