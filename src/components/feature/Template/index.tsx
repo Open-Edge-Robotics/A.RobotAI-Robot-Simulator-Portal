@@ -1,5 +1,9 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
+import React from "react";
+import { useForm } from "react-hook-form";
 import FlexCol from "@/components/common/FlexCol";
 import NonContent from "@/components/common/NonContent";
 import PageTitle from "@/components/common/PageTitle";
@@ -19,11 +23,7 @@ import { filterShema, SCHEMA_NAME } from "@/schema/_schema";
 import { useToastStore } from "@/stores/useToastStore";
 import { Result } from "@/type/response/_default";
 import { TemplateBase, TemplateListResponse } from "@/type/response/_template";
-import { filterListByKeyword } from "@/utils/table";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
-import React from "react";
-import { useForm } from "react-hook-form";
+import { filterListByKeyword, formatCreatedAt } from "@/utils/table";
 
 const Template = () => {
   //  API: 템플릿 목록 조회
@@ -38,7 +38,11 @@ const Template = () => {
 
   React.useEffect(() => {
     if (!isTemplateListLoading && templateListData) {
-      setTemplateList(templateListData.data);
+      const formattedData = formatCreatedAt<TemplateBase>(
+        templateListData.data,
+        TEMPLATE_OPTION_LIST[4].value,
+      );
+      setTemplateList(formattedData);
     }
   }, [isTemplateListLoading, templateListData]);
 
