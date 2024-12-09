@@ -34,6 +34,8 @@ import { useDeleteSimulation } from "@/hooks/simulation/useDeleteSimulation";
 import { AxiosError } from "axios";
 import { API_MESSAGE } from "@/constants/api/_errorMessage";
 import ReloadButton from "@/components/shared/button/ReloadButton";
+import { usePostSimulationAction } from "@/hooks/simulation/usePostSimulationAction";
+import LoadingBar from "@/components/common/LoadingBar";
 
 // datagrid 페이지네이션 설정
 export const paginationModel = { page: 0, pageSize: 20 };
@@ -77,9 +79,29 @@ const Simulation = () => {
   };
   // 시뮬레이션 생성 버튼 클릭
   const handleClickCreate = () => setIsOpen(true);
-  // TODO: API 연결
+
+  // API : 시뮬레이션 실행
+  const {
+    mutate: simulationActionMutate,
+    isPending: isSimulationActionPending,
+  } = usePostSimulationAction();
+
   const handleExecute = (id: number) => {
     console.log("실행버튼 클릭", id);
+    simulationActionMutate(
+      {
+        simulationId: id,
+        action: "start",
+      },
+      {
+        onSuccess: () => {
+          showToast(API_MESSAGE.SIMULATION.EXECUTE[201], "success", 2000);
+        },
+        onError: () => {
+          showToast(API_MESSAGE.SIMULATION.EXECUTE[500], "warning", 2000);
+        },
+      },
+    );
   };
   const handleClickStop = (id: number) => {
     console.log("중지 버튼 클릭", id);
@@ -224,6 +246,12 @@ const Simulation = () => {
         handleSubmit={dialogHandleSubmit(onSimulationSubmit)}
         error={simulationCreateError}
       />
+      {isSimulationActionPending && (
+        <LoadingBar
+          isOpen={isSimulationActionPending}
+          message="시뮬레이션이 실행 중입니다"
+        />
+      )}
     </FlexCol>
   );
 };
