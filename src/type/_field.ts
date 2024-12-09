@@ -91,3 +91,11 @@ export interface TemplateTypeField {
 export interface TemplateDescriptionField {
   templateDescription: string;
 }
+
+export interface TopicsField {
+  topics: string;
+}
+
+export interface CreatedAtField {
+  createdAt: string;
+}
