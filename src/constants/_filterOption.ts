@@ -21,6 +21,8 @@ const TEMPLATE_OPTION_LIST = [
   { label: "템플릿 타입", value: "templateType" },
   { label: "ID", value: "templateId" },
   { label: "설명", value: "templateDescription" },
+  { label: "토픽", value: "topics" },
+  { label: "생성일", value: "createdAt" },
 ];
 
 export { SIMULATION_OPTION_LIST, INSTANCE_OPTION_LIST, TEMPLATE_OPTION_LIST };
