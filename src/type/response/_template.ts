@@ -1,13 +1,17 @@
 import {
+  CreatedAtField,
   TemplateDescriptionField,
   TemplateIdField,
   TemplateTypeField,
+  TopicsField,
 } from "@/type/_field";
 
 export interface TemplateBase
   extends TemplateIdField,
     TemplateTypeField,
-    TemplateDescriptionField {
+    TemplateDescriptionField,
+    TopicsField,
+    CreatedAtField {
   [key: string]: string | number;
 }
 
