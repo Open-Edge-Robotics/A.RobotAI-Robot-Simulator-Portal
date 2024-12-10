@@ -1,6 +1,7 @@
 # 프론트 배포 가이드
 
 - 작성일: 241206
+- 최종 수정일 : 241210
 - 작성자: 허우림
 - 아래 스탭 순서대로 실행
 
@@ -75,6 +76,26 @@ docker stop 컨테이너ID
 
 #새로 pull 받은 이미지로 컨테이너 실행
 docker run -d -p 3001:3000 username/robot-simulator-front:latest
+
+# 배포 링크 접속하여 코드 잘 반영되었는지, 버그 없는지 확인
+
+# 전체 컨테이너 목록 확인
+docker ps -a
+
+# 사용하지 않는 기존 컨테이너 삭제
+docker rm 컨테이너ID
+
+# 컨테이너 정상적으로 삭제되었는지 확인
+docker ps -a
+
+# 기존에 pull 받았던 이미지 목록 확인
+docker images
+
+# 사용하지 않는 이미지 삭제
+docker rm 이미지ID
+
+# 이미지 정상적으로 삭제되었는지 확인
+docker images
 ```
 
 ### 배포 주소
