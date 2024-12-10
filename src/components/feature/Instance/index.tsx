@@ -41,10 +41,9 @@ import { Typography } from "@mui/material";
 import NonContent from "@/components/common/NonContent";
 import { useDeleteInstanceList } from "@/hooks/instance/useDeleteInstanceList";
 import { API_MESSAGE } from "@/constants/api/_errorMessage";
-import { useStartInstanceList } from "@/hooks/instance/useStartInstanceList";
 import LoadingBar from "@/components/common/LoadingBar";
 import ReloadButton from "@/components/shared/button/ReloadButton";
-import { useQueryClient } from "@tanstack/react-query";
+import { usePostInstanceListAction } from "@/hooks/instance/usePostInstanceListAction";
 
 const paginationModel = { page: 0, pageSize: 15 };
 
@@ -164,7 +163,7 @@ const Instance = () => {
     INSTANCE_OPTION_LIST[0].value,
   );
 
-  const [checkedRowList, setCheckedRowList] = React.useState<string[]>([]);
+  const [checkedRowList, setCheckedRowList] = React.useState<number[]>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedIds, setSelectedIds] = React.useState({
     simulationId: "",
@@ -188,7 +187,7 @@ const Instance = () => {
 
   // 클릭된 체크 박스 row 아이디 수집
   const hanldeMultpleRowClick = (rowSelectionModel: GridRowSelectionModel) => {
-    const selectedIds = rowSelectionModel as string[];
+    const selectedIds = rowSelectionModel as number[];
     setCheckedRowList(selectedIds);
   };
 
@@ -239,24 +238,44 @@ const Instance = () => {
   };
 
   // API : 인스턴스 실행
-  const { mutate: intanceListStartMutate, isPending: isInstanceStartPending } =
-    useStartInstanceList();
-
+  const {
+    mutate: intanceListExecuteMutate,
+    isPending: isInstanceExecutePending,
+  } = usePostInstanceListAction();
   // 체크박스 선택 후 실행버튼 클릭 시
   const handleExecute = () => {
-    intanceListStartMutate(
+    intanceListExecuteMutate(
       { instanceIds: checkedRowList, action: "start" },
       {
         onSuccess() {
-          showToast(API_MESSAGE.INSTANCE.START[200], "success", 2000);
+          showToast(API_MESSAGE.INSTANCE.EXECUTE[200], "success", 2000);
         },
         onError() {
-          showToast(API_MESSAGE.INSTANCE.START[500], "warning", 2000);
+          showToast(API_MESSAGE.INSTANCE.EXECUTE[500], "warning", 2000);
         },
       },
     );
   };
 
+  // API : 인스턴스 중지
+  const { mutate: intanceListStopMutate, isPending: isInstanceStopPending } =
+    usePostInstanceListAction();
+  // 체크박스 선택 후 중지버튼 클릭 시
+  const handleStop = () => {
+    intanceListStopMutate(
+      { instanceIds: checkedRowList, action: "stop" },
+      {
+        onSuccess() {
+          showToast(API_MESSAGE.INSTANCE.STOP[200], "success", 2000);
+        },
+        onError() {
+          showToast(API_MESSAGE.INSTANCE.STOP[500], "warning", 2000);
+        },
+      },
+    );
+  };
+
+  // API : 인스턴스 삭제
   const {
     mutate: instanceListDeleteMutate,
     isPending: isInstanceDeletePending,
@@ -309,8 +328,6 @@ const Instance = () => {
   const { mutate: instanceCreateMutate, error: instanceCreateError } =
     usePostInstance();
 
-  const queryClient = useQueryClient();
-
   // 인스턴스 생성 팝업 - 생성 버튼 클릭 시
   const onInstanceSubmit = (data: CreateInstanceFormType) => {
     if (!selectedIds.simulationId) {
@@ -354,7 +371,9 @@ const Instance = () => {
     }
   };
 
-  const isExecuteActive = checkedRowList?.length > 0 && !isInstanceStartPending;
+  const isExecuteActive =
+    checkedRowList?.length > 0 && !isInstanceExecutePending;
+  const isStopActive = checkedRowList?.length > 0 && !isInstanceStopPending;
   const isDeleteActive = checkedRowList?.length > 0 && !isInstanceDeletePending;
 
   return (
@@ -373,9 +392,11 @@ const Instance = () => {
         <div className="flex justify-between">
           <ButtonGroup
             isExecuteActive={isExecuteActive}
+            isStopActive={isStopActive}
             isDeleteActive={isDeleteActive}
             onCreate={handleCreate}
             onExecute={handleExecute}
+            onStop={handleStop}
             onDelete={handleDelete}
           />
           <div className="flex gap-2">
@@ -404,10 +425,16 @@ const Instance = () => {
         )}
         {!hasResult && !isInstanceListLoading && <NonContent />}
       </FlexCol>
-      {isInstanceStartPending && (
+      {isInstanceExecutePending && (
         <LoadingBar
-          isOpen={isInstanceStartPending}
+          isOpen={isInstanceExecutePending}
           message="인스턴스 실행 중입니다"
+        />
+      )}
+      {isInstanceStopPending && (
+        <LoadingBar
+          isOpen={isInstanceStopPending}
+          message="인스턴스 중지 중입니다"
         />
       )}
       {!instanceDetail && <Typography variant="h6">로딩중</Typography>}
