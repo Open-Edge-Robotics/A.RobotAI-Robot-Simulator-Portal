@@ -6,7 +6,10 @@ import PageTitle from "@/components/common/PageTitle";
 import FilterGroup, {
   FilterGroupFormData,
 } from "@/components/shared/FilterGroup";
-import { SIMULATION_LIST_COLUMN_LIST } from "@/constants/_tableColumn";
+import {
+  INSTANCE_LIST_COLUMN_LIST,
+  SIMULATION_LIST_COLUMN_LIST,
+} from "@/constants/_tableColumn";
 import { MENU_ITEMS } from "@/constants/_navbar";
 import {
   createSimulationShema,
@@ -23,7 +26,10 @@ import {
   SimulationListResponse,
   SimulationType,
 } from "@/type/response/_simulation";
-import { SIMULATION_OPTION_LIST } from "@/constants/_filterOption";
+import {
+  INSTANCE_OPTION_LIST,
+  SIMULATION_OPTION_LIST,
+} from "@/constants/_filterOption";
 import { usePostSimulation } from "@/hooks/simulation/usePostSimulation";
 import { useToastStore } from "@/stores/useToastStore";
 import { useGetSimulationList } from "@/hooks/simulation/useGetSimulationList";
@@ -36,9 +42,15 @@ import { API_MESSAGE } from "@/constants/api/_errorMessage";
 import ReloadButton from "@/components/shared/button/ReloadButton";
 import { usePostSimulationAction } from "@/hooks/simulation/usePostSimulationAction";
 import LoadingBar from "@/components/common/LoadingBar";
+import { GridRowParams } from "@mui/x-data-grid";
+import { useGetInstanceList } from "@/hooks/instance/useGetInstanceList";
+import { InstanceListResponse } from "@/type/response/_instance";
+import { BaseInstance } from "@/type/_field";
+import InstanceListTable from "@/components/shared/instance/InstanceListTable";
 
 // datagrid 페이지네이션 설정
 export const paginationModel = { page: 0, pageSize: 20 };
+const instanceListPageModel = { page: 0, pageSize: 10 };
 
 const Simulation = () => {
   // API: 시뮬레이션 목록 조회
@@ -50,6 +62,43 @@ const Simulation = () => {
   const [simulationList, setSimulationList] =
     React.useState<SimulationListResponse>([]);
   const [hasResult, setHasResult] = React.useState(true);
+  const [selectedSimulationId, setSelectedSimulationId] =
+    React.useState<number>(0);
+  const [instanceList, setInstanceList] = React.useState<InstanceListResponse>(
+    [],
+  );
+
+  // simulationList 업데이트 되면 가장 최근 시뮬레이션ID를 selectedSimulationId로 설정
+  React.useEffect(() => {
+    if (simulationList.length > 0) {
+      setSelectedSimulationId(simulationList[0].simulationId);
+    } else {
+      setSimulationList([]);
+    }
+  }, [simulationList]);
+
+  // API: 시뮬레이션별 인스턴스 목록 조회
+  const { data: instanceListData, isLoading: isInstanceListLoading } =
+    useGetInstanceList({
+      simulationId: Number(selectedSimulationId) || undefined,
+    });
+
+  // 전체 인스턴스 목록 상태 업데이트
+  React.useEffect(() => {
+    if (!instanceListData?.data?.[0]?.instanceCreatedAt) {
+      setInstanceList([]);
+      return;
+    }
+
+    if (!isInstanceListLoading && instanceListData?.data) {
+      setHasResult(true);
+      const formattedData = formatCreatedAt<BaseInstance>(
+        instanceListData.data,
+        INSTANCE_OPTION_LIST[3].value as keyof BaseInstance,
+      );
+      setInstanceList(formattedData);
+    }
+  }, [isInstanceListLoading, instanceListData]);
 
   // 시뮬레이션 목록 포맷팅 및 상태 업데이트, 검색 결과 상태 업데이트
   React.useEffect(() => {
@@ -86,11 +135,10 @@ const Simulation = () => {
     isPending: isSimulationActionPending,
   } = usePostSimulationAction();
 
-  const handleExecute = (id: number) => {
-    console.log("실행버튼 클릭", id);
+  const handleExecute = (simulationId: number) => {
     simulationActionMutate(
       {
-        simulationId: id,
+        simulationId,
         action: "start",
       },
       {
@@ -205,6 +253,12 @@ const Simulation = () => {
     dialogReset();
   };
 
+  // 테이블 행 클릭 시 해당 행의 시뮬레이션 아이디 업데이트
+  const handleRowClick = (params: GridRowParams) => {
+    const { row } = params;
+    setSelectedSimulationId(row.simulationId);
+  };
+
   return (
     <FlexCol className="gap-4">
       <PageTitle className="text-white">{MENU_ITEMS[3].label}</PageTitle>
@@ -222,21 +276,35 @@ const Simulation = () => {
             />
           </div>
         </div>
-        {isSimulationListLoading && (
-          <NonContent message="데이터를 불러오는 중입니다" />
-        )}
-        {hasResult && !isSimulationListLoading && (
-          <SimulationListTable
-            rows={simulationList}
-            columns={SIMULATION_LIST_COLUMN_LIST}
-            paginationModel={paginationModel}
-            isLoading={isSimulationListLoading}
-            onExecute={handleExecute}
-            onStop={handleClickStop}
-            onDelete={handleClickDelete}
-          />
-        )}
-        {!hasResult && !isSimulationListLoading && <NonContent />}
+        <FlexCol className="gap-4">
+          {isSimulationListLoading && (
+            <NonContent message="데이터를 불러오는 중입니다" />
+          )}
+          {hasResult && !isSimulationListLoading && (
+            <SimulationListTable
+              rows={simulationList}
+              columns={SIMULATION_LIST_COLUMN_LIST}
+              paginationModel={paginationModel}
+              isLoading={isSimulationListLoading}
+              onRowClick={handleRowClick}
+              onExecute={handleExecute}
+              onStop={handleClickStop}
+              onDelete={handleClickDelete}
+            />
+          )}
+          {!hasResult && !isSimulationListLoading && <NonContent />}
+          {!isInstanceListLoading && instanceList[0]?.instanceCreatedAt && (
+            <InstanceListTable
+              rows={instanceList}
+              columns={INSTANCE_LIST_COLUMN_LIST}
+              paginationModel={instanceListPageModel}
+              onRowClick={handleRowClick}
+            />
+          )}
+          {!isInstanceListLoading && !instanceList[0]?.instanceCreatedAt && (
+            <NonContent message="인스턴스가 비어있습니다" />
+          )}
+        </FlexCol>
       </FlexCol>
       <SimulationCreateDialog
         isOpen={isOpen}

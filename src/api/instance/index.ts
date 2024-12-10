@@ -2,16 +2,14 @@ import { apiDelete, apiGet, apiPost } from "@/lib/axios";
 import { BASE_API } from "@/constants/api/_apiPath";
 import {
   InstancePostRequest,
-  InstanceActionPostRequest,
   GetInstanceListRequest,
-  InstanceListStartRequest,
+  InstanceListActionPostRequest,
 } from "@/type/request/_instance";
 import {
-  InstanceActionResponse,
   InstanceDeleteResponse,
   InstanceDetailResponse,
+  InstanceListActionPostResponse,
   InstanceListResponse,
-  InstanceListStartResponse,
   InstancePostResponse,
 } from "@/type/response/_instance";
 import { Result } from "@/type/response/_default";
@@ -69,29 +67,14 @@ const postInstance = async (
 };
 
 /**
- * @description 인스턴스 실행/중지
- * @param {InstanceActionPostRequest} request - 인스턴스 ID, 액션(실행 or 중지)
- * @returns {InstanceActionResponse}
+ * @description 인스턴스 목록 실행/중지
+ * @param {InstanceListActionPostRequest} request - 인스턴스 ID 목록, 실행/중지 중 택 1
+ * @return {Promise<Result<null>>} - 인스턴스 단일 삭제 response 배열
  */
-const postInstanceAction = async (
-  request: InstanceActionPostRequest,
-): Promise<Result<InstanceActionResponse>> => {
-  const response = await apiPost<Result<InstanceActionResponse>>(
-    `${instanceURL}${actionURL}`,
-    request,
-  );
-  return response.data;
-};
-
-/**
- * @description 인스턴스 목록 실행
- * @param {string[]} request - 인스턴스 ID 목록
- * @return {Promise<Result<null>[]>} - 인스턴스 단일 삭제 response 배열
- */
-const startInstanceList = async (
-  request: InstanceListStartRequest,
-): Promise<Result<InstanceListStartResponse>> => {
-  const response = await apiPost<Result<InstanceListStartResponse>>(
+const postInstanceListAction = async (
+  request: InstanceListActionPostRequest,
+): Promise<Result<InstanceListActionPostResponse>> => {
+  const response = await apiPost<Result<InstanceListActionPostResponse>>(
     `${instanceURL}${actionURL}`,
     request,
   );
@@ -114,11 +97,11 @@ const deleteInstance = async (
 
 /**
  * @description 인스턴스 목록 삭제
- * @param {string[]} requests - 인스턴스 목록에서 체크된 인스턴스 ID 배열
+ * @param {number[]} requests - 인스턴스 목록에서 체크된 인스턴스 ID 배열
  * @return {Promise<Result<null>[]>} - 인스턴스 단일 삭제 response 배열
  */
 const deleteInstanceList = async (
-  requests: string[],
+  requests: number[],
 ): Promise<Result<null>[]> => {
   const deletePromises = requests.map((request) =>
     deleteInstance({ instanceId: Number(request) }),
@@ -131,8 +114,7 @@ export const instance = {
   getInstanceList,
   getInstanceDetail,
   postInstance,
-  postInstanceAction,
-  startInstanceList,
+  postInstanceListAction,
   deleteInstance,
   deleteInstanceList,
 };

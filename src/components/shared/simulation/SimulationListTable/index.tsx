@@ -1,5 +1,10 @@
 import React from "react";
-import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridCellParams,
+  GridColDef,
+  GridRowParams,
+} from "@mui/x-data-grid";
 import { Menu } from "@mui/material";
 import {
   COLUMN_KEBAB_SIMULATION,
@@ -17,6 +22,7 @@ type SimulationListTableProps = {
   columns: GridColDef[];
   paginationModel: { page: number; pageSize: number };
   isLoading: boolean;
+  onRowClick: (params: GridRowParams) => void;
   onExecute?: (id: number) => void;
   onStop?: (id: number) => void;
   onDelete?: (id: number) => void;
@@ -27,6 +33,7 @@ const SimulationListTable = ({
   columns,
   paginationModel,
   isLoading,
+  onRowClick,
   onExecute,
   onStop,
   onDelete,
@@ -117,6 +124,7 @@ const SimulationListTable = ({
         pageSizeOptions={PAGE_SIZE_OPTION_LIST}
         disableAutosize
         loading={isLoading}
+        onRowClick={onRowClick}
         disableRowSelectionOnClick
         disableColumnResize
         disableMultipleRowSelection
