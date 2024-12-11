@@ -100,6 +100,17 @@ const INSTANCE_LIST_COLUMN_LIST: GridColDef[] = [
   },
 ];
 
+// 시뮬레이션 페이지 인스턴스 테이블 컬럼 목록 (instance running status 추가)
+const INSTANCE_LIST_COLUMN_WITH_STATUS: GridColDef[] = [
+  ...INSTANCE_LIST_COLUMN_LIST,
+  {
+    field: "runningStatus",
+    headerName: "실행 상태",
+    flex: 1,
+    ...COLUMN_STYLE,
+  },
+];
+
 // 템플릿 목록 테이블 컬럼 목록
 const TEMPLATE_LIST_COLUMN_LIST: GridColDef[] = [
   {
@@ -150,6 +161,7 @@ export {
   COLUMN_STYLE,
   SIMULATION_LIST_COLUMN_LIST,
   INSTANCE_LIST_COLUMN_LIST,
+  INSTANCE_LIST_COLUMN_WITH_STATUS,
   TEMPLATE_LIST_COLUMN_LIST,
   COLUMN_KEBAB_SIMULATION,
   COLUMN_KEBAB_TEMPLATE,
