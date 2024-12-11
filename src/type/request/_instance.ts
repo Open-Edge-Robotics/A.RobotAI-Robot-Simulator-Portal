@@ -22,3 +22,5 @@ export interface GetInstanceListRequest {
 export interface InstanceListActionPostRequest
   extends InstanceIdsField,
     ActionField {}
+
+export interface InstanceListStatusCheckPostRequest extends InstanceIdsField {}
