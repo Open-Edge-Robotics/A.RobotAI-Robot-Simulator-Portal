@@ -3,6 +3,10 @@ export interface InstanceIdField {
   instanceId: number;
 }
 
+export interface InstanceIdsField {
+  instanceIds: number[];
+}
+
 export interface InstanceNameField {
   instanceName: string;
 }
@@ -16,6 +20,14 @@ export interface InstanceCountField {
 
 export interface InstanceCreatedAtField {
   instanceCreatedAt: string;
+}
+
+export interface RunningStatusField {
+  runningStatus: string;
+}
+
+export interface StatusField {
+  status: string;
 }
 
 export interface PodNameField {
