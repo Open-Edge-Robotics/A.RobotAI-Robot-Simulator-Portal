@@ -43,3 +43,47 @@ export const formatCreatedAt = <T>(data: T[], createdAtKey: keyof T): T[] => {
     [createdAtKey]: processCreatedAt(item[createdAtKey] as string),
   }));
 };
+
+/**
+ * @description api response에서 원하는 prop만 추출해 배열로 반환
+ * @param list - api response 배열 (타입 명시 필요)
+ * @param propName - 추출하고 싶은 prop명
+ * @returns {array} - 인스턴스 id 배열
+ */
+export const extractPropsFromList = <T, K extends keyof T>(
+  list: T[],
+  propName: K,
+): T[K][] => {
+  const array: T[K][] = [];
+  list.map((item) => {
+    array.push(item[propName]);
+  });
+  return array;
+};
+
+/**
+ * @description 공통 prop 하나를 가지고 있는 api response 타입 데이터 합치기
+ * @param originalList - prop 추가 대상이 되는 리스트
+ * @param addList - 추가하고 싶은 prop이 있는 리스트
+ * @param comparisonProp - 두 리스트에서 공통으로 가지고 있는 prop
+ * @param propName - 추가할 prop
+ * @returns
+ */
+export const mergeListData = <T, K>(
+  originalList: T[],
+  addList: K[],
+  comparisonProp: keyof T & keyof K,
+  propName: keyof K,
+) => {
+  return originalList.map((originalItem) => {
+    const prop = addList.find(
+      (newItem) =>
+        (newItem[comparisonProp] as any) ===
+        (originalItem[comparisonProp] as any),
+    );
+
+    if (prop) return { ...originalItem, [propName]: prop[propName] };
+
+    return originalItem;
+  });
+};
