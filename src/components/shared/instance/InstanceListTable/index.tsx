@@ -5,13 +5,13 @@ import {
   GridRowParams,
   GridRowSelectionModel,
 } from "@mui/x-data-grid";
-import { InstanceListResponse } from "@/type/response/_instance";
 import { INSTANCE_OPTION_LIST } from "@/constants/_filterOption";
+import { BaseInstance } from "@/type/_field";
 
 export const PAGE_SIZE_OPTION_LIST = [15, 20, 25, 30];
 
 type InstanceListTableProps = {
-  rows: InstanceListResponse;
+  rows: BaseInstance[];
   columns: GridColDef[];
   paginationModel: { page: number; pageSize: number };
   isCheckable?: boolean;
