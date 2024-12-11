@@ -131,12 +131,12 @@ const Simulation = () => {
 
   // API : 시뮬레이션 실행
   const {
-    mutate: simulationActionMutate,
-    isPending: isSimulationActionPending,
+    mutate: simulationExecuteMutate,
+    isPending: isSimulationExecutePending,
   } = usePostSimulationAction();
-
+  // 시뮬레이션 실행 버튼 클릭
   const handleExecute = (simulationId: number) => {
-    simulationActionMutate(
+    simulationExecuteMutate(
       {
         simulationId,
         action: "start",
@@ -151,8 +151,25 @@ const Simulation = () => {
       },
     );
   };
-  const handleClickStop = (id: number) => {
-    console.log("중지 버튼 클릭", id);
+
+  // API : 시뮬레이션 중지
+  const { mutate: simulationStopMutate, isPending: isSimulationStopPending } =
+    usePostSimulationAction();
+  const handleClickStop = (simulationId: number) => {
+    simulationStopMutate(
+      {
+        simulationId,
+        action: "stop",
+      },
+      {
+        onSuccess: () => {
+          showToast(API_MESSAGE.SIMULATION.STOP[201], "success", 2000);
+        },
+        onError: () => {
+          showToast(API_MESSAGE.SIMULATION.STOP[500], "warning", 2000);
+        },
+      },
+    );
   };
 
   // API: 시뮬레이션 삭제
@@ -314,10 +331,16 @@ const Simulation = () => {
         handleSubmit={dialogHandleSubmit(onSimulationSubmit)}
         error={simulationCreateError}
       />
-      {isSimulationActionPending && (
+      {isSimulationExecutePending && (
         <LoadingBar
-          isOpen={isSimulationActionPending}
+          isOpen={isSimulationExecutePending}
           message="시뮬레이션이 실행 중입니다"
+        />
+      )}
+      {isSimulationStopPending && (
+        <LoadingBar
+          isOpen={isSimulationStopPending}
+          message="시뮬레이션이 중지 중입니다"
         />
       )}
     </FlexCol>
