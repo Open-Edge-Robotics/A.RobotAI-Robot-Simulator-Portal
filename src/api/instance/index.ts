@@ -69,7 +69,7 @@ const postInstance = async (
 /**
  * @description 인스턴스 목록 실행/중지
  * @param {InstanceListActionPostRequest} request - 인스턴스 ID 목록, 실행/중지 중 택 1
- * @return {Promise<Result<null>>} - 인스턴스 단일 삭제 response 배열
+ * @return {InstanceListActionPostResponse}
  */
 const postInstanceListAction = async (
   request: InstanceListActionPostRequest,
@@ -98,7 +98,7 @@ const deleteInstance = async (
 /**
  * @description 인스턴스 목록 삭제
  * @param {number[]} requests - 인스턴스 목록에서 체크된 인스턴스 ID 배열
- * @return {Promise<Result<null>[]>} - 인스턴스 단일 삭제 response 배열
+ * @return {<Result<null>[]>} - 인스턴스 단일 삭제 response 배열
  */
 const deleteInstanceList = async (
   requests: number[],
