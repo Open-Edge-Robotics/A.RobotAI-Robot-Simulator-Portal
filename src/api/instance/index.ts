@@ -4,12 +4,14 @@ import {
   InstancePostRequest,
   GetInstanceListRequest,
   InstanceListActionPostRequest,
+  InstanceListStatusCheckPostRequest,
 } from "@/type/request/_instance";
 import {
   InstanceDeleteResponse,
   InstanceDetailResponse,
   InstanceListActionPostResponse,
   InstanceListResponse,
+  InstanceListStatusCheckPostResponse,
   InstancePostResponse,
 } from "@/type/response/_instance";
 import { Result } from "@/type/response/_default";
@@ -18,6 +20,7 @@ import { SCHEMA_NAME } from "@/schema/_schema";
 
 const instanceURL = BASE_API.INSTANCE;
 const actionURL = BASE_API.ACTION;
+const statusURL = BASE_API.STATUS;
 
 /**
  * @description 인스턴스 목록 조회
@@ -82,6 +85,21 @@ const postInstanceListAction = async (
 };
 
 /**
+ * @description 인스턴스 목록 실행 상태 체크
+ * @param {InstanceListStatusCheckPostRequest} request - 인스턴스 ID 목록
+ * @return {Promise<Result<InstanceListStatusCheckPostResponse>>}
+ */
+const postInstanceListStatusCheck = async (
+  request: InstanceListStatusCheckPostRequest,
+): Promise<Result<InstanceListStatusCheckPostResponse>> => {
+  const response = await apiPost<Result<InstanceListStatusCheckPostResponse>>(
+    `${instanceURL}${statusURL}`,
+    request,
+  );
+  return response.data;
+};
+
+/**
  * @description 인스턴스 단일 삭제
  * @param {InstanceIdField} request - 삭제할 인스턴스 ID
  * @returns {InstanceDeleteResponse}
@@ -115,6 +133,7 @@ export const instance = {
   getInstanceDetail,
   postInstance,
   postInstanceListAction,
+  postInstanceListStatusCheck,
   deleteInstance,
   deleteInstanceList,
 };
