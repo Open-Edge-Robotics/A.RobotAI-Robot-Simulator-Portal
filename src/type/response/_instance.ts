@@ -21,10 +21,6 @@ export interface InstanceDetailResponse extends PodNameField {
 
 export type InstancePostResponse = BasePostInstance[];
 
-export interface InstanceActionResponse extends InstanceIdField {
-  result: string;
-}
-
 export interface InstanceDeleteResponse extends InstanceIdField {}
 
 export interface InstanceListActionPostResponse
