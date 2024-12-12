@@ -100,10 +100,8 @@ const Template = () => {
           showToast(API_MESSAGE.TEMPLATE.DELETE[201], "success", 2000);
           templateListRefetch();
         },
-        onError: (error: AxiosError<Result<null>>) => {
-          if (error.response?.status === 500) {
-            showToast(API_MESSAGE.TEMPLATE.DELETE[500], "warning", 2000);
-          }
+        onError: () => {
+          showToast(API_MESSAGE.TEMPLATE.DELETE[500], "warning", 2000);
         },
       },
     );
