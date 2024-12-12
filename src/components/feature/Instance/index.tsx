@@ -10,7 +10,7 @@ import FilterGroup, {
   FilterGroupFormData,
   Option,
 } from "@/components/shared/FilterGroup";
-import { INSTANCE_LIST_COLUMN_LIST } from "@/constants/_tableColumn";
+import { INSTANCE_LIST_COLUMN_WITH_STATUS } from "@/constants/_tableColumn";
 import {
   createInstanceSchema,
   filterShema,
@@ -25,9 +25,15 @@ import { CreateInstanceFormType } from "@/type/_instance";
 import {
   InstanceDetailResponse,
   InstanceListResponse,
+  InstanceListStatusCheckPostResponseBase,
 } from "@/type/response/_instance";
 import { INSTANCE_OPTION_LIST } from "@/constants/_filterOption";
-import { filterListByKeyword, formatCreatedAt } from "@/utils/table";
+import {
+  extractPropsFromList,
+  filterListByKeyword,
+  formatCreatedAt,
+  mergeListData,
+} from "@/utils/table";
 import { transformResponseToOptionList } from "@/utils/option";
 import { useGetSimulationList } from "@/hooks/simulation/useGetSimulationList";
 import { usePostInstance } from "@/hooks/instance/usePostInstance";
@@ -44,6 +50,7 @@ import { API_MESSAGE } from "@/constants/api/_errorMessage";
 import LoadingBar from "@/components/common/LoadingBar";
 import ReloadButton from "@/components/shared/button/ReloadButton";
 import { usePostInstanceListAction } from "@/hooks/instance/usePostInstanceListAction";
+import { usePostInstanceListStatusCheck } from "@/hooks/instance/usePostInstanceListStatusCheck";
 
 const paginationModel = { page: 0, pageSize: 15 };
 
@@ -104,6 +111,33 @@ const Instance = () => {
       setInstanceList(formattedData);
     }
   }, [isInstanceListLoading, instanceListData]);
+
+  // 인스턴스 목록 실행 상태 조회에 필요한 인스턴스 id 배열 추출
+  const instanceIds = extractPropsFromList(instanceList, "instanceId");
+
+  // API : 인스턴스 목록 실행 상태 조회
+  const { data: instanceStatusData } = usePostInstanceListStatusCheck(
+    {
+      instanceIds,
+    },
+    {
+      // 인스턴스 id 목록이 있을 때만 실행 상태 조회
+      enabled: instanceIds.length > 0,
+    },
+  );
+
+  // 인스턴스 상태 조회를 instanceList에 반영
+  React.useEffect(() => {
+    if (instanceStatusData?.data && instanceStatusData.data.length > 0) {
+      const mergedInstanceList = mergeListData(
+        instanceList,
+        instanceStatusData.data as InstanceListStatusCheckPostResponseBase[],
+        "instanceId",
+        "runningStatus",
+      );
+      setInstanceList(mergedInstanceList);
+    }
+  }, [instanceStatusData]);
 
   const [selectedInstanceId, setSelectedInstanceId] = React.useState<number>(0);
   const [hasResult, setHasResult] = React.useState(true);
@@ -426,7 +460,7 @@ const Instance = () => {
         {hasResult && !isInstanceListLoading && (
           <InstanceListTable
             rows={instanceList}
-            columns={INSTANCE_LIST_COLUMN_LIST}
+            columns={INSTANCE_LIST_COLUMN_WITH_STATUS}
             paginationModel={paginationModel}
             isCheckable
             onRowClick={handleRowClick}
