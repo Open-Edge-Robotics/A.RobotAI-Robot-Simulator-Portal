@@ -179,8 +179,13 @@ const Simulation = () => {
         onSuccess: () => {
           showToast(API_MESSAGE.SIMULATION.EXECUTE[201], "success", 2000);
         },
-        onError: () => {
-          showToast(API_MESSAGE.SIMULATION.EXECUTE[500], "warning", 2000);
+        onError({ status }) {
+          const message =
+            !status || !API_MESSAGE.SIMULATION.EXECUTE[status]
+              ? API_MESSAGE.SIMULATION.EXECUTE[500]
+              : API_MESSAGE.SIMULATION.EXECUTE[status];
+
+          showToast(message, "warning", 2000);
         },
       },
     );
@@ -189,6 +194,7 @@ const Simulation = () => {
   // API : 시뮬레이션 중지
   const { mutate: simulationStopMutate, isPending: isSimulationStopPending } =
     usePostSimulationAction();
+  // 시뮬레이션 중지 버튼 클릭
   const handleClickStop = (simulationId: number) => {
     simulationStopMutate(
       {
@@ -199,8 +205,13 @@ const Simulation = () => {
         onSuccess: () => {
           showToast(API_MESSAGE.SIMULATION.STOP[201], "success", 2000);
         },
-        onError: () => {
-          showToast(API_MESSAGE.SIMULATION.STOP[500], "warning", 2000);
+        onError({ status }) {
+          const message =
+            !status || !API_MESSAGE.SIMULATION.STOP[status]
+              ? API_MESSAGE.SIMULATION.STOP[500]
+              : API_MESSAGE.SIMULATION.STOP[status];
+
+          showToast(message, "warning", 2000);
         },
       },
     );
@@ -220,12 +231,19 @@ const Simulation = () => {
           showToast(API_MESSAGE.SIMULATION.DELETE[201], "success", 2000);
           simulationListRefetch();
         },
-        onError: (error: AxiosError<Result<null>>) => {
-          if (error.response?.status === 403) {
-            showToast(API_MESSAGE.SIMULATION.DELETE[403], "warning", 2000);
-          } else if (error.response?.status === 500) {
-            showToast(API_MESSAGE.SIMULATION.DELETE[500], "warning", 2000);
-          }
+        // onError: ({ response }: a) => {
+        onError: ({ status }) => {
+          const message = API_MESSAGE.SIMULATION.DELETE[status as number]
+            ? API_MESSAGE.SIMULATION.DELETE[status as number]
+            : API_MESSAGE.SIMULATION.DELETE[500];
+
+          showToast(message, "warning", 2000);
+
+          // if (status === 403) {
+          //   showToast(API_MESSAGE.SIMULATION.DELETE[403], "warning", 2000);
+          // } else if (status === 500) {
+          //   showToast(API_MESSAGE.SIMULATION.DELETE[500], "warning", 2000);
+          // }
         },
       },
     );
