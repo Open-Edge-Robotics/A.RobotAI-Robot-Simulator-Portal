@@ -7,7 +7,7 @@ import FilterGroup, {
   FilterGroupFormData,
 } from "@/components/shared/FilterGroup";
 import {
-  INSTANCE_LIST_COLUMN_LIST,
+  INSTANCE_LIST_COLUMN_WITH_STATUS,
   SIMULATION_LIST_COLUMN_LIST,
 } from "@/constants/_tableColumn";
 import { MENU_ITEMS } from "@/constants/_navbar";
@@ -16,7 +16,12 @@ import {
   filterShema,
   SCHEMA_NAME,
 } from "@/schema/_schema";
-import { filterListByKeyword, formatCreatedAt } from "@/utils/table";
+import {
+  extractPropsFromList,
+  filterListByKeyword,
+  formatCreatedAt,
+  mergeListData,
+} from "@/utils/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SimulationListTable from "@/components/shared/simulation/SimulationListTable";
 import CreateButton from "@/components/shared/button/CreateButton";
@@ -44,13 +49,14 @@ import { usePostSimulationAction } from "@/hooks/simulation/usePostSimulationAct
 import LoadingBar from "@/components/common/LoadingBar";
 import { GridRowParams } from "@mui/x-data-grid";
 import { useGetInstanceList } from "@/hooks/instance/useGetInstanceList";
-import { InstanceListResponse } from "@/type/response/_instance";
+import { InstanceListStatusCheckPostResponseBase } from "@/type/response/_instance";
 import { BaseInstance } from "@/type/_field";
 import InstanceListTable from "@/components/shared/instance/InstanceListTable";
+import { usePostInstanceListStatusCheck } from "@/hooks/instance/usePostInstanceListStatusCheck";
 
 // datagrid 페이지네이션 설정
 export const paginationModel = { page: 0, pageSize: 20 };
-const instanceListPageModel = { page: 0, pageSize: 10 };
+const instanceListPageModel = { page: 0, pageSize: 15 };
 
 const Simulation = () => {
   // API: 시뮬레이션 목록 조회
@@ -64,17 +70,18 @@ const Simulation = () => {
   const [hasResult, setHasResult] = React.useState(true);
   const [selectedSimulationId, setSelectedSimulationId] =
     React.useState<number>(0);
-  const [instanceList, setInstanceList] = React.useState<InstanceListResponse>(
-    [],
-  );
+  const [instanceList, setInstanceList] = React.useState<BaseInstance[]>([]);
 
   // simulationList 업데이트 되면 가장 최근 시뮬레이션ID를 selectedSimulationId로 설정
   React.useEffect(() => {
     if (simulationList.length > 0) {
       setSelectedSimulationId(simulationList[0].simulationId);
-    } else {
-      setSimulationList([]);
     }
+    // if (simulationList.length > 0) {
+    //   setSelectedSimulationId(simulationList[0].simulationId);
+    // } else {
+    //   setSimulationList([]);
+    // }
   }, [simulationList]);
 
   // API: 시뮬레이션별 인스턴스 목록 조회
@@ -99,6 +106,33 @@ const Simulation = () => {
       setInstanceList(formattedData);
     }
   }, [isInstanceListLoading, instanceListData]);
+
+  // 인스턴스 목록 실행 상태 조회에 필요한 인스턴스 id 배열 추출
+  const instanceIds = extractPropsFromList(instanceList, "instanceId");
+
+  // API : 인스턴스 목록 실행 상태 조회
+  const { data: instanceStatusData } = usePostInstanceListStatusCheck(
+    {
+      instanceIds,
+    },
+    {
+      // 인스턴스 id 목록이 있을 때만 실행 상태 조회
+      enabled: instanceIds.length > 0,
+    },
+  );
+
+  // 인스턴스 상태 조회를 instanceList에 반영
+  React.useEffect(() => {
+    if (instanceStatusData?.data && instanceStatusData.data.length > 0) {
+      const mergedInstanceList = mergeListData(
+        instanceList,
+        instanceStatusData.data as InstanceListStatusCheckPostResponseBase[],
+        "instanceId",
+        "runningStatus",
+      );
+      setInstanceList(mergedInstanceList);
+    }
+  }, [instanceStatusData]);
 
   // 시뮬레이션 목록 포맷팅 및 상태 업데이트, 검색 결과 상태 업데이트
   React.useEffect(() => {
@@ -131,12 +165,12 @@ const Simulation = () => {
 
   // API : 시뮬레이션 실행
   const {
-    mutate: simulationActionMutate,
-    isPending: isSimulationActionPending,
+    mutate: simulationExecuteMutate,
+    isPending: isSimulationExecutePending,
   } = usePostSimulationAction();
-
+  // 시뮬레이션 실행 버튼 클릭
   const handleExecute = (simulationId: number) => {
-    simulationActionMutate(
+    simulationExecuteMutate(
       {
         simulationId,
         action: "start",
@@ -151,8 +185,25 @@ const Simulation = () => {
       },
     );
   };
-  const handleClickStop = (id: number) => {
-    console.log("중지 버튼 클릭", id);
+
+  // API : 시뮬레이션 중지
+  const { mutate: simulationStopMutate, isPending: isSimulationStopPending } =
+    usePostSimulationAction();
+  const handleClickStop = (simulationId: number) => {
+    simulationStopMutate(
+      {
+        simulationId,
+        action: "stop",
+      },
+      {
+        onSuccess: () => {
+          showToast(API_MESSAGE.SIMULATION.STOP[201], "success", 2000);
+        },
+        onError: () => {
+          showToast(API_MESSAGE.SIMULATION.STOP[500], "warning", 2000);
+        },
+      },
+    );
   };
 
   // API: 시뮬레이션 삭제
@@ -296,7 +347,7 @@ const Simulation = () => {
           {!isInstanceListLoading && instanceList[0]?.instanceCreatedAt && (
             <InstanceListTable
               rows={instanceList}
-              columns={INSTANCE_LIST_COLUMN_LIST}
+              columns={INSTANCE_LIST_COLUMN_WITH_STATUS}
               paginationModel={instanceListPageModel}
               onRowClick={handleRowClick}
             />
@@ -314,10 +365,16 @@ const Simulation = () => {
         handleSubmit={dialogHandleSubmit(onSimulationSubmit)}
         error={simulationCreateError}
       />
-      {isSimulationActionPending && (
+      {isSimulationExecutePending && (
         <LoadingBar
-          isOpen={isSimulationActionPending}
+          isOpen={isSimulationExecutePending}
           message="시뮬레이션이 실행 중입니다"
+        />
+      )}
+      {isSimulationStopPending && (
+        <LoadingBar
+          isOpen={isSimulationStopPending}
+          message="시뮬레이션이 중지 중입니다"
         />
       )}
     </FlexCol>

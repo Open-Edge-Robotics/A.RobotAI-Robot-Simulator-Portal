@@ -3,6 +3,8 @@ import {
   BasePostInstance,
   InstanceIdField,
   PodNameField,
+  RunningStatusField,
+  StatusField,
 } from "@/type/_field";
 
 export type InstanceListResponse = BaseInstance[];
@@ -25,6 +27,13 @@ export interface InstanceActionResponse extends InstanceIdField {
 
 export interface InstanceDeleteResponse extends InstanceIdField {}
 
-export interface InstanceListActionPostResponse extends InstanceIdField {
-  status: string;
-}
+export interface InstanceListActionPostResponse
+  extends InstanceIdField,
+    StatusField {}
+
+export interface InstanceListStatusCheckPostResponseBase
+  extends InstanceIdField,
+    RunningStatusField {}
+
+export type InstanceListStatusCheckPostResponse =
+  InstanceListStatusCheckPostResponseBase[];

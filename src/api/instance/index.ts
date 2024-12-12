@@ -4,12 +4,14 @@ import {
   InstancePostRequest,
   GetInstanceListRequest,
   InstanceListActionPostRequest,
+  InstanceListStatusCheckPostRequest,
 } from "@/type/request/_instance";
 import {
   InstanceDeleteResponse,
   InstanceDetailResponse,
   InstanceListActionPostResponse,
   InstanceListResponse,
+  InstanceListStatusCheckPostResponse,
   InstancePostResponse,
 } from "@/type/response/_instance";
 import { Result } from "@/type/response/_default";
@@ -18,6 +20,7 @@ import { SCHEMA_NAME } from "@/schema/_schema";
 
 const instanceURL = BASE_API.INSTANCE;
 const actionURL = BASE_API.ACTION;
+const statusURL = BASE_API.STATUS;
 
 /**
  * @description 인스턴스 목록 조회
@@ -69,13 +72,28 @@ const postInstance = async (
 /**
  * @description 인스턴스 목록 실행/중지
  * @param {InstanceListActionPostRequest} request - 인스턴스 ID 목록, 실행/중지 중 택 1
- * @return {Promise<Result<null>>} - 인스턴스 단일 삭제 response 배열
+ * @return {InstanceListActionPostResponse}
  */
 const postInstanceListAction = async (
   request: InstanceListActionPostRequest,
 ): Promise<Result<InstanceListActionPostResponse>> => {
   const response = await apiPost<Result<InstanceListActionPostResponse>>(
     `${instanceURL}${actionURL}`,
+    request,
+  );
+  return response.data;
+};
+
+/**
+ * @description 인스턴스 목록 실행 상태 체크
+ * @param {InstanceListStatusCheckPostRequest} request - 인스턴스 ID 목록
+ * @return {Promise<Result<InstanceListStatusCheckPostResponse>>}
+ */
+const postInstanceListStatusCheck = async (
+  request: InstanceListStatusCheckPostRequest,
+): Promise<Result<InstanceListStatusCheckPostResponse>> => {
+  const response = await apiPost<Result<InstanceListStatusCheckPostResponse>>(
+    `${instanceURL}${statusURL}`,
     request,
   );
   return response.data;
@@ -98,7 +116,7 @@ const deleteInstance = async (
 /**
  * @description 인스턴스 목록 삭제
  * @param {number[]} requests - 인스턴스 목록에서 체크된 인스턴스 ID 배열
- * @return {Promise<Result<null>[]>} - 인스턴스 단일 삭제 response 배열
+ * @return {<Result<null>[]>} - 인스턴스 단일 삭제 response 배열
  */
 const deleteInstanceList = async (
   requests: number[],
@@ -115,6 +133,7 @@ export const instance = {
   getInstanceDetail,
   postInstance,
   postInstanceListAction,
+  postInstanceListStatusCheck,
   deleteInstance,
   deleteInstanceList,
 };

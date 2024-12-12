@@ -1,12 +1,12 @@
 import {
+  ActionField,
   InstanceCountField,
   InstanceDescriptionField,
+  InstanceIdsField,
   InstanceNameField,
   SimulationIdField,
   TemplateIdField,
 } from "@/type/_field";
-
-export type ActionType = "start" | "stop";
 
 export interface InstancePostRequest
   extends InstanceNameField,
@@ -19,7 +19,8 @@ export interface GetInstanceListRequest {
   simulationId?: number;
 }
 
-export interface InstanceListActionPostRequest {
-  instanceIds: number[];
-  action: ActionType;
-}
+export interface InstanceListActionPostRequest
+  extends InstanceIdsField,
+    ActionField {}
+
+export interface InstanceListStatusCheckPostRequest extends InstanceIdsField {}

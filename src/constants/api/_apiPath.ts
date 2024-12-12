@@ -9,4 +9,5 @@ export const BASE_API = {
   SIMULATION: `${API}/simulation`,
   INSTANCE: `${API}/instance`,
   ACTION: `/action`,
+  STATUS: `/status`,
 };
