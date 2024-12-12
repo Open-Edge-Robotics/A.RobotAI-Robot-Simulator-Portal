@@ -250,8 +250,13 @@ const Instance = () => {
         onSuccess() {
           showToast(API_MESSAGE.INSTANCE.EXECUTE[200], "success", 2000);
         },
-        onError() {
-          showToast(API_MESSAGE.INSTANCE.EXECUTE[500], "warning", 2000);
+        onError({ status }) {
+          const message =
+            !status || !API_MESSAGE.INSTANCE.EXECUTE[status]
+              ? API_MESSAGE.INSTANCE.EXECUTE[500]
+              : API_MESSAGE.INSTANCE.EXECUTE[status];
+
+          showToast(message, "warning", 2000);
         },
       },
     );
@@ -268,8 +273,13 @@ const Instance = () => {
         onSuccess() {
           showToast(API_MESSAGE.INSTANCE.STOP[200], "success", 2000);
         },
-        onError() {
-          showToast(API_MESSAGE.INSTANCE.STOP[500], "warning", 2000);
+        onError({ status }) {
+          const message =
+            !status || !API_MESSAGE.INSTANCE.STOP[status]
+              ? API_MESSAGE.INSTANCE.STOP[500]
+              : API_MESSAGE.INSTANCE.STOP[status];
+
+          showToast(message, "warning", 2000);
         },
       },
     );
@@ -363,7 +373,7 @@ const Instance = () => {
             // 인스턴스 생성 후에는 파드 상태 pending -> ready 빠르게 업데이트되는 것 보이도록
             setTimeout(() => {
               instanceListRefetch(); // 10초 뒤에 데이터를 다시 가져오기
-            }, 20000); // 20000ms = 10초
+            }, 10000);
           },
           // * 에러 처리는 인스턴스 생성 팝업에서 진행
         },
