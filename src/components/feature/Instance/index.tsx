@@ -53,19 +53,46 @@ import { usePostInstanceListAction } from "@/hooks/instance/usePostInstanceListA
 import { usePostInstanceListStatusCheck } from "@/hooks/instance/usePostInstanceListStatusCheck";
 
 const paginationModel = { page: 0, pageSize: 15 };
-
 const HEADERS_PER_COLUMN = 4;
 
-// TODO: 인스턴스 생성, 중지, 실행, 삭제할 때 refetch trigger
 const Instance = () => {
   const [selectedSimulationId, setSelectedSimulationId] = React.useState<
     undefined | string
   >(undefined);
-
-  // 체크박스 클릭한 시뮬레이션 리스트
   const [simulationOptionList, setSimulationOptionList] = React.useState<
     Option[]
   >([]);
+  const [instanceList, setInstanceList] = React.useState<InstanceListResponse>(
+    [],
+  );
+  const [selectedInstanceId, setSelectedInstanceId] = React.useState<number>(0);
+  const [hasResult, setHasResult] = React.useState(true);
+  const [instanceDetail, setInstanceDetail] =
+    React.useState<InstanceDetailResponse>({
+      instanceNamespace: "",
+      instanceStatus: "",
+      instanceImage: "",
+      instanceAge: "",
+      instanceLabel: "",
+      templateType: "",
+      topics: "",
+      podName: "",
+    });
+  const [filterType, setFilterType] = React.useState<string>(
+    INSTANCE_OPTION_LIST[0].value,
+  );
+  const [checkedRowList, setCheckedRowList] = React.useState<number[]>([]);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [selectedIds, setSelectedIds] = React.useState({
+    simulationId: "",
+    templateId: "",
+  });
+  const [isError, setIsError] = React.useState({
+    templateId: false,
+    simulationId: false,
+  });
+  const showToast = useToastStore((state) => state.showToast);
+
   // API: 시뮬레이션 목록 조회
   const { data: simulationListData, isLoading: isSimulationLoading } =
     useGetSimulationList();
@@ -82,9 +109,6 @@ const Instance = () => {
     }
   }, [isSimulationLoading, simulationListData]);
 
-  const [instanceList, setInstanceList] = React.useState<InstanceListResponse>(
-    [],
-  );
   // API: 인스턴스 목록 조회
   const {
     data: instanceListData,
@@ -101,7 +125,6 @@ const Instance = () => {
       setHasResult(false);
       return;
     }
-
     if (!isInstanceListLoading && instanceListData?.data) {
       setHasResult(true);
       const formattedData = formatCreatedAt<BaseInstance>(
@@ -139,8 +162,6 @@ const Instance = () => {
     }
   }, [instanceStatusData]);
 
-  const [selectedInstanceId, setSelectedInstanceId] = React.useState<number>(0);
-  const [hasResult, setHasResult] = React.useState(true);
   // instanceList가 업데이트되면 가장 최근 인스턴스ID를 selectedInstanceId로 설정
   React.useEffect(() => {
     if (instanceList.length > 0) {
@@ -158,18 +179,6 @@ const Instance = () => {
       });
     }
   }, [instanceList]);
-
-  const [instanceDetail, setInstanceDetail] =
-    React.useState<InstanceDetailResponse>({
-      instanceNamespace: "",
-      instanceStatus: "",
-      instanceImage: "",
-      instanceAge: "",
-      instanceLabel: "",
-      templateType: "",
-      topics: "",
-      podName: "",
-    });
 
   // API: 인스턴스 상세 조회
   const { data: instanceDetailData, isLoading: isInstanceDetailLoading } =
@@ -192,22 +201,6 @@ const Instance = () => {
     const { row } = params;
     setSelectedInstanceId(row.instanceId);
   };
-
-  const [filterType, setFilterType] = React.useState<string>(
-    INSTANCE_OPTION_LIST[0].value,
-  );
-
-  const [checkedRowList, setCheckedRowList] = React.useState<number[]>([]);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedIds, setSelectedIds] = React.useState({
-    simulationId: "",
-    templateId: "",
-  });
-  const [isError, setIsError] = React.useState({
-    templateId: false,
-    simulationId: false,
-  });
-  const showToast = useToastStore((state) => state.showToast);
 
   const setSimulationId = (id: string) => {
     setSelectedIds((prev) => ({ ...prev, simulationId: id }));
