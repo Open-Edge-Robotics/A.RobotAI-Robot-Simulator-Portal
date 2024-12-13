@@ -1,7 +1,7 @@
 # 프론트 배포 가이드
 
 - 작성일: 241206
-- 최종 수정일 : 241210
+- 최종 수정일 : 241213
 - 작성자: 허우림
 - 아래 스탭 순서대로 실행
 
@@ -53,8 +53,7 @@ docker push username/robot-simulator-front:latest
 - 241206 기준
 
 ```shell
-  hostName : 192.168.160.134
-
+  hostName : 192.168.160.129
   id: ubuntu
   pw: qwe1212!Q
 ```
@@ -62,6 +61,9 @@ docker push username/robot-simulator-front:latest
 2. 이미지 pull & 실행
 
 ```shell
+
+# access 권한 없다고 뜰 시 모든 명령어 앞에 sudo 붙이기
+
 # Docker login
 docker login
 
@@ -74,7 +76,8 @@ docker ps
 # 이전 프론트 배포 컨테이너 중지
 docker stop 컨테이너ID
 
-#새로 pull 받은 이미지로 컨테이너 실행
+# 새로 pull 받은 이미지로 컨테이너 실행
+# 3001 말고 원하는 포트 열어서 사용해도 무방
 docker run -d -p 3001:3000 username/robot-simulator-front:latest
 
 # 배포 링크 접속하여 코드 잘 반영되었는지, 버그 없는지 확인
@@ -92,7 +95,7 @@ docker ps -a
 docker images
 
 # 사용하지 않는 이미지 삭제
-docker rm 이미지ID
+docker rmi 이미지ID
 
 # 이미지 정상적으로 삭제되었는지 확인
 docker images
@@ -100,6 +103,6 @@ docker images
 
 ### 배포 주소
 
-- 241206 기준
+- 241213 기준
 
-http://192.168.160.134:3001
+http://192.168.160.129:3001
