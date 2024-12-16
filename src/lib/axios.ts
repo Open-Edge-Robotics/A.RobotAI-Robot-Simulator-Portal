@@ -13,7 +13,8 @@ const instance = axios.create({
   },
   // withCredentials: true,
   timeout: AXIOS_TIMEOUT,
-  baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
+  // next config에서 프록시 적용으로 baseURL 해제
+  // baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
 });
 
 instance.interceptors.request.use(
