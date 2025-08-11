@@ -6,7 +6,7 @@ import Layout from "./components/layout";
 import TemplatePage from "./pages/template";
 import MecPage from "./pages/mec";
 import SimulationPage from "./pages/simulation";
-import SimulationCreatePage from "./pages/simulation/create/CreatePage";
+import SimulationCreatePage from "./pages/simulation/create";
 import { ToastProvider } from "innogrid-ui";
 
 function AppRoutes() {

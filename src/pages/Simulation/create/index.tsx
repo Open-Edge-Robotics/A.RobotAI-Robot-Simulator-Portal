@@ -9,7 +9,7 @@ import type {
   Pattern,
   PatternType,
   SequentialAgentGroup,
-  SimulatioFormData,
+  SimulationFormData,
   StepInfo,
   StepType,
 } from "../types";
@@ -19,7 +19,7 @@ import Step3FormContent from "./StepFormContent/Step3FormContent";
 import Step4FormContent from "./StepFormContent/Step4FormContent";
 import Stepper from "../../../components/common/Stepper";
 
-const defaultFormData: SimulatioFormData = {
+const defaultFormData: SimulationFormData = {
   name: "",
   description: "",
   mec: null,
@@ -28,15 +28,15 @@ const defaultFormData: SimulatioFormData = {
 
 export default function SimulationCreatePage() {
   const [currentStep, setCurrentStep] = useState<StepType>(1);
-  const [formData, setFormData] = useState<SimulatioFormData>(defaultFormData);
+  const [formData, setFormData] = useState<SimulationFormData>(defaultFormData);
   const stepInfo = getCurrentStepInfo(
     currentStep,
     formData.pattern?.type ?? null,
   );
 
-  const updateFormData = <K extends keyof SimulatioFormData>(
+  const updateFormData = <K extends keyof SimulationFormData>(
     field: K,
-    value: SimulatioFormData[K],
+    value: SimulationFormData[K],
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -44,19 +44,19 @@ export default function SimulationCreatePage() {
     }));
   };
 
-  const validateStep = (step: StepType) => {
+  const validateStep = (step: StepType): boolean => {
     const errorMessage = validator[step](formData);
-    return errorMessage
-      ? { error: { message: errorMessage } }
-      : { error: null };
+    if (errorMessage) {
+      // TODO: toast 띄우기
+      alert(errorMessage);
+      return false;
+    }
+    return true;
   };
 
   const handleNext = () => {
-    const result = validateStep(currentStep);
-    if (result.error) {
-      alert(result.error.message);
-      return;
-    }
+    const isValid = validateStep(currentStep);
+    if (!isValid) return;
     setCurrentStep((prev) =>
       currentStep < 4 ? ((prev + 1) as StepType) : prev,
     );
@@ -68,9 +68,20 @@ export default function SimulationCreatePage() {
     );
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const isValid = validateStep(4);
+    if (!isValid) return;
+    await createSimulation();
     alert("시뮬레이션 생성 완료!");
-    // 여기에 시뮬레이션 생성 로직을 추가하세요.
+  };
+
+  const createSimulation = async () => {
+    try {
+      // TODO: 시뮬레이션 생성 로직
+      console.log("post simulation");
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -120,9 +131,9 @@ export default function SimulationCreatePage() {
           <NavigationButtons
             isFirstStep={currentStep === 1}
             isLastStep={currentStep === 4}
-            onClickPrev={handlePrev}
-            onClickNext={handleNext}
-            onClickComplete={handleSubmit}
+            onPrevClick={handlePrev}
+            onNextClick={handleNext}
+            onCompleteClick={handleSubmit}
           />
         </form>
       </div>

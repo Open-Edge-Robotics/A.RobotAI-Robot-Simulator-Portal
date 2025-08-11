@@ -1,3 +1,4 @@
+import Fallback from "../../../../components/common/Fallback";
 import type { Template, Pattern } from "../../types";
 import ParallelPatternForm from "./ParallelPatternForm";
 import SequentialPatternForm from "./SequentialPatternForm";
@@ -17,10 +18,7 @@ export default function Step3FormContent({
   pattern,
   onChangePattern,
 }: Step3FormContentProps) {
-  if (!pattern) {
-    // TODO: 컴포넌트화
-    return <div className="text-gray-500">패턴을 선택해주세요.</div>;
-  }
+  if (!pattern) return <Fallback text="패턴을 선택해주세요." />;
 
   const templateList = getMockTemplateList();
 
@@ -46,6 +44,6 @@ export default function Step3FormContent({
         />
       );
     default:
-      return <div className="text-gray-500">패턴을 선택해주세요.</div>;
+      return <Fallback text="패턴을 선택해주세요." />;
   }
 }

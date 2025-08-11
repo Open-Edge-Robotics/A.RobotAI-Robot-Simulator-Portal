@@ -200,14 +200,6 @@ function AgentGroupRow({
           >
             삭제
           </Button>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              onRemove(index);
-            }}
-          >
-            삭제
-          </button>
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-export interface SimulatioFormData {
+export interface SimulationFormData {
   name: string;
   description: string;
   mec: Mec | null;

@@ -1,15 +1,15 @@
 import { Input, Select, Textarea } from "innogrid-ui";
 import Label from "../../../../components/common/Label";
 import Fieldset from "../../../../components/common/Fieldset";
-import type { Mec, SimulatioFormData } from "../../types";
+import type { Mec, SimulationFormData } from "../../types";
 
 interface Step1FormContentProps {
   name: string;
   descirption: string;
   mec: Mec | null;
-  onChangeFormData: <K extends keyof SimulatioFormData>(
+  onChangeFormData: <K extends keyof SimulationFormData>(
     key: K,
-    value: SimulatioFormData[K],
+    value: SimulationFormData[K],
   ) => void;
 }
 
@@ -40,15 +40,17 @@ export default function Step1FormContent({
           onChange={(e) => onChangeFormData("name", e.target.value)}
         />
       </Fieldset>
+
       {/* 시뮬레이션 설명 */}
       <Fieldset>
         <Label label="설명" />
         <Textarea
           value={descirption}
-          placeholder="시뮬레이션에 대한 설명을 입력하세요"
+          placeholder="시뮬레이션 설명을 입력하세요"
           onChange={(e) => onChangeFormData("description", e.target.value)}
         />
       </Fieldset>
+
       {/* MEC 선택 */}
       <Fieldset>
         <Label label="MEC ID" required />

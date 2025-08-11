@@ -1,17 +1,17 @@
 import { Button } from "innogrid-ui";
 
 interface NavigationButtonsProps {
-  onClickPrev: () => void;
-  onClickNext: () => void;
-  onClickComplete: () => void;
+  onPrevClick: () => void;
+  onNextClick: () => void;
+  onCompleteClick: () => void;
   isFirstStep: boolean;
   isLastStep: boolean;
 }
 
 export default function NavigationButtons({
-  onClickPrev,
-  onClickNext,
-  onClickComplete,
+  onPrevClick: onClickPrev,
+  onNextClick: onClickNext,
+  onCompleteClick: onClickComplete,
   isFirstStep,
   isLastStep,
 }: NavigationButtonsProps) {
