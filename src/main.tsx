@@ -8,5 +8,5 @@ createRoot(document.getElementById("root")!).render(
     <InnogridUIProvider language="ko" theme="cloudit">
       <App />
     </InnogridUIProvider>
-  </StrictMode>
+  </StrictMode>,
 );

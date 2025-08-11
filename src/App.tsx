@@ -1,17 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
-import SimulationPage from "./pages/Simulation";
-import HomePage from "./pages/Home";
+import HomePage from "./pages/home";
 import Layout from "./components/layout";
-import TemplatePage from "./pages/Template";
-import MecPage from "./pages/Mec";
+import TemplatePage from "./pages/template";
+import MecPage from "./pages/mec";
+import SimulationPage from "./pages/simulation";
+import SimulationCreatePage from "./pages/simulation/create/CreatePage";
+import { ToastProvider } from "innogrid-ui";
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/simulation" element={<SimulationPage />} />
+      <Route path="/simulation">
+        <Route index element={<SimulationPage />} />
+        <Route path="create" element={<SimulationCreatePage />} />
+      </Route>
       <Route path="/template" element={<TemplatePage />} />
       <Route path="/mec" element={<MecPage />} />
     </Routes>
@@ -21,9 +26,11 @@ function AppRoutes() {
 function App() {
   return (
     <BrowserRouter>
-      <Layout>
-        <AppRoutes />
-      </Layout>
+      <ToastProvider>
+        <Layout>
+          <AppRoutes />
+        </Layout>
+      </ToastProvider>
     </BrowserRouter>
   );
 }

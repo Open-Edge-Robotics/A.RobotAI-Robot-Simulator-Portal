@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { NAV_ITEMS } from "./constant";
+import NavItem from "./NavItem";
 
 export default function NavigationBar() {
   const pathname = useLocation().pathname;
 
   return (
-    <nav className="row-span-full w-64 bg-amber-300">
+    <nav className="row-span-full w-64">
       <div className="flex h-screen flex-col border-r border-neutral-200 bg-white">
         {/* <!-- Logo Section --> */}
         <div className="flex h-24 items-center gap-2 border-b border-neutral-200 p-6">
@@ -31,7 +32,6 @@ export default function NavigationBar() {
         {/* <!-- Navigation Menu --> */}
         <ul className="flex flex-col p-2">
           {NAV_ITEMS.map((item) => {
-            // const isSelected = pathname.includes(item.href.slice(1));
             const isSelected = pathname.split("/")[1] === item.href.slice(1);
 
             return (
@@ -47,60 +47,5 @@ export default function NavigationBar() {
         </ul>
       </div>
     </nav>
-  );
-}
-
-const NAV_ITEMS = [
-  {
-    title: "대시보드",
-    icon: "home",
-    href: "/",
-  },
-  {
-    title: "시뮬레이션",
-    icon: "play_arrow",
-    href: "/simulation",
-  },
-  {
-    title: "템플릿",
-    icon: "content_copy",
-    href: "/template",
-  },
-  {
-    title: "MEC",
-    icon: "dns",
-    href: "/mec",
-  },
-];
-
-interface NavItemProps {
-  title: string;
-  iconName: string;
-  href: string;
-  isSelected: boolean;
-}
-
-function NavItem({ title, iconName, href, isSelected }: NavItemProps) {
-  const defaultStyle = "border border-white text-gray-600";
-  const selectedStyle = "border border-red-400 bg-red-100 text-red-500";
-  const currentStyle = isSelected ? selectedStyle : defaultStyle;
-
-  return (
-    <li className="rounded-lg">
-      <Link
-        to={href}
-        className={`flex items-center rounded-lg px-4 py-3 text-sm font-semibold transition-colors duration-200 ${currentStyle}`}
-      >
-        <div className="mr-3 flex h-5 w-5 items-center justify-center">
-          <span
-            className="material-symbols-outlined"
-            style={{ fontVariationSettings: "'FILL' 1" }}
-          >
-            {iconName}
-          </span>
-        </div>
-        {title}
-      </Link>
-    </li>
   );
 }
