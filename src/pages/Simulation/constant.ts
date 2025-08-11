@@ -1,11 +1,6 @@
 import type { PatternCardData, PatternType, StepsInfoType } from "./types";
 
-export const STEPS = [
-  { title: "기본 정보" },
-  { title: "패턴 선택" },
-  { title: "상세 설정" },
-  { title: "검토 및 완료" },
-];
+export const STEPS = ["기본 정보", "패턴 선택", "상세 설정", "검토 및 완료"];
 
 // 각 단계에 대한 정보
 export const STEPS_INFO: StepsInfoType = {

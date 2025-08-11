@@ -1,4 +1,3 @@
-import { Stepper } from "innogrid-ui";
 import Header from "./Header";
 import { useState } from "react";
 import InfoBox from "./InfoBox";
@@ -14,11 +13,11 @@ import type {
   StepInfo,
   StepType,
 } from "../types";
-// import { STEPS, STEPS_INFO } from "../constant";
 import { STEPS, STEPS_INFO } from "../constant";
 import { validator } from "../validation";
 import Step3FormContent from "./StepFormContent/Step3FormContent";
 import Step4FormContent from "./StepFormContent/Step4FormContent";
+import Stepper from "../../../components/common/Stepper";
 
 const defaultFormData: SimulatioFormData = {
   name: "",
@@ -26,34 +25,6 @@ const defaultFormData: SimulatioFormData = {
   mec: null,
   pattern: null,
 };
-
-// const defaultFormData: SimulatioFormData = {
-//   name: "simulation name",
-//   description: "description",
-//   mec: { id: "mec id", name: "mec name" },
-//   pattern: {
-//     // type: "sequential",
-//     // agentGroups: [
-//     //   {
-//     //     autonomousAgentCount: 1,
-//     //     delayAfterCompletion: 12,
-//     //     executionTime: 456,
-//     //     repeatCount: 1,
-//     //     stepOrder: 1,
-//     //     template: { id: "template id", name: "template name" },
-//     //   },
-//     // ],
-//     type: "parallel",
-//     agentGroups: [
-//       {
-//         autonomousAgentCount: 1,
-//         executionTime: 456,
-//         repeatCount: 1,
-//         template: { id: "template id", name: "template name" },
-//       },
-//     ],
-//   },
-// };
 
 export default function SimulationCreatePage() {
   const [currentStep, setCurrentStep] = useState<StepType>(1);
@@ -107,14 +78,13 @@ export default function SimulationCreatePage() {
       <div className="flex h-full flex-col gap-6 bg-neutral-100 p-6">
         {/* 헤더 */}
         <Header />
+
         {/* 생성 단계 Stepper */}
-        <Stepper
-          step={currentStep - 1}
-          steps={STEPS}
-          orientation="horizontal"
-        />
+        <Stepper activeStep={currentStep - 1} steps={STEPS} />
+
         {/* 현재 단계 설명 */}
         <InfoBox title={stepInfo.title} description={stepInfo.description} />
+
         {/* 생성폼 */}
         <form>
           {currentStep === 1 && (
@@ -170,7 +140,7 @@ export default function SimulationCreatePage() {
   );
 }
 
-// 현재 스텝과 패턴에 따라 스텝 정보 반환
+// 현재 활성화된 스텝과 패턴에 따라 스텝 정보 반환
 const getCurrentStepInfo = (step: StepType, pattern: PatternType | null) => {
   if (step === 3 && pattern) {
     return STEPS_INFO[3][pattern];
