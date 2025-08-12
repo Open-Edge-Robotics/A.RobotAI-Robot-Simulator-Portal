@@ -1,4 +1,4 @@
-import { PATTERN_DATA } from "../../constant";
+import { PATTERN_DATA } from "../../constants";
 import type { PatternType } from "../../types";
 
 interface Step2FormContentProps {

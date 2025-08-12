@@ -13,7 +13,7 @@ import type {
   StepInfo,
   StepType,
 } from "../types";
-import { STEPS, STEPS_INFO } from "../constant";
+import { STEPS, STEPS_INFO } from "../constants";
 import { validator } from "../validation";
 import Step3FormContent from "./StepFormContent/Step3FormContent";
 import Step4FormContent from "./StepFormContent/Step4FormContent";

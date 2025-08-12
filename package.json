@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
+    "@tanstack/react-query": "^5.84.2",
+    "@tanstack/react-query-devtools": "^5.84.2",
+    "axios": "^1.11.0",
     "innogrid-ui": "^0.0.22",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -19,6 +22,7 @@
   "devDependencies": {
     "@eslint/js": "^9.30.1",
     "@tailwindcss/postcss": "^4.1.11",
+    "@tanstack/eslint-plugin-query": "^5.83.1",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@types/react-router-dom": "^5.3.3",
