@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .npmrc
+.env
+
+!.env.example

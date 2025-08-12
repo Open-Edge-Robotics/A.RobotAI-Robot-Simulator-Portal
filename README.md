@@ -1,69 +1,216 @@
-# React + TypeScript + Vite
+# Robot Simulator Frontend - 배포 가이드
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite + pnpm 기반의 가상자율행동체 시뮬레이터 프론트엔드 애플리케이션 배포 가이드입니다.
 
-Currently, two official plugins are available:
+## 🏗️ 기술 스택
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **프레임워크**: React 18 + Vite
+- **패키지 매니저**: pnpm
+- **컨테이너화**: Docker + nginx
+- **배포**: OpenStack + Ubuntu Server
 
-## Expanding the ESLint configuration
+## 📋 사전 요구사항
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 개발 환경
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js 18 이상
+- pnpm 설치
+- Docker Desktop
+- Git
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### 필수 파일 요청
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+다음 파일들은 보안상 저장소에 포함되지 않습니다. **프로젝트 관리자에게 요청**하세요:
+
+- `.env` - 환경변수 설정
+- `.npmrc` - npm 레지스트리 설정 (사내 패키지 접근용)
+
+---
+
+## 🚀 빠른 배포
+
+### 자동화 스크립트 사용
+
+```bash
+# Linux/Mac 환경에서
+./scripts/deploy.sh
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 수동 배포 (단계별)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **의존성 설치 및 빌드**
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+   ```bash
+   pnpm install
+   pnpm run build
+   ```
+
+2. **Docker 이미지 빌드**
+
+   ```bash
+   # 환경변수 로드 필요
+   docker build --build-arg GITLAB_TOKEN="$GITLAB_TOKEN" -t robot-simulator-front .
+   ```
+
+3. **Docker Hub 푸시**
+
+   ```bash
+   docker tag robot-simulator-front your-username/robot-simulator-front:latest
+   docker push your-username/robot-simulator-front:latest
+   ```
+
+4. **서버 배포**
+   ```bash
+   # SSH 접속 후
+   docker pull your-username/robot-simulator-front:latest
+   docker stop robot-simulator-front || true
+   docker rm robot-simulator-front || true
+   docker run -d -p 3001:80 --name robot-simulator-front --restart unless-stopped your-username/robot-simulator-front:latest
+   ```
+
+---
+
+## 🔧 개발 환경 설정
+
+### 1. 저장소 클론
+
+```bash
+git clone https://github.com/your-org/robot-simulator-front.git
+cd robot-simulator-front
 ```
+
+### 2. 환경 설정
+
+```bash
+# .env.example을 참고하여 .env 파일 생성
+cp .env.example .env
+
+# 필요한 값들을 프로젝트 관리자에게 요청하여 입력
+nano .env
+```
+
+### 3. 의존성 설치
+
+```bash
+pnpm install
+```
+
+### 4. 개발 서버 실행
+
+```bash
+pnpm run dev
+```
+
+---
+
+## 🏗️ 빌드 및 배포 아키텍처
+
+### Docker 멀티스테이지 빌드
+
+```
+┌─────────────────┐    ┌─────────────────┐
+│   Build Stage   │    │ Production Stage│
+│                 │    │                 │
+│ • Node.js 18    │───▶│ • nginx alpine  │
+│ • pnpm install  │    │ • Static files  │
+│ • Build assets  │    │ • Optimized     │
+└─────────────────┘    └─────────────────┘
+```
+
+### 배포 플로우
+
+```
+Local Dev ──▶ Docker Build ──▶ Docker Hub ──▶ Production Server
+    │              │              │              │
+    └── Code       └── Image      └── Registry   └── Container
+        Changes        Creation       Storage        Deployment
+```
+
+---
+
+## 📁 프로젝트 구조
+
+```
+robot-simulator-front/
+├── src/                    # React 소스 코드
+├── public/                 # 정적 자산
+├── scripts/               # 배포 스크립트
+│   ├── deploy.sh         # Linux/Mac 배포
+│   └── deploy.ps1        # Windows 배포
+├── Dockerfile            # Docker 빌드 설정
+├── nginx.conf           # nginx 서버 설정
+├── .env.example         # 환경변수 템플릿
+├── package.json         # 프로젝트 의존성
+└── README.md           # 이 문서
+```
+
+---
+
+## 🔐 보안 고려사항
+
+### 환경변수 관리
+
+- `.env` 파일은 Git에 커밋하지 않음
+- 민감한 정보는 `.env.example`에 플레이스홀더로 표시
+- 실제 값은 팀 내부에서만 공유
+
+### Docker 보안
+
+- 멀티스테이지 빌드로 빌드 의존성 제거
+- 최종 이미지에는 소스코드나 토큰 미포함
+- nginx 알파인 이미지로 공격 표면 최소화
+
+---
+
+## 🛠️ 개발 워크플로우
+
+### 기능 개발
+
+1. feature 브랜치 생성
+2. 로컬에서 개발 및 테스트
+3. Pull Request 생성
+4. 코드 리뷰 후 메인 브랜치 병합
+
+### 배포 프로세스
+
+1. 메인 브랜치에서 최신 코드 풀
+2. 로컬에서 빌드 테스트
+3. 배포 스크립트 실행
+4. 서비스 동작 확인
+
+---
+
+## 🔍 문제 해결
+
+### 일반적인 오류
+
+| 오류               | 원인                    | 해결책                   |
+| ------------------ | ----------------------- | ------------------------ |
+| 환경변수 로드 실패 | `.env` 파일 없음        | 프로젝트 관리자에게 요청 |
+| Docker 빌드 실패   | 네트워크 또는 권한 문제 | Docker Desktop 재시작    |
+| 패키지 설치 실패   | 레지스트리 접근 권한    | `.npmrc` 파일 확인       |
+| 포트 충돌          | 다른 서비스가 포트 사용 | 포트 번호 변경           |
+
+### 로그 확인
+
+```bash
+# 컨테이너 로그 확인
+docker logs robot-simulator-front
+
+# 빌드 로그 확인
+docker build --no-cache --progress=plain .
+```
+
+### 서비스 상태 확인
+
+```bash
+# 컨테이너 상태
+docker ps
+
+# 리소스 사용량
+docker stats robot-simulator-front
+```
+
+---
+
+**Happy Coding! 🚀**
