@@ -7,19 +7,19 @@ export default function NavigationBar() {
 
   return (
     <nav className="row-span-full w-64">
-      <div className="flex h-screen flex-col border-r border-neutral-200 bg-white">
+      <div className="flex h-screen flex-col border-r border-gray-100 bg-white">
         {/* <!-- Logo Section --> */}
-        <div className="flex h-24 items-center gap-2 border-b border-neutral-200 p-6">
-          <div className="h-10 w-10 bg-blue-600">로고</div>
+        <div className="flex h-24 items-center gap-2 border-b border-gray-100 p-6">
+          <div className="h-10 w-10 bg-blue-800">로고</div>
           <div>
             <div className="text-xl font-bold text-gray-900">RoboSim</div>
             <div className="text-xs text-gray-500">K8s Dashboard</div>
           </div>
         </div>
         {/* <!-- User Info Section --> */}
-        <div className="border-b border-neutral-200 p-4">
+        <div className="border-b border-gray-100 p-4">
           <div className="flex items-center gap-2">
-            <div className="h-10 w-10 bg-blue-600">프로필</div>
+            <div className="h-10 w-10 bg-blue-800">프로필</div>
             <div>
               <div className="text-sm font-semibold text-gray-900">
                 admin@robotics.ai

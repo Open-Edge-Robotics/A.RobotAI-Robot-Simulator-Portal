@@ -27,5 +27,5 @@ export default function Stepper({ activeStep, steps }: StepperProps) {
 }
 
 function ConnectorLine() {
-  return <div className="mx-4 h-px max-w-30 min-w-16 flex-1 bg-neutral-300" />;
+  return <div className="mx-4 h-px max-w-30 min-w-16 flex-1 bg-gray-500" />;
 }

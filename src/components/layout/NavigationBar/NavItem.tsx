@@ -18,12 +18,14 @@ export default function NavItem({
     <li>
       <Link
         to={href}
-        className={`${isSelected ? "text-red-600" : "text-neutral-600"}`}
+        className={`${isSelected ? "font-semibold text-gray-900" : "font-medium text-gray-600"}`}
       >
         <Container
-          borderColor={isSelected ? "border-red-200" : "border-white"}
-          bgColor={isSelected ? "bg-red-50" : "bg-white"}
+          borderColor={isSelected ? "border-gray-50" : "border-white"}
+          // TODO: bg-white로 하면 hover가 안 먹힘. 디버깅해볼것.
+          bgColor={isSelected ? "bg-gray-50" : "bg-[#ffffff]"}
           flexDirection="flex-row"
+          hoverBgColor="hover:bg-gray-50"
           padding="px-4 py-3"
           alignItems="items-center"
         >

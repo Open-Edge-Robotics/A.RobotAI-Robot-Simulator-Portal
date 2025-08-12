@@ -47,7 +47,7 @@ export default function ParallelPatternForm({
   };
 
   return (
-    <div className="flex flex-col gap-6 rounded-lg border border-neutral-200 bg-white p-6 shadow-xs">
+    <div className="flex flex-col gap-6 rounded-lg border border-gray-100 bg-white p-6 shadow-xs">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-900">
@@ -109,7 +109,7 @@ function AgentGroupRow({
   onRemove,
 }: AgentGroupRowProps) {
   return (
-    <div className="-xs flex items-center gap-4 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+    <div className="bg-gray-10 flex items-center gap-4 rounded-lg border border-gray-100 p-4">
       {/* 템플릿 선택 */}
       <Fieldset>
         <Label

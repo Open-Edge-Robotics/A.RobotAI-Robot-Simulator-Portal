@@ -106,8 +106,8 @@ export default function Step4FormContent({ formData }: Step4FormContentProps) {
 
           {/* 총 실행 정보 */}
           <Container
-            bgColor="bg-neutral-50"
-            borderColor="border-neutral-200"
+            bgColor="bg-gray-10"
+            borderColor="border-gray-100"
             margin="mt-5"
             padding="p-4"
           >
@@ -188,8 +188,8 @@ function PatternConfigCard({
 }: PatternConfigCardProps) {
   return (
     <Container
-      bgColor="bg-green-50"
-      borderColor="border-green-200"
+      bgColor="bg-green-10"
+      borderColor="border-green-500"
       padding="p-4"
     >
       <div className="mb-3 flex items-center justify-between">

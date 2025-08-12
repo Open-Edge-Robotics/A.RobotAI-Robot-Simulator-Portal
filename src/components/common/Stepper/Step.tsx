@@ -30,9 +30,9 @@ interface StepNumberProps {
 }
 
 function StepNumber({ isCompleted, isActive, stepNumber }: StepNumberProps) {
-  const completedStyle = "bg-blue-300 text-white";
-  const activeStyle = "bg-blue-600 text-white";
-  const defaultStyle = "bg-neutral-400 text-white";
+  const completedStyle = "bg-blue-200 text-white";
+  const activeStyle = "bg-blue-500 text-white";
+  const defaultStyle = "bg-gray-200 text-white";
 
   return (
     <div
@@ -57,9 +57,7 @@ interface StepLabelProps {
 }
 
 function StepLabel({ label, isActive }: StepLabelProps) {
-  const textStyle = isActive
-    ? "text-blue-600 font-semibold"
-    : "text-neutral-800";
+  const textStyle = isActive ? "text-blue-500 font-semibold" : "text-gray-800";
 
   return (
     <div className={`font-medium whitespace-nowrap ${textStyle}`}>{label}</div>

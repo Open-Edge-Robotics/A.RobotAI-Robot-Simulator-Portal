@@ -39,12 +39,12 @@ function PatternCard({ pattern, isSelected, onClick }: PatternCardProps) {
 
   return (
     <div
-      className={`relative flex-1 rounded-lg border ${isSelected ? "border-blue-500 bg-blue-50" : "border-neutral-200"} cursor-pointer bg-white p-6 shadow-xs hover:border-blue-500 hover:shadow-md hover:shadow-blue-100`}
+      className={`relative flex-1 rounded-lg border ${isSelected ? "bg-blue-10 border-blue-500" : "border-gray-100"} cursor-pointer bg-white p-6 shadow-xs hover:border-blue-500 hover:shadow-md hover:shadow-blue-50`}
       onClick={onClick}
     >
       {/* 선택됐을 경우 체크 아이콘 */}
       {isSelected && (
-        <div className="absolute top-4 right-4 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 p-1">
+        <div className="absolute top-4 right-4 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 p-1">
           <span className="material-symbols-outlined text-sm text-white">
             check
           </span>

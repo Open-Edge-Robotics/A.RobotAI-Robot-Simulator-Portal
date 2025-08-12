@@ -86,7 +86,7 @@ export default function SimulationCreatePage() {
 
   return (
     <>
-      <div className="flex h-full flex-col gap-6 bg-neutral-100 p-6">
+      <div className="bg-gray-10 flex h-full flex-col gap-6 p-6">
         {/* 헤더 */}
         <Header />
 

@@ -8,15 +8,15 @@ interface InfoBoxProps {
 export default function InfoBox({ title, description }: InfoBoxProps) {
   return (
     <Container
-      bgColor="bg-blue-50"
-      borderColor="border-blue-200"
+      bgColor="bg-blue-10"
+      borderColor="border-blue-500"
       flexDirection="flex-row"
       alignItems="items-center"
       gap="gap-2"
       padding="p-4"
     >
       <InfoIcon />
-      <div className="text-sm text-blue-700">
+      <div className="text-sm text-blue-600">
         <span className="font-semibold">{title}</span> — {description}
       </div>
     </Container>
