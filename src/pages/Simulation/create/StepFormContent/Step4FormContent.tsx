@@ -1,6 +1,7 @@
 import Badge from "@/components/common/Badge";
 import Container from "@/components/common/Container.tsx";
 import Fallback from "@/components/common/Fallback/index.tsx";
+
 import { PATTERN_DATA } from "../../constants.ts";
 import type { Pattern, SimulationFormData } from "../../types.ts";
 

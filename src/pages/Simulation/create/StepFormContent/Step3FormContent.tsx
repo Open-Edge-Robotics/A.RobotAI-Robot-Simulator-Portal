@@ -1,5 +1,7 @@
 import Fallback from "@/components/common/Fallback";
-import type { Template, Pattern } from "../../types";
+
+import type { Pattern,Template } from "../../types";
+
 import ParallelPatternForm from "./ParallelPatternForm";
 import SequentialPatternForm from "./SequentialPatternForm";
 

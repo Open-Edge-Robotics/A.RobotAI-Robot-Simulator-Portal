@@ -1,13 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
 
-import HomePage from "./pages/home";
+import { ToastProvider } from "innogrid-ui";
+
 import Layout from "./components/layout";
-import TemplatePage from "./pages/template";
+import HomePage from "./pages/home";
 import MecPage from "./pages/mec";
 import SimulationPage from "./pages/simulation";
 import SimulationCreatePage from "./pages/simulation/create";
-import { ToastProvider } from "innogrid-ui";
+import TemplatePage from "./pages/template";
+
+import "./App.css";
 
 function AppRoutes() {
   return (

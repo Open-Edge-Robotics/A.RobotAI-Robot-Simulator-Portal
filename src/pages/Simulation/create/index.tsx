@@ -1,9 +1,8 @@
-import Header from "./Header";
 import { useState } from "react";
-import InfoBox from "./InfoBox";
-import Step1FormContent from "./StepFormContent/Step1FormContent";
-import NavigationButtons from "./NavigationButtons";
-import Step2FormContent from "./StepFormContent/Step2FormContent";
+
+import Stepper from "@/components/common/Stepper";
+
+import { STEPS, STEPS_INFO } from "../constants";
 import type {
   ParallelAgentGroup,
   Pattern,
@@ -13,11 +12,15 @@ import type {
   StepInfo,
   StepType,
 } from "../types";
-import { STEPS, STEPS_INFO } from "../constants";
 import { validator } from "../validation";
+
+import Header from "./Header";
+import InfoBox from "./InfoBox";
+import NavigationButtons from "./NavigationButtons";
+import Step1FormContent from "./StepFormContent/Step1FormContent";
+import Step2FormContent from "./StepFormContent/Step2FormContent";
 import Step3FormContent from "./StepFormContent/Step3FormContent";
 import Step4FormContent from "./StepFormContent/Step4FormContent";
-import Stepper from "@/components/common/Stepper";
 
 const defaultFormData: SimulationFormData = {
   name: "",

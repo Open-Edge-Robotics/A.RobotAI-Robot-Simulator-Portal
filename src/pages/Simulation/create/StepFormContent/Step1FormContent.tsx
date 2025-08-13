@@ -1,7 +1,9 @@
 import { Input, Select, Textarea } from "innogrid-ui";
-import type { Mec, SimulationFormData } from "../../types";
+
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
+
+import type { Mec, SimulationFormData } from "../../types";
 
 interface Step1FormContentProps {
   name: string;
