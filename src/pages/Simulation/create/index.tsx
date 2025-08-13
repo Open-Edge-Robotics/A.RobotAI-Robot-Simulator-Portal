@@ -17,7 +17,7 @@ import { STEPS, STEPS_INFO } from "../constants";
 import { validator } from "../validation";
 import Step3FormContent from "./StepFormContent/Step3FormContent";
 import Step4FormContent from "./StepFormContent/Step4FormContent";
-import Stepper from "../../../components/common/Stepper";
+import Stepper from "@/components/common/Stepper";
 
 const defaultFormData: SimulationFormData = {
   name: "",

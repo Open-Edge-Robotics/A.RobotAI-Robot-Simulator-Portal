@@ -1,4 +1,4 @@
-import Container from "../../../components/common/Container.tsx";
+import Container from "@/components/common/Container.tsx";
 
 interface InfoBoxProps {
   title: string;
