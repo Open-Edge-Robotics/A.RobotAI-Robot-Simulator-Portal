@@ -1,6 +1,6 @@
 import Fallback from "@/components/common/Fallback";
 
-import type { Pattern,Template } from "../../types";
+import type { Pattern, Template } from "../../types";
 
 import ParallelPatternForm from "./ParallelPatternForm";
 import SequentialPatternForm from "./SequentialPatternForm";
@@ -16,10 +16,7 @@ const getMockTemplateList = (): Template[] => [
   { id: "template3", name: "템플릿 3" },
 ];
 
-export default function Step3FormContent({
-  pattern,
-  onChangePattern,
-}: Step3FormContentProps) {
+export default function Step3FormContent({ pattern, onChangePattern }: Step3FormContentProps) {
   if (!pattern) return <Fallback text="패턴을 선택해주세요." />;
 
   const templateList = getMockTemplateList();
@@ -30,9 +27,7 @@ export default function Step3FormContent({
         <SequentialPatternForm
           templateList={templateList}
           agentGroups={pattern.agentGroups}
-          onChangeAgentGroups={(groups) =>
-            onChangePattern({ type: "sequential", agentGroups: groups })
-          }
+          onChangeAgentGroups={(groups) => onChangePattern({ type: "sequential", agentGroups: groups })}
         />
       );
     case "parallel":
@@ -40,9 +35,7 @@ export default function Step3FormContent({
         <ParallelPatternForm
           templateList={templateList}
           agentGroups={pattern.agentGroups}
-          onChangeAgentGroups={(groups) =>
-            onChangePattern({ type: "parallel", agentGroups: groups })
-          }
+          onChangeAgentGroups={(groups) => onChangePattern({ type: "parallel", agentGroups: groups })}
         />
       );
     default:

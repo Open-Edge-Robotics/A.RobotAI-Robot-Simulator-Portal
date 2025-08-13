@@ -97,21 +97,11 @@ interface AgentGroupRowProps {
   templateList: Template[];
   agentGroup: SequentialAgentGroup;
   hideDeleteButton?: boolean;
-  onUpdate: <K extends keyof SequentialAgentGroup>(
-    stepOrder: number,
-    field: K,
-    value: SequentialAgentGroup[K],
-  ) => void;
+  onUpdate: <K extends keyof SequentialAgentGroup>(stepOrder: number, field: K, value: SequentialAgentGroup[K]) => void;
   onRemove: (stepOrder: number) => void;
 }
 
-function AgentGroupRow({
-  templateList,
-  agentGroup,
-  hideDeleteButton = false,
-  onUpdate,
-  onRemove,
-}: AgentGroupRowProps) {
+function AgentGroupRow({ templateList, agentGroup, hideDeleteButton = false, onUpdate, onRemove }: AgentGroupRowProps) {
   return (
     <div className="bg-gray-10 flex items-center gap-4 rounded-lg border border-gray-100 p-4">
       {/* 단계 번호 */}
@@ -123,32 +113,20 @@ function AgentGroupRow({
 
       {/* 템플릿 선택 */}
       <Fieldset>
-        <Label
-          label="템플릿 선택"
-          fontSize="text-xs"
-          marginBottom="mb-1"
-          required
-        />
+        <Label label="템플릿 선택" fontSize="text-xs" marginBottom="mb-1" required />
         <Select
           options={templateList}
           value={agentGroup.template}
           getOptionLabel={(option) => option.name}
           getOptionValue={(option) => option.id}
           size="l-medium"
-          onChange={(option) =>
-            onUpdate(agentGroup.stepOrder, "template", option)
-          }
+          onChange={(option) => onUpdate(agentGroup.stepOrder, "template", option)}
         />
       </Fieldset>
 
       {/* 가상 자율행동체 개수 */}
       <Fieldset>
-        <Label
-          label="가상 자율행동체 개수 (대)"
-          fontSize="text-xs"
-          marginBottom="mb-1"
-          required
-        />
+        <Label label="가상 자율행동체 개수 (대)" fontSize="text-xs" marginBottom="mb-1" required />
         {/* TODO: input 컴포넌트 wrapper 만들기, LabeledInput 만들기 */}
         <div className="rounded-sm bg-white">
           <Input
@@ -156,60 +134,32 @@ function AgentGroupRow({
             value={agentGroup.autonomousAgentCount.toString()}
             placeholder="가상 자율행동체 개수를 입력하세요"
             size="l-small"
-            onChange={(e) =>
-              onUpdate(
-                agentGroup.stepOrder,
-                "autonomousAgentCount",
-                parseInt(e.target.value) || 0,
-              )
-            }
+            onChange={(e) => onUpdate(agentGroup.stepOrder, "autonomousAgentCount", parseInt(e.target.value) || 0)}
           />
         </div>
       </Fieldset>
 
       {/* 실행 시간 */}
       <Fieldset>
-        <Label
-          label="실행 시간 (초)"
-          fontSize="text-xs"
-          marginBottom="mb-1"
-          required
-        />
+        <Label label="실행 시간 (초)" fontSize="text-xs" marginBottom="mb-1" required />
         <Input
           type="number"
           value={agentGroup.executionTime.toString()}
           placeholder="실행 시간을 입력하세요"
           size="l-small"
-          onChange={(e) =>
-            onUpdate(
-              agentGroup.stepOrder,
-              "executionTime",
-              parseInt(e.target.value) || 0,
-            )
-          }
+          onChange={(e) => onUpdate(agentGroup.stepOrder, "executionTime", parseInt(e.target.value) || 0)}
         />
       </Fieldset>
 
       {/* 완료 후 대기 시간 */}
       <Fieldset>
-        <Label
-          label="완료 후 대기 시간 (초)"
-          fontSize="text-xs"
-          marginBottom="mb-1"
-          required
-        />
+        <Label label="완료 후 대기 시간 (초)" fontSize="text-xs" marginBottom="mb-1" required />
         <Input
           type="number"
           value={agentGroup.delayAfterCompletion.toString()}
           placeholder="완료 후 대기 시간을 입력하세요"
           size="l-small"
-          onChange={(e) =>
-            onUpdate(
-              agentGroup.stepOrder,
-              "delayAfterCompletion",
-              parseInt(e.target.value) || 0,
-            )
-          }
+          onChange={(e) => onUpdate(agentGroup.stepOrder, "delayAfterCompletion", parseInt(e.target.value) || 0)}
         />
       </Fieldset>
 
@@ -221,13 +171,7 @@ function AgentGroupRow({
           value={agentGroup.repeatCount.toString()}
           placeholder="반복 횟수를 입력하세요"
           size="l-small"
-          onChange={(e) =>
-            onUpdate(
-              agentGroup.stepOrder,
-              "repeatCount",
-              parseInt(e.target.value) || 0,
-            )
-          }
+          onChange={(e) => onUpdate(agentGroup.stepOrder, "repeatCount", parseInt(e.target.value) || 0)}
         />
       </Fieldset>
 

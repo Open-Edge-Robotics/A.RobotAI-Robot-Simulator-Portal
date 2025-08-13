@@ -9,10 +9,7 @@ interface Step1FormContentProps {
   name: string;
   descirption: string;
   mec: Mec | null;
-  onChangeFormData: <K extends keyof SimulationFormData>(
-    key: K,
-    value: SimulationFormData[K],
-  ) => void;
+  onChangeFormData: <K extends keyof SimulationFormData>(key: K, value: SimulationFormData[K]) => void;
 }
 
 const getMockMecList = (): Mec[] => [
@@ -21,12 +18,7 @@ const getMockMecList = (): Mec[] => [
   { id: "mec3", name: "MEC-003" },
 ];
 
-export default function Step1FormContent({
-  name,
-  descirption,
-  mec,
-  onChangeFormData,
-}: Step1FormContentProps) {
+export default function Step1FormContent({ name, descirption, mec, onChangeFormData }: Step1FormContentProps) {
   const mecList = getMockMecList();
 
   return (

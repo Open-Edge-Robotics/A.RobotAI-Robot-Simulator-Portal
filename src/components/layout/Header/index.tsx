@@ -8,9 +8,7 @@ export default function Header() {
         <h3>실시간 모니터링 대시보드</h3>
       </div>
       <div className="flex items-center gap-2">
-        <div className="text-sm text-gray-600">
-          마지막 업데이트: 오전 10:34:21
-        </div>
+        <div className="text-sm text-gray-600">마지막 업데이트: 오전 10:34:21</div>
         <Button color="secondary">로그아웃</Button>
       </div>
     </header>

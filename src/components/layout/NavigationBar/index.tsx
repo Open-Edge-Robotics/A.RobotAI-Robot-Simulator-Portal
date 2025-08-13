@@ -22,9 +22,7 @@ export default function NavigationBar() {
           <div className="flex items-center gap-2">
             <div className="h-10 w-10 bg-blue-800">프로필</div>
             <div>
-              <div className="text-sm font-semibold text-gray-900">
-                admin@robotics.ai
-              </div>
+              <div className="text-sm font-semibold text-gray-900">admin@robotics.ai</div>
               <div className="text-xs text-gray-500">관리자</div>
             </div>
           </div>

@@ -12,12 +12,7 @@ export default function Stepper({ activeStep, steps }: StepperProps) {
     <div className="flex w-full items-center p-4">
       {steps.map((step, index) => (
         <React.Fragment key={index}>
-          <Step
-            label={step}
-            stepNumber={index + 1}
-            isCompleted={index < activeStep}
-            isActive={index === activeStep}
-          />
+          <Step label={step} stepNumber={index + 1} isCompleted={index < activeStep} isActive={index === activeStep} />
 
           {/* Connector Line between steps */}
           {index < steps.length - 1 && <ConnectorLine />}

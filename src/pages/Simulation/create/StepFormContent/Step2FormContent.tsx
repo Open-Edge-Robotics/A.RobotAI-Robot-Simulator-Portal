@@ -6,10 +6,7 @@ interface Step2FormContentProps {
   onSelectPatternType: (pattern: PatternType | null) => void;
 }
 
-export default function Step2FormContent({
-  patternType,
-  onSelectPatternType,
-}: Step2FormContentProps) {
+export default function Step2FormContent({ patternType, onSelectPatternType }: Step2FormContentProps) {
   return (
     <div className="flex gap-5">
       <PatternCard
@@ -45,9 +42,7 @@ function PatternCard({ pattern, isSelected, onClick }: PatternCardProps) {
       {/* 선택됐을 경우 체크 아이콘 */}
       {isSelected && (
         <div className="absolute top-4 right-4 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 p-1">
-          <span className="material-symbols-outlined text-sm text-white">
-            check
-          </span>
+          <span className="material-symbols-outlined text-sm text-white">check</span>
         </div>
       )}
 
@@ -56,21 +51,15 @@ function PatternCard({ pattern, isSelected, onClick }: PatternCardProps) {
         <div
           className={`flex h-12 w-12 items-center justify-center rounded-lg text-2xl ${patternData.iconBgColor} ${patternData.iconTextColor} `}
         >
-          <span className="material-symbols-outlined">
-            {patternData.iconName}
-          </span>
+          <span className="material-symbols-outlined">{patternData.iconName}</span>
         </div>
 
         {/* 제목 */}
-        <h3 className="text-lg font-semibold text-gray-900">
-          {patternData.title}
-        </h3>
+        <h3 className="text-lg font-semibold text-gray-900">{patternData.title}</h3>
       </div>
 
       {/* 설명 */}
-      <p className="text-sm leading-relaxed whitespace-pre-line text-gray-600">
-        {patternData.description}
-      </p>
+      <p className="text-sm leading-relaxed whitespace-pre-line text-gray-600">{patternData.description}</p>
     </div>
   );
 }

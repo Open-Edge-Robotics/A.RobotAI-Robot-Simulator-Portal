@@ -41,8 +41,7 @@ export const PATTERN_DATA: { [K in PatternType]: PatternCardData } = {
     bgColor: "bg-blue-10",
     iconBgColor: "bg-blue-50",
     iconTextColor: "text-blue-500",
-    description:
-      "가상 자율행동체들이 단계별로 순서대로 실행됩니다.\n(첫 번째 그룹 완료 → 두 번째 그룹 시작)",
+    description: "가상 자율행동체들이 단계별로 순서대로 실행됩니다.\n(첫 번째 그룹 완료 → 두 번째 그룹 시작)",
   },
   parallel: {
     title: "병렬 실행",
@@ -51,7 +50,6 @@ export const PATTERN_DATA: { [K in PatternType]: PatternCardData } = {
     bgColor: "bg-orange-10",
     iconBgColor: "bg-orange-50",
     iconTextColor: "text-orange-500",
-    description:
-      "서로 다른 유형의 가상 자율행동체들이 동시에 실행됩니다.\n(모든 그룹이 같은 시간에 시작)",
+    description: "서로 다른 유형의 가상 자율행동체들이 동시에 실행됩니다.\n(모든 그룹이 같은 시간에 시작)",
   },
 };

@@ -54,10 +54,7 @@ const apiClient = axios.create({
 // );
 
 // GET 요청 함수
-const getRequest = async <T = unknown>(
-  url: string,
-  config?: AxiosRequestConfig,
-): Promise<APIResponse<T>> => {
+const getRequest = async <T = unknown>(url: string, config?: AxiosRequestConfig): Promise<APIResponse<T>> => {
   const response = await apiClient.get<APIResponse<T>>(url, config);
   return response.data;
 };
@@ -83,10 +80,7 @@ const putRequest = async <T = unknown, D = unknown>(
 };
 
 // DELETE 요청 함수
-const deleteRequest = async <T = unknown>(
-  url: string,
-  config?: AxiosRequestConfig,
-): Promise<APIResponse<T>> => {
+const deleteRequest = async <T = unknown>(url: string, config?: AxiosRequestConfig): Promise<APIResponse<T>> => {
   const response = await apiClient.delete<APIResponse<T>>(url, config);
   return response.data;
 };

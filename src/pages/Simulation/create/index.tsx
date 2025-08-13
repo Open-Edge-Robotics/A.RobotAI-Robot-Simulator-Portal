@@ -32,15 +32,9 @@ const defaultFormData: SimulationFormData = {
 export default function SimulationCreatePage() {
   const [currentStep, setCurrentStep] = useState<StepType>(1);
   const [formData, setFormData] = useState<SimulationFormData>(defaultFormData);
-  const stepInfo = getCurrentStepInfo(
-    currentStep,
-    formData.pattern?.type ?? null,
-  );
+  const stepInfo = getCurrentStepInfo(currentStep, formData.pattern?.type ?? null);
 
-  const updateFormData = <K extends keyof SimulationFormData>(
-    field: K,
-    value: SimulationFormData[K],
-  ) => {
+  const updateFormData = <K extends keyof SimulationFormData>(field: K, value: SimulationFormData[K]) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -60,15 +54,11 @@ export default function SimulationCreatePage() {
   const handleNext = () => {
     const isValid = validateStep(currentStep);
     if (!isValid) return;
-    setCurrentStep((prev) =>
-      currentStep < 4 ? ((prev + 1) as StepType) : prev,
-    );
+    setCurrentStep((prev) => (currentStep < 4 ? ((prev + 1) as StepType) : prev));
   };
 
   const handlePrev = () => {
-    setCurrentStep((prev) =>
-      currentStep > 1 ? ((prev - 1) as StepType) : prev,
-    );
+    setCurrentStep((prev) => (currentStep > 1 ? ((prev - 1) as StepType) : prev));
   };
 
   const handleSubmit = async () => {
@@ -114,8 +104,7 @@ export default function SimulationCreatePage() {
               patternType={formData.pattern?.type ?? null}
               onSelectPatternType={(patternType) => {
                 if (!patternType) return;
-                const pattern =
-                  getPatternDataWithDefaultAgentGroup(patternType);
+                const pattern = getPatternDataWithDefaultAgentGroup(patternType);
                 updateFormData("pattern", pattern);
               }}
             />

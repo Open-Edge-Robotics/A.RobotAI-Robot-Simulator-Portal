@@ -5,19 +5,10 @@ interface StepProps {
   isActive: boolean;
 }
 
-export default function Step({
-  label,
-  stepNumber,
-  isCompleted,
-  isActive,
-}: StepProps) {
+export default function Step({ label, stepNumber, isCompleted, isActive }: StepProps) {
   return (
     <div className="flex items-center gap-2">
-      <StepNumber
-        isActive={isActive}
-        isCompleted={isCompleted}
-        stepNumber={stepNumber}
-      />
+      <StepNumber isActive={isActive} isCompleted={isCompleted} stepNumber={stepNumber} />
       <StepLabel label={label} isActive={isActive} />
     </div>
   );
@@ -41,9 +32,7 @@ function StepNumber({ isCompleted, isActive, stepNumber }: StepNumberProps) {
       }`}
     >
       {isCompleted ? (
-        <span className="material-symbols-outlined font-light">
-          check_small
-        </span>
+        <span className="material-symbols-outlined font-light">check_small</span>
       ) : (
         <span>{stepNumber}</span>
       )}
@@ -59,7 +48,5 @@ interface StepLabelProps {
 function StepLabel({ label, isActive }: StepLabelProps) {
   const textStyle = isActive ? "text-blue-500 font-semibold" : "text-gray-800";
 
-  return (
-    <div className={`font-medium whitespace-nowrap ${textStyle}`}>{label}</div>
-  );
+  return <div className={`font-medium whitespace-nowrap ${textStyle}`}>{label}</div>;
 }

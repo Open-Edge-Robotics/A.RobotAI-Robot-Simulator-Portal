@@ -42,9 +42,7 @@ export default function ParallelPatternForm({
     field: K,
     value: ParallelAgentGroup[K],
   ) => {
-    const updatedGroups = agentGroups.map((group, i) =>
-      i === index ? { ...group, [field]: value } : group,
-    );
+    const updatedGroups = agentGroups.map((group, i) => (i === index ? { ...group, [field]: value } : group));
     onChangeAgentGroups(updatedGroups);
   };
 
@@ -52,9 +50,7 @@ export default function ParallelPatternForm({
     <div className="flex flex-col gap-6 rounded-lg border border-gray-100 bg-white p-6 shadow-xs">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">
-          에이전트 그룹 설정
-        </h3>
+        <h3 className="text-lg font-semibold text-gray-900">에이전트 그룹 설정</h3>
         <Button
           color="tertiary"
           size="large"
@@ -94,11 +90,7 @@ interface AgentGroupRowProps {
   templateList: Template[];
   agentGroup: ParallelAgentGroup;
   hideDeleteButton?: boolean;
-  onUpdate: <K extends keyof ParallelAgentGroup>(
-    index: number,
-    field: K,
-    value: ParallelAgentGroup[K],
-  ) => void;
+  onUpdate: <K extends keyof ParallelAgentGroup>(index: number, field: K, value: ParallelAgentGroup[K]) => void;
   onRemove: (index: number) => void;
 }
 
@@ -114,12 +106,7 @@ function AgentGroupRow({
     <div className="bg-gray-10 flex items-center gap-4 rounded-lg border border-gray-100 p-4">
       {/* 템플릿 선택 */}
       <Fieldset>
-        <Label
-          label="템플릿 선택"
-          fontSize="text-xs"
-          marginBottom="mb-1"
-          required
-        />
+        <Label label="템플릿 선택" fontSize="text-xs" marginBottom="mb-1" required />
         <Select
           options={templateList}
           value={agentGroup.template}
@@ -132,12 +119,7 @@ function AgentGroupRow({
 
       {/* 가상 자율행동체 개수 */}
       <Fieldset>
-        <Label
-          label="가상 자율행동체 개수 (대)"
-          fontSize="text-xs"
-          marginBottom="mb-1"
-          required
-        />
+        <Label label="가상 자율행동체 개수 (대)" fontSize="text-xs" marginBottom="mb-1" required />
         {/* TODO: input 컴포넌트 wrapper 만들기, LabeledInput 만들기 */}
         <div className="rounded-sm bg-white">
           <Input
@@ -145,33 +127,20 @@ function AgentGroupRow({
             value={agentGroup.autonomousAgentCount.toString()}
             placeholder="가상 자율행동체 개수를 입력하세요"
             size="l-small"
-            onChange={(e) =>
-              onUpdate(
-                index,
-                "autonomousAgentCount",
-                parseInt(e.target.value) || 0,
-              )
-            }
+            onChange={(e) => onUpdate(index, "autonomousAgentCount", parseInt(e.target.value) || 0)}
           />
         </div>
       </Fieldset>
 
       {/* 실행 시간 */}
       <Fieldset>
-        <Label
-          label="실행 시간 (초)"
-          fontSize="text-xs"
-          marginBottom="mb-1"
-          required
-        />
+        <Label label="실행 시간 (초)" fontSize="text-xs" marginBottom="mb-1" required />
         <Input
           type="number"
           value={agentGroup.executionTime.toString()}
           placeholder="실행 시간을 입력하세요"
           size="l-small"
-          onChange={(e) =>
-            onUpdate(index, "executionTime", parseInt(e.target.value) || 0)
-          }
+          onChange={(e) => onUpdate(index, "executionTime", parseInt(e.target.value) || 0)}
         />
       </Fieldset>
 
@@ -183,9 +152,7 @@ function AgentGroupRow({
           value={agentGroup.repeatCount.toString()}
           placeholder="반복 횟수를 입력하세요"
           size="l-small"
-          onChange={(e) =>
-            onUpdate(index, "repeatCount", parseInt(e.target.value) || 0)
-          }
+          onChange={(e) => onUpdate(index, "repeatCount", parseInt(e.target.value) || 0)}
         />
       </Fieldset>
 
