@@ -5,7 +5,7 @@ import Label from "@/components/common/Label";
 
 import type { Mec, SimulationFormData } from "../../types";
 
-interface Step1FormContentProps {
+interface Step1ContentProps {
   name: string;
   descirption: string;
   mec: Mec | null;
@@ -18,7 +18,7 @@ const getMockMecList = (): Mec[] => [
   { id: "mec3", name: "MEC-003" },
 ];
 
-export default function Step1FormContent({ name, descirption, mec, onChangeFormData }: Step1FormContentProps) {
+export default function Step1Content({ name, descirption, mec, onChangeFormData }: Step1ContentProps) {
   const mecList = getMockMecList();
 
   return (

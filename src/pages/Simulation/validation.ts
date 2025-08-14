@@ -32,7 +32,7 @@ const validateStep3 = (formData: SimulationFormData) => {
 };
 
 const validatePatternGroup = (group: SequentialAgentGroup | ParallelAgentGroup) => {
-  if (!group.template) return "템플릿을 선택해주세요.";
+  if (!group.template) return "모든 그룹에 템플릿을 지정해주세요.";
   if (group.autonomousAgentCount < 1) return "가상자율행동체 개수는 1대 이상이어야 합니다.";
   if (group.executionTime < 1) return "실행 시간은 1초 이상이어야 합니다.";
   if (group.repeatCount < 1) return "반복 횟수는 1번 이상이어야 합니다.";

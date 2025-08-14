@@ -5,13 +5,13 @@ import Fallback from "@/components/common/Fallback/index.tsx";
 import { PATTERN_DATA } from "../../constants.ts";
 import type { Pattern, SimulationFormData } from "../../types.ts";
 
-interface Step4FormContentProps {
+interface Step4ContentProps {
   formData: SimulationFormData;
 }
 
 // TODO: 컴포넌트 분리, 폴더 구조 생각해보기
 
-export default function Step4FormContent({ formData }: Step4FormContentProps) {
+export default function Step4Content({ formData }: Step4ContentProps) {
   if (!formData.mec || !formData.pattern) return <Fallback text="필수 정보를 모두 입력해주세요." />;
 
   const totalAutonomousAgentCount = getTotalAutonomousAgentCount(formData.pattern.agentGroups);
@@ -150,8 +150,8 @@ function PatternConfigCard({
   return (
     <Container bgColor="bg-green-10" borderColor="border-green-500" padding="p-4">
       <div className="mb-3 flex items-center justify-between">
-        <Badge text={indexLabel} fontWeight="font-medium" />
-        <Badge text={template} bgColor="bg-neutral-500" fontSize="text-sm" />
+        <Badge text={indexLabel} bgColor="bg-green-200" textColor="text-green-700" fontWeight="font-medium" />
+        <Badge text={template} fontSize="text-sm" textColor="text-gray-700" />
       </div>
       <div className="space-y-2">
         <LabelValuePair

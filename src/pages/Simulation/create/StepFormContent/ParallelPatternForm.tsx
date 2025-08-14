@@ -111,7 +111,7 @@ function AgentGroupRow({
           options={templateList}
           value={agentGroup.template}
           getOptionLabel={(option) => option.name}
-          getOptionValue={(option) => option.id}
+          getOptionValue={(option) => option.id.toString()}
           size="l-medium"
           onChange={(option) => onUpdate(index, "template", option)}
         />
@@ -126,6 +126,7 @@ function AgentGroupRow({
             type="number"
             value={agentGroup.autonomousAgentCount.toString()}
             placeholder="가상 자율행동체 개수를 입력하세요"
+            className=""
             size="l-small"
             onChange={(e) => onUpdate(index, "autonomousAgentCount", parseInt(e.target.value) || 0)}
           />
@@ -135,25 +136,29 @@ function AgentGroupRow({
       {/* 실행 시간 */}
       <Fieldset>
         <Label label="실행 시간 (초)" fontSize="text-xs" marginBottom="mb-1" required />
-        <Input
-          type="number"
-          value={agentGroup.executionTime.toString()}
-          placeholder="실행 시간을 입력하세요"
-          size="l-small"
-          onChange={(e) => onUpdate(index, "executionTime", parseInt(e.target.value) || 0)}
-        />
+        <div className="rounded-sm bg-white">
+          <Input
+            type="number"
+            value={agentGroup.executionTime.toString()}
+            placeholder="실행 시간을 입력하세요"
+            size="l-small"
+            onChange={(e) => onUpdate(index, "executionTime", parseInt(e.target.value) || 0)}
+          />
+        </div>
       </Fieldset>
 
       {/* 반복 횟수 */}
       <Fieldset>
         <Label label="반복 횟수 (회)" fontSize="text-xs" required />
-        <Input
-          type="number"
-          value={agentGroup.repeatCount.toString()}
-          placeholder="반복 횟수를 입력하세요"
-          size="l-small"
-          onChange={(e) => onUpdate(index, "repeatCount", parseInt(e.target.value) || 0)}
-        />
+        <div className="rounded-sm bg-white">
+          <Input
+            type="number"
+            value={agentGroup.repeatCount.toString()}
+            placeholder="반복 횟수를 입력하세요"
+            size="l-small"
+            onChange={(e) => onUpdate(index, "repeatCount", parseInt(e.target.value) || 0)}
+          />
+        </div>
       </Fieldset>
 
       {/* 그룹 삭제 버튼 */}

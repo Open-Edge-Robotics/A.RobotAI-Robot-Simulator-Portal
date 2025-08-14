@@ -9,7 +9,7 @@ interface BadgeProps {
 
 export default function Badge({
   text,
-  bgColor = "bg-green-500",
+  bgColor = "bg-neutral-50",
   fontSize = "text-base",
   fontWeight = "font-normal",
   padding = "px-3 py-1",

@@ -41,7 +41,7 @@ export interface StepsInfoType {
 }
 
 export interface Template {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -68,3 +68,5 @@ export type Pattern =
     }
   | { type: "parallel"; agentGroups: ParallelAgentGroup[] }
   | null;
+
+export type SimulationStatus = "SHCEDULED" | "RUNNING";

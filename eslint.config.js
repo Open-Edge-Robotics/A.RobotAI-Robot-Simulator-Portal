@@ -25,6 +25,7 @@ export default tseslint.config([
     },
     rules: {
       "@typescript-eslint/no-unused-vars": "warn",
+      // "print-width": "off",
       "simple-import-sort/imports": [
         "warn",
         {

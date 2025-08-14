@@ -6,6 +6,7 @@ interface NavigationButtonsProps {
   onCompleteClick: () => void;
   isFirstStep: boolean;
   isLastStep: boolean;
+  disableCompleteButton?: boolean;
 }
 
 export default function NavigationButtons({
@@ -14,6 +15,7 @@ export default function NavigationButtons({
   onCompleteClick: onClickComplete,
   isFirstStep,
   isLastStep,
+  disableCompleteButton = false,
 }: NavigationButtonsProps) {
   return (
     <div className="mt-10 flex items-center justify-between">
@@ -36,6 +38,7 @@ export default function NavigationButtons({
             onClickComplete();
           }}
           size="large"
+          disabled={disableCompleteButton}
         >
           시뮬레이션 생성
         </Button>

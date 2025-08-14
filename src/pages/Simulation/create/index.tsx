@@ -1,26 +1,24 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { useMutation } from "@tanstack/react-query";
+
+import { simulationAPI } from "@/apis/simulation/index.ts";
+import type { CreateSimulationRequest } from "@/apis/simulation/types.ts";
 import Stepper from "@/components/common/Stepper";
 
-import { STEPS, STEPS_INFO } from "../constants";
-import type {
-  ParallelAgentGroup,
-  Pattern,
-  PatternType,
-  SequentialAgentGroup,
-  SimulationFormData,
-  StepInfo,
-  StepType,
-} from "../types";
+import { STEPS } from "../constants";
+import type { SimulationFormData, StepType } from "../types";
+import { getCurrentStepInfo, getPatternDataWithDefaultAgentGroup, transformFormDataToRequest } from "../utils.ts";
 import { validator } from "../validation";
 
 import Header from "./Header";
 import InfoBox from "./InfoBox";
 import NavigationButtons from "./NavigationButtons";
-import Step1FormContent from "./StepFormContent/Step1FormContent";
-import Step2FormContent from "./StepFormContent/Step2FormContent";
-import Step3FormContent from "./StepFormContent/Step3FormContent";
-import Step4FormContent from "./StepFormContent/Step4FormContent";
+import Step1Content from "./StepFormContent/Step1Content";
+import Step2Content from "./StepFormContent/Step2Content";
+import Step3Content from "./StepFormContent/Step3Content";
+import Step4Content from "./StepFormContent/Step4Content";
 
 const defaultFormData: SimulationFormData = {
   name: "",
@@ -33,6 +31,27 @@ export default function SimulationCreatePage() {
   const [currentStep, setCurrentStep] = useState<StepType>(1);
   const [formData, setFormData] = useState<SimulationFormData>(defaultFormData);
   const stepInfo = getCurrentStepInfo(currentStep, formData.pattern?.type ?? null);
+  const navigate = useNavigate();
+
+  const {
+    mutate: createSimulation,
+    isPending,
+    isSuccess,
+  } = useMutation({
+    mutationFn: (newSimulation: CreateSimulationRequest) => {
+      return simulationAPI.createSimulation(newSimulation);
+    },
+    onSuccess: () => {
+      // TODO: 토스트 전역으로 띄우고 컴펌 없이 바로 이동하도록 변경
+      if (confirm("시뮬레이션 생성이 완료되었습니다.")) {
+        navigate("/simulation");
+      }
+    },
+    // TODO: 에러 처리
+    onError: (e: { response: object }) => {
+      console.log(e.response);
+    },
+  });
 
   const updateFormData = <K extends keyof SimulationFormData>(field: K, value: SimulationFormData[K]) => {
     setFormData((prev) => ({
@@ -64,17 +83,9 @@ export default function SimulationCreatePage() {
   const handleSubmit = async () => {
     const isValid = validateStep(4);
     if (!isValid) return;
-    await createSimulation();
-    alert("시뮬레이션 생성 완료!");
-  };
 
-  const createSimulation = async () => {
-    try {
-      // TODO: 시뮬레이션 생성 로직
-      console.log("post simulation");
-    } catch (e) {
-      console.error(e);
-    }
+    const newSimulation = transformFormDataToRequest(formData);
+    createSimulation(newSimulation);
   };
 
   return (
@@ -92,7 +103,7 @@ export default function SimulationCreatePage() {
         {/* 생성폼 */}
         <form>
           {currentStep === 1 && (
-            <Step1FormContent
+            <Step1Content
               name={formData.name}
               descirption={formData.description}
               mec={formData.mec}
@@ -100,7 +111,7 @@ export default function SimulationCreatePage() {
             />
           )}
           {currentStep === 2 && (
-            <Step2FormContent
+            <Step2Content
               patternType={formData.pattern?.type ?? null}
               onSelectPatternType={(patternType) => {
                 if (!patternType) return;
@@ -110,14 +121,14 @@ export default function SimulationCreatePage() {
             />
           )}
           {currentStep === 3 && (
-            <Step3FormContent
+            <Step3Content
               pattern={formData.pattern}
               onChangePattern={(pattern) => {
                 updateFormData("pattern", pattern);
               }}
             />
           )}
-          {currentStep === 4 && <Step4FormContent formData={formData} />}
+          {currentStep === 4 && <Step4Content formData={formData} />}
 
           {/* 단계 이동 버튼 */}
           <NavigationButtons
@@ -126,6 +137,7 @@ export default function SimulationCreatePage() {
             onPrevClick={handlePrev}
             onNextClick={handleNext}
             onCompleteClick={handleSubmit}
+            disableCompleteButton={isPending || isSuccess}
           />
         </form>
       </div>
@@ -142,38 +154,3 @@ export default function SimulationCreatePage() {
     </>
   );
 }
-
-// 현재 활성화된 스텝과 패턴에 따라 스텝 정보 반환
-const getCurrentStepInfo = (step: StepType, pattern: PatternType | null) => {
-  if (step === 3 && pattern) {
-    return STEPS_INFO[3][pattern];
-  }
-  return STEPS_INFO[step] as StepInfo;
-};
-
-const sequentialDefaultData: SequentialAgentGroup = {
-  stepOrder: 1,
-  template: null,
-  autonomousAgentCount: 0,
-  executionTime: 0,
-  delayAfterCompletion: 0,
-  repeatCount: 1,
-};
-
-const parallelDefaultData: ParallelAgentGroup = {
-  template: null,
-  autonomousAgentCount: 0,
-  executionTime: 0,
-  repeatCount: 1,
-};
-
-const getPatternDataWithDefaultAgentGroup = (type: PatternType): Pattern =>
-  type === "sequential"
-    ? {
-        type: "sequential",
-        agentGroups: [sequentialDefaultData],
-      }
-    : {
-        type: "parallel",
-        agentGroups: [parallelDefaultData],
-      };

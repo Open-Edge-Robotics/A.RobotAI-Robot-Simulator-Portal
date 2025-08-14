@@ -1,12 +1,12 @@
 import { PATTERN_DATA } from "../../constants";
 import type { PatternType } from "../../types";
 
-interface Step2FormContentProps {
+interface Step2ContentProps {
   patternType: PatternType | null;
   onSelectPatternType: (pattern: PatternType | null) => void;
 }
 
-export default function Step2FormContent({ patternType, onSelectPatternType }: Step2FormContentProps) {
+export default function Step2Content({ patternType, onSelectPatternType }: Step2ContentProps) {
   return (
     <div className="flex gap-5">
       <PatternCard
