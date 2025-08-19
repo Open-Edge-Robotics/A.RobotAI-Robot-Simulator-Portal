@@ -1,12 +1,18 @@
 export const API_BASE_URL = {
-  LOCAL: "http://localhost:8000/api",
-  DEV: "/api",
+  local: "http://localhost:8000/api",
+  dev: "/api",
 } as const;
 
 export const ENDPOINTS = {
-  SIMULATION: "/simulation",
-  TEMPLATE: "/template",
-  MEC: "/mec",
+  simulation: "/simulation",
+  template: "/template",
+  mec: "/mec",
 } as const;
 
 export const API_DEFAULT_TIMEOUT = 30000;
+
+export const QUERY_KEYS = {
+  simulation: ["simulation"],
+  template: ["template"],
+  mec: ["mec"],
+} as const;

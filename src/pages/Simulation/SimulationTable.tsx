@@ -13,17 +13,18 @@ import { PATTERN_CONFIG, STATUS_CONFIG } from "./constants";
 import type { Status } from "./types";
 
 interface SimulationActions {
-  onStart: () => void;
-  onPause: () => void;
-  onDelete: () => void;
+  onStart: (id: number) => void;
+  onPause: (id: number) => void;
+  onDelete: (id: number) => void;
 }
 
 interface SimulationTableProps {
   simulations: Simulation[];
   actions: SimulationActions;
+  isLoading: boolean;
 }
 
-export default function SimulationTable({ simulations, actions }: SimulationTableProps) {
+export default function SimulationTable({ simulations, actions, isLoading }: SimulationTableProps) {
   return (
     <Container shadow overflowHidden>
       {simulations.length === 0 ? (
@@ -31,7 +32,7 @@ export default function SimulationTable({ simulations, actions }: SimulationTabl
       ) : (
         <div>
           <TableHeader />
-          <TableBody simulations={simulations} actions={actions} />
+          <TableBody simulations={simulations} actions={actions} isLoading={isLoading} />
         </div>
       )}
     </Container>
@@ -59,13 +60,14 @@ function TableHeaderCell({ children }: { children: React.ReactNode }) {
 interface TableBodyProps {
   simulations: Simulation[];
   actions: SimulationActions;
+  isLoading: boolean;
 }
 
-function TableBody({ simulations, actions }: TableBodyProps) {
+function TableBody({ simulations, actions, isLoading }: TableBodyProps) {
   return (
     <ul className="divide-y divide-gray-100">
       {simulations.map((simulation) => (
-        <TableBodyRow simulation={simulation} actions={actions} key={simulation.simulationId} />
+        <TableBodyRow simulation={simulation} actions={actions} key={simulation.simulationId} isLoading={isLoading} />
       ))}
     </ul>
   );
@@ -74,9 +76,10 @@ function TableBody({ simulations, actions }: TableBodyProps) {
 interface TableBodyRowProps {
   simulation: Simulation;
   actions: SimulationActions;
+  isLoading: boolean;
 }
 
-function TableBodyRow({ simulation, actions }: TableBodyRowProps) {
+function TableBodyRow({ simulation, actions, isLoading }: TableBodyRowProps) {
   return (
     <Link to={`${simulation.simulationId}`}>
       <li
@@ -92,7 +95,13 @@ function TableBodyRow({ simulation, actions }: TableBodyRowProps) {
         <TableBodyCell>{formatDateTime(simulation.updatedAt)}</TableBodyCell>
         <TableBodyCell>{simulation.mecId}</TableBodyCell>
         <TableBodyCell>
-          <ActionButtons status={simulation.status} actions={actions} />
+          <ActionButtons
+            status={simulation.status}
+            onStart={() => actions.onStart(simulation.simulationId)}
+            onPause={() => actions.onPause(simulation.simulationId)}
+            onDelete={() => actions.onDelete(simulation.simulationId)}
+            isLoading={isLoading}
+          />
         </TableBodyCell>
       </li>
     </Link>
@@ -119,22 +128,25 @@ function StatusBadge({ status }: { status: Status }) {
 
 interface ActionButtonsProps {
   status: Status;
-  actions: SimulationActions;
+  onStart: () => void;
+  onPause: () => void;
+  onDelete: () => void;
+  isLoading: boolean;
 }
 
-function ActionButtons({ status, actions }: ActionButtonsProps) {
-  const pauseStyle = "hover:border-yellow-200 hover:bg-yellow-50 hover:text-yellow-500 active:text-red-700";
-  const playStyle = "hover:border-green-200 hover:bg-green-50 hover:text-green-500 active:text-red-700";
+function ActionButtons({ status, onStart, onPause, onDelete, isLoading }: ActionButtonsProps) {
+  const pauseStyle = "hover:border-yellow-200 hover:bg-yellow-50 hover:text-yellow-500 active:text-yellow-700";
+  const playStyle = "hover:border-green-200 hover:bg-green-50 hover:text-green-500 active:text-green-700";
   const deleteStyle = "hover:border-red-200 hover:bg-red-50 hover:text-red-500 active:text-red-700";
 
   return (
     <div className="flex items-center gap-3">
       {status === "RUNNING" ? (
-        <ActionButton iconName="pause" onClick={actions.onPause} color={pauseStyle} />
+        <ActionButton iconName="pause" onClick={onPause} color={pauseStyle} disabled={isLoading} />
       ) : (
-        <ActionButton iconName="play_arrow" onClick={actions.onStart} color={playStyle} />
+        <ActionButton iconName="play_arrow" onClick={onStart} color={playStyle} disabled={isLoading} />
       )}
-      <ActionButton iconName="delete" onClick={actions.onDelete} color={deleteStyle} />
+      <ActionButton iconName="delete" onClick={onDelete} color={deleteStyle} disabled={isLoading} />
     </div>
   );
 }
@@ -143,15 +155,23 @@ interface ActionButtonProps {
   iconName: string;
   color: string;
   onClick: () => void;
+  disabled: boolean;
 }
 
-function ActionButton({ iconName, color, onClick }: ActionButtonProps) {
+function ActionButton({ iconName, color, onClick, disabled }: ActionButtonProps) {
   return (
     <button
-      onClick={onClick}
-      className={`flex h-8 w-8 items-center justify-center rounded-md border border-gray-100 text-gray-500 ${color}`}
+      onClick={(e) => {
+        e.preventDefault(); // Link 이동 방지
+        e.stopPropagation();
+        onClick();
+      }}
+      disabled={disabled}
+      className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-gray-100 text-gray-500 ${
+        disabled ? "opacity-50" : `${color}`
+      }`}
     >
-      <Icon name={iconName} className="cursor-pointer" size="22px" />
+      <Icon name={iconName} size="22px" />
     </button>
   );
 }

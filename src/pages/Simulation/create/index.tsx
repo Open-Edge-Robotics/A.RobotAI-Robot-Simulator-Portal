@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "innogrid-ui";
 
+import { QUERY_KEYS } from "@/apis/constants.ts";
 import { simulationAPI } from "@/apis/simulation/index.ts";
 import type { CreateSimulationRequest } from "@/apis/simulation/types.ts";
 import Stepper from "@/components/common/Stepper";
@@ -44,7 +45,7 @@ export default function SimulationCreatePage() {
       return simulationAPI.createSimulation(newSimulation);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["simulation"] });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation });
       // TODO: 토스트 전역으로 띄우고 컴펌 없이 바로 이동하도록 변경
       if (confirm("시뮬레이션 생성이 완료되었습니다.")) {
         navigate("/simulation");

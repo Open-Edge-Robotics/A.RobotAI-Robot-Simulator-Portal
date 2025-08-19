@@ -4,7 +4,7 @@ import { createClient } from "..";
 import type { CreateSimulationRequest, CreateSimulationResult, GetSimulationsResult } from "./types";
 
 const simulationApiClient = createClient({
-  baseURL: `${API_BASE_URL.DEV}${ENDPOINTS.SIMULATION}`,
+  baseURL: `${API_BASE_URL.dev}${ENDPOINTS.simulation}`,
   //   enableAuth: true,
 });
 
@@ -13,25 +13,25 @@ export const simulationAPI = {
   getSimulations: (params: URLSearchParams) => simulationApiClient.get<GetSimulationsResult>("", { params }),
 
   // 시뮬레이션 상세 조회
-  getSimulation: (id: string) => simulationApiClient.get(`/${id}`),
+  getSimulation: (id: number) => simulationApiClient.get(`/${id}`),
 
   // 시뮬레이션 생성
   createSimulation: (data: CreateSimulationRequest) => simulationApiClient.post<CreateSimulationResult>("", data),
 
   // 시뮬레이션 수정
-  updateSimulation: (id: string, data: unknown) => simulationApiClient.put(`/${id}`, data),
+  updateSimulation: (id: number, data: unknown) => simulationApiClient.put(`/${id}`, data),
 
   // 시뮬레이션 삭제
-  deleteSimulation: (id: string) => simulationApiClient.delete(`/${id}`),
+  deleteSimulation: (id: number) => simulationApiClient.delete(`/${id}`),
 
   // 시뮬레이션 실행
-  runSimulation: (id: string) => simulationApiClient.post(`/${id}/run`),
+  runSimulation: (id: number) => simulationApiClient.post(`/${id}/run`),
 
   // 시뮬레이션 일시정지
-  pauseSimulation: (id: string) => simulationApiClient.post(`/${id}/pause`),
+  pauseSimulation: (id: number) => simulationApiClient.post(`/${id}/pause`),
 
   // 시뮬레이션 정지
-  stopSimulation: (id: string) => simulationApiClient.post(`/${id}/stop`),
+  stopSimulation: (id: number) => simulationApiClient.post(`/${id}/stop`),
 
   getMockSimulations: (params: URLSearchParams) =>
     Promise.resolve({

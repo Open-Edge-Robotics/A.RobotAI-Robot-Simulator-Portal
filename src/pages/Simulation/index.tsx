@@ -4,9 +4,11 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Pagination as InnogridPagination } from "innogrid-ui";
 
+import { QUERY_KEYS } from "@/apis/constants";
 import { simulationAPI } from "@/apis/simulation";
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
+import { useSimulationActions } from "@/hooks/simulation";
 
 import Title from "./create/Header";
 import FilterToolbar from "./FilterToolbar";
@@ -18,7 +20,7 @@ import { getValidParams } from "./utils";
 export default function SimulationPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { status, data, refetch } = useQuery({
-    queryKey: ["simulation", searchParams.toString()],
+    queryKey: [...QUERY_KEYS.simulation, searchParams.toString()],
     queryFn: () => {
       const paramsWithDefaultValue = new URLSearchParams(searchParams);
       if (!searchParams.get("page")) {
@@ -27,6 +29,7 @@ export default function SimulationPage() {
       return simulationAPI.getSimulations(paramsWithDefaultValue);
     },
   });
+  const { actions: simulationActions, isLoading } = useSimulationActions();
 
   const statusFilterValue = (searchParams.get("status") || "") as StatusFilterOption;
   const patternTypeFilterValue = (searchParams.get("pattern_type") || "") as PatternTypeFilterOption;
@@ -88,10 +91,7 @@ export default function SimulationPage() {
       {status === "pending" && <LoadingFallback />}
       {status === "success" && (
         <>
-          <SimulationTable
-            simulations={simulations}
-            actions={{ onDelete: () => {}, onPause: () => {}, onStart: () => {} }}
-          />
+          <SimulationTable simulations={simulations} actions={simulationActions} isLoading={isLoading} />
           <Pagination
             currentPage={pageValue}
             size={pageSizeValue}
