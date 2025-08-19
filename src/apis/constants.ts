@@ -6,7 +6,7 @@ export const API_BASE_URL = {
 export const ENDPOINTS = {
   SIMULATION: "/simulation",
   TEMPLATE: "/template",
-  MECTL: "/mec",
+  MEC: "/mec",
 } as const;
 
 export const API_DEFAULT_TIMEOUT = 30000;

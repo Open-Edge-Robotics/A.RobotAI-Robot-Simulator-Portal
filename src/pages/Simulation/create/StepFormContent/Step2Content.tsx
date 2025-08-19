@@ -1,4 +1,6 @@
-import { PATTERN_DATA } from "../../constants";
+import Icon from "@/components/common/Icon";
+
+import { PATTERN_CONFIG } from "../../constants";
 import type { PatternType } from "../../types";
 
 interface Step2ContentProps {
@@ -30,7 +32,7 @@ interface PatternCardProps {
 }
 
 function PatternCard({ pattern, isSelected, onClick }: PatternCardProps) {
-  const patternData = PATTERN_DATA[pattern];
+  const patternData = PATTERN_CONFIG[pattern];
 
   if (!patternData) return null;
 
@@ -42,7 +44,7 @@ function PatternCard({ pattern, isSelected, onClick }: PatternCardProps) {
       {/* 선택됐을 경우 체크 아이콘 */}
       {isSelected && (
         <div className="absolute top-4 right-4 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 p-1">
-          <span className="material-symbols-outlined text-sm text-white">check</span>
+          <Icon name="check" className="text-sm text-white" />
         </div>
       )}
 
@@ -51,7 +53,7 @@ function PatternCard({ pattern, isSelected, onClick }: PatternCardProps) {
         <div
           className={`flex h-12 w-12 items-center justify-center rounded-lg text-2xl ${patternData.iconBgColor} ${patternData.iconTextColor} `}
         >
-          <span className="material-symbols-outlined">{patternData.iconName}</span>
+          <Icon name={patternData.iconName} />
         </div>
 
         {/* 제목 */}

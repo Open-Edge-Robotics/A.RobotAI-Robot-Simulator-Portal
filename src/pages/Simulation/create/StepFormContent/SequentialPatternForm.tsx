@@ -1,6 +1,7 @@
 import { Button, Input, Select } from "innogrid-ui";
 
 import Fieldset from "@/components/common/Fieldset";
+import Icon from "@/components/common/Icon";
 import Label from "@/components/common/Label";
 
 import type { SequentialAgentGroup, Template } from "../../types";
@@ -70,7 +71,7 @@ export default function SequentialPatternForm({
           }}
         >
           <div className="flex items-center gap-1">
-            <span className="material-symbols-outlined ml-[-6px]">add</span>
+            <Icon name="add" className="ml-[-6px]" />
             <span>단계 추가</span>
           </div>
         </Button>

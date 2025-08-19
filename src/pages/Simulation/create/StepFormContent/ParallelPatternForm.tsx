@@ -1,6 +1,7 @@
 import { Button, Input, Select } from "innogrid-ui";
 
 import Fieldset from "@/components/common/Fieldset";
+import Icon from "@/components/common/Icon";
 import Label from "@/components/common/Label";
 
 import type { ParallelAgentGroup, Template } from "../../types";
@@ -60,7 +61,7 @@ export default function ParallelPatternForm({
           }}
         >
           <div className="flex items-center gap-1">
-            <span className="material-symbols-outlined ml-[-6px]">add</span>
+            <Icon name="add" className="ml-[-6px]" />
             <span>에이전트 그룹 추가</span>
           </div>
         </Button>

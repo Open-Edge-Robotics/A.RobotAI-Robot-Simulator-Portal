@@ -16,7 +16,7 @@ export default function Badge({
   textColor = "text-white",
 }: BadgeProps) {
   return (
-    <div className={`flex items-center rounded-full ${bgColor} ${padding}`}>
+    <div className={`flex items-center justify-center rounded-full ${bgColor} ${padding}`}>
       <span className={`${fontSize} ${fontWeight} ${textColor}`}>{text}</span>
     </div>
   );

@@ -1,3 +1,5 @@
+import Icon from "../Icon";
+
 interface StepProps {
   label: string;
   stepNumber: number;
@@ -31,11 +33,7 @@ function StepNumber({ isCompleted, isActive, stepNumber }: StepNumberProps) {
         isCompleted ? completedStyle : isActive ? activeStyle : defaultStyle
       }`}
     >
-      {isCompleted ? (
-        <span className="material-symbols-outlined font-light">check_small</span>
-      ) : (
-        <span>{stepNumber}</span>
-      )}
+      {isCompleted ? <Icon name="check_small" className="font-light" /> : <span>{stepNumber}</span>}
     </div>
   );
 }

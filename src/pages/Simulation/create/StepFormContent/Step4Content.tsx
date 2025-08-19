@@ -2,7 +2,7 @@ import Badge from "@/components/common/Badge";
 import Container from "@/components/common/Container.tsx";
 import Fallback from "@/components/common/Fallback/index.tsx";
 
-import { PATTERN_DATA } from "../../constants.ts";
+import { PATTERN_CONFIG } from "../../constants.ts";
 import type { Pattern, SimulationFormData } from "../../types.ts";
 
 interface Step4ContentProps {
@@ -18,25 +18,25 @@ export default function Step4Content({ formData }: Step4ContentProps) {
   const totalExecutionTime = getTotalExecutionTime(formData.pattern);
 
   const getPatternInfoHeaderTitle = () => {
-    const patternData = PATTERN_DATA[formData.pattern?.type ?? "sequential"];
+    const patternData = PATTERN_CONFIG[formData.pattern?.type ?? "sequential"];
     return `${patternData.title} ${patternData.unit}`;
   };
 
   return (
     <div className="space-y-5">
       {/* 기본 정보 */}
-      <Container gap="gap-6" padding="p-6" shadow="shadow-xs">
+      <Container gap="gap-6" padding="p-6" shadow>
         <Header title="기본 정보" />
         <Body>
           <LabelValuePair label="이름:" value={formData.name} labelWidth="w-24" />
           <LabelValuePair label="설명:" value={formData.description || "-"} labelWidth="w-24" />
           <LabelValuePair label="MEC:" value={formData.mec.name} labelWidth="w-24" />
-          <LabelValuePair label="실행 패턴:" value={PATTERN_DATA[formData.pattern.type].title} labelWidth="w-24" />
+          <LabelValuePair label="실행 패턴:" value={PATTERN_CONFIG[formData.pattern.type].title} labelWidth="w-24" />
         </Body>
       </Container>
 
       {/* 패턴 상세 정보 */}
-      <Container gap="gap-6" padding="p-6" shadow="shadow-xs">
+      <Container gap="gap-6" padding="p-6" shadow>
         <Header title={getPatternInfoHeaderTitle()} />
         <Body>
           {formData.pattern.type === "sequential"
@@ -46,7 +46,7 @@ export default function Step4Content({ formData }: Step4ContentProps) {
                 // TODO: null 값 처리 로직 다듬기
                 if (!group.template) return <Fallback text="필수 정보를 모두 입력해주세요." key={group.stepOrder} />;
 
-                const groupUnit = PATTERN_DATA.sequential.unit;
+                const groupUnit = PATTERN_CONFIG.sequential.unit;
                 const label = `${group.stepOrder}${groupUnit}`;
                 return (
                   <PatternConfigCard
@@ -63,7 +63,7 @@ export default function Step4Content({ formData }: Step4ContentProps) {
             : formData.pattern.agentGroups.map((group, i) => {
                 if (!group.template) return <Fallback text="필수 정보를 모두 입력해주세요." key={i} />;
 
-                const groupUnit = PATTERN_DATA.parallel.unit;
+                const groupUnit = PATTERN_CONFIG.parallel.unit;
                 const label = `${groupUnit} ${i + 1}`;
                 return (
                   <PatternConfigCard

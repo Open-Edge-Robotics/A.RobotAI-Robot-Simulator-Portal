@@ -1,3 +1,5 @@
+import type { ALLOWED_PARAMS, FILTER_OPTIONS, STATUS_CONFIG } from "./constants";
+
 export interface SimulationFormData {
   name: string;
   description: string;
@@ -9,7 +11,7 @@ export type StepType = 1 | 2 | 3 | 4;
 
 export type PatternType = "sequential" | "parallel";
 
-export interface PatternCardData {
+export interface PatternCardConfig {
   title: string;
   unit: string;
   iconName: string;
@@ -69,4 +71,20 @@ export type Pattern =
   | { type: "parallel"; agentGroups: ParallelAgentGroup[] }
   | null;
 
+export interface OverviewConfig {
+  label: string;
+  iconName: string;
+  textColor: string;
+  bgColor: string;
+}
+
+// TODO: 업데이트
 export type SimulationStatus = "SHCEDULED" | "RUNNING";
+
+export type AllowedParam = (typeof ALLOWED_PARAMS)[number];
+
+export type StatusFilterOption = (typeof FILTER_OPTIONS.status)[number]["value"];
+
+export type PatternTypeFilterOption = (typeof FILTER_OPTIONS.patternType)[number]["value"];
+
+export type Status = keyof typeof STATUS_CONFIG;

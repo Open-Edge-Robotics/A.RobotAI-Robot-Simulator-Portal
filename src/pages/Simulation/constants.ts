@@ -1,4 +1,4 @@
-import type { PatternCardData, PatternType, StepsInfoType } from "./types";
+import type { OverviewConfig, PatternCardConfig as PatternCardDConfig, PatternType, StepsInfoType } from "./types";
 
 export const STEPS = ["기본 정보", "패턴 선택", "상세 설정", "검토 및 완료"];
 
@@ -33,7 +33,7 @@ export const STEPS_INFO: StepsInfoType = {
 };
 
 // 패턴별 안내 정보
-export const PATTERN_DATA: { [K in PatternType]: PatternCardData } = {
+export const PATTERN_CONFIG: { [K in PatternType]: PatternCardDConfig } = {
   sequential: {
     title: "순차 실행",
     unit: "단계",
@@ -53,3 +53,77 @@ export const PATTERN_DATA: { [K in PatternType]: PatternCardData } = {
     description: "서로 다른 유형의 가상 자율행동체들이 동시에 실행됩니다.\n(모든 그룹이 같은 시간에 시작)",
   },
 };
+
+export const SIMULATION_OVERVIEW_CONFIG: { [key: string]: OverviewConfig } = {
+  TOTAL: {
+    label: "전체 시뮬레이션",
+    iconName: "insert_chart",
+    textColor: "text-gray-500",
+    bgColor: "bg-gray-50",
+  },
+  RUNNING: {
+    label: "실행중",
+    iconName: "play_arrow",
+    textColor: "text-blue-500",
+    bgColor: "bg-blue-50",
+  },
+  COMPLETED: {
+    label: "완료",
+    iconName: "check_box",
+    textColor: "text-green-500",
+    bgColor: "bg-green-50",
+  },
+  FAILED: {
+    label: "실패",
+    iconName: "error",
+    textColor: "text-red-500",
+    bgColor: "bg-red-50",
+  },
+};
+
+export const STATUS_CONFIG = {
+  RUNNING: {
+    bgColor: "bg-blue-50",
+    textColor: "text-blue-700",
+    text: "실행중",
+  },
+  COMPLETED: {
+    bgColor: "bg-green-50",
+    textColor: "text-green-700",
+    text: "완료",
+  },
+  FAILED: {
+    bgColor: "bg-red-50",
+    textColor: "text-red-700",
+    text: "실패",
+  },
+  READY: {
+    bgColor: "bg-yellow-50",
+    textColor: "text-yellow-700",
+    text: "대기중",
+  },
+  PAUSED: {
+    bgColor: "bg-gray-50",
+    textColor: "text-gray-700",
+    text: "일시정지",
+  },
+} as const;
+
+// TODO: 이거 활용해서 config랑 type 만들기
+export const FILTER_OPTIONS = {
+  status: [
+    { value: "", label: "전체 상태" },
+    { value: "READY", label: "대기중" },
+    { value: "RUNNING", label: "실행중" },
+    { value: "COMPLETED", label: "완료" },
+    { value: "FAILED", label: "실패" },
+    { value: "PAUSED", label: "일시정지" },
+  ],
+  patternType: [
+    { value: "", label: "전체 패턴 타입" },
+    { value: "sequential", label: "순차실행" },
+    { value: "parallel", label: "병렬실행" },
+  ],
+} as const;
+
+export const ALLOWED_PARAMS = ["page", "size", "status", "pattern_type"] as const;

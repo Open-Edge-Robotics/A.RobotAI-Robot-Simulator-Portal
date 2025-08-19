@@ -1,4 +1,4 @@
-import type { PatternType, SimulationStatus } from "../../pages/simulation/types";
+import type { PatternType, SimulationStatus, Status } from "@/pages/simulation/types";
 // === API Request 타입들 ===
 
 // 순차 실행용 단계 요청
@@ -110,3 +110,34 @@ interface ParallelSimulationResult extends BaseSimulationResult {
 
 // 최종 CreateSimulationResult 타입
 export type CreateSimulationResult = SequentialSimulationResult | ParallelSimulationResult;
+
+export interface Simulation {
+  simulationId: number; // string에서 number로 변경
+  simulationName: string;
+  patternType: "parallel" | "sequential";
+  status: Status;
+  mecId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Overview {
+  total: number;
+  ready: number;
+  running: number;
+  completed: number;
+  failed: number;
+}
+
+export interface GetSimulationsResult {
+  overview: Overview;
+  simulations: Simulation[];
+  pagination: {
+    currentPage: number;
+    pageSize: number;
+    totalItems: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrevious: boolean;
+  };
+}

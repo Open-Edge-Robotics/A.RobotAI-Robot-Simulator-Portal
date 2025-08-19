@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import Container from "@/components/common/Container.tsx";
+import Icon from "@/components/common/Icon";
 
 interface NavItemProps {
   title: string;
@@ -33,9 +34,7 @@ export default function NavItem({ title, iconName, href, isSelected }: NavItemPr
 function NavIcon({ iconName }: { iconName: string }) {
   return (
     <div className="mr-3 flex h-5 w-5 items-center justify-center">
-      <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
-        {iconName}
-      </span>
+      <Icon name={iconName} fill />
     </div>
   );
 }

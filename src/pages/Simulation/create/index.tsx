@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "innogrid-ui";
 
 import { simulationAPI } from "@/apis/simulation/index.ts";
 import type { CreateSimulationRequest } from "@/apis/simulation/types.ts";
@@ -10,9 +12,9 @@ import Stepper from "@/components/common/Stepper";
 import { STEPS } from "../constants";
 import type { SimulationFormData, StepType } from "../types";
 import { getCurrentStepInfo, getPatternDataWithDefaultAgentGroup, transformFormDataToRequest } from "../utils.ts";
-import { validator } from "../validation";
+import { createFormValidator } from "../validation";
 
-import Header from "./Header";
+import Title from "./Header";
 import InfoBox from "./InfoBox";
 import NavigationButtons from "./NavigationButtons";
 import Step1Content from "./StepFormContent/Step1Content";
@@ -32,7 +34,7 @@ export default function SimulationCreatePage() {
   const [formData, setFormData] = useState<SimulationFormData>(defaultFormData);
   const stepInfo = getCurrentStepInfo(currentStep, formData.pattern?.type ?? null);
   const navigate = useNavigate();
-
+  const queryClient = useQueryClient();
   const {
     mutate: createSimulation,
     isPending,
@@ -42,6 +44,7 @@ export default function SimulationCreatePage() {
       return simulationAPI.createSimulation(newSimulation);
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["simulation"] });
       // TODO: 토스트 전역으로 띄우고 컴펌 없이 바로 이동하도록 변경
       if (confirm("시뮬레이션 생성이 완료되었습니다.")) {
         navigate("/simulation");
@@ -49,6 +52,7 @@ export default function SimulationCreatePage() {
     },
     // TODO: 에러 처리
     onError: (e: { response: object }) => {
+      alert("error");
       console.log(e.response);
     },
   });
@@ -61,7 +65,7 @@ export default function SimulationCreatePage() {
   };
 
   const validateStep = (step: StepType): boolean => {
-    const errorMessage = validator[step](formData);
+    const errorMessage = createFormValidator[step](formData);
     if (errorMessage) {
       // TODO: toast 띄우기
       alert(errorMessage);
@@ -92,7 +96,10 @@ export default function SimulationCreatePage() {
     <>
       <div className="bg-gray-10 flex h-full flex-col gap-6 p-6">
         {/* 헤더 */}
-        <Header />
+        <div className="flex items-center justify-between">
+          <Title title="시뮬레이션 생성" />
+          <SimulationListButton />
+        </div>
 
         {/* 생성 단계 Stepper */}
         <Stepper activeStep={currentStep - 1} steps={STEPS} />
@@ -152,5 +159,13 @@ export default function SimulationCreatePage() {
         {errorMessage}
       </Toast> */}
     </>
+  );
+}
+
+function SimulationListButton() {
+  return (
+    <Link to="/simulation">
+      <Button size="large">시뮬레이션 목록</Button>
+    </Link>
   );
 }
