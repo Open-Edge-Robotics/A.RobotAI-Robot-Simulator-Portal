@@ -1,13 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button } from "innogrid-ui";
 
 import { QUERY_KEYS } from "@/apis/constants.ts";
 import { simulationAPI } from "@/apis/simulation/index.ts";
 import type { CreateSimulationRequest } from "@/apis/simulation/types.ts";
-import Container from "@/components/common/Container.tsx/index.tsx";
-import Icon from "@/components/common/Icon/index.tsx";
+import ErrorFallback from "@/components/common/Fallback/ErrorFallback.tsx";
+import LoadingFallback from "@/components/common/Fallback/LoadingFallback.tsx";
 
 import Header from "../create/Header.tsx";
 import SimulationForm from "../form/SimulationForm.tsx";
@@ -87,9 +86,14 @@ function SimulationEditContent({ id }: { id: number }) {
   return (
     <div className="bg-gray-10 flex h-full flex-col gap-6 p-6">
       <Header title="시뮬레이션 수정" />
-      {status === "pending" && <LoadingFallback />}
+      {status === "pending" && <LoadingFallback message="시뮬레이션 정보를 불러오는 중입니다." />}
       {status === "error" && (
-        <ErrorFallback onRetry={refetch} message="시뮬레이션 정보를 불러올 수 없습니다." showBackButton />
+        <ErrorFallback
+          onRetry={refetch}
+          message="시뮬레이션 정보를 불러올 수 없습니다."
+          subMessage="네트워크 연결을 확인하거나 잠시 후 다시 시도해 주세요."
+          showBackButton
+        />
       )}
       {status === "success" && (
         <SimulationForm
@@ -102,54 +106,6 @@ function SimulationEditContent({ id }: { id: number }) {
         />
       )}
     </div>
-  );
-}
-
-function LoadingFallback() {
-  return (
-    <Container shadow overflowHidden>
-      <div className="px-6 py-12 text-center">
-        <h3 className="mb-5 text-lg font-semibold">시뮬레이션 정보를 불러오는 중입니다</h3>
-        <Icon name="progress_activity" className="animate-spin text-blue-500" size="32px" />
-      </div>
-    </Container>
-  );
-}
-
-interface ErrorFallbackProps {
-  onRetry?: () => void;
-  message?: string;
-  showBackButton?: boolean;
-}
-
-function ErrorFallback({ onRetry, message = "에러가 발생했습니다", showBackButton = false }: ErrorFallbackProps) {
-  const navigate = useNavigate();
-
-  return (
-    <Container shadow overflowHidden>
-      <div className="flex flex-col items-center px-6 py-12 text-center">
-        <Icon name="error" className="mb-4 text-red-500" size="48px" />
-        <h3 className="mb-2 text-lg font-semibold">{message}</h3>
-        <p className="mb-6 text-sm text-gray-500">
-          시뮬레이션이 존재하지 않거나 네트워크 연결을 확인하고 다시 시도해 주세요.
-        </p>
-        <div className="flex gap-3">
-          {onRetry && (
-            <Button onClick={onRetry} size="medium" color="primary">
-              <div className="flex items-center gap-2">
-                <Icon name="refresh" size="20px" className="mt-0.5 ml-[-4px]" />
-                다시 시도
-              </div>
-            </Button>
-          )}
-          {showBackButton && (
-            <Button onClick={() => navigate(-1)} size="medium" color="secondary">
-              이전 페이지로
-            </Button>
-          )}
-        </div>
-      </div>
-    </Container>
   );
 }
 

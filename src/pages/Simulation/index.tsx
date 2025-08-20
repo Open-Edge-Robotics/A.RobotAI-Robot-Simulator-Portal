@@ -7,6 +7,8 @@ import { Button, Pagination as InnogridPagination } from "innogrid-ui";
 import { QUERY_KEYS } from "@/apis/constants";
 import { simulationAPI } from "@/apis/simulation";
 import Container from "@/components/common/Container.tsx";
+import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
+import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import Icon from "@/components/common/Icon";
 import { useSimulationActions } from "@/hooks/simulation";
 
@@ -87,8 +89,14 @@ export default function SimulationPage() {
         onReset={handleReset}
       />
 
-      {status === "error" && <ErrorFallback onRetry={refetch} />}
-      {status === "pending" && <LoadingFallback />}
+      {status === "error" && (
+        <ErrorFallback
+          onRetry={refetch}
+          message="시뮬레이션 정보를 불러올 수 없습니다."
+          subMessage="네트워크 연결을 확인하거나 잠시 후 다시 시도해 주세요."
+        />
+      )}
+      {status === "pending" && <LoadingFallback message="시뮬레이션 정보를 불러오는 중입니다." />}
       {status === "success" && (
         <>
           <SimulationTable simulations={simulations} actions={simulationActions} isLoading={isLoading} />
@@ -153,34 +161,5 @@ function Pagination({ currentPage, size, totalCount, onChangePage, onChangePageS
         }}
       />
     </div>
-  );
-}
-
-function LoadingFallback() {
-  return (
-    <Container shadow overflowHidden>
-      <div className="px-6 py-12 text-center">
-        <h3 className="mb-5 text-lg font-semibold">시뮬레이션 정보를 불러오는 중입니다</h3>
-        <Icon name="progress_activity" className="animate-spin text-blue-500" size="32px" />
-      </div>
-    </Container>
-  );
-}
-
-function ErrorFallback({ onRetry }: { onRetry: () => void }) {
-  return (
-    <Container shadow overflowHidden>
-      <div className="flex flex-col items-center px-6 py-12 text-center">
-        <Icon name="error" className="mb-4 text-red-500" size="48px" />
-        <h3 className="mb-2 text-lg font-semibold">시뮬레이션을 불러올 수 없습니다</h3>
-        <p className="mb-6 text-sm text-gray-500">네트워크 연결을 확인하거나 잠시 후 다시 시도해 주세요.</p>
-        <Button onClick={onRetry} size="medium">
-          <div className="flex items-center gap-2">
-            <Icon name="refresh" size="20px" className="mt-0.5 ml-[-4px]" />
-            다시 시도
-          </div>
-        </Button>
-      </div>
-    </Container>
   );
 }

@@ -1,4 +1,4 @@
-import Fallback from "@/components/common/Fallback";
+import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 
 import type { Pattern, Template } from "../../types";
 
@@ -12,7 +12,7 @@ interface Step3ContentProps {
 }
 
 export default function Step3Content({ pattern, onChangePattern, templateList }: Step3ContentProps) {
-  if (!pattern) return <Fallback text="패턴을 선택해주세요." />;
+  if (!pattern) return <ErrorFallback message="패턴을 먼저 선택해주세요." />;
 
   switch (pattern.type) {
     case "sequential":
@@ -32,6 +32,6 @@ export default function Step3Content({ pattern, onChangePattern, templateList }:
         />
       );
     default:
-      return <Fallback text="패턴을 선택해주세요." />;
+      return <ErrorFallback message="패턴을 먼저 선택해주세요." />;
   }
 }

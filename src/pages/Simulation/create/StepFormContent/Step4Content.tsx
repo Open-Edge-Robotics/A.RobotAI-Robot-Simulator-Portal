@@ -1,6 +1,6 @@
 import Badge from "@/components/common/Badge";
 import Container from "@/components/common/Container.tsx";
-import Fallback from "@/components/common/Fallback/index.tsx";
+import ErrorFallback from "@/components/common/Fallback/ErrorFallback.tsx";
 
 import { PATTERN_CONFIG } from "../../constants.ts";
 import type { Mec, Pattern, SimulationFormData, Template } from "../../types.ts";
@@ -14,8 +14,7 @@ interface Step4ContentProps {
 // TODO: 컴포넌트 분리, 폴더 구조 생각해보기
 
 export default function Step4Content({ formData, mecList, templateList }: Step4ContentProps) {
-  if (!formData.mecId || !formData.pattern) return <Fallback text="필수 정보를 모두 입력해주세요." />;
-
+  if (!formData.mecId || !formData.pattern) return <ErrorFallback message="필수 정보를 모두 입력해주세요." />;
   const totalAgentCount = getTotalAgentCount(formData.pattern.agentGroups);
   const totalExecutionTime = getTotalExecutionTime(formData.pattern);
 
@@ -50,7 +49,8 @@ export default function Step4Content({ formData, mecList, templateList }: Step4C
                 // template 없을 경우 fallback 처리
                 // (실제로는 step validation으로 검증을 거쳤으므로 template에 null 값이 들어갈 일은 없음)
                 // TODO: null 값 처리 로직 다듬기
-                if (!group.templateId) return <Fallback text="필수 정보를 모두 입력해주세요." key={group.stepOrder} />;
+                if (!group.templateId)
+                  return <ErrorFallback message="필수 정보를 모두 입력해주세요." key={group.stepOrder} />;
 
                 const groupUnit = PATTERN_CONFIG.sequential.unit;
                 const label = `${group.stepOrder}${groupUnit}`;
@@ -67,8 +67,7 @@ export default function Step4Content({ formData, mecList, templateList }: Step4C
                 );
               })
             : formData.pattern.agentGroups.map((group, i) => {
-                if (!group.templateId) return <Fallback text="필수 정보를 모두 입력해주세요." key={i} />;
-
+                if (!group.templateId) return <ErrorFallback message="필수 정보를 모두 입력해주세요." key={i} />;
                 const groupUnit = PATTERN_CONFIG.parallel.unit;
                 const label = `${groupUnit} ${i + 1}`;
                 return (
