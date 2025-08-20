@@ -1,5 +1,5 @@
-import type { PatternType, SimulationStatus, Status } from "@/pages/simulation/types";
-// === API Request 타입들 ===
+import type { PatternType, Status } from "@/pages/simulation/types";
+/* =============== API Request 타입들 =============== */
 
 // 순차 실행용 단계 요청
 interface SequentialStepRequest {
@@ -36,13 +36,14 @@ interface SequentialSimulationRequest extends BaseSimulationRequest {
 // 병렬 실행 시뮬레이션 요청
 interface ParallelSimulationRequest extends BaseSimulationRequest {
   patternType: "parallel";
-  pattern: { agents: ParallelAgentRequest[] };
+  pattern: { groups: ParallelAgentRequest[] };
 }
 
 // 최종 CreateSimulationRequest 타입
 export type CreateSimulationRequest = SequentialSimulationRequest | ParallelSimulationRequest;
 
-// === API Response 타입들 ===
+/* =============== API Response 타입들 =============== */
+
 interface SequentialStep {
   stepOrder: number;
   templateId: number;
@@ -52,7 +53,7 @@ interface SequentialStep {
   startTime: string;
   endTime: string;
   estimatedDuration: number;
-  status: SimulationStatus;
+  status: Status;
 }
 
 // 병렬 실행용 에이전트 정의
@@ -65,7 +66,7 @@ interface ParallelAgent {
   startTime: string;
   endTime: string;
   estimatedDuration: number;
-  status: SimulationStatus;
+  status: Status;
 }
 
 // 순차 실행 계획
@@ -84,7 +85,7 @@ interface BaseSimulationResult {
   simulationId: string;
   simulationName: string;
   patternType: PatternType;
-  status: SimulationStatus;
+  status: Status;
   namespace: string;
   estimatedDuration: number;
   createdAt: string;
@@ -109,12 +110,22 @@ interface ParallelSimulationResult extends BaseSimulationResult {
 }
 
 // 최종 CreateSimulationResult 타입
-export type CreateSimulationResult = SequentialSimulationResult | ParallelSimulationResult;
+export interface CreateSimulationResult {
+  simulation_id: number;
+  simulation_name: string;
+  simulation_description: string;
+  pattern_type: PatternType;
+  status: Status;
+  simulation_namespace: string;
+  mec_id: string;
+  created_at: string;
+  total_expected_pods: number;
+}
 
 export interface Simulation {
-  simulationId: number; // string에서 number로 변경
+  simulationId: number;
   simulationName: string;
-  patternType: "parallel" | "sequential";
+  patternType: PatternType;
   status: Status;
   mecId: string;
   createdAt: string;

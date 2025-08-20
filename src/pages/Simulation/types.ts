@@ -78,9 +78,6 @@ export interface OverviewConfig {
   bgColor: string;
 }
 
-// TODO: 업데이트
-export type SimulationStatus = "SHCEDULED" | "RUNNING";
-
 export type AllowedParam = (typeof ALLOWED_PARAMS)[number];
 
 export type StatusFilterOption = (typeof FILTER_OPTIONS.status)[number]["value"];

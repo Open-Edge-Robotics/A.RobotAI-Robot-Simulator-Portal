@@ -42,7 +42,7 @@ export const transformFormDataToRequest = (formData: SimulationFormData): Create
       ...baseRequest,
       patternType: "parallel",
       pattern: {
-        agents: pattern.agentGroups.map((group) => ({
+        groups: pattern.agentGroups.map((group) => ({
           templateId: Number(group.template!.id),
           autonomousAgentCount: group.autonomousAgentCount,
           executionTime: group.executionTime,

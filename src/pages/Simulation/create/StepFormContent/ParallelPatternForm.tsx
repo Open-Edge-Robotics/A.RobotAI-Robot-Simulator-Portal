@@ -22,8 +22,8 @@ export default function ParallelPatternForm({
   const handleAddNewAgentGroup = () => {
     const newAgentGroup: ParallelAgentGroup = {
       template: null,
-      autonomousAgentCount: 10,
-      executionTime: 60,
+      autonomousAgentCount: 1,
+      executionTime: 1,
       repeatCount: 1,
     };
 
