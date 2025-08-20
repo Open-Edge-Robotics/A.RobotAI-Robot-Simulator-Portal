@@ -3,19 +3,25 @@ import Container from "@/components/common/Container.tsx";
 import Fallback from "@/components/common/Fallback/index.tsx";
 
 import { PATTERN_CONFIG } from "../../constants.ts";
-import type { Pattern, SimulationFormData } from "../../types.ts";
+import type { Mec, Pattern, SimulationFormData, Template } from "../../types.ts";
 
 interface Step4ContentProps {
   formData: SimulationFormData;
+  mecList: Mec[];
+  templateList: Template[];
 }
 
 // TODO: 컴포넌트 분리, 폴더 구조 생각해보기
 
-export default function Step4Content({ formData }: Step4ContentProps) {
-  if (!formData.mec || !formData.pattern) return <Fallback text="필수 정보를 모두 입력해주세요." />;
+export default function Step4Content({ formData, mecList, templateList }: Step4ContentProps) {
+  if (!formData.mecId || !formData.pattern) return <Fallback text="필수 정보를 모두 입력해주세요." />;
 
-  const totalAutonomousAgentCount = getTotalAutonomousAgentCount(formData.pattern.agentGroups);
+  const totalAgentCount = getTotalAgentCount(formData.pattern.agentGroups);
   const totalExecutionTime = getTotalExecutionTime(formData.pattern);
+
+  const mecName = mecList.find((mec) => mec.id === formData.mecId)?.name || "-";
+  const templateName =
+    templateList.find((template) => template.id === formData.pattern?.agentGroups[0]?.templateId)?.name || "-";
 
   const getPatternInfoHeaderTitle = () => {
     const patternData = PATTERN_CONFIG[formData.pattern?.type ?? "sequential"];
@@ -30,7 +36,7 @@ export default function Step4Content({ formData }: Step4ContentProps) {
         <Body>
           <LabelValuePair label="이름:" value={formData.name} labelWidth="w-24" />
           <LabelValuePair label="설명:" value={formData.description || "-"} labelWidth="w-24" />
-          <LabelValuePair label="MEC:" value={formData.mec.name} labelWidth="w-24" />
+          <LabelValuePair label="MEC:" value={mecName} labelWidth="w-24" />
           <LabelValuePair label="실행 패턴:" value={PATTERN_CONFIG[formData.pattern.type].title} labelWidth="w-24" />
         </Body>
       </Container>
@@ -44,34 +50,34 @@ export default function Step4Content({ formData }: Step4ContentProps) {
                 // template 없을 경우 fallback 처리
                 // (실제로는 step validation으로 검증을 거쳤으므로 template에 null 값이 들어갈 일은 없음)
                 // TODO: null 값 처리 로직 다듬기
-                if (!group.template) return <Fallback text="필수 정보를 모두 입력해주세요." key={group.stepOrder} />;
+                if (!group.templateId) return <Fallback text="필수 정보를 모두 입력해주세요." key={group.stepOrder} />;
 
                 const groupUnit = PATTERN_CONFIG.sequential.unit;
                 const label = `${group.stepOrder}${groupUnit}`;
                 return (
                   <PatternConfigCard
                     indexLabel={label}
-                    autonomousAgentCount={group.autonomousAgentCount}
+                    agentCount={group.agentCount}
                     delayAfterCompletion={group.delayAfterCompletion}
                     executionTime={group.executionTime}
                     repeatCount={group.repeatCount}
-                    template={group.template.name}
+                    template={templateName}
                     key={label}
                   />
                 );
               })
             : formData.pattern.agentGroups.map((group, i) => {
-                if (!group.template) return <Fallback text="필수 정보를 모두 입력해주세요." key={i} />;
+                if (!group.templateId) return <Fallback text="필수 정보를 모두 입력해주세요." key={i} />;
 
                 const groupUnit = PATTERN_CONFIG.parallel.unit;
                 const label = `${groupUnit} ${i + 1}`;
                 return (
                   <PatternConfigCard
                     indexLabel={label}
-                    autonomousAgentCount={group.autonomousAgentCount}
+                    agentCount={group.agentCount}
                     executionTime={group.executionTime}
                     repeatCount={group.repeatCount}
-                    template={group.template.name}
+                    template={templateList.find((template) => template.id === group.templateId)?.name || "-"}
                     key={label}
                   />
                 );
@@ -82,7 +88,7 @@ export default function Step4Content({ formData }: Step4ContentProps) {
             <LabelValuePair label="총 실행 정보:" justifyContent="justify-between">
               <div className="flex gap-3">
                 <span>
-                  총 가상자율행동체: <span className="font-semibold">{totalAutonomousAgentCount}대</span>
+                  총 가상자율행동체: <span className="font-semibold">{totalAgentCount}대</span>
                 </span>
                 <span>
                   총 실행시간: <span className="font-semibold">{totalExecutionTime}초</span>
@@ -133,7 +139,7 @@ function LabelValuePair({
 interface PatternConfigCardProps {
   indexLabel: string;
   template: string;
-  autonomousAgentCount: number;
+  agentCount: number;
   delayAfterCompletion?: number;
   executionTime: number;
   repeatCount: number;
@@ -142,7 +148,7 @@ interface PatternConfigCardProps {
 function PatternConfigCard({
   indexLabel,
   template,
-  autonomousAgentCount,
+  agentCount,
   delayAfterCompletion,
   executionTime,
   repeatCount,
@@ -154,11 +160,7 @@ function PatternConfigCard({
         <Badge text={template} fontSize="text-sm" textColor="text-gray-700" />
       </div>
       <div className="space-y-2">
-        <LabelValuePair
-          label="가상자율행동체 개수:"
-          value={`${autonomousAgentCount}대`}
-          justifyContent="justify-between"
-        />
+        <LabelValuePair label="가상자율행동체 개수:" value={`${agentCount}대`} justifyContent="justify-between" />
         <LabelValuePair label="실행 시간:" value={`${executionTime}초`} justifyContent="justify-between" />
         {delayAfterCompletion && (
           <LabelValuePair
@@ -173,8 +175,8 @@ function PatternConfigCard({
   );
 }
 
-const getTotalAutonomousAgentCount = <K extends { autonomousAgentCount: number }>(agentGroups: K[]) => {
-  return agentGroups.reduce((sum, group) => sum + group.autonomousAgentCount, 0);
+const getTotalAgentCount = <K extends { agentCount: number }>(agentGroups: K[]) => {
+  return agentGroups.reduce((sum, group) => sum + group.agentCount, 0);
 };
 
 function getTotalExecutionTime(pattern: Pattern) {
@@ -182,13 +184,17 @@ function getTotalExecutionTime(pattern: Pattern) {
 
   if (pattern.type === "sequential") {
     const totalExecutionTime = pattern.agentGroups.reduce((sum, group) => {
-      const groupTotal = (group.executionTime + group.delayAfterCompletion) * group.repeatCount;
+      // Sequential: 단계별 총 시간 = (executionTime × repeatCount) + delayAfterCompletion
+      const groupTotal = group.executionTime * group.repeatCount + group.delayAfterCompletion;
       return sum + groupTotal;
     }, 0);
-    return totalExecutionTime;
+
+    const lastGroupDelay = pattern.agentGroups.at(-1)?.delayAfterCompletion || 0;
+    return totalExecutionTime + lastGroupDelay;
   }
 
   if (pattern.type === "parallel") {
+    // Parallel: 그룹별 총 시간 = executionTime × repeatCount, 전체 시간은 최대값
     const totalExecutionTime = Math.max(...pattern.agentGroups.map((group) => group.executionTime * group.repeatCount));
     return totalExecutionTime;
   }

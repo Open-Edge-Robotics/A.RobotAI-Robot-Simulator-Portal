@@ -7,6 +7,7 @@ import HomePage from "./pages/home";
 import MecPage from "./pages/mec";
 import SimulationPage from "./pages/simulation";
 import SimulationCreatePage from "./pages/simulation/create";
+import SimulationEditPage from "./pages/simulation/edit";
 import TemplatePage from "./pages/template";
 
 import "./App.css";
@@ -18,6 +19,7 @@ function AppRoutes() {
       <Route path="/simulation">
         <Route index element={<SimulationPage />} />
         <Route path="create" element={<SimulationCreatePage />} />
+        <Route path=":id/edit" element={<SimulationEditPage />} />
       </Route>
       <Route path="/template" element={<TemplatePage />} />
       <Route path="/mec" element={<MecPage />} />

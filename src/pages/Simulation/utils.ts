@@ -15,7 +15,7 @@ import { validatePage, validatePatternTypeFilter, validateSize, validateStatusFi
 
 export const transformFormDataToRequest = (formData: SimulationFormData): CreateSimulationRequest => {
   const baseRequest = {
-    mecId: formData.mec!.id,
+    mecId: formData.mecId!,
     simulationName: formData.name,
     simulationDescription: formData.description,
   };
@@ -29,8 +29,8 @@ export const transformFormDataToRequest = (formData: SimulationFormData): Create
       pattern: {
         steps: pattern.agentGroups.map((group) => ({
           stepOrder: group.stepOrder,
-          templateId: Number(group.template!.id),
-          autonomousAgentCount: group.autonomousAgentCount,
+          templateId: Number(group.templateId!),
+          autonomousAgentCount: group.agentCount,
           executionTime: group.executionTime,
           delayAfterCompletion: group.delayAfterCompletion,
           repeatCount: group.repeatCount,
@@ -43,8 +43,8 @@ export const transformFormDataToRequest = (formData: SimulationFormData): Create
       patternType: "parallel",
       pattern: {
         groups: pattern.agentGroups.map((group) => ({
-          templateId: Number(group.template!.id),
-          autonomousAgentCount: group.autonomousAgentCount,
+          templateId: Number(group.templateId!),
+          autonomousAgentCount: group.agentCount,
           executionTime: group.executionTime,
           repeatCount: group.repeatCount,
         })),
@@ -63,16 +63,16 @@ export const getCurrentStepInfo = (step: StepType, pattern: PatternType | null) 
 
 export const sequentialDefaultData: SequentialAgentGroup = {
   stepOrder: 1,
-  template: null,
-  autonomousAgentCount: 1,
+  templateId: null,
+  agentCount: 1,
   executionTime: 1,
   delayAfterCompletion: 0,
   repeatCount: 1,
 };
 
 export const parallelDefaultData: ParallelAgentGroup = {
-  template: null,
-  autonomousAgentCount: 1,
+  templateId: null,
+  agentCount: 1,
   executionTime: 1,
   repeatCount: 1,
 };

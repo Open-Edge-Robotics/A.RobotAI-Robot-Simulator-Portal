@@ -21,8 +21,8 @@ export default function ParallelPatternForm({
   // 새 에이전트 그룹 추가
   const handleAddNewAgentGroup = () => {
     const newAgentGroup: ParallelAgentGroup = {
-      template: null,
-      autonomousAgentCount: 1,
+      templateId: null,
+      agentCount: 1,
       executionTime: 1,
       repeatCount: 1,
     };
@@ -110,11 +110,11 @@ function AgentGroupRow({
         <Label label="템플릿 선택" fontSize="text-xs" marginBottom="mb-1" required />
         <Select
           options={templateList}
-          value={agentGroup.template}
+          value={templateList.find((template) => template.id === agentGroup.templateId) || null}
           getOptionLabel={(option) => option.name}
           getOptionValue={(option) => option.id.toString()}
           size="l-medium"
-          onChange={(option) => onUpdate(index, "template", option)}
+          onChange={(option) => onUpdate(index, "templateId", option ? option.id : null)}
         />
       </Fieldset>
 
@@ -125,11 +125,11 @@ function AgentGroupRow({
         <div className="rounded-sm bg-white">
           <Input
             type="number"
-            value={agentGroup.autonomousAgentCount.toString()}
+            value={agentGroup.agentCount.toString()}
             placeholder="가상 자율행동체 개수를 입력하세요"
             className=""
             size="l-small"
-            onChange={(e) => onUpdate(index, "autonomousAgentCount", parseInt(e.target.value) || 0)}
+            onChange={(e) => onUpdate(index, "agentCount", parseInt(e.target.value) || 0)}
           />
         </div>
       </Fieldset>

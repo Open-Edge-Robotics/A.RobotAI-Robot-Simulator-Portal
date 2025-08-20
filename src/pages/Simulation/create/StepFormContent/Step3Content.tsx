@@ -8,14 +8,11 @@ import SequentialPatternForm from "./SequentialPatternForm";
 interface Step3ContentProps {
   pattern: Pattern;
   onChangePattern: (pattern: Pattern) => void;
+  templateList: Template[];
 }
 
-const getMockTemplateList = (): Template[] => [{ id: 1, name: "템플릿 1" }];
-
-export default function Step3Content({ pattern, onChangePattern }: Step3ContentProps) {
+export default function Step3Content({ pattern, onChangePattern, templateList }: Step3ContentProps) {
   if (!pattern) return <Fallback text="패턴을 선택해주세요." />;
-
-  const templateList = getMockTemplateList();
 
   switch (pattern.type) {
     case "sequential":

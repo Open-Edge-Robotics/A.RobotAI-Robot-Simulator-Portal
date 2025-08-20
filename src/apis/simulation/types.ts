@@ -110,18 +110,14 @@ interface ParallelExecutionPlan {
   }[];
 }
 
-export interface GetSimulationResult {
+interface SimulationResultBase {
   // 정적 데이터
   simulationId: number;
   simulationName: string;
   simulationDescription: string;
-  patternType: PatternType;
   mecId: string;
   namespace: string;
   createdAt: string;
-
-  // 설정 정보 (정적)
-  executionPlan: SequentialExecutionPlan | ParallelExecutionPlan;
 
   // 현재 상태 스냅샷 (동적)
   currentStatus: {
@@ -137,3 +133,10 @@ export interface GetSimulationResult {
     };
   };
 }
+
+// 설정 정보 포함 (정적)
+export type GetSimulationResult = SimulationResultBase &
+  (
+    | { patternType: "sequential"; executionPlan: SequentialExecutionPlan }
+    | { patternType: "parallel"; executionPlan: ParallelExecutionPlan }
+  );

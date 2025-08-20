@@ -7,20 +7,13 @@ import type { Mec, SimulationFormData } from "../../types";
 
 interface Step1ContentProps {
   name: string;
-  descirption: string;
-  mec: Mec | null;
+  description: string;
+  mecId: string | null;
   onChangeFormData: <K extends keyof SimulationFormData>(key: K, value: SimulationFormData[K]) => void;
+  mecList: Mec[];
 }
 
-const getMockMecList = (): Mec[] => [
-  { id: "mec1", name: "MEC-001" },
-  { id: "mec2", name: "MEC-002" },
-  { id: "mec3", name: "MEC-003" },
-];
-
-export default function Step1Content({ name, descirption, mec, onChangeFormData }: Step1ContentProps) {
-  const mecList = getMockMecList();
-
+export default function Step1Content({ name, description, mecId, onChangeFormData, mecList }: Step1ContentProps) {
   return (
     <div className="flex flex-col gap-6 rounded-lg border border-gray-100 bg-white p-6 shadow-xs">
       {/* 시뮬레이션 이름 */}
@@ -39,7 +32,7 @@ export default function Step1Content({ name, descirption, mec, onChangeFormData 
       <Fieldset>
         <Label label="설명" />
         <Textarea
-          value={descirption}
+          value={description}
           placeholder="시뮬레이션 설명을 입력하세요"
           onChange={(e) => onChangeFormData("description", e.target.value)}
         />
@@ -50,11 +43,11 @@ export default function Step1Content({ name, descirption, mec, onChangeFormData 
         <Label label="MEC ID" required />
         <Select
           options={mecList}
-          value={mec}
+          value={mecList.find((mec) => mec.id === mecId) || null}
           getOptionLabel={(option) => option.name}
           getOptionValue={(option) => option.id}
           size="l-large"
-          onChange={(option) => onChangeFormData("mec", option)}
+          onChange={(option) => onChangeFormData("mecId", option ? option.id : null)}
         />
       </Fieldset>
     </div>

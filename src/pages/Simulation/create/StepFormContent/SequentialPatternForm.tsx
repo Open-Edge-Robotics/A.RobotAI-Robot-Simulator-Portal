@@ -22,8 +22,8 @@ export default function SequentialPatternForm({
   const handleAddNewAgentGroup = () => {
     const newAgentGroup: SequentialAgentGroup = {
       stepOrder: agentGroups.length + 1,
-      template: null,
-      autonomousAgentCount: 1,
+      templateId: null,
+      agentCount: 1,
       executionTime: 1,
       delayAfterCompletion: 0,
       repeatCount: 1,
@@ -128,11 +128,11 @@ function AgentGroupRow({
         <div className="rounded-sm bg-white">
           <Select
             options={templateList}
-            value={agentGroup.template}
+            value={templateList.find((template) => template.id === agentGroup.templateId) || null}
             getOptionLabel={(option) => option.name}
             getOptionValue={(option) => option.id.toString()}
             size="l-medium"
-            onChange={(option) => onUpdate(agentGroup.stepOrder, "template", option)}
+            onChange={(option) => onUpdate(agentGroup.stepOrder, "templateId", option ? option.id : null)}
           />
         </div>
       </Fieldset>
@@ -144,10 +144,10 @@ function AgentGroupRow({
         <div className="rounded-sm bg-white">
           <Input
             type="number"
-            value={agentGroup.autonomousAgentCount.toString()}
+            value={agentGroup.agentCount.toString()}
             placeholder="가상 자율행동체 개수를 입력하세요"
             size="l-small"
-            onChange={(e) => onUpdate(agentGroup.stepOrder, "autonomousAgentCount", parseInt(e.target.value) || 0)}
+            onChange={(e) => onUpdate(agentGroup.stepOrder, "agentCount", parseInt(e.target.value) || 0)}
           />
         </div>
       </Fieldset>

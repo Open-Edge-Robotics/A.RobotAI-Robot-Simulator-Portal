@@ -3,7 +3,7 @@ import type { ALLOWED_PARAMS, FILTER_OPTIONS, STATUS_CONFIG } from "./constants"
 export interface SimulationFormData {
   name: string;
   description: string;
-  mec: Mec | null;
+  mecId: string | null;
   pattern: Pattern;
 }
 
@@ -49,16 +49,16 @@ export interface Template {
 
 export interface SequentialAgentGroup {
   stepOrder: number;
-  template: Template | null;
-  autonomousAgentCount: number;
+  templateId: number | null;
+  agentCount: number;
   executionTime: number; // in seconds
   delayAfterCompletion: number; // in seconds
   repeatCount: number;
 }
 
 export interface ParallelAgentGroup {
-  template: Template | null;
-  autonomousAgentCount: number;
+  templateId: number | null;
+  agentCount: number;
   executionTime: number; // in seconds
   repeatCount: number;
 }

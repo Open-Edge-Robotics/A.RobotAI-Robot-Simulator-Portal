@@ -24,7 +24,7 @@ export const simulationAPI = {
   createSimulation: (data: CreateSimulationRequest) => simulationApiClient.post<CreateSimulationResult>("", data),
 
   // 시뮬레이션 수정
-  updateSimulation: (id: number, data: unknown) => simulationApiClient.put(`/${id}`, data),
+  editSimulation: (id: number, data: unknown) => simulationApiClient.put(`/${id}`, data),
 
   // 시뮬레이션 삭제
   deleteSimulation: (id: number) => simulationApiClient.delete(`/${id}`),

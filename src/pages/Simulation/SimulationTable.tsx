@@ -81,7 +81,8 @@ interface TableBodyRowProps {
 
 function TableBodyRow({ simulation, actions, isLoading }: TableBodyRowProps) {
   return (
-    <Link to={`${simulation.simulationId}`}>
+    // temp
+    <Link to={`${simulation.simulationId}/edit`}>
       <li
         key={simulation.simulationId}
         className={`hover:bg-gray-10 grid grid-cols-[1fr_152px_164px_224px_224px_152px_152px]`}

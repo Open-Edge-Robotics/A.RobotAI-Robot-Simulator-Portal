@@ -7,6 +7,7 @@ interface NavigationButtonsProps {
   isFirstStep: boolean;
   isLastStep: boolean;
   disableCompleteButton?: boolean;
+  submitButtonText?: string;
 }
 
 export default function NavigationButtons({
@@ -16,6 +17,7 @@ export default function NavigationButtons({
   isFirstStep,
   isLastStep,
   disableCompleteButton = false,
+  submitButtonText = "완료",
 }: NavigationButtonsProps) {
   return (
     <div className="mt-10 flex items-center justify-between">
@@ -40,7 +42,7 @@ export default function NavigationButtons({
           size="large"
           disabled={disableCompleteButton}
         >
-          시뮬레이션 생성
+          {submitButtonText}
         </Button>
       ) : (
         <Button
