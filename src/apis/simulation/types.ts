@@ -39,77 +39,12 @@ interface ParallelSimulationRequest extends BaseSimulationRequest {
   pattern: { groups: ParallelAgentRequest[] };
 }
 
-// 최종 CreateSimulationRequest 타입
+// 최종 createSimulation request body data 타입
 export type CreateSimulationRequest = SequentialSimulationRequest | ParallelSimulationRequest;
 
 /* =============== API Response 타입들 =============== */
 
-interface SequentialStep {
-  stepOrder: number;
-  templateId: number;
-  agentCount: number;
-  repeatCount: number;
-  totalExecutions: number;
-  startTime: string;
-  endTime: string;
-  estimatedDuration: number;
-  status: Status;
-}
-
-// 병렬 실행용 에이전트 정의
-interface ParallelAgent {
-  templateId: number;
-  templateName: string;
-  agentCount: number;
-  repeatCount: number;
-  totalExecutions: number;
-  startTime: string;
-  endTime: string;
-  estimatedDuration: number;
-  status: Status;
-}
-
-// 순차 실행 계획
-interface SequentialExecutionPlan {
-  steps: SequentialStep[];
-}
-
-// 병렬 실행 계획
-interface ParallelExecutionPlan {
-  simultaneousExecution: boolean;
-  agents: ParallelAgent[];
-}
-
-// 공통 베이스 인터페이스
-interface BaseSimulationResult {
-  simulationId: string;
-  simulationName: string;
-  patternType: PatternType;
-  status: Status;
-  namespace: string;
-  estimatedDuration: number;
-  createdAt: string;
-}
-
-// 순차 실행 시뮬레이션 결과
-interface SequentialSimulationResult extends BaseSimulationResult {
-  patternType: "sequential";
-  totalSteps: number;
-  totalAgents: number;
-  totalRepeats: number;
-  executionPlan: SequentialExecutionPlan;
-}
-
-// 병렬 실행 시뮬레이션 결과
-interface ParallelSimulationResult extends BaseSimulationResult {
-  patternType: "parallel";
-  totalAgentGroups: number;
-  totalAgents: number;
-  totalRepeats: number;
-  executionPlan: ParallelExecutionPlan;
-}
-
-// 최종 CreateSimulationResult 타입
+// createSimulation response data 타입
 export interface CreateSimulationResult {
   simulation_id: number;
   simulation_name: string;
@@ -150,5 +85,55 @@ export interface GetSimulationsResult {
     totalPages: number;
     hasNext: boolean;
     hasPrevious: boolean;
+  };
+}
+
+interface SequentialExecutionPlan {
+  steps: {
+    stepOrder: number;
+    templateId: number;
+    templateName: string;
+    agentCount: number;
+    repeatCount: number;
+    executionTime: number;
+    delayAfterCompletion: number;
+  }[];
+}
+
+interface ParallelExecutionPlan {
+  groups: {
+    templateId: number;
+    templateName: string;
+    agentCount: number;
+    repeatCount: number;
+    executionTime: number;
+  }[];
+}
+
+export interface GetSimulationResult {
+  // 정적 데이터
+  simulationId: number;
+  simulationName: string;
+  simulationDescription: string;
+  patternType: PatternType;
+  mecId: string;
+  namespace: string;
+  createdAt: string;
+
+  // 설정 정보 (정적)
+  executionPlan: SequentialExecutionPlan | ParallelExecutionPlan;
+
+  // 현재 상태 스냅샷 (동적)
+  currentStatus: {
+    status: string;
+    progress: {
+      overallProgress: number;
+      currentStep: number;
+      completedSteps: number;
+    };
+    timestamps: {
+      startedAt: string;
+      lastUpdated: string;
+    };
   };
 }

@@ -1,7 +1,12 @@
 import { API_BASE_URL, ENDPOINTS } from "../constants";
 import { createClient } from "..";
 
-import type { CreateSimulationRequest, CreateSimulationResult, GetSimulationsResult } from "./types";
+import type {
+  CreateSimulationRequest,
+  CreateSimulationResult,
+  GetSimulationResult,
+  GetSimulationsResult,
+} from "./types";
 
 const simulationApiClient = createClient({
   baseURL: `${API_BASE_URL.dev}${ENDPOINTS.simulation}`,
@@ -13,7 +18,7 @@ export const simulationAPI = {
   getSimulations: (params: URLSearchParams) => simulationApiClient.get<GetSimulationsResult>("", { params }),
 
   // 시뮬레이션 상세 조회
-  getSimulation: (id: number) => simulationApiClient.get(`/${id}`),
+  getSimulation: (id: number) => simulationApiClient.get<GetSimulationResult>(`/${id}`),
 
   // 시뮬레이션 생성
   createSimulation: (data: CreateSimulationRequest) => simulationApiClient.post<CreateSimulationResult>("", data),
