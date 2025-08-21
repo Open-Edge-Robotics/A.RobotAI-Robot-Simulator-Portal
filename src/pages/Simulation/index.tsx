@@ -6,7 +6,6 @@ import { Button, Pagination as InnogridPagination } from "innogrid-ui";
 
 import { QUERY_KEYS } from "@/apis/constants";
 import { simulationAPI } from "@/apis/simulation";
-import Container from "@/components/common/Container.tsx";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import Icon from "@/components/common/Icon";
