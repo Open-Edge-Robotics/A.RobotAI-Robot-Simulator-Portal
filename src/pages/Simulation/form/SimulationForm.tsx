@@ -83,7 +83,7 @@ export default function SimulationForm({
             description={formData.description}
             mecId={formData.mecId}
             mecList={mecList}
-            onChangeFormData={updateFormData}
+            onFormDataChange={updateFormData}
           />
         )}
         {currentStep === 2 && (

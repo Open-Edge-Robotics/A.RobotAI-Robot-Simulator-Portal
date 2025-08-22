@@ -12,6 +12,8 @@ interface ContainerProps {
   width?: string;
   height?: string;
   overflowHidden?: boolean;
+  grow?: boolean;
+  className?: string;
   children: React.ReactNode;
 }
 
@@ -29,11 +31,15 @@ export default function Container({
   width = "w-auto",
   height = "h-auto",
   overflowHidden = false,
+  grow = false,
+  className = "",
   children,
 }: ContainerProps) {
   return (
     <div
-      className={`${margin} ${width} ${height} flex ${flexDirection} ${alignItems} ${justifyContent} ${gap} rounded-lg border ${borderColor} ${bgColor} ${padding} ${shadow && "shadow-xs"} ${hoverBgColor} ${overflowHidden && "overflow-hidden"}`}
+      className={`${margin} ${width} ${height} flex ${flexDirection} ${alignItems} ${justifyContent} ${gap} rounded-lg border ${
+        borderColor
+      } ${bgColor} ${padding} ${shadow && "shadow-xs"} ${hoverBgColor} ${overflowHidden && "overflow-hidden"} ${grow && "grow"} ${className}`}
     >
       {children}
     </div>

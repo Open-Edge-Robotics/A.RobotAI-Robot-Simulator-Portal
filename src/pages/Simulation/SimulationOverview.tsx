@@ -1,11 +1,11 @@
-import type { Overview } from "@/apis/simulation/types";
+import type { SimulationOverview } from "@/apis/simulation/types";
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
 
 import { SIMULATION_OVERVIEW_CONFIG } from "./constants";
-import type { OverviewConfig } from "./types";
+import type { SimulationOverviewConfig } from "./types";
 
-export default function SimulationOverview({ overview }: { overview: Overview | null }) {
+export default function SimulationOverview({ overview }: { overview: SimulationOverview | null }) {
   const { TOTAL, COMPLETED, RUNNING, FAILED } = SIMULATION_OVERVIEW_CONFIG;
 
   return (
@@ -19,7 +19,7 @@ export default function SimulationOverview({ overview }: { overview: Overview | 
 }
 
 interface SimulationOverviewCardProps {
-  config: OverviewConfig;
+  config: SimulationOverviewConfig;
   value?: number;
 }
 

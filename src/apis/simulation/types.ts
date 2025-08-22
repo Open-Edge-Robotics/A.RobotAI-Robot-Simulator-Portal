@@ -67,7 +67,7 @@ export interface Simulation {
   updatedAt: string;
 }
 
-export interface Overview {
+export interface SimulationOverview {
   total: number;
   ready: number;
   running: number;
@@ -76,7 +76,7 @@ export interface Overview {
 }
 
 export interface GetSimulationsResult {
-  overview: Overview;
+  overview: SimulationOverview;
   simulations: Simulation[];
   pagination: {
     currentPage: number;

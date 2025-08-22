@@ -1,17 +1,18 @@
 import { useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
-import { Button, Pagination as InnogridPagination } from "innogrid-ui";
+import { Pagination as InnogridPagination } from "innogrid-ui";
 
 import { QUERY_KEYS } from "@/apis/constants";
 import { simulationAPI } from "@/apis/simulation";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import Icon from "@/components/common/Icon";
+import LinkButton from "@/components/common/LinkButton";
+import Title from "@/components/common/Title";
 import { useSimulationActions } from "@/hooks/simulation";
 
-import Title from "./create/Title";
 import FilterToolbar from "./FilterToolbar";
 import SimulationOverview from "./SimulationOverview";
 import SimulationTable from "./SimulationTable";
@@ -95,7 +96,7 @@ export default function SimulationPage() {
           subMessage="네트워크 연결을 확인하거나 잠시 후 다시 시도해 주세요."
         />
       )}
-      {status === "pending" && <LoadingFallback message="시뮬레이션 정보를 불러오는 중입니다." />}
+      {status === "pending" && <LoadingFallback message="시뮬레이션 정보를 불러오고 있습니다." />}
       {status === "success" && (
         <>
           <SimulationTable simulations={simulations} actions={simulationActions} isLoading={isLoading} />
@@ -118,14 +119,12 @@ export default function SimulationPage() {
 
 function SimulationCreateButton() {
   return (
-    <Link to="/simulation/create">
-      <Button size="large">
-        <div className="flex items-center gap-1">
-          <Icon name="add" className="ml-[-6px]" />
-          시뮬레이션 생성
-        </div>
-      </Button>
-    </Link>
+    <LinkButton to="/simulation/create">
+      <div className="flex items-center gap-1">
+        <Icon name="add" className="ml-[-6px]" />
+        시뮬레이션 생성
+      </div>
+    </LinkButton>
   );
 }
 

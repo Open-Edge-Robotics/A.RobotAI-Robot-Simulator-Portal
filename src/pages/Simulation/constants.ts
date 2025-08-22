@@ -1,4 +1,4 @@
-import type { OverviewConfig, PatternCardConfig as PatternCardDConfig, PatternType, StepsInfoType } from "./types";
+import type { PatternCardConfig, PatternType, SimulationOverviewConfig, StepsInfoType } from "./types";
 
 export const STEPS = ["기본 정보", "패턴 선택", "상세 설정", "검토 및 완료"];
 
@@ -33,7 +33,7 @@ export const STEPS_INFO: StepsInfoType = {
 };
 
 // 패턴별 안내 정보
-export const PATTERN_CONFIG: { [K in PatternType]: PatternCardDConfig } = {
+export const PATTERN_CONFIG: { [K in PatternType]: PatternCardConfig } = {
   sequential: {
     title: "순차 실행",
     unit: "단계",
@@ -54,7 +54,7 @@ export const PATTERN_CONFIG: { [K in PatternType]: PatternCardDConfig } = {
   },
 };
 
-export const SIMULATION_OVERVIEW_CONFIG: { [key: string]: OverviewConfig } = {
+export const SIMULATION_OVERVIEW_CONFIG: { [key: string]: SimulationOverviewConfig } = {
   TOTAL: {
     label: "전체 시뮬레이션",
     iconName: "insert_chart",

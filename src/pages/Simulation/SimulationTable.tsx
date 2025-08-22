@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { Button } from "innogrid-ui";
 
 import type { Simulation } from "@/apis/simulation/types";
-import Badge from "@/components/common/Badge";
+import StatusBadge from "@/components/common/Badge/StatusBadge";
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
 import { formatDateTime } from "@/utils/formatting";
 
-import { PATTERN_CONFIG, STATUS_CONFIG } from "./constants";
+import { PATTERN_CONFIG } from "./constants";
 import type { Status } from "./types";
 
 interface SimulationActions {
@@ -115,16 +115,6 @@ interface TableBodyCellProps {
 
 function TableBodyCell({ children }: TableBodyCellProps) {
   return <div className={`flex items-center px-4 py-4 text-sm text-gray-700`}>{children}</div>;
-}
-
-function StatusBadge({ status }: { status: Status }) {
-  const config = STATUS_CONFIG[status];
-
-  return (
-    <div className="w-16">
-      <Badge text={config.text} bgColor={config.bgColor} textColor={config.textColor} fontSize="text-xs" />
-    </div>
-  );
 }
 
 interface ActionButtonsProps {

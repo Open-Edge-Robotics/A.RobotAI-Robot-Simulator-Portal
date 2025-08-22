@@ -9,11 +9,11 @@ interface Step1ContentProps {
   name: string;
   description: string;
   mecId: string | null;
-  onChangeFormData: <K extends keyof SimulationFormData>(key: K, value: SimulationFormData[K]) => void;
+  onFormDataChange: <K extends keyof SimulationFormData>(key: K, value: SimulationFormData[K]) => void;
   mecList: Mec[];
 }
 
-export default function Step1Content({ name, description, mecId, onChangeFormData, mecList }: Step1ContentProps) {
+export default function Step1Content({ name, description, mecId, onFormDataChange, mecList }: Step1ContentProps) {
   return (
     <div className="flex flex-col gap-6 rounded-lg border border-gray-100 bg-white p-6 shadow-xs">
       {/* 시뮬레이션 이름 */}
@@ -24,7 +24,7 @@ export default function Step1Content({ name, description, mecId, onChangeFormDat
           value={name}
           placeholder="시뮬레이션 이름을 입력하세요"
           size={{ width: "100%", height: "40px" }}
-          onChange={(e) => onChangeFormData("name", e.target.value)}
+          onChange={(e) => onFormDataChange("name", e.target.value)}
         />
       </Fieldset>
 
@@ -34,7 +34,7 @@ export default function Step1Content({ name, description, mecId, onChangeFormDat
         <Textarea
           value={description}
           placeholder="시뮬레이션 설명을 입력하세요"
-          onChange={(e) => onChangeFormData("description", e.target.value)}
+          onChange={(e) => onFormDataChange("description", e.target.value)}
         />
       </Fieldset>
 
@@ -47,7 +47,7 @@ export default function Step1Content({ name, description, mecId, onChangeFormDat
           getOptionLabel={(option) => option.name}
           getOptionValue={(option) => option.id}
           size="l-large"
-          onChange={(option) => onChangeFormData("mecId", option ? option.id : null)}
+          onChange={(option) => onFormDataChange("mecId", option ? option.id : null)}
         />
       </Fieldset>
     </div>

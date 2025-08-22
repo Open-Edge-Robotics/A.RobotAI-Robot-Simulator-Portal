@@ -1,6 +1,7 @@
 import Badge from "@/components/common/Badge";
 import Container from "@/components/common/Container.tsx";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback.tsx";
+import LabeledValue from "@/components/common/LabeledValue";
 
 import { PATTERN_CONFIG } from "../../constants.ts";
 import type { Mec, Pattern, SimulationFormData, Template } from "../../types.ts";
@@ -15,8 +16,8 @@ interface Step4ContentProps {
 
 export default function Step4Content({ formData, mecList, templateList }: Step4ContentProps) {
   if (!formData.mecId || !formData.pattern) return <ErrorFallback message="필수 정보를 모두 입력해주세요." />;
-  const totalAgentCount = getTotalAgentCount(formData.pattern.agentGroups);
-  const totalExecutionTime = getTotalExecutionTime(formData.pattern);
+  const totalAgentCount = calculateTotalAgentCount(formData.pattern.agentGroups);
+  const totalExecutionTime = calculateTotalExecutionTime(formData.pattern);
 
   const mecName = mecList.find((mec) => mec.id === formData.mecId)?.name || "-";
   const templateName =
@@ -33,10 +34,10 @@ export default function Step4Content({ formData, mecList, templateList }: Step4C
       <Container gap="gap-6" padding="p-6" shadow>
         <Header title="기본 정보" />
         <Body>
-          <LabelValuePair label="이름:" value={formData.name} labelWidth="w-24" />
-          <LabelValuePair label="설명:" value={formData.description || "-"} labelWidth="w-24" />
-          <LabelValuePair label="MEC:" value={mecName} labelWidth="w-24" />
-          <LabelValuePair label="실행 패턴:" value={PATTERN_CONFIG[formData.pattern.type].title} labelWidth="w-24" />
+          <LabeledValue label="이름:" value={formData.name} labelWidth="w-24" />
+          <LabeledValue label="설명:" value={formData.description || "-"} labelWidth="w-24" />
+          <LabeledValue label="MEC:" value={mecName} labelWidth="w-24" />
+          <LabeledValue label="실행 패턴:" value={PATTERN_CONFIG[formData.pattern.type].title} labelWidth="w-24" />
         </Body>
       </Container>
 
@@ -84,7 +85,7 @@ export default function Step4Content({ formData, mecList, templateList }: Step4C
 
           {/* 총 실행 정보 */}
           <Container bgColor="bg-gray-10" borderColor="border-gray-100" margin="mt-5" padding="p-4">
-            <LabelValuePair label="총 실행 정보:" justifyContent="justify-between">
+            <LabeledValue label="총 실행 정보:" justifyContent="justify-between">
               <div className="flex gap-3">
                 <span>
                   총 가상자율행동체: <span className="font-semibold">{totalAgentCount}대</span>
@@ -93,7 +94,7 @@ export default function Step4Content({ formData, mecList, templateList }: Step4C
                   총 실행시간: <span className="font-semibold">{totalExecutionTime}초</span>
                 </span>
               </div>
-            </LabelValuePair>
+            </LabeledValue>
           </Container>
         </Body>
       </Container>
@@ -107,32 +108,6 @@ function Header({ title }: { title: string }) {
 
 function Body({ children }: { children: React.ReactNode }) {
   return <div className="space-y-3">{children}</div>;
-}
-
-interface LabelValuePairProps {
-  label: string;
-  labelWidth?: string;
-  labelFontWeight?: string;
-  value?: string;
-  justifyContent?: string;
-  children?: React.ReactNode;
-}
-
-function LabelValuePair({
-  label,
-  labelWidth = "w-auto",
-  labelFontWeight = "font-normal",
-  value,
-  justifyContent = "justify-normal",
-  children,
-}: LabelValuePairProps) {
-  return (
-    <div className={`flex ${justifyContent}`}>
-      <span className={`${labelWidth} ${labelFontWeight}`}>{label}</span>
-      <span>{value}</span>
-      {children}
-    </div>
-  );
 }
 
 interface PatternConfigCardProps {
@@ -159,26 +134,26 @@ function PatternConfigCard({
         <Badge text={template} fontSize="text-sm" textColor="text-gray-700" />
       </div>
       <div className="space-y-2">
-        <LabelValuePair label="가상자율행동체 개수:" value={`${agentCount}대`} justifyContent="justify-between" />
-        <LabelValuePair label="실행 시간:" value={`${executionTime}초`} justifyContent="justify-between" />
+        <LabeledValue label="가상자율행동체 개수:" value={`${agentCount}대`} justifyContent="justify-between" />
+        <LabeledValue label="실행 시간:" value={`${executionTime}초`} justifyContent="justify-between" />
         {delayAfterCompletion && (
-          <LabelValuePair
+          <LabeledValue
             label="완료 후 대기 시간:"
             value={`${delayAfterCompletion}초`}
             justifyContent="justify-between"
           />
         )}
-        <LabelValuePair label="반복 횟수:" value={`${repeatCount}초`} justifyContent="justify-between" />
+        <LabeledValue label="반복 횟수:" value={`${repeatCount}초`} justifyContent="justify-between" />
       </div>
     </Container>
   );
 }
 
-const getTotalAgentCount = <K extends { agentCount: number }>(agentGroups: K[]) => {
+const calculateTotalAgentCount = <K extends { agentCount: number }>(agentGroups: K[]) => {
   return agentGroups.reduce((sum, group) => sum + group.agentCount, 0);
 };
 
-function getTotalExecutionTime(pattern: Pattern) {
+function calculateTotalExecutionTime(pattern: Pattern) {
   if (!pattern) return 0;
 
   if (pattern.type === "sequential") {

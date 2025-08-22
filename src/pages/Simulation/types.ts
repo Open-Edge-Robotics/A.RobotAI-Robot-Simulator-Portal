@@ -71,7 +71,7 @@ export type Pattern =
   | { type: "parallel"; agentGroups: ParallelAgentGroup[] }
   | null;
 
-export interface OverviewConfig {
+export interface SimulationOverviewConfig {
   label: string;
   iconName: string;
   textColor: string;
