@@ -17,6 +17,8 @@ interface SimulationSectionProps {
   simulations: { simulationId: number; simulationName: string }[];
 }
 
+const REFETCH_INTERVAL_MS = 60000; // 1분
+
 export default function SimulationSection({ simulations }: SimulationSectionProps) {
   const [selectedSimulationId, setSelectedSimulationId] = useState<number | null>(null);
 
@@ -29,6 +31,10 @@ export default function SimulationSection({ simulations }: SimulationSectionProp
     queryKey: [...QUERY_KEYS.simulation, selectedSimulationId],
     queryFn: () => dashboardAPI.getMockSimulation(selectedSimulationId!),
     enabled: selectedSimulationId !== null,
+    refetchInterval: (query) => {
+      // simulationId가 있고 에러 상태가 아닐 때만 1분(60000ms) 간격으로 polling
+      return selectedSimulationId !== null && query.state.status !== "error" ? REFETCH_INTERVAL_MS : false;
+    },
   });
 
   const handleSimulationChange = (simulationId: number | null) => {

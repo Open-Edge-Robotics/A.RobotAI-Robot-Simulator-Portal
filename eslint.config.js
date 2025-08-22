@@ -5,6 +5,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import { globalIgnores } from "eslint/config";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
+import tanstackQuery from "@tanstack/eslint-plugin-query";
 
 export default tseslint.config([
   globalIgnores(["dist"]),
@@ -15,6 +16,7 @@ export default tseslint.config([
       tseslint.configs.recommended,
       reactHooks.configs["recommended-latest"],
       reactRefresh.configs.vite,
+      tanstackQuery.configs.recommended,
     ],
     languageOptions: {
       ecmaVersion: 2020,
@@ -22,6 +24,7 @@ export default tseslint.config([
     },
     plugins: {
       "simple-import-sort": simpleImportSort,
+      "@tanstack/query": tanstackQuery,
     },
     rules: {
       "@typescript-eslint/no-unused-vars": "warn",

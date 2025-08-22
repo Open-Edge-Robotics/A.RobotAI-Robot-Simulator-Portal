@@ -13,7 +13,6 @@ const dashboardApiClient = createClient({
 export const dashboardAPI = {
   // 대시보드 데이터 조회
   getDashboard: () => dashboardApiClient.get<GetDashboardResult>(""),
-
   getSimulation: (simulationId: number) => dashboardApiClient.get<unknown>(`/${simulationId}`),
 
   getMockSimulation: (simulationId: number) =>

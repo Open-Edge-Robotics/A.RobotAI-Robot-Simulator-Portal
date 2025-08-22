@@ -8,12 +8,18 @@ import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import SimulationSection from "./SimulationSection";
 import SystemOverviewSection from "./SystemOverviewSection";
 
+const REFETCH_INTERVAL_MS = 60000; // 1분
+
 export default function DashboardPage() {
   // 시스템 현황 데이터 조회
   const { status, data, refetch } = useQuery({
     queryKey: [...QUERY_KEYS.simulation, ...QUERY_KEYS.mec],
     queryFn: () => {
       return dashboardAPI.getDashboard();
+    },
+    refetchInterval: (query) => {
+      // 에러 상태가 아닐 때만 1분(60000ms) 간격으로 polling
+      return query.state.status === "error" ? false : REFETCH_INTERVAL_MS;
     },
   });
 
