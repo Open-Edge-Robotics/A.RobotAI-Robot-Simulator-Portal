@@ -16,6 +16,13 @@ body,
   font-feature-settings: "tnum", "ss01", "ss02";
 }
 
+:root {
+  --toastify-color-info: var(--color-blue-500);
+  --toastify-color-success: var(--color-green-500);
+  --toastify-color-warning: var(--color-yellow-500);
+  --toastify-color-error: var(--color-red-500);
+}
+
 * {
   transition: all 0.2s;
 }

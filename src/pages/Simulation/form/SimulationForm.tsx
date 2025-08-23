@@ -12,6 +12,7 @@ import Step4Content from "../create/StepFormContent/Step4Content";
 import type { Mec, SimulationFormData, StepType, Template } from "../types";
 import { getCurrentStepInfo, getPatternDataWithDefaultAgentGroup } from "../utils.ts";
 import { createFormValidator } from "../validation";
+import { errorToast } from "@/utils/toast.ts";
 
 interface SimulationFormProps {
   initialData: SimulationFormData;
@@ -44,8 +45,7 @@ export default function SimulationForm({
   const validateStep = (step: StepType): boolean => {
     const errorMessage = createFormValidator[step](formData);
     if (errorMessage) {
-      // TODO: toast 띄우기
-      alert(errorMessage);
+      errorToast(errorMessage);
       return false;
     }
     return true;

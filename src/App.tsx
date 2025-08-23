@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { ToastProvider } from "innogrid-ui";
+import { ToastContainer } from "react-toastify";
 
 import Layout from "./components/layout";
 import DashboardPage from "./pages/dashboard";
@@ -30,11 +30,10 @@ function AppRoutes() {
 function App() {
   return (
     <BrowserRouter>
-      <ToastProvider>
-        <Layout>
-          <AppRoutes />
-        </Layout>
-      </ToastProvider>
+      <Layout>
+        <AppRoutes />
+      </Layout>
+      <ToastContainer position="top-center" newestOnTop autoClose={3000} />
     </BrowserRouter>
   );
 }

@@ -12,6 +12,7 @@ import Header from "../create/Header.tsx";
 import SimulationForm from "../form/SimulationForm.tsx";
 import type { Mec, SimulationFormData, Template } from "../types";
 import { transformFormDataToRequest } from "../utils.ts";
+import { errorToast, successToast } from "@/utils/toast.ts";
 
 export default function SimulationEditPage() {
   const { id: rawId } = useParams();
@@ -66,14 +67,12 @@ function SimulationEditContent({ id }: { id: number }) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation });
-      // TODO: 토스트 전역으로 띄우고 컴펌 없이 바로 이동하도록 변경
-      if (confirm("시뮬레이션 수정이 완료되었습니다.")) {
-        navigate(`/simulation/${id}`);
-      }
+      successToast("시뮬레이션 수정이 완료되었습니다.");
+      navigate(`/simulation/${id}`);
     },
     // TODO: 에러 처리
     onError: (e: { response: object }) => {
-      alert("error");
+      errorToast("시뮬레이션 수정에 실패했습니다.");
       console.log(e.response);
     },
   });

@@ -5,6 +5,7 @@ import Icon from "@/components/common/Icon";
 import Label from "@/components/common/Label";
 
 import type { SequentialAgentGroup, Template } from "../../types";
+import { infoToast } from "@/utils/toast";
 
 // 순차 패턴 폼 컴포넌트
 interface SequentialPatternFormProps {
@@ -183,7 +184,7 @@ function AgentGroupRow({
             <div
               className="absolute inset-0"
               onClick={() => {
-                alert("마지막 단계에는 대기 시간이 적용되지 않습니다.");
+                infoToast("마지막 단계에는 대기 시간이 적용되지 않습니다.");
               }}
             />
           )}
