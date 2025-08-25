@@ -27,6 +27,7 @@ export default tseslint.config([
     },
     rules: {
       "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-empty-object-type": "off",
 
       "@tanstack/query/exhaustive-deps": "error",
       "@tanstack/query/stable-query-client": "error",

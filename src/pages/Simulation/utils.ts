@@ -3,16 +3,17 @@ import type { CreateSimulationRequest } from "@/types/simulation/api";
 import type {
   AllowedParam,
   ParallelAgentGroup,
-  Pattern,
   PatternType,
   SequentialAgentGroup,
   SimulationFormData,
+  SimulationPattern,
   StepInfo,
   StepType,
 } from "@/types/simulation/domain";
 
 import { validatePage, validatePatternTypeFilter, validateSize, validateStatusFilter } from "./validation";
 
+// 폼 데이터 변환
 export const transformFormDataToRequest = (formData: SimulationFormData): CreateSimulationRequest => {
   const baseRequest = {
     mecId: formData.mecId!,
@@ -29,7 +30,7 @@ export const transformFormDataToRequest = (formData: SimulationFormData): Create
       pattern: {
         steps: pattern.agentGroups.map((group) => ({
           stepOrder: group.stepOrder,
-          templateId: Number(group.templateId!),
+          templateId: group.templateId!,
           autonomousAgentCount: group.autonomousAgentCount,
           executionTime: group.executionTime,
           delayAfterCompletion: group.delayAfterCompletion,
@@ -43,7 +44,7 @@ export const transformFormDataToRequest = (formData: SimulationFormData): Create
       patternType: "parallel",
       pattern: {
         groups: pattern.agentGroups.map((group) => ({
-          templateId: Number(group.templateId!),
+          templateId: group.templateId!,
           autonomousAgentCount: group.autonomousAgentCount,
           executionTime: group.executionTime,
           repeatCount: group.repeatCount,
@@ -53,7 +54,7 @@ export const transformFormDataToRequest = (formData: SimulationFormData): Create
   }
 };
 
-// 현재 활성화된 스텝과 패턴에 따라 스텝 정보 반환
+// 스텝 정보 조회
 export const getCurrentStepInfo = (step: StepType, pattern: PatternType | null) => {
   if (step === 3 && pattern) {
     return STEPS_INFO[3][pattern];
@@ -61,7 +62,7 @@ export const getCurrentStepInfo = (step: StepType, pattern: PatternType | null) 
   return STEPS_INFO[step] as StepInfo;
 };
 
-export const sequentialDefaultData: SequentialAgentGroup = {
+const sequentialDefaultData: SequentialAgentGroup = {
   stepOrder: 1,
   templateId: null,
   autonomousAgentCount: 1,
@@ -70,30 +71,55 @@ export const sequentialDefaultData: SequentialAgentGroup = {
   repeatCount: 1,
 };
 
-export const parallelDefaultData: ParallelAgentGroup = {
+const parallelDefaultData: ParallelAgentGroup = {
   templateId: null,
   autonomousAgentCount: 1,
   executionTime: 1,
   repeatCount: 1,
 };
 
-export const getPatternDataWithDefaultAgentGroup = (type: PatternType): Pattern =>
-  type === "sequential"
-    ? {
-        type: "sequential",
-        agentGroups: [sequentialDefaultData],
-      }
-    : {
-        type: "parallel",
-        agentGroups: [parallelDefaultData],
-      };
+export function getPatternDataWithDefaultAgentGroup(type: PatternType): SimulationPattern {
+  if (type === "sequential") {
+    return { type: "sequential", agentGroups: [sequentialDefaultData] };
+  }
+  return { type: "parallel", agentGroups: [parallelDefaultData] };
+}
+
+// ========== 계산 함수들 ==========
+export const calculateTotalAgentCount = <K extends { autonomousAgentCount: number }>(agentGroups: K[]) => {
+  return agentGroups.reduce((sum, group) => sum + group.autonomousAgentCount, 0);
+};
+
+export const calculateTotalExecutionTime = (pattern: SimulationPattern) => {
+  if (!pattern) return 0;
+
+  if (pattern.type === "sequential") {
+    const totalExecutionTime = pattern.agentGroups.reduce((sum, group) => {
+      // Sequential: 단계별 총 시간 = (executionTime × repeatCount) + delayAfterCompletion
+      const groupTotal = group.executionTime * group.repeatCount + group.delayAfterCompletion;
+      return sum + groupTotal;
+    }, 0);
+
+    const lastGroupDelay = pattern.agentGroups.at(-1)?.delayAfterCompletion || 0;
+    return totalExecutionTime + lastGroupDelay;
+  }
+
+  if (pattern.type === "parallel") {
+    // Parallel: 그룹별 총 시간 = executionTime × repeatCount, 전체 시간은 최대값
+    const totalExecutionTime = Math.max(...pattern.agentGroups.map((group) => group.executionTime * group.repeatCount));
+    return totalExecutionTime;
+  }
+
+  return 0;
+};
+
+// ========== URL 파라미터 검증 ==========
 
 const isAllowedParam = (key: string): key is AllowedParam => {
   return ALLOWED_PARAMS.includes(key as AllowedParam);
 };
 
 // 유효하지 않은 파라미터가 있으면 URL을 정리
-// TODO: 내용 분리 리팩토링
 export const getValidParams = (searchParams: URLSearchParams) => {
   const newSearchParams = new URLSearchParams();
   let needsUpdate = false;
@@ -102,35 +128,33 @@ export const getValidParams = (searchParams: URLSearchParams) => {
   const hasInvalidParams = Array.from(searchParams.keys()).some((key) => !isAllowedParam(key));
   if (hasInvalidParams) needsUpdate = true;
 
-  // 허용된 파라미터만 새로운 URLSearchParams에 추가
-  const currentPage = searchParams.get("page");
-  const currentSize = searchParams.get("size");
-  const currentStatusFilter = searchParams.get("status");
-  const currentPatternTypeFilter = searchParams.get("pattern_type");
+  // 각 파라미터 검증 및 설정
+  const currentParams = {
+    page: searchParams.get("page"),
+    size: searchParams.get("size"),
+    status: searchParams.get("status"),
+    pattern_type: searchParams.get("pattern_type"),
+  };
 
-  // 각 파라미터 validation
-  const validPage = validatePage(currentPage);
-  const validSize = validateSize(currentSize);
-  const validStatusFilter = validateStatusFilter(currentStatusFilter);
-  const validPatternTypeFilter = validatePatternTypeFilter(currentPatternTypeFilter);
+  const validParams = {
+    page: validatePage(currentParams.page),
+    size: validateSize(currentParams.size),
+    status: validateStatusFilter(currentParams.status),
+    pattern_type: validatePatternTypeFilter(currentParams.pattern_type),
+  };
 
-  // page 파라미터 처리
-  if (currentPage !== String(validPage)) needsUpdate = true;
-  if (validPage !== null) newSearchParams.set("page", String(validPage));
+  // 변경사항 체크 및 새 파라미터 설정
+  Object.entries(validParams).forEach(([key, value]) => {
+    const originalValue = currentParams[key as keyof typeof currentParams];
 
-  // size 파라미터 처리
-  if (currentSize !== String(validSize)) needsUpdate = true;
-  if (validSize !== null) newSearchParams.set("size", String(validSize));
+    if (originalValue !== String(value)) {
+      needsUpdate = true;
+    }
 
-  // statusFilter 파라미터 처리
-  if (currentStatusFilter !== validStatusFilter) needsUpdate = true;
-  if (validStatusFilter !== null) newSearchParams.set("status", validStatusFilter);
+    if (value !== null) {
+      newSearchParams.set(key, String(value));
+    }
+  });
 
-  // patternTypeFilter 파라미터 처리
-  if (currentPatternTypeFilter !== validPatternTypeFilter) needsUpdate = true;
-  if (validPatternTypeFilter !== null) newSearchParams.set("pattern_type", validPatternTypeFilter);
-
-  if (needsUpdate) return newSearchParams;
-
-  return null;
+  return needsUpdate ? newSearchParams : null;
 };

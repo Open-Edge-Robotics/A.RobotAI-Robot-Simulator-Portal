@@ -1,11 +1,11 @@
 import Icon from "@/components/common/Icon";
 import { ACTION_CONFIGS, ALLOWED_ACTIONS_BY_STATUS } from "@/constants/simulation";
-import type { ActionHandler, ActionType, Status } from "@/types/simulation/domain";
+import type { SimulationActionHandler, SimulationActionType, SimulationStatus } from "@/types/simulation/domain";
 
 interface ActionButtonsProps {
-  status: Status;
+  status: SimulationStatus;
   simulationId: number;
-  actionHandlers: ActionHandler[];
+  actionHandlers: SimulationActionHandler[];
   isLoading: boolean;
 }
 
@@ -19,7 +19,7 @@ export default function ActionButtons({ status, simulationId, actionHandlers, is
       acc[type] = handler;
       return acc;
     },
-    {} as Record<ActionType, (id: number) => void>,
+    {} as Record<SimulationActionType, (id: number) => void>,
   );
 
   if (allowedActions.length === 0) {

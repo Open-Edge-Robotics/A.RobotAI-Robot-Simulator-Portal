@@ -1,12 +1,12 @@
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
-import type { Pattern, Template } from "@/types/simulation/domain";
+import type { SimulationPattern, Template } from "@/types/simulation/domain";
 
-import ParallelPatternForm from "./ParallelPatternForm";
-import SequentialPatternForm from "./SequentialPatternForm";
+import ParallelPatternForm from "../patterns/ParallelPatternForm";
+import SequentialPatternForm from "../patterns/SequentialPatternForm";
 
 interface Step3ContentProps {
-  pattern: Pattern;
-  onChangePattern: (pattern: Pattern) => void;
+  pattern: SimulationPattern;
+  onChangePattern: (pattern: SimulationPattern) => void;
   templateList: Template[];
 }
 

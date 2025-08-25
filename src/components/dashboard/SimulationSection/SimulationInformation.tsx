@@ -2,7 +2,7 @@ import StatusBadge from "@/components/common/Badge/StatusBadge";
 import Container from "@/components/common/Container.tsx";
 import LabeledValue from "@/components/common/LabeledValue";
 import Title from "@/components/common/Title";
-import { PATTERN_CONFIG } from "@/constants/simulation";
+import { PATTERN_CONFIGS } from "@/constants/simulation";
 
 import type { SimulationDetailData } from "./SimulationDetail";
 
@@ -12,7 +12,7 @@ interface SimulationInformationProps {
 
 export default function SimulationInformation({ simulation }: SimulationInformationProps) {
   return (
-    <Container padding="p-6" shadow grow>
+    <Container shadow className="grow p-6">
       <Title title="시뮬레이션 정보" fontSize="text-xl" fontWeight="font-medium" margin="mb-2.5" />
       <div className="space-y-2">
         <LabeledValue label="상태:" justifyContent="justify-between">
@@ -20,7 +20,7 @@ export default function SimulationInformation({ simulation }: SimulationInformat
         </LabeledValue>
         <LabeledValue
           label="패턴 유형:"
-          value={PATTERN_CONFIG[simulation.patternType].title}
+          value={PATTERN_CONFIGS[simulation.patternType].title}
           justifyContent="justify-between"
         />
         <LabeledValue

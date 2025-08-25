@@ -12,13 +12,7 @@ export default function SystemOverviewCard({ config, value }: SystemOverviewCard
 
   return (
     <div className="min-w-40 flex-1">
-      <Container
-        padding="p-4"
-        flexDirection="flex-row"
-        alignItems="items-start"
-        justifyContent="justify-between"
-        shadow
-      >
+      <Container flexDirection="flex-row" shadow className="items-start justify-between p-4">
         <div>
           <div className="mb-1 text-2xl font-bold">{value ?? "-"}</div>
           <div className="text-sm text-gray-500">{label}</div>

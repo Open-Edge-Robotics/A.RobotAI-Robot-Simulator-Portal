@@ -11,9 +11,7 @@ export default function InfoBox({ title, description }: InfoBoxProps) {
       bgColor="bg-blue-10"
       borderColor="border-blue-500"
       flexDirection="flex-row"
-      alignItems="items-center"
-      gap="gap-2"
-      padding="p-4"
+      className="items-center gap-2 p-4"
     >
       <InfoIcon />
       <div className="text-sm text-blue-600">

@@ -84,15 +84,7 @@ interface PodStatusCardProps {
 
 function PodStatusCard({ value, status, ratio, bgColor, borderColor, textColor, highlightColor }: PodStatusCardProps) {
   return (
-    <Container
-      borderColor={borderColor}
-      bgColor={bgColor}
-      padding="p-4"
-      alignItems="items-center"
-      justifyContent="justify-center"
-      grow
-      gap="gap-1"
-    >
+    <Container borderColor={borderColor} bgColor={bgColor} className="grow items-center justify-center gap-1 p-4">
       <div className={`rounded-full ${highlightColor} h-3 w-3`} />
       <div className={`${textColor} mt-1 text-xl font-bold`}>{value}</div>
       <div className={`flex gap-1 ${textColor}`}>

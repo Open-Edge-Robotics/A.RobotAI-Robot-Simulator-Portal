@@ -1,10 +1,10 @@
-import { STATUS_CONFIG } from "@/constants/simulation";
-import type { Status } from "@/types/simulation/domain";
+import { STATUS_CONFIGS } from "@/constants/simulation";
+import type { SimulationStatus } from "@/types/simulation/domain";
 
 import Badge from ".";
 
-export default function StatusBadge({ status }: { status: Status }) {
-  const config = STATUS_CONFIG[status];
+export default function StatusBadge({ status }: { status: SimulationStatus }) {
+  const config = STATUS_CONFIGS[status];
 
   return (
     <div className="w-17">

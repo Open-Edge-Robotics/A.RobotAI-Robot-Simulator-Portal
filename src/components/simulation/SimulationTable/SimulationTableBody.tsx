@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
 
 import StatusBadge from "@/components/common/Badge/StatusBadge";
-import { PATTERN_CONFIG } from "@/constants/simulation";
+import { PATTERN_CONFIGS } from "@/constants/simulation";
 import type { Simulation } from "@/types/simulation/api";
-import type { ActionHandler } from "@/types/simulation/domain";
+import type { SimulationActionHandler } from "@/types/simulation/domain";
 import { formatDateTime } from "@/utils/formatting";
 
 import ActionButtons from "./SimulationActionButtons";
 
 interface TableBodyProps {
   simulations: Simulation[];
-  actionHandlers: ActionHandler[];
+  actionHandlers: SimulationActionHandler[];
   isLoading: boolean;
 }
 
@@ -31,7 +31,7 @@ export default function TableBody({ simulations, actionHandlers, isLoading }: Ta
 
 interface TableBodyRowProps {
   simulation: Simulation;
-  actionHandlers: ActionHandler[];
+  actionHandlers: SimulationActionHandler[];
   isLoading: boolean;
 }
 
@@ -46,7 +46,7 @@ function TableBodyRow({ simulation, actionHandlers, isLoading }: TableBodyRowPro
         <TableBodyCell justifyCenter>
           <StatusBadge status={simulation.status} />
         </TableBodyCell>
-        <TableBodyCell>{PATTERN_CONFIG[simulation.patternType].title}</TableBodyCell>
+        <TableBodyCell>{PATTERN_CONFIGS[simulation.patternType].title}</TableBodyCell>
         <TableBodyCell>{formatDateTime(simulation.createdAt)}</TableBodyCell>
         <TableBodyCell>{formatDateTime(simulation.updatedAt)}</TableBodyCell>
         <TableBodyCell>{simulation.mecId}</TableBodyCell>

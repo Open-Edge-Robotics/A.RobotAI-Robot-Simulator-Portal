@@ -1,45 +1,25 @@
-interface ContainerProps {
-  alignItems?: string;
+interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   bgColor?: string;
   borderColor?: string;
   flexDirection?: "flex-col" | "flex-row";
-  gap?: string;
-  hoverBgColor?: string;
-  justifyContent?: string;
-  margin?: string;
-  padding?: string;
   shadow?: boolean;
-  width?: string;
-  height?: string;
-  overflowHidden?: boolean;
-  grow?: boolean;
   className?: string;
   children: React.ReactNode;
 }
 
 export default function Container({
-  alignItems,
   bgColor = "bg-white",
   borderColor = "border-gray-100",
   flexDirection = "flex-col",
-  gap,
-  hoverBgColor,
-  justifyContent,
-  margin,
-  padding,
   shadow,
-  width = "w-auto",
-  height = "h-auto",
-  overflowHidden = false,
-  grow = false,
-  className = "",
+  className,
   children,
+  ...restProps
 }: ContainerProps) {
   return (
     <div
-      className={`${margin} ${width} ${height} flex ${flexDirection} ${alignItems} ${justifyContent} ${gap} rounded-lg border ${
-        borderColor
-      } ${bgColor} ${padding} ${shadow && "shadow-xs"} ${hoverBgColor} ${overflowHidden && "overflow-hidden"} ${grow && "grow"} ${className}`}
+      className={`flex ${flexDirection} rounded-lg border ${borderColor} ${bgColor} ${shadow && "shadow-xs"} ${className}`}
+      {...restProps}
     >
       {children}
     </div>

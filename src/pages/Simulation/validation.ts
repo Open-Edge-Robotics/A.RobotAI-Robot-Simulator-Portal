@@ -8,8 +8,10 @@ import type {
   StepType,
 } from "@/types/simulation/domain";
 
+// ========== 스텝별 검증 함수 ==========
+
 const validateStep1 = (formData: SimulationFormData) => {
-  if (formData.name.trim() === "") {
+  if (!formData.name.trim()) {
     return "시뮬레이션 이름을 입력해주세요.";
   }
   if (!formData.mecId) {
@@ -19,7 +21,7 @@ const validateStep1 = (formData: SimulationFormData) => {
 };
 
 const validateStep2 = (formData: SimulationFormData) => {
-  if (formData.pattern === null) {
+  if (!formData.pattern) {
     return "실행 패턴을 선택해주세요.";
   }
 
@@ -31,19 +33,39 @@ const validateStep3 = (formData: SimulationFormData) => {
 
   const { agentGroups } = formData.pattern;
 
-  for (const group of agentGroups) {
-    const errorMessage = validatePatternGroup(group);
+  if (agentGroups.length === 0) {
+    return "최소 하나 이상의 그룹을 설정해주세요.";
+  }
+
+  for (let i = 0; i < agentGroups.length; i++) {
+    const group = agentGroups[i];
+    const errorMessage = validateAgentGroup(group, i + 1);
     if (errorMessage) return errorMessage;
   }
 
   return null;
 };
 
-const validatePatternGroup = (group: SequentialAgentGroup | ParallelAgentGroup) => {
-  if (!group.templateId) return "모든 그룹에 템플릿을 지정해주세요.";
-  if (group.autonomousAgentCount < 1) return "가상자율행동체 개수는 1대 이상이어야 합니다.";
-  if (group.executionTime < 1) return "실행 시간은 1초 이상이어야 합니다.";
-  if (group.repeatCount < 1) return "반복 횟수는 1번 이상이어야 합니다.";
+const validateAgentGroup = (group: SequentialAgentGroup | ParallelAgentGroup, groupNumber: number) => {
+  const groupLabel = `${groupNumber}번째 그룹`;
+
+  if (!group.templateId) {
+    return `${groupLabel}에 템플릿을 선택해주세요.`;
+  }
+  if (group.autonomousAgentCount < 1) {
+    return `${groupLabel}의 가상자율행동체 개수는 1대 이상이어야 합니다.`;
+  }
+  if (group.executionTime < 1) {
+    return `${groupLabel}의 실행 시간은 1초 이상이어야 합니다.`;
+  }
+  if (group.repeatCount < 1) {
+    return `${groupLabel}의 반복 횟수는 1회 이상이어야 합니다.`;
+  }
+
+  // 순차 실행일 경우 추가 검증
+  if ("delayAfterCompletion" in group && group.delayAfterCompletion < 0) {
+    return `${groupLabel}의 대기 시간은 0초 이상이어야 합니다.`;
+  }
 
   return null;
 };
@@ -57,6 +79,7 @@ const validateStep4 = (formData: SimulationFormData) => {
   return null;
 };
 
+// 메인 검증 객체
 export const createFormValidator: {
   [K in StepType]: (formData: SimulationFormData) => string | null;
 } = {
@@ -64,9 +87,9 @@ export const createFormValidator: {
   2: validateStep2,
   3: validateStep3,
   4: validateStep4,
-};
+} as const;
 
-// 타입 가드 함수들
+// ========== 타입 가드 함수들 ==========
 
 const isStatusFilterOption = (value: string): value is StatusFilterOption => {
   const validStatuses = FILTER_OPTIONS.status.map((option) => option.value);
@@ -78,7 +101,7 @@ const isPatternTypeFilterOption = (value: string): value is PatternTypeFilterOpt
   return validPatternTypes.includes(value as PatternTypeFilterOption);
 };
 
-// validate 함수들
+// ========== 파라미터 검증 함수들 ==========
 
 export const validatePage = (value: string | null): number | null => {
   if (value === null) return null;

@@ -2,20 +2,20 @@ import Container from "@/components/common/Container.tsx";
 import InformationFallback from "@/components/common/Fallback/InformationFallback";
 import LinkButton from "@/components/common/LinkButton";
 import type { Simulation } from "@/types/simulation/api";
-import type { ActionHandler } from "@/types/simulation/domain";
+import type { SimulationActionHandler } from "@/types/simulation/domain";
 
 import TableBody from "./SimulationTableBody";
 import TableHeader from "./SimulationTableHeader";
 
 interface SimulationTableProps {
   simulations: Simulation[];
-  actionHandlers: ActionHandler[];
+  actionHandlers: SimulationActionHandler[];
   isLoading: boolean;
 }
 
 export default function SimulationTable({ simulations, actionHandlers, isLoading }: SimulationTableProps) {
   return (
-    <Container shadow overflowHidden>
+    <Container shadow className="overflow-hidden">
       {simulations.length === 0 ? (
         <Fallback />
       ) : (

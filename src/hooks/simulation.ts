@@ -4,11 +4,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { simulationAPI } from "@/apis/simulation";
 import { QUERY_KEYS } from "@/constants/api";
-import type { ActionHandler } from "@/types/simulation/domain";
+import type { SimulationActionHandler } from "@/types/simulation/domain";
 import { successToast, warnToast } from "@/utils/toast";
 
 export function useSimulationActions(): {
-  actionHandlers: ActionHandler[];
+  actionHandlers: SimulationActionHandler[];
   isLoading: boolean;
 } {
   const queryClient = useQueryClient();
@@ -48,7 +48,7 @@ export function useSimulationActions(): {
   const isLoading = [startMutation.isPending, stopMutation.isPending, deleteMutation.isPending].some(Boolean);
 
   // 액션 핸들러들을 배열로 반환
-  const actionHandlers: ActionHandler[] = [
+  const actionHandlers: SimulationActionHandler[] = [
     { type: "start", handler: (id: number) => startMutation.mutate(id) },
     { type: "stop", handler: (id: number) => stopMutation.mutate(id) },
     { type: "delete", handler: (id: number) => deleteMutation.mutate(id) },

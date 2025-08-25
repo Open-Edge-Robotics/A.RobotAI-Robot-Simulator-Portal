@@ -1,16 +1,18 @@
 import type {
-  ActionConfig,
-  ActionType,
-  PatternCardConfig,
+  PatternConfig,
   PatternType,
+  SimulationActionConfig,
+  SimulationActionType,
   SimulationOverviewConfig,
-  Status,
+  SimulationStatus,
+  SimulationStatusConfig,
   StepsInfoType,
 } from "@/types/simulation/domain";
 
+// ========== 스텝 관련 상수 ==========
+
 export const STEPS = ["기본 정보", "패턴 선택", "상세 설정", "검토 및 완료"];
 
-// 각 단계에 대한 정보
 export const STEPS_INFO: StepsInfoType = {
   1: {
     title: "1단계: 기본 정보 입력",
@@ -38,10 +40,11 @@ export const STEPS_INFO: StepsInfoType = {
     title: "4단계: 검토 및 완료",
     description: "입력한 정보를 검토하고 시뮬레이션을 생성하세요.",
   },
-};
+} as const;
 
-// 패턴별 안내 정보
-export const PATTERN_CONFIG: { [K in PatternType]: PatternCardConfig } = {
+// ========== 패턴 관련 상수 ==========
+
+export const PATTERN_CONFIGS: Record<PatternType, PatternConfig> = {
   sequential: {
     title: "순차 실행",
     unit: "단계",
@@ -60,37 +63,11 @@ export const PATTERN_CONFIG: { [K in PatternType]: PatternCardConfig } = {
     iconTextColor: "text-orange-500",
     description: "서로 다른 유형의 가상 자율행동체들이 동시에 실행됩니다.\n(모든 그룹이 같은 시간에 시작)",
   },
-};
+} as const;
 
-export const SIMULATION_OVERVIEW_CONFIG: { [key: string]: SimulationOverviewConfig } = {
-  TOTAL: {
-    label: "전체 시뮬레이션",
-    iconName: "insert_chart",
-    textColor: "text-gray-500",
-    bgColor: "bg-gray-50",
-  },
-  RUNNING: {
-    label: "실행중",
-    iconName: "play_arrow",
-    textColor: "text-blue-500",
-    bgColor: "bg-blue-50",
-  },
-  COMPLETED: {
-    label: "완료",
-    iconName: "check_box",
-    textColor: "text-green-500",
-    bgColor: "bg-green-50",
-  },
-  FAILED: {
-    label: "실패",
-    iconName: "error",
-    textColor: "text-red-500",
-    bgColor: "bg-red-50",
-  },
-};
+// ========== 시뮬레이션 상태 관련 상수 ==========
 
-// TODO: 이걸 정의하고 얘로 타입을 만들 게 아니라 타입을 정의하고 그 타입에 맞게 상수를 만들어야 함
-export const STATUS_CONFIG = {
+export const STATUS_CONFIGS: Record<SimulationStatus, SimulationStatusConfig> = {
   INITIATING: {
     bgColor: "bg-gray-50",
     textColor: "text-gray-700",
@@ -123,27 +100,39 @@ export const STATUS_CONFIG = {
   },
 } as const;
 
-// TODO: 이거 활용해서 config랑 type 만들기
-export const FILTER_OPTIONS = {
-  status: [
-    { value: "", label: "전체 상태" },
-    { value: "READY", label: "대기중" },
-    { value: "RUNNING", label: "실행중" },
-    { value: "COMPLETED", label: "완료" },
-    { value: "FAILED", label: "실패" },
-    { value: "PAUSED", label: "일시정지" },
-  ],
-  patternType: [
-    { value: "", label: "전체 패턴 타입" },
-    { value: "sequential", label: "순차실행" },
-    { value: "parallel", label: "병렬실행" },
-  ],
-} as const;
+// ========== 개요 관련 상수 ==========
 
-export const ALLOWED_PARAMS = ["page", "size", "status", "pattern_type"] as const;
+export const SIMULATION_OVERVIEW_CONFIGS: { [key: string]: SimulationOverviewConfig } = {
+  TOTAL: {
+    label: "전체 시뮬레이션",
+    iconName: "insert_chart",
+    textColor: "text-gray-500",
+    bgColor: "bg-gray-50",
+  },
+  RUNNING: {
+    label: "실행중",
+    iconName: "play_arrow",
+    textColor: "text-blue-500",
+    bgColor: "bg-blue-50",
+  },
+  COMPLETED: {
+    label: "완료",
+    iconName: "check_box",
+    textColor: "text-green-500",
+    bgColor: "bg-green-50",
+  },
+  FAILED: {
+    label: "실패",
+    iconName: "error",
+    textColor: "text-red-500",
+    bgColor: "bg-red-50",
+  },
+};
+
+// ========== 액션 관련 상수 ==========
 
 // 액션별 설정 정의
-export const ACTION_CONFIGS: Record<ActionType, ActionConfig> = {
+export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig> = {
   start: {
     iconName: "play_circle",
     color: "hover:border-blue-200 hover:bg-blue-50 hover:text-blue-500 active:text-blue-700",
@@ -166,8 +155,8 @@ export const ACTION_CONFIGS: Record<ActionType, ActionConfig> = {
   },
 };
 
-// 상태별로 허용되는 액션 정의
-export const ALLOWED_ACTIONS_BY_STATUS: Record<Status, ActionType[]> = {
+// 상태별로 허용되는 액션
+export const ALLOWED_ACTIONS_BY_STATUS: Record<SimulationStatus, SimulationActionType[]> = {
   INITIATING: [],
   READY: ["start", "stop", "delete"],
   RUNNING: ["stop"],
@@ -175,3 +164,26 @@ export const ALLOWED_ACTIONS_BY_STATUS: Record<Status, ActionType[]> = {
   COMPLETED: ["view", "delete"],
   FAILED: ["view", "delete"],
 };
+
+// ========== 필터 옵션 ==========
+
+// TODO: 이거 활용해서 config랑 type 만들기
+export const FILTER_OPTIONS = {
+  status: [
+    { value: "", label: "전체 상태" },
+    { value: "READY", label: "대기중" },
+    { value: "RUNNING", label: "실행중" },
+    { value: "COMPLETED", label: "완료" },
+    { value: "FAILED", label: "실패" },
+    { value: "PAUSED", label: "일시정지" },
+  ],
+  patternType: [
+    { value: "", label: "전체 패턴 타입" },
+    { value: "sequential", label: "순차실행" },
+    { value: "parallel", label: "병렬실행" },
+  ],
+} as const;
+
+// ========== 허용된 URL 파라미터 ==========
+
+export const ALLOWED_PARAMS = ["page", "size", "status", "pattern_type"] as const;

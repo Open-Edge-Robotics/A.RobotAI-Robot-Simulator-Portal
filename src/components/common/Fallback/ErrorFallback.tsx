@@ -21,7 +21,7 @@ export default function ErrorFallback({
   const navigate = useNavigate();
 
   return (
-    <Container shadow overflowHidden>
+    <Container shadow>
       <div className="flex flex-col items-center px-6 py-12 text-center">
         <Icon name="error" className="mb-4 text-red-500" size="48px" />
         <h3 className="mb-2 text-lg font-semibold">{message}</h3>

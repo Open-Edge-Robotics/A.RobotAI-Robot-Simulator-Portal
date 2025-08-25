@@ -19,9 +19,7 @@ export default function NavItem({ title, iconName, href, isSelected }: NavItemPr
           // TODO: bg-white로 하면 hover가 안 먹힘. 디버깅해볼것.
           bgColor={isSelected ? "bg-gray-50" : "bg-[#ffffff]"}
           flexDirection="flex-row"
-          hoverBgColor="hover:bg-gray-50"
-          padding="px-4 py-3"
-          alignItems="items-center"
+          className="items-center px-4 py-3 hover:bg-gray-50"
         >
           <NavIcon iconName={iconName} />
           <span>{title}</span>

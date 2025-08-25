@@ -1,5 +1,6 @@
+import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
-import { PATTERN_CONFIG } from "@/constants/simulation";
+import { PATTERN_CONFIGS } from "@/constants/simulation";
 import type { PatternType } from "@/types/simulation/domain";
 
 interface Step2ContentProps {
@@ -31,13 +32,15 @@ interface PatternCardProps {
 }
 
 function PatternCard({ pattern, isSelected, onClick }: PatternCardProps) {
-  const patternData = PATTERN_CONFIG[pattern];
+  const patternData = PATTERN_CONFIGS[pattern];
 
   if (!patternData) return null;
 
   return (
-    <div
-      className={`relative flex-1 rounded-lg border ${isSelected ? "bg-blue-10 border-blue-500" : "border-gray-100"} cursor-pointer bg-white p-6 shadow-xs hover:border-blue-500 hover:shadow-md hover:shadow-blue-50`}
+    <Container
+      shadow
+      borderColor={`${isSelected ? "border-blue-500" : "border-gray-100"}`}
+      className="relative flex-1 cursor-pointer p-6 hover:border-blue-500 hover:shadow-md hover:shadow-blue-50"
       onClick={onClick}
     >
       {/* 선택됐을 경우 체크 아이콘 */}
@@ -61,6 +64,6 @@ function PatternCard({ pattern, isSelected, onClick }: PatternCardProps) {
 
       {/* 설명 */}
       <p className="text-sm leading-relaxed whitespace-pre-line text-gray-600">{patternData.description}</p>
-    </div>
+    </Container>
   );
 }

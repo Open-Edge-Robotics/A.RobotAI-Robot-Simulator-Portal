@@ -1,4 +1,4 @@
-import type { PatternType, Status } from "../../../types/simulation/domain";
+import type { PatternType, SimulationStatus } from "../../../types/simulation/domain";
 
 import PodStatusOverview from "./PodStatusOverview";
 import ResourceUsage from "./ResourceUsage";
@@ -21,7 +21,7 @@ export default function SimulationDetail({ simulation }: SimulationDetailProps) 
 export interface SimulationDetailData {
   simulationId: number;
   simulationName: string;
-  status: Status;
+  status: SimulationStatus;
   createdAt: string;
   updatedAt: string;
   patternType: PatternType;

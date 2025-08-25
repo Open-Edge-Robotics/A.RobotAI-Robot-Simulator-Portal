@@ -4,15 +4,15 @@ import Stepper from "@/components/common/Stepper";
 import { STEPS } from "@/constants/simulation.ts";
 import { getCurrentStepInfo, getPatternDataWithDefaultAgentGroup } from "@/pages/simulation/utils.ts";
 import { createFormValidator } from "@/pages/simulation/validation.ts";
-import type { Mec, SimulationFormData, StepType, Template } from "@/types/simulation/domain.ts";
+import type { Mec, PatternType, SimulationFormData, StepType, Template } from "@/types/simulation/domain.ts";
 import { errorToast } from "@/utils/toast.ts";
 
 import InfoBox from "./InfoBox.tsx";
 import NavigationButtons from "./NavigationButtons.tsx";
-import Step1Content from "./Step1Content.tsx";
-import Step2Content from "./Step2Content.tsx";
-import Step3Content from "./Step3Content.tsx";
-import Step4Content from "./Step4Content.tsx";
+import Step1Content from "./steps/Step1Content.tsx";
+import Step2Content from "./steps/Step2Content.tsx";
+import Step3Content from "./steps/Step3Content.tsx";
+import Step4Content from "./steps/Step4Content.tsx";
 
 interface SimulationFormProps {
   initialData: SimulationFormData;
@@ -33,8 +33,10 @@ export default function SimulationForm({
 }: SimulationFormProps) {
   const [currentStep, setCurrentStep] = useState<StepType>(1);
   const [formData, setFormData] = useState<SimulationFormData>(initialData);
+
   const stepInfo = getCurrentStepInfo(currentStep, formData.pattern?.type ?? null);
 
+  // 폼 데이터 업데이트 핸들러
   const updateFormData = <K extends keyof SimulationFormData>(field: K, value: SimulationFormData[K]) => {
     setFormData((prev) => ({
       ...prev,
@@ -42,6 +44,14 @@ export default function SimulationForm({
     }));
   };
 
+  // 패턴 선택 핸들러
+  const handlePatternSelect = (patternType: PatternType | null) => {
+    if (!patternType) return;
+    const pattern = getPatternDataWithDefaultAgentGroup(patternType);
+    updateFormData("pattern", pattern);
+  };
+
+  // 스텝 유효성 검사
   const validateStep = (step: StepType): boolean => {
     const errorMessage = createFormValidator[step](formData);
     if (errorMessage) {
@@ -69,7 +79,7 @@ export default function SimulationForm({
 
   return (
     <div className="flex flex-col gap-6">
-      {/* 생성 단계 Stepper */}
+      {/* 진행 단계 표시 */}
       <Stepper activeStep={currentStep - 1} steps={STEPS} />
 
       {/* 현재 단계 설명 */}
@@ -87,14 +97,7 @@ export default function SimulationForm({
           />
         )}
         {currentStep === 2 && (
-          <Step2Content
-            patternType={formData.pattern?.type ?? null}
-            onSelectPatternType={(patternType) => {
-              if (!patternType) return;
-              const pattern = getPatternDataWithDefaultAgentGroup(patternType);
-              updateFormData("pattern", pattern);
-            }}
-          />
+          <Step2Content patternType={formData.pattern?.type ?? null} onSelectPatternType={handlePatternSelect} />
         )}
         {currentStep === 3 && (
           <Step3Content

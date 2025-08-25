@@ -1,11 +1,11 @@
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
-import { SIMULATION_OVERVIEW_CONFIG } from "@/constants/simulation";
+import { SIMULATION_OVERVIEW_CONFIGS } from "@/constants/simulation";
 import type { SimulationOverview } from "@/types/simulation/api";
 import type { SimulationOverviewConfig } from "@/types/simulation/domain";
 
 export default function SimulationOverview({ overview }: { overview: SimulationOverview | null }) {
-  const { TOTAL, COMPLETED, RUNNING, FAILED } = SIMULATION_OVERVIEW_CONFIG;
+  const { TOTAL, COMPLETED, RUNNING, FAILED } = SIMULATION_OVERVIEW_CONFIGS;
 
   return (
     <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
@@ -27,13 +27,7 @@ function SimulationOverviewCard({ config, value }: SimulationOverviewCardProps) 
 
   return (
     <div className="min-w-40 flex-1">
-      <Container
-        padding="p-4"
-        flexDirection="flex-row"
-        alignItems="items-start"
-        justifyContent="justify-between"
-        shadow
-      >
+      <Container flexDirection="flex-row" shadow className="items-start justify-between p-4">
         <div className={`${textColor}`}>
           <div className="mb-1 text-2xl font-bold">{value ?? "-"}</div>
           <div className="text-sm">{label}</div>

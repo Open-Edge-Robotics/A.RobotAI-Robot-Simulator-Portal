@@ -1,5 +1,6 @@
 import { Input, Select, Textarea } from "innogrid-ui";
 
+import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
 import type { Mec, SimulationFormData } from "@/types/simulation/domain";
@@ -14,7 +15,7 @@ interface Step1ContentProps {
 
 export default function Step1Content({ name, description, mecId, onFormDataChange, mecList }: Step1ContentProps) {
   return (
-    <div className="flex flex-col gap-6 rounded-lg border border-gray-100 bg-white p-6 shadow-xs">
+    <Container shadow className="gap-6 p-6">
       {/* 시뮬레이션 이름 */}
       <Fieldset>
         <Label label="시뮬레이션 이름" required />
@@ -49,6 +50,6 @@ export default function Step1Content({ name, description, mecId, onFormDataChang
           onChange={(option) => onFormDataChange("mecId", option ? option.id : null)}
         />
       </Fieldset>
-    </div>
+    </Container>
   );
 }
