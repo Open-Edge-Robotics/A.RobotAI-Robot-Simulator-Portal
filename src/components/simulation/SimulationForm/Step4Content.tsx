@@ -57,7 +57,7 @@ export default function Step4Content({ formData, mecList, templateList }: Step4C
                 return (
                   <PatternConfigCard
                     indexLabel={label}
-                    agentCount={group.agentCount}
+                    autonomousAgentCount={group.autonomousAgentCount}
                     delayAfterCompletion={group.delayAfterCompletion}
                     executionTime={group.executionTime}
                     repeatCount={group.repeatCount}
@@ -73,7 +73,7 @@ export default function Step4Content({ formData, mecList, templateList }: Step4C
                 return (
                   <PatternConfigCard
                     indexLabel={label}
-                    agentCount={group.agentCount}
+                    autonomousAgentCount={group.autonomousAgentCount}
                     executionTime={group.executionTime}
                     repeatCount={group.repeatCount}
                     template={templateList.find((template) => template.id === group.templateId)?.name || "-"}
@@ -112,7 +112,7 @@ function Body({ children }: { children: React.ReactNode }) {
 interface PatternConfigCardProps {
   indexLabel: string;
   template: string;
-  agentCount: number;
+  autonomousAgentCount: number;
   delayAfterCompletion?: number;
   executionTime: number;
   repeatCount: number;
@@ -121,7 +121,7 @@ interface PatternConfigCardProps {
 function PatternConfigCard({
   indexLabel,
   template,
-  agentCount,
+  autonomousAgentCount,
   delayAfterCompletion,
   executionTime,
   repeatCount,
@@ -133,7 +133,11 @@ function PatternConfigCard({
         <Badge text={template} fontSize="text-sm" textColor="text-gray-700" />
       </div>
       <div className="space-y-2">
-        <LabeledValue label="가상자율행동체 개수:" value={`${agentCount}대`} justifyContent="justify-between" />
+        <LabeledValue
+          label="가상자율행동체 개수:"
+          value={`${autonomousAgentCount}대`}
+          justifyContent="justify-between"
+        />
         <LabeledValue label="실행 시간:" value={`${executionTime}초`} justifyContent="justify-between" />
         {delayAfterCompletion && (
           <LabeledValue
@@ -148,8 +152,8 @@ function PatternConfigCard({
   );
 }
 
-const calculateTotalAgentCount = <K extends { agentCount: number }>(agentGroups: K[]) => {
-  return agentGroups.reduce((sum, group) => sum + group.agentCount, 0);
+const calculateTotalAgentCount = <K extends { autonomousAgentCount: number }>(agentGroups: K[]) => {
+  return agentGroups.reduce((sum, group) => sum + group.autonomousAgentCount, 0);
 };
 
 function calculateTotalExecutionTime(pattern: Pattern) {

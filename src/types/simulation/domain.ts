@@ -50,7 +50,7 @@ export interface Template {
 export interface SequentialAgentGroup {
   stepOrder: number;
   templateId: number | null;
-  agentCount: number;
+  autonomousAgentCount: number;
   executionTime: number; // in seconds
   delayAfterCompletion: number; // in seconds
   repeatCount: number;
@@ -58,7 +58,7 @@ export interface SequentialAgentGroup {
 
 export interface ParallelAgentGroup {
   templateId: number | null;
-  agentCount: number;
+  autonomousAgentCount: number;
   executionTime: number; // in seconds
   repeatCount: number;
 }

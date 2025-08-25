@@ -21,7 +21,7 @@ export default function ParallelPatternForm({
   const handleAddNewAgentGroup = () => {
     const newAgentGroup: ParallelAgentGroup = {
       templateId: null,
-      agentCount: 1,
+      autonomousAgentCount: 1,
       executionTime: 1,
       repeatCount: 1,
     };
@@ -124,11 +124,11 @@ function AgentGroupRow({
         <div className="rounded-sm bg-white">
           <Input
             type="number"
-            value={agentGroup.agentCount.toString()}
+            value={agentGroup.autonomousAgentCount.toString()}
             placeholder="가상 자율행동체 개수를 입력하세요"
             className=""
             size="l-small"
-            onChange={(e) => onUpdate(index, "agentCount", parseInt(e.target.value) || 0)}
+            onChange={(e) => onUpdate(index, "autonomousAgentCount", parseInt(e.target.value) || 0)}
           />
         </div>
       </Fieldset>

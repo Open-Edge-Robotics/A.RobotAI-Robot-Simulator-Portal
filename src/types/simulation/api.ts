@@ -94,7 +94,7 @@ interface SequentialExecutionPlan {
     stepOrder: number;
     templateId: number;
     templateName: string;
-    agentCount: number;
+    autonomousAgentCount: number;
     repeatCount: number;
     executionTime: number;
     delayAfterCompletion: number;
@@ -105,7 +105,7 @@ interface ParallelExecutionPlan {
   groups: {
     templateId: number;
     templateName: string;
-    agentCount: number;
+    autonomousAgentCount: number;
     repeatCount: number;
     executionTime: number;
   }[];

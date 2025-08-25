@@ -26,7 +26,7 @@ export interface SimulationDetailData {
   updatedAt: string;
   patternType: PatternType;
   totalExecutionTime: number;
-  agentCount: number;
+  autonomousAgentCount: number;
   resource: {
     cpu: number;
     memory: number;

@@ -68,7 +68,7 @@ const mockSimulationData: SimulationDetailData = {
   updatedAt: "2025-08-21T14:25:00Z",
   patternType: "parallel",
   totalExecutionTime: 3600, // 1시간 (초 단위)
-  agentCount: 1500,
+  autonomousAgentCount: 1500,
   resource: {
     cpu: 85.6, // CPU 사용률 (%)
     memory: 12.8, // 메모리 사용량 (GB)

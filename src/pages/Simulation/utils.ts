@@ -30,7 +30,7 @@ export const transformFormDataToRequest = (formData: SimulationFormData): Create
         steps: pattern.agentGroups.map((group) => ({
           stepOrder: group.stepOrder,
           templateId: Number(group.templateId!),
-          autonomousAgentCount: group.agentCount,
+          autonomousAgentCount: group.autonomousAgentCount,
           executionTime: group.executionTime,
           delayAfterCompletion: group.delayAfterCompletion,
           repeatCount: group.repeatCount,
@@ -44,7 +44,7 @@ export const transformFormDataToRequest = (formData: SimulationFormData): Create
       pattern: {
         groups: pattern.agentGroups.map((group) => ({
           templateId: Number(group.templateId!),
-          autonomousAgentCount: group.agentCount,
+          autonomousAgentCount: group.autonomousAgentCount,
           executionTime: group.executionTime,
           repeatCount: group.repeatCount,
         })),
@@ -64,7 +64,7 @@ export const getCurrentStepInfo = (step: StepType, pattern: PatternType | null) 
 export const sequentialDefaultData: SequentialAgentGroup = {
   stepOrder: 1,
   templateId: null,
-  agentCount: 1,
+  autonomousAgentCount: 1,
   executionTime: 1,
   delayAfterCompletion: 0,
   repeatCount: 1,
@@ -72,7 +72,7 @@ export const sequentialDefaultData: SequentialAgentGroup = {
 
 export const parallelDefaultData: ParallelAgentGroup = {
   templateId: null,
-  agentCount: 1,
+  autonomousAgentCount: 1,
   executionTime: 1,
   repeatCount: 1,
 };

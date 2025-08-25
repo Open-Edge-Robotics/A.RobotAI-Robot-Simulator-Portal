@@ -31,7 +31,7 @@ export default function SimulationInformation({ simulation }: SimulationInformat
         />
         <LabeledValue
           label="자율행동체 수:"
-          value={`${simulation.agentCount.toString()}대`}
+          value={`${simulation.autonomousAgentCount.toString()}대`}
           justifyContent="justify-between"
         />
       </div>
