@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Pagination as InnogridPagination } from "innogrid-ui";
 
-import { QUERY_KEYS } from "@/apis/constants";
+import { QUERY_KEYS } from "@/constants/api";
 import { simulationAPI } from "@/apis/simulation";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
@@ -13,10 +13,10 @@ import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
 import { useSimulationActions } from "@/hooks/simulation";
 
-import FilterToolbar from "./FilterToolbar";
-import SimulationOverview from "./SimulationOverview";
-import SimulationTable from "./SimulationTable";
-import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "./types";
+import SimulationFilterToolbar from "../../components/simulation/SimulationFilterToolbar";
+import SimulationOverview from "../../components/simulation/SimulationOverview";
+import SimulationTable from "../../components/simulation/SimulationTable";
+import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "../../types/simulation/domain";
 import { getValidParams } from "./utils";
 
 export default function SimulationPage() {
@@ -77,7 +77,7 @@ export default function SimulationPage() {
         <SimulationCreateButton />
       </div>
       <SimulationOverview overview={overview} />
-      <FilterToolbar
+      <SimulationFilterToolbar
         statusFilterValue={statusFilterValue}
         onStatusFilterChange={(value) => {
           handleChangeQuery("status", value);

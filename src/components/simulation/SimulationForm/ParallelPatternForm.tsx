@@ -3,8 +3,7 @@ import { Button, Input, Select } from "innogrid-ui";
 import Fieldset from "@/components/common/Fieldset";
 import Icon from "@/components/common/Icon";
 import Label from "@/components/common/Label";
-
-import type { ParallelAgentGroup, Template } from "../../types";
+import type { ParallelAgentGroup, Template } from "@/types/simulation/domain";
 
 // 순차 패턴 폼 컴포넌트
 interface ParallelPatternFormProps {

@@ -1,4 +1,4 @@
-import type { PatternType, Status } from "../simulation/types";
+import type { PatternType, Status } from "../../../types/simulation/domain";
 
 import PodStatusOverview from "./PodStatusOverview";
 import ResourceUsage from "./ResourceUsage";

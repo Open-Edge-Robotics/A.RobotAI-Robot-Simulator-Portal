@@ -3,10 +3,10 @@ import { Select } from "innogrid-ui";
 import Divider from "@/components/common/Divider";
 import Icon from "@/components/common/Icon";
 
-import { FILTER_OPTIONS } from "./constants";
-import type { PatternTypeFilterOption, StatusFilterOption } from "./types";
+import { FILTER_OPTIONS } from "../../../constants/simulation";
+import type { PatternTypeFilterOption, StatusFilterOption } from "../../../types/simulation/domain";
 
-interface FilterToolbarProps {
+interface SimulationFilterToolbarProps {
   statusFilterValue: StatusFilterOption | null;
   onStatusFilterChange: (value: StatusFilterOption | null) => void;
   patternTypeFilterValue: PatternTypeFilterOption | null;
@@ -14,13 +14,13 @@ interface FilterToolbarProps {
   onReset: () => void;
 }
 
-export default function FilterToolbar({
+export default function SimulationFilterToolbar({
   statusFilterValue,
   onStatusFilterChange,
   patternTypeFilterValue,
   onPatternTypeFilterChange,
   onReset,
-}: FilterToolbarProps) {
+}: SimulationFilterToolbarProps) {
   return (
     <div className="flex h-10 items-center gap-5">
       <FilterSelect

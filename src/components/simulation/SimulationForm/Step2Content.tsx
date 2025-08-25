@@ -1,7 +1,6 @@
 import Icon from "@/components/common/Icon";
-
-import { PATTERN_CONFIG } from "../../constants";
-import type { PatternType } from "../../types";
+import { PATTERN_CONFIG } from "@/constants/simulation";
+import type { PatternType } from "@/types/simulation/domain";
 
 interface Step2ContentProps {
   patternType: PatternType | null;

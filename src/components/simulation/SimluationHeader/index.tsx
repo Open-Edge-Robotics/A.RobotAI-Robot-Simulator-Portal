@@ -5,7 +5,7 @@ interface HeaderProps {
   title: string;
 }
 
-export default function Header({ title }: HeaderProps) {
+export default function SimulationHeader({ title }: HeaderProps) {
   return (
     <div className="flex items-center justify-between">
       <Title title={title} />

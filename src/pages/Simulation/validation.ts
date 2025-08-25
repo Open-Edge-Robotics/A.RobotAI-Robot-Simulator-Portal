@@ -1,4 +1,4 @@
-import { FILTER_OPTIONS } from "./constants";
+import { FILTER_OPTIONS } from "@/constants/simulation";
 import type {
   ParallelAgentGroup,
   PatternTypeFilterOption,
@@ -6,7 +6,7 @@ import type {
   SimulationFormData,
   StatusFilterOption,
   StepType,
-} from "./types";
+} from "@/types/simulation/domain";
 
 const validateStep1 = (formData: SimulationFormData) => {
   if (formData.name.trim() === "") {

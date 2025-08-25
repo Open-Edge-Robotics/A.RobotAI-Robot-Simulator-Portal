@@ -1,4 +1,4 @@
-import type { SystemOverviewData } from "@/pages/dashboard/types";
+import type { SystemOverviewData } from "./domain";
 
 export interface GetDashboardResult {
   overview: SystemOverviewData;

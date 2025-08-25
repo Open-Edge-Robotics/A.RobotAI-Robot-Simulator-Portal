@@ -1,6 +1,6 @@
-import type { CreateSimulationRequest } from "@/apis/simulation/types";
+import type { CreateSimulationRequest } from "@/types/simulation/api";
 
-import { ALLOWED_PARAMS, STEPS_INFO } from "./constants";
+import { ALLOWED_PARAMS, STEPS_INFO } from "@/constants/simulation";
 import type {
   AllowedParam,
   ParallelAgentGroup,
@@ -10,7 +10,8 @@ import type {
   SimulationFormData,
   StepInfo,
   StepType,
-} from "./types";
+} from "@/types/simulation/domain";
+
 import { validatePage, validatePatternTypeFilter, validateSize, validateStatusFilter } from "./validation";
 
 export const transformFormDataToRequest = (formData: SimulationFormData): CreateSimulationRequest => {

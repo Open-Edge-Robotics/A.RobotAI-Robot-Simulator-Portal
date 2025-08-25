@@ -1,9 +1,8 @@
-import type { SimulationDetailData } from "@/pages/dashboard/SimulationDetail";
+import type { SimulationDetailData } from "@/components/dashboard/SimulationSection/SimulationDetail";
 
-import { API_BASE_URL, ENDPOINTS } from "../constants";
-import { createClient } from "..";
-
-import type { GetDashboardResult } from "./types";
+import { API_BASE_URL, ENDPOINTS } from "@/constants/api";
+import { createClient } from ".";
+import type { GetDashboardResult } from "@/types/dashboard/api";
 
 const dashboardApiClient = createClient({
   baseURL: `${API_BASE_URL.dev}${ENDPOINTS.simulation}`, // TODO: dashboard로 바꾸기

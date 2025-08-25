@@ -2,15 +2,15 @@ import { useNavigate } from "react-router-dom";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { QUERY_KEYS } from "@/apis/constants.ts";
-import { simulationAPI } from "@/apis/simulation/index.ts";
-import type { CreateSimulationRequest } from "@/apis/simulation/types.ts";
+import { QUERY_KEYS } from "@/constants/api.ts";
+import { simulationAPI } from "@/apis/simulation.ts";
+import type { CreateSimulationRequest } from "@/types/simulation/api.ts";
 
-import SimulationForm from "../form/SimulationForm.tsx";
-import type { Mec, SimulationFormData, Template } from "../types";
+import SimulationForm from "../../../components/simulation/SimulationForm/index.tsx";
+import type { Mec, SimulationFormData, Template } from "../../../types/simulation/domain.ts";
 import { transformFormDataToRequest } from "../utils.ts";
 
-import Header from "./Header.tsx";
+import SimulationHeader from "../../../components/simulation/SimluationHeader/index.tsx";
 import { errorToast, successToast } from "@/utils/toast.ts";
 
 const defaultFormData: SimulationFormData = {
@@ -54,7 +54,7 @@ export default function SimulationCreatePage() {
 
   return (
     <div className="bg-gray-10 flex h-full flex-col gap-6 p-6">
-      <Header title="시뮬레이션 생성" />
+      <SimulationHeader title="시뮬레이션 생성" />
       <SimulationForm
         initialData={defaultFormData}
         mecList={mecList}

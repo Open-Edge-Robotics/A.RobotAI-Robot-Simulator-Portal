@@ -1,5 +1,5 @@
-import { STATUS_CONFIG } from "@/pages/simulation/constants";
-import type { Status } from "@/pages/simulation/types";
+import { STATUS_CONFIG } from "@/constants/simulation";
+import type { Status } from "@/types/simulation/domain";
 
 import Badge from ".";
 

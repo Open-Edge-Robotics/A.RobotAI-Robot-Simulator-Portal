@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { QUERY_KEYS } from "@/apis/constants";
+import { QUERY_KEYS } from "@/constants/api";
 import { simulationAPI } from "@/apis/simulation";
 
 export function useSimulationActions() {

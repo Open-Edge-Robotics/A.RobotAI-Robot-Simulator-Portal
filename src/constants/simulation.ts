@@ -1,4 +1,9 @@
-import type { PatternCardConfig, PatternType, SimulationOverviewConfig, StepsInfoType } from "./types";
+import type {
+  PatternCardConfig,
+  PatternType,
+  SimulationOverviewConfig,
+  StepsInfoType,
+} from "@/types/simulation/domain";
 
 export const STEPS = ["기본 정보", "패턴 선택", "상세 설정", "검토 및 완료"];
 

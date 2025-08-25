@@ -1,4 +1,4 @@
-import type { ALLOWED_PARAMS, FILTER_OPTIONS, STATUS_CONFIG } from "./constants";
+import type { ALLOWED_PARAMS, FILTER_OPTIONS, STATUS_CONFIG } from "@/constants/simulation";
 
 export interface SimulationFormData {
   name: string;

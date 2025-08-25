@@ -1,5 +1,6 @@
-import type { PatternType, Status } from "@/pages/simulation/types";
 /* =============== API Request 타입들 =============== */
+
+import type { PatternType, Status } from "./domain";
 
 // 순차 실행용 단계 요청
 interface SequentialStepRequest {

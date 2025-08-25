@@ -1,14 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { QUERY_KEYS } from "@/apis/constants";
+import { QUERY_KEYS } from "@/constants/api";
 import { dashboardAPI } from "@/apis/dashboard";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 
-import SimulationSection from "./SimulationSection";
-import SystemOverviewSection from "./SystemOverviewSection";
-import { Button } from "innogrid-ui";
-import { errorToast, infoToast, successToast } from "@/utils/toast";
+import SimulationSection from "../../components/dashboard/SimulationSection";
+import SystemOverviewSection from "../../components/dashboard/SystemOverviewSection";
 
 const REFETCH_INTERVAL_MS = 60000; // 1분
 

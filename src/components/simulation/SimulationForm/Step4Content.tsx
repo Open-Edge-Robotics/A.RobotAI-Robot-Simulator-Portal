@@ -2,9 +2,8 @@ import Badge from "@/components/common/Badge";
 import Container from "@/components/common/Container.tsx";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback.tsx";
 import LabeledValue from "@/components/common/LabeledValue";
-
-import { PATTERN_CONFIG } from "../../constants.ts";
-import type { Mec, Pattern, SimulationFormData, Template } from "../../types.ts";
+import { PATTERN_CONFIG } from "@/constants/simulation";
+import type { Mec, Pattern, SimulationFormData, Template } from "@/types/simulation/domain";
 
 interface Step4ContentProps {
   formData: SimulationFormData;

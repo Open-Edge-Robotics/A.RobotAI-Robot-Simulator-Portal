@@ -2,15 +2,15 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { QUERY_KEYS } from "@/apis/constants.ts";
-import { simulationAPI } from "@/apis/simulation/index.ts";
-import type { CreateSimulationRequest } from "@/apis/simulation/types.ts";
+import { QUERY_KEYS } from "@/constants/api.ts";
+import { simulationAPI } from "@/apis/simulation.ts";
+import type { CreateSimulationRequest } from "@/types/simulation/api.ts";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback.tsx";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback.tsx";
 
-import Header from "../create/Header.tsx";
-import SimulationForm from "../form/SimulationForm.tsx";
-import type { Mec, SimulationFormData, Template } from "../types";
+import SimulationHeader from "../../../components/simulation/SimluationHeader/index.tsx";
+import SimulationForm from "../../../components/simulation/SimulationForm/index.tsx";
+import type { Mec, SimulationFormData, Template } from "../../../types/simulation/domain.ts";
 import { transformFormDataToRequest } from "../utils.ts";
 import { errorToast, successToast } from "@/utils/toast.ts";
 
@@ -21,7 +21,7 @@ export default function SimulationEditPage() {
 
   return (
     <div className="bg-gray-10 flex h-full flex-col gap-6 p-6">
-      <Header title="시뮬레이션 수정" />
+      <SimulationHeader title="시뮬레이션 수정" />
       {isValidId ? (
         <SimulationEditContent id={id} />
       ) : (
@@ -84,7 +84,7 @@ function SimulationEditContent({ id }: { id: number }) {
 
   return (
     <div className="bg-gray-10 flex h-full flex-col gap-6 p-6">
-      <Header title="시뮬레이션 수정" />
+      <SimulationHeader title="시뮬레이션 수정" />
       {status === "pending" && <LoadingFallback message="시뮬레이션 정보를 불러오는 중입니다." />}
       {status === "error" && (
         <ErrorFallback

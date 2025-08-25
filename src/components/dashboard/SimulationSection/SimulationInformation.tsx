@@ -3,7 +3,7 @@ import Container from "@/components/common/Container.tsx";
 import LabeledValue from "@/components/common/LabeledValue";
 import Title from "@/components/common/Title";
 
-import { PATTERN_CONFIG } from "../simulation/constants";
+import { PATTERN_CONFIG } from "../../../constants/simulation";
 
 import type { SimulationDetailData } from "./SimulationDetail";
 

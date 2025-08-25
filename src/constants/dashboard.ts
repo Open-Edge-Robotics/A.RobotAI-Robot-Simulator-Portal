@@ -1,4 +1,4 @@
-import type { SystemOverviewConfig } from "./types";
+import type { SystemOverviewConfig } from "@/types/dashboard/domain";
 
 export const SYSTEM_OVERVIEW_CONFIG: { [key: string]: SystemOverviewConfig } = {
   total: {
