@@ -1,6 +1,9 @@
-import type { SystemOverviewData } from "./domain";
+import type { Timestamp } from "../common";
 
-export interface GetDashboardResult {
-  overview: SystemOverviewData;
-  simulations: { simulationId: number; simulationName: string }[];
+export interface GetDashboardOverviewResult {
+  totalSimulations: number;
+  runningSimulations: number;
+  totalMec: number;
+  totalInstances: number;
+  timestamp: Timestamp;
 }

@@ -4,6 +4,7 @@ export const API_BASE_URL = {
 } as const;
 
 export const ENDPOINTS = {
+  dashboard: "/dashboard",
   simulation: "/simulation",
   template: "/template",
   mec: "/mec",
@@ -12,6 +13,7 @@ export const ENDPOINTS = {
 export const API_DEFAULT_TIMEOUT = 30000;
 
 export const QUERY_KEYS = {
+  dashboard: ["dashboard"],
   simulation: ["simulation"],
   template: ["template"],
   mec: ["mec"],

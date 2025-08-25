@@ -6,8 +6,8 @@ export interface SystemOverviewConfig {
 }
 
 export interface SystemOverviewData {
-  total: number;
-  running: number;
-  mec: number;
-  instance: number;
+  totalSimulations: number;
+  runningSimulations: number;
+  totalMec: number;
+  totalInstances: number;
 }

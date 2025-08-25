@@ -8,10 +8,10 @@ export default function SystemOverview({ overview }: { overview: SystemOverviewD
 
   return (
     <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
-      <SystemOverviewCard config={total} value={overview?.total} />
-      <SystemOverviewCard config={running} value={overview?.running} />
-      <SystemOverviewCard config={mec} value={overview?.mec} />
-      <SystemOverviewCard config={instance} value={overview?.instance} />
+      <SystemOverviewCard config={total} value={overview?.totalSimulations} />
+      <SystemOverviewCard config={running} value={overview?.runningSimulations} />
+      <SystemOverviewCard config={mec} value={overview?.totalMec} />
+      <SystemOverviewCard config={instance} value={overview?.totalInstances} />
     </div>
   );
 }
