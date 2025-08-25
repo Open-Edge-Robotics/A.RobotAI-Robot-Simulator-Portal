@@ -7,7 +7,7 @@ export default function StatusBadge({ status }: { status: Status }) {
   const config = STATUS_CONFIG[status];
 
   return (
-    <div className="w-16">
+    <div className="w-17">
       <Badge text={config.text} bgColor={config.bgColor} textColor={config.textColor} fontSize="text-xs" />
     </div>
   );

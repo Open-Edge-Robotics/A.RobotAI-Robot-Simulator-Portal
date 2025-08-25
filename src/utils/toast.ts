@@ -29,3 +29,11 @@ export const infoToast = (message: string) => {
     },
   });
 };
+
+export const warnToast = (message: string) => {
+  toast.warn(message, {
+    style: {
+      ...baseStyle,
+    },
+  });
+};

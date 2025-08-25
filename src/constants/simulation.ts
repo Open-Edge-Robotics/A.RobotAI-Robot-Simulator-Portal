@@ -1,7 +1,10 @@
 import type {
+  ActionConfig,
+  ActionType,
   PatternCardConfig,
   PatternType,
   SimulationOverviewConfig,
+  Status,
   StepsInfoType,
 } from "@/types/simulation/domain";
 
@@ -86,7 +89,13 @@ export const SIMULATION_OVERVIEW_CONFIG: { [key: string]: SimulationOverviewConf
   },
 };
 
+// TODO: 이걸 정의하고 얘로 타입을 만들 게 아니라 타입을 정의하고 그 타입에 맞게 상수를 만들어야 함
 export const STATUS_CONFIG = {
+  INITIATING: {
+    bgColor: "bg-gray-50",
+    textColor: "text-gray-700",
+    text: "초기화중",
+  },
   RUNNING: {
     bgColor: "bg-blue-50",
     textColor: "text-blue-700",
@@ -107,10 +116,10 @@ export const STATUS_CONFIG = {
     textColor: "text-yellow-700",
     text: "대기중",
   },
-  PAUSED: {
+  STOPPED: {
     bgColor: "bg-gray-50",
     textColor: "text-gray-700",
-    text: "일시정지",
+    text: "정지",
   },
 } as const;
 
@@ -132,3 +141,37 @@ export const FILTER_OPTIONS = {
 } as const;
 
 export const ALLOWED_PARAMS = ["page", "size", "status", "pattern_type"] as const;
+
+// 액션별 설정 정의
+export const ACTION_CONFIGS: Record<ActionType, ActionConfig> = {
+  start: {
+    iconName: "play_circle",
+    color: "hover:border-blue-200 hover:bg-blue-50 hover:text-blue-500 active:text-blue-700",
+    label: "시작",
+  },
+  stop: {
+    iconName: "stop_circle",
+    color: "hover:border-magenta-200 hover:bg-magenta-50 hover:text-magenta-500 active:text-magenta-700",
+    label: "정지",
+  },
+  view: {
+    iconName: "search_insights",
+    color: "hover:border-gray-200 hover:bg-gray-50 hover:text-gray-500 active:text-gray-700",
+    label: "결과보기",
+  },
+  delete: {
+    iconName: "delete",
+    color: "hover:border-red-200 hover:bg-red-50 hover:text-red-500 active:text-red-700",
+    label: "삭제",
+  },
+};
+
+// 상태별로 허용되는 액션 정의
+export const ALLOWED_ACTIONS_BY_STATUS: Record<Status, ActionType[]> = {
+  INITIATING: [],
+  READY: ["start", "stop", "delete"],
+  RUNNING: ["stop"],
+  STOPPED: ["start"],
+  COMPLETED: ["view", "delete"],
+  FAILED: ["view", "delete"],
+};

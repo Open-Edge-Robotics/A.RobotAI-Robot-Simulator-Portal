@@ -30,13 +30,10 @@ export const simulationAPI = {
   deleteSimulation: (id: number) => simulationApiClient.delete(`/${id}`),
 
   // 시뮬레이션 실행
-  runSimulation: (id: number) => simulationApiClient.post(`/${id}/run`),
-
-  // 시뮬레이션 일시정지
-  pauseSimulation: (id: number) => simulationApiClient.post(`/${id}/pause`),
+  startSimulation: (id: number) => simulationApiClient.post(`/action`, { simulationId: id, action: "start" }),
 
   // 시뮬레이션 정지
-  stopSimulation: (id: number) => simulationApiClient.post(`/${id}/stop`),
+  stopSimulation: (id: number) => simulationApiClient.post(`/action`, { simulationId: id, action: "stop" }),
 
   getMockSimulations: (params: URLSearchParams) =>
     Promise.resolve({

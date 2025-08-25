@@ -4,10 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Select } from "innogrid-ui";
 
 import { dashboardAPI } from "@/apis/dashboard";
-import Container from "@/components/common/Container.tsx";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
+import InformationFallback from "@/components/common/Fallback/InformationFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
-import Icon from "@/components/common/Icon";
 import Title from "@/components/common/Title";
 import { QUERY_KEYS } from "@/constants/api";
 
@@ -58,7 +57,10 @@ export default function SimulationSection({ simulations }: SimulationSectionProp
       </div>
 
       {selectedSimulationId === null ? (
-        <SimulationFallback />
+        <InformationFallback
+          message="시뮬레이션을 선택해주세요"
+          subMessage="우측 상단에서 시뮬레이션을 선택하면 해당 시뮬레이션의 상세 정보를 확인할 수 있습니다."
+        />
       ) : (
         <>
           {simulationStatus === "pending" && <LoadingFallback message="시뮬레이션 정보를 불러오고 있습니다" />}
@@ -73,21 +75,5 @@ export default function SimulationSection({ simulations }: SimulationSectionProp
         </>
       )}
     </div>
-  );
-}
-
-function SimulationFallback() {
-  return (
-    <Container shadow>
-      <div className="flex flex-col items-center px-6 py-12 text-center">
-        <div className="mb-5 flex items-center rounded-full bg-gray-50 p-4">
-          <Icon name="robot_2" className="text-gray-500" size="48px" fill />
-        </div>
-        <h3 className="mb-2 text-lg font-semibold">시뮬레이션을 선택해주세요</h3>
-        <p className="mb-6 text-sm text-gray-500">
-          우측 상단에서 시뮬레이션을 선택하면 해당 시뮬레이션의 상세 정보를 확인할 수 있습니다.
-        </p>
-      </div>
-    </Container>
   );
 }

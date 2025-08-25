@@ -85,3 +85,22 @@ export type StatusFilterOption = (typeof FILTER_OPTIONS.status)[number]["value"]
 export type PatternTypeFilterOption = (typeof FILTER_OPTIONS.patternType)[number]["value"];
 
 export type Status = keyof typeof STATUS_CONFIG;
+
+export interface SimulationActions {
+  onStart: (id: number) => void;
+  onStop: (id: number) => void;
+  onDelete: (id: number) => void;
+}
+
+export type ActionType = "start" | "stop" | "delete" | "view";
+
+export interface ActionHandler {
+  type: ActionType;
+  handler: (id: number) => void;
+}
+
+export interface ActionConfig {
+  iconName: string;
+  color: string;
+  label?: string;
+}

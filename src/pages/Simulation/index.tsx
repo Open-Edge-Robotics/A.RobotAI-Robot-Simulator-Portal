@@ -20,6 +20,8 @@ import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "
 
 import { getValidParams } from "./utils";
 
+const REFETCH_INTERVAL_MS = 30000; // 30초
+
 export default function SimulationPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { status, data, refetch } = useQuery({
@@ -31,8 +33,9 @@ export default function SimulationPage() {
       }
       return simulationAPI.getSimulations(paramsWithDefaultValue);
     },
+    refetchInterval: REFETCH_INTERVAL_MS,
   });
-  const { actions: simulationActions, isLoading } = useSimulationActions();
+  const { actionHandlers, isLoading } = useSimulationActions();
 
   const statusFilterValue = (searchParams.get("status") || "") as StatusFilterOption;
   const patternTypeFilterValue = (searchParams.get("pattern_type") || "") as PatternTypeFilterOption;
@@ -100,7 +103,7 @@ export default function SimulationPage() {
       {status === "pending" && <LoadingFallback message="시뮬레이션 정보를 불러오고 있습니다." />}
       {status === "success" && (
         <>
-          <SimulationTable simulations={simulations} actions={simulationActions} isLoading={isLoading} />
+          <SimulationTable simulations={simulations} actionHandlers={actionHandlers} isLoading={isLoading} />{" "}
           <Pagination
             currentPage={pageValue}
             size={pageSizeValue}

@@ -2,8 +2,7 @@ import StatusBadge from "@/components/common/Badge/StatusBadge";
 import Container from "@/components/common/Container.tsx";
 import LabeledValue from "@/components/common/LabeledValue";
 import Title from "@/components/common/Title";
-
-import { PATTERN_CONFIG } from "../../../constants/simulation";
+import { PATTERN_CONFIG } from "@/constants/simulation";
 
 import type { SimulationDetailData } from "./SimulationDetail";
 
