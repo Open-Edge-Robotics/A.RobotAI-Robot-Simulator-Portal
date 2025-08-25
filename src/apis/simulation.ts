@@ -1,3 +1,4 @@
+import { API_BASE_URL, ENDPOINTS } from "@/constants/api";
 import type {
   CreateSimulationRequest,
   CreateSimulationResult,
@@ -5,7 +6,6 @@ import type {
   GetSimulationsResult,
 } from "@/types/simulation/api";
 
-import { API_BASE_URL, ENDPOINTS } from "@/constants/api";
 import { createClient } from ".";
 
 const simulationApiClient = createClient({

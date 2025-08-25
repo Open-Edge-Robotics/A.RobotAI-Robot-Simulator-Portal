@@ -1,6 +1,5 @@
-import type { CreateSimulationRequest } from "@/types/simulation/api";
-
 import { ALLOWED_PARAMS, STEPS_INFO } from "@/constants/simulation";
+import type { CreateSimulationRequest } from "@/types/simulation/api";
 import type {
   AllowedParam,
   ParallelAgentGroup,

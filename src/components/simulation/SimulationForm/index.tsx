@@ -1,20 +1,18 @@
 import { useState } from "react";
 
 import Stepper from "@/components/common/Stepper";
+import { STEPS } from "@/constants/simulation.ts";
+import { getCurrentStepInfo, getPatternDataWithDefaultAgentGroup } from "@/pages/simulation/utils.ts";
+import { createFormValidator } from "@/pages/simulation/validation.ts";
+import type { Mec, SimulationFormData, StepType, Template } from "@/types/simulation/domain.ts";
+import { errorToast } from "@/utils/toast.ts";
 
 import InfoBox from "./InfoBox.tsx";
 import NavigationButtons from "./NavigationButtons.tsx";
-
-import { errorToast } from "@/utils/toast.ts";
-
-import Step3Content from "./Step3Content.tsx";
-import Step2Content from "./Step2Content.tsx";
-import Step4Content from "./Step4Content.tsx";
 import Step1Content from "./Step1Content.tsx";
-import type { Mec, SimulationFormData, StepType, Template } from "@/types/simulation/domain.ts";
-import { createFormValidator } from "@/pages/simulation/validation.ts";
-import { getCurrentStepInfo, getPatternDataWithDefaultAgentGroup } from "@/pages/simulation/utils.ts";
-import { STEPS } from "@/constants/simulation.ts";
+import Step2Content from "./Step2Content.tsx";
+import Step3Content from "./Step3Content.tsx";
+import Step4Content from "./Step4Content.tsx";
 
 interface SimulationFormProps {
   initialData: SimulationFormData;

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { QUERY_KEYS } from "@/constants/api";
 import { dashboardAPI } from "@/apis/dashboard";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
+import { QUERY_KEYS } from "@/constants/api";
 
 import SimulationSection from "../../components/dashboard/SimulationSection";
 import SystemOverviewSection from "../../components/dashboard/SystemOverviewSection";

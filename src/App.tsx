@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import { ToastContainer } from "react-toastify";
 
 import Layout from "./components/layout";

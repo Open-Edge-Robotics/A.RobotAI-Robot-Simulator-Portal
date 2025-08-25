@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 import { Button } from "innogrid-ui";
 
-import type { Simulation } from "@/types/simulation/api";
 import StatusBadge from "@/components/common/Badge/StatusBadge";
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
+import type { Simulation } from "@/types/simulation/api";
 import { formatDateTime } from "@/utils/formatting";
 
 import { PATTERN_CONFIG } from "../../../constants/simulation";

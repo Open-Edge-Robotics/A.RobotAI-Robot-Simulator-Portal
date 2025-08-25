@@ -1,9 +1,8 @@
-import type { SimulationOverview } from "@/types/simulation/api";
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
-
-import { SIMULATION_OVERVIEW_CONFIG } from "../../../constants/simulation";
-import type { SimulationOverviewConfig } from "../../../types/simulation/domain";
+import { SIMULATION_OVERVIEW_CONFIG } from "@/constants/simulation";
+import type { SimulationOverview } from "@/types/simulation/api";
+import type { SimulationOverviewConfig } from "@/types/simulation/domain";
 
 export default function SimulationOverview({ overview }: { overview: SimulationOverview | null }) {
   const { TOTAL, COMPLETED, RUNNING, FAILED } = SIMULATION_OVERVIEW_CONFIG;

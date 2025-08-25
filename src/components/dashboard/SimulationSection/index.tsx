@@ -3,13 +3,13 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Select } from "innogrid-ui";
 
-import { QUERY_KEYS } from "@/constants/api";
 import { dashboardAPI } from "@/apis/dashboard";
 import Container from "@/components/common/Container.tsx";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import Icon from "@/components/common/Icon";
 import Title from "@/components/common/Title";
+import { QUERY_KEYS } from "@/constants/api";
 
 import SimulationDetail from "./SimulationDetail";
 

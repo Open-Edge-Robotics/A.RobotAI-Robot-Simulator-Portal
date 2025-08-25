@@ -3,9 +3,8 @@ import { Button, Input, Select } from "innogrid-ui";
 import Fieldset from "@/components/common/Fieldset";
 import Icon from "@/components/common/Icon";
 import Label from "@/components/common/Label";
-
-import { infoToast } from "@/utils/toast";
 import type { SequentialAgentGroup, Template } from "@/types/simulation/domain";
+import { infoToast } from "@/utils/toast";
 
 // 순차 패턴 폼 컴포넌트
 interface SequentialPatternFormProps {
