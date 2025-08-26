@@ -1,5 +1,6 @@
 import { ALLOWED_PARAMS, STEPS_INFO } from "@/constants/simulation";
-import type { CreateSimulationRequest } from "@/types/simulation/api";
+import type { APIResponse } from "@/types/api";
+import type { CreateSimulationRequest, GetSimulationResult } from "@/types/simulation/api";
 import type {
   AllowedParam,
   ParallelAgentGroup,
@@ -13,7 +14,21 @@ import type {
 
 import { validatePage, validatePatternTypeFilter, validateSize, validateStatusFilter } from "./validation";
 
-// 폼 데이터 변환
+// 데이터 변환
+
+export const transformResponseToFormdata = (data: APIResponse<GetSimulationResult>): SimulationFormData => {
+  const simulation = data.data;
+  return {
+    name: simulation.simulationName,
+    description: simulation.simulationDescription,
+    mecId: simulation.mecId,
+    pattern:
+      simulation.patternType === "sequential"
+        ? { type: "sequential", agentGroups: simulation.executionPlan.steps }
+        : { type: "parallel", agentGroups: simulation.executionPlan.groups },
+  } satisfies SimulationFormData;
+};
+
 export const transformFormDataToRequest = (formData: SimulationFormData): CreateSimulationRequest => {
   const baseRequest = {
     mecId: formData.mecId!,

@@ -48,10 +48,10 @@ export default function ParallelPatternForm({
   };
 
   return (
-    <Container bgColor="bg-gray-10" flexDirection="flex-row" className="items-center gap-4 p-4">
+    <Container shadow className="gap-6 p-6">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">에이전트 그룹 설정</h3>
+        <h3 className="text-lg font-semibold">에이전트 그룹 설정</h3>
         <AddAgentGroupButton handleAddNewAgentGroup={handleAddNewAgentGroup} />
       </div>
 

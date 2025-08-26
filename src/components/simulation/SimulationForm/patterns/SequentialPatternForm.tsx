@@ -60,7 +60,7 @@ export default function SequentialPatternForm({
     <Container shadow className="gap-6 p-6">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">실행 단계 설정</h3>
+        <h3 className="text-lg font-semibold">실행 단계 설정</h3>
         <AddStepButton handleAddNewAgentGroup={handleAddNewAgentGroup} />
       </div>
 

@@ -1,8 +1,7 @@
 import Container from "@/components/common/Container.tsx";
 import InformationFallback from "@/components/common/Fallback/InformationFallback";
 import LinkButton from "@/components/common/LinkButton";
-import type { Simulation } from "@/types/simulation/api";
-import type { SimulationActionHandler } from "@/types/simulation/domain";
+import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
 
 import TableBody from "./SimulationTableBody";
 import TableHeader from "./SimulationTableHeader";

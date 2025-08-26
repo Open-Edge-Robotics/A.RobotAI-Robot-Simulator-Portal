@@ -1,36 +1,11 @@
-import { useQueries } from "@tanstack/react-query";
-
-import { dashboardAPI } from "@/apis/dashboard";
-import { simulationAPI } from "@/apis/simulation";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import SimulationSection from "@/components/dashboard/SimulationSection";
 import SystemOverviewSection from "@/components/dashboard/SystemOverviewSection";
-import { QUERY_KEYS } from "@/constants/api";
-
-const REFETCH_INTERVAL_MS = 60000; // 1분
+import { useDashboard } from "@/hooks/dashboard/useDashboard";
 
 export default function DashboardPage() {
-  const queries = useQueries({
-    queries: [
-      {
-        queryKey: [...QUERY_KEYS.dashboard, "system-overview"],
-        queryFn: () => dashboardAPI.getSystemOverview(),
-        refetchInterval: REFETCH_INTERVAL_MS,
-      },
-      {
-        queryKey: [...QUERY_KEYS.simulation, "list"],
-        queryFn: () => {
-          const searchParams = new URLSearchParams();
-          searchParams.set("page", "1");
-          return simulationAPI.getSimulations(searchParams);
-        },
-        refetchInterval: REFETCH_INTERVAL_MS,
-      },
-    ],
-  });
-
-  const [overviewQuery, simulationsQuery] = queries;
+  const [overviewQuery, simulationsQuery] = useDashboard();
 
   // 전체 재시도 함수
   const handleRetry = () => {

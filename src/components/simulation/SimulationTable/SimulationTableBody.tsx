@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 
 import StatusBadge from "@/components/common/Badge/StatusBadge";
 import { PATTERN_CONFIGS } from "@/constants/simulation";
-import type { Simulation } from "@/types/simulation/api";
-import type { SimulationActionHandler } from "@/types/simulation/domain";
+import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
 import { formatDateTime } from "@/utils/formatting";
 
 import ActionButtons from "./SimulationActionButtons";

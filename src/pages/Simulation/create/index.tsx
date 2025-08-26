@@ -1,16 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import SimulationHeader from "@/components/simulation/SimluationHeader";
+import SimulationForm from "@/components/simulation/SimulationForm";
+import { useCreateSimulation } from "@/hooks/simulation/useCreateSimulation.ts";
+import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-import { simulationAPI } from "@/apis/simulation.ts";
-import { QUERY_KEYS } from "@/constants/api.ts";
-import type { CreateSimulationRequest } from "@/types/simulation/api.ts";
-import { errorToast, successToast } from "@/utils/toast.ts";
-
-import SimulationHeader from "../../../components/simulation/SimluationHeader/index.tsx";
-import SimulationForm from "../../../components/simulation/SimulationForm/index.tsx";
-import type { Mec, SimulationFormData, Template } from "../../../types/simulation/domain.ts";
-import { transformFormDataToRequest } from "../utils.ts";
+import { transformFormDataToRequest } from "../utils";
 
 const defaultFormData: SimulationFormData = {
   name: "",
@@ -20,31 +13,10 @@ const defaultFormData: SimulationFormData = {
 };
 
 export default function SimulationCreatePage() {
-  const navigate = useNavigate();
-
   const mecList = getMockMecList();
   const templateList = getMockTemplateList();
 
-  const queryClient = useQueryClient();
-  const {
-    mutate: createSimulation,
-    isPending,
-    isSuccess,
-  } = useMutation({
-    mutationFn: (newSimulation: CreateSimulationRequest) => {
-      return simulationAPI.createSimulation(newSimulation);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation });
-      successToast("시뮬레이션 생성이 완료되었습니다.");
-      navigate("/simulation");
-    },
-    // TODO: 에러 처리
-    onError: (e: { response: object }) => {
-      errorToast("시뮬레이션 생성에 실패했습니다.");
-      console.log(e.response);
-    },
-  });
+  const { mutate: createSimulation, isPending, isSuccess } = useCreateSimulation();
 
   const handleSubmit = (formData: SimulationFormData) => {
     const newSimulation = transformFormDataToRequest(formData);

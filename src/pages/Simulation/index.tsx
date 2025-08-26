@@ -1,40 +1,25 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { useQuery } from "@tanstack/react-query";
 import { Pagination as InnogridPagination } from "innogrid-ui";
 
-import { simulationAPI } from "@/apis/simulation";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import Icon from "@/components/common/Icon";
 import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
-import { QUERY_KEYS } from "@/constants/api";
-import { useSimulationActions } from "@/hooks/simulation";
-
-import SimulationFilterToolbar from "../../components/simulation/SimulationFilterToolbar";
-import SimulationOverview from "../../components/simulation/SimulationOverview";
-import SimulationTable from "../../components/simulation/SimulationTable";
-import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "../../types/simulation/domain";
+import SimulationFilterToolbar from "@/components/simulation/SimulationFilterToolbar";
+import SimulationOverview from "@/components/simulation/SimulationOverview";
+import SimulationTable from "@/components/simulation/SimulationTable";
+import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
+import { useSimulations } from "@/hooks/simulation/useSimulations";
+import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "@/types/simulation/domain";
 
 import { getValidParams } from "./utils";
 
-const REFETCH_INTERVAL_MS = 30000; // 30초
-
 export default function SimulationPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { status, data, refetch } = useQuery({
-    queryKey: [...QUERY_KEYS.simulation, searchParams.toString()],
-    queryFn: () => {
-      const paramsWithDefaultValue = new URLSearchParams(searchParams);
-      if (!searchParams.get("page")) {
-        paramsWithDefaultValue.set("page", "1");
-      }
-      return simulationAPI.getSimulations(paramsWithDefaultValue);
-    },
-    refetchInterval: REFETCH_INTERVAL_MS,
-  });
+  const { status, data, refetch } = useSimulations(searchParams);
   const { actionHandlers, isLoading } = useSimulationActions();
 
   const statusFilterValue = (searchParams.get("status") || "") as StatusFilterOption;

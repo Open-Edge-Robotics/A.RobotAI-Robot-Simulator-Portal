@@ -1,18 +1,14 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
-import { simulationAPI } from "@/apis/simulation.ts";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback.tsx";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback.tsx";
-import { QUERY_KEYS } from "@/constants/api.ts";
-import type { CreateSimulationRequest } from "@/types/simulation/api.ts";
-import { errorToast, successToast } from "@/utils/toast.ts";
+import SimulationHeader from "@/components/simulation/SimluationHeader";
+import SimulationForm from "@/components/simulation/SimulationForm";
+import { useSimulation } from "@/hooks/simulation/useSimulation";
+import { useUpdateSimulation } from "@/hooks/simulation/useUpdateSimulation.ts";
+import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
 
-import SimulationHeader from "../../../components/simulation/SimluationHeader/index.tsx";
-import SimulationForm from "../../../components/simulation/SimulationForm/index.tsx";
-import type { Mec, SimulationFormData, Template } from "../../../types/simulation/domain.ts";
-import { transformFormDataToRequest } from "../utils.ts";
+import { transformFormDataToRequest, transformResponseToFormdata } from "../utils";
 
 export default function SimulationEditPage() {
   const { id: rawId } = useParams();
@@ -36,50 +32,14 @@ function SimulationEditContent({ id }: { id: number }) {
   const templateList = getMockTemplateList();
 
   // 수정할 시뮬레이션 정보 가져오기
-  const { status, data, refetch } = useQuery({
-    queryKey: [...QUERY_KEYS.simulation, id],
-    queryFn: () => simulationAPI.getSimulation(id),
-    select: (data) => {
-      const simulation = data.data;
-      return {
-        name: simulation.simulationName,
-        description: simulation.simulationDescription,
-        mecId: simulation.mecId,
-        pattern:
-          simulation.patternType === "sequential"
-            ? { type: "sequential", agentGroups: simulation.executionPlan.steps }
-            : { type: "parallel", agentGroups: simulation.executionPlan.groups },
-      } satisfies SimulationFormData;
-    },
-  });
-
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const { status, data, refetch } = useSimulation(id, { select: transformResponseToFormdata });
 
   // 시뮬레이션 수정 함수
-  const {
-    mutate: editSimulation,
-    isPending,
-    isSuccess,
-  } = useMutation({
-    mutationFn: (newSimulation: CreateSimulationRequest) => {
-      return simulationAPI.editSimulation(id, newSimulation);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation });
-      successToast("시뮬레이션 수정이 완료되었습니다.");
-      navigate(`/simulation/${id}`);
-    },
-    // TODO: 에러 처리
-    onError: (e: { response: object }) => {
-      errorToast("시뮬레이션 수정에 실패했습니다.");
-      console.log(e.response);
-    },
-  });
+  const { mutate: updateSimulation, isPending, isSuccess } = useUpdateSimulation(id);
 
   const handleSubmit = (formData: SimulationFormData) => {
     const newSimulation = transformFormDataToRequest(formData);
-    editSimulation(newSimulation);
+    updateSimulation(newSimulation);
   };
 
   return (

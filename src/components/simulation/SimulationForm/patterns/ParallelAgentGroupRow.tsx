@@ -1,5 +1,6 @@
 import { Button, Input, Select } from "innogrid-ui";
 
+import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
 import type { ParallelAgentGroup, Template } from "@/types/simulation/domain";
@@ -22,7 +23,7 @@ export default function ParallelAgentGroupRow({
   onRemove,
 }: ParallelAgentGroupRowProps) {
   return (
-    <div className="bg-gray-10 flex items-center gap-4 rounded-lg border border-gray-100 p-4">
+    <Container bgColor="bg-gray-10" flexDirection="flex-row" className="items-center gap-4 p-4">
       {/* 템플릿 선택 */}
       <Fieldset>
         <Label label="템플릿 선택" fontSize="text-xs" marginBottom="mb-1" required />
@@ -100,6 +101,6 @@ export default function ParallelAgentGroupRow({
           </Button>
         </div>
       )}
-    </div>
+    </Container>
   );
 }

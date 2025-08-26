@@ -47,7 +47,7 @@ const validateStep3 = (formData: SimulationFormData) => {
 };
 
 const validateAgentGroup = (group: SequentialAgentGroup | ParallelAgentGroup, groupNumber: number) => {
-  const groupLabel = `${groupNumber}번째 그룹`;
+  const groupLabel = `${groupNumber}번 그룹`;
 
   if (!group.templateId) {
     return `${groupLabel}에 템플릿을 선택해주세요.`;
