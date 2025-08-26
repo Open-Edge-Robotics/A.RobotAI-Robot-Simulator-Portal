@@ -1,11 +1,11 @@
 interface IconProps {
   name: string;
-  className?: string;
   fill?: boolean;
   size?: string;
+  className?: string;
 }
 
-export default function Icon({ name, className, fill = false, size }: IconProps) {
+export default function Icon({ name, fill = false, size, className }: IconProps) {
   return (
     <span
       className={`material-symbols-outlined ${className}`}

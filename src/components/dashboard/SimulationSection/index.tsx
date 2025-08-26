@@ -1,14 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-import { useQuery } from "@tanstack/react-query";
 import { Select } from "innogrid-ui";
 
-import { dashboardAPI } from "@/apis/dashboard";
-import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import InformationFallback from "@/components/common/Fallback/InformationFallback";
-import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
+import Icon from "@/components/common/Icon";
 import Title from "@/components/common/Title";
-import { QUERY_KEYS } from "@/constants/api";
 
 import SimulationDetail from "./SimulationDetail";
 
@@ -16,36 +13,28 @@ interface SimulationSectionProps {
   simulations: { simulationId: number; simulationName: string }[];
 }
 
-const REFETCH_INTERVAL_MS = 60000; // 1분
-
 export default function SimulationSection({ simulations }: SimulationSectionProps) {
   const [selectedSimulationId, setSelectedSimulationId] = useState<number | null>(null);
-
-  // 선택된 시뮬레이션 상세 정보 조회
-  const {
-    data: simulationData,
-    status: simulationStatus,
-    refetch: refetchSimulation,
-  } = useQuery({
-    queryKey: [...QUERY_KEYS.simulation, selectedSimulationId],
-    queryFn: () => dashboardAPI.getMockSimulation(selectedSimulationId!),
-    enabled: selectedSimulationId !== null,
-    refetchInterval: (query) => {
-      // simulationId가 있고 에러 상태가 아닐 때만 1분(60000ms) 간격으로 polling
-      return selectedSimulationId !== null && query.state.status !== "error" ? REFETCH_INTERVAL_MS : false;
-    },
-  });
 
   const handleSimulationChange = (simulationId: number | null) => {
     setSelectedSimulationId(simulationId);
   };
 
-  const selectedSimulation = simulationStatus === "success" ? simulationData.data : null;
+  const selectedSimulation = simulations.find((simulation) => simulation.simulationId === selectedSimulationId);
 
   return (
     <div>
       <div className="mb-5 flex items-center justify-between">
-        <Title title={`${selectedSimulation ? `${selectedSimulation.simulationName} 상세 현황` : "시뮬레이션 선택"}`} />
+        {selectedSimulation ? (
+          <Title>
+            <div className="flex items-center gap-2">
+              <span>{selectedSimulation.simulationName} 상세 현황</span>
+              <DetailPageLink to={`simulation/${selectedSimulation.simulationId}`} />
+            </div>
+          </Title>
+        ) : (
+          <Title title="시뮬레이션 선택" />
+        )}
         <Select
           options={simulations}
           value={simulations.find((simulation) => simulation.simulationId === selectedSimulationId) || null}
@@ -62,18 +51,16 @@ export default function SimulationSection({ simulations }: SimulationSectionProp
           subMessage="우측 상단에서 시뮬레이션을 선택하면 해당 시뮬레이션의 상세 정보를 확인할 수 있습니다."
         />
       ) : (
-        <>
-          {simulationStatus === "pending" && <LoadingFallback message="시뮬레이션 정보를 불러오고 있습니다" />}
-          {simulationStatus === "error" && (
-            <ErrorFallback
-              onRetry={refetchSimulation}
-              message="시뮬레이션 정보를 불러올 수 없습니다."
-              subMessage="네트워크 연결을 확인하거나 잠시 후 다시 시도해 주세요."
-            />
-          )}
-          {simulationStatus === "success" && selectedSimulation && <SimulationDetail simulation={selectedSimulation} />}
-        </>
+        <SimulationDetail simulationId={selectedSimulationId} />
       )}
     </div>
+  );
+}
+
+function DetailPageLink({ to }: { to: string }) {
+  return (
+    <Link to={to} className="flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-50">
+      <Icon name="arrow_outward" className="cursor-pointer" />
+    </Link>
   );
 }

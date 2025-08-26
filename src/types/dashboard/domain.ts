@@ -1,3 +1,5 @@
+import type { Timestamp } from "../common";
+
 export interface SystemOverviewConfig {
   label: string;
   iconName: string;
@@ -10,4 +12,5 @@ export interface SystemOverviewData {
   runningSimulations: number;
   totalMec: number;
   totalInstances: number;
+  timestamp: Timestamp;
 }
