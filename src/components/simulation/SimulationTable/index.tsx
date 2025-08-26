@@ -1,6 +1,4 @@
 import Container from "@/components/common/Container.tsx";
-import InformationFallback from "@/components/common/Fallback/InformationFallback";
-import LinkButton from "@/components/common/LinkButton";
 import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
 
 import TableBody from "./SimulationTableBody";
@@ -15,22 +13,12 @@ interface SimulationTableProps {
 export default function SimulationTable({ simulations, actionHandlers, isLoading }: SimulationTableProps) {
   return (
     <Container shadow className="overflow-hidden">
-      {simulations.length === 0 ? (
-        <Fallback />
-      ) : (
-        <div>
-          <TableHeader />
-          <TableBody simulations={simulations} actionHandlers={actionHandlers} isLoading={isLoading} />
-        </div>
-      )}
+      <TableHeader />
+      <TableBody simulations={simulations} actionHandlers={actionHandlers} isLoading={isLoading} />
     </Container>
   );
 }
 
-function Fallback() {
-  return (
-    <InformationFallback message="시뮬레이션이 없습니다" subMessage="새로운 시뮬레이션을 생성해보세요.">
-      <LinkButton to="/simulation/create">시뮬레이션 생성</LinkButton>
-    </InformationFallback>
-  );
-}
+// 시뮬레이션 이름 | 상태 | 실행 패턴 | 생성 일시 | 업데이트 일시 | MEC ID | 액션
+export const TABLE_GRID_COLS =
+  "grid-cols-[minmax(148px,1fr)_minmax(120px,188px)_minmax(88px,148px)_minmax(160px,220px)_minmax(160px,220px)_minmax(120px,152px)_164px]";

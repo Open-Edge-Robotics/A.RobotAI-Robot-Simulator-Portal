@@ -18,13 +18,13 @@ export default function PodStatusOverview({ pods }: PodStatusOverviewProps) {
 
   return (
     <Container shadow className="p-6 lg:col-span-2">
-      <div className="flex items-center justify-between">
-        <Title title="Pod 상태 현황" fontSize="text-xl" fontWeight="font-medium" margin="mb-5" />
-        <span className="mr-3 text-sm">총 {pods.total}개</span>
+      <div className="mb-5 flex items-center justify-between">
+        <Title title="Pod 상태 현황" fontSize="text-xl" fontWeight="font-medium" />
+        <span className="mr-3 text-sm leading-7">총 {pods.total}개</span>
       </div>
       <div className="space-y-4">
         <PodStatusBar successPercentage={Number(successRatio)} />
-        <div className="flex gap-6">
+        <div className="flex flex-col gap-6 md:flex-row">
           <PodStatusCard
             value={pods.success}
             status="성공"
@@ -87,7 +87,7 @@ function PodStatusCard({ value, status, ratio, bgColor, borderColor, textColor, 
     <Container borderColor={borderColor} bgColor={bgColor} className="grow items-center justify-center gap-1 p-4">
       <div className={`rounded-full ${highlightColor} h-3 w-3`} />
       <div className={`${textColor} mt-1 text-xl font-bold`}>{value}</div>
-      <div className={`flex gap-1 ${textColor}`}>
+      <div className={`flex flex-wrap justify-center gap-1 ${textColor}`}>
         <span>{status}</span>
         <span>({ratio}%)</span>
       </div>

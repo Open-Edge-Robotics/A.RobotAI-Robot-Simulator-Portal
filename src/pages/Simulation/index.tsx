@@ -9,8 +9,8 @@ import Icon from "@/components/common/Icon";
 import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
 import SimulationFilterToolbar from "@/components/simulation/SimulationFilterToolbar";
+import SimulationList from "@/components/simulation/SimulationList";
 import SimulationOverview from "@/components/simulation/SimulationOverview";
-import SimulationTable from "@/components/simulation/SimulationTable";
 import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
 import { useSimulations } from "@/hooks/simulation/useSimulations";
 import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "@/types/simulation/domain";
@@ -61,7 +61,7 @@ export default function SimulationPage() {
 
   return (
     <div className="bg-gray-10 flex min-h-full flex-col gap-6 p-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <Title title="시뮬레이션 관리" />
         <SimulationCreateButton />
       </div>
@@ -88,7 +88,7 @@ export default function SimulationPage() {
       {status === "pending" && <LoadingFallback message="시뮬레이션 정보를 불러오고 있습니다." />}
       {status === "success" && (
         <>
-          <SimulationTable simulations={simulations} actionHandlers={actionHandlers} isLoading={isLoading} />{" "}
+          <SimulationList simulations={simulations} actionHandlers={actionHandlers} isLoading={isLoading} />
           <Pagination
             currentPage={pageValue}
             size={pageSizeValue}

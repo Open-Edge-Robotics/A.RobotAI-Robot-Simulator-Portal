@@ -7,9 +7,16 @@ interface ActionButtonsProps {
   simulationId: number;
   actionHandlers: SimulationActionHandler[];
   isLoading: boolean;
+  className?: string;
 }
 
-export default function ActionButtons({ status, simulationId, actionHandlers, isLoading }: ActionButtonsProps) {
+export default function ActionButtons({
+  status,
+  simulationId,
+  actionHandlers,
+  isLoading,
+  className,
+}: ActionButtonsProps) {
   // 현재 상태에서 허용되는 액션들 필터링
   const allowedActions = ALLOWED_ACTIONS_BY_STATUS[status];
 
@@ -27,7 +34,7 @@ export default function ActionButtons({ status, simulationId, actionHandlers, is
   }
 
   return (
-    <div className="flex items-center gap-3">
+    <div className={`flex items-center gap-3 ${className}`}>
       {allowedActions.map((actionType) => {
         const config = ACTION_CONFIGS[actionType];
         const handler = handlerMap[actionType];

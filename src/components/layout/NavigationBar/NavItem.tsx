@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
@@ -13,18 +13,20 @@ interface NavItemProps {
 export default function NavItem({ title, iconName, href, isSelected }: NavItemProps) {
   return (
     <li>
-      <Link to={href} className={`${isSelected ? "font-semibold text-gray-900" : "font-medium text-gray-600"}`}>
+      <NavLink
+        to={href}
+        className={({ isActive }) => (isActive ? "font-semibold text-gray-900" : "font-medium text-gray-600")}
+      >
         <Container
           borderColor={isSelected ? "border-gray-50" : "border-white"}
-          // TODO: bg-white로 하면 hover가 안 먹힘. 디버깅해볼것.
-          bgColor={isSelected ? "bg-gray-50" : "bg-[#ffffff]"}
+          bgColor={isSelected ? "bg-gray-50" : "bg-transparent"}
           flexDirection="flex-row"
           className="items-center px-4 py-3 hover:bg-gray-50"
         >
           <NavIcon iconName={iconName} />
           <span>{title}</span>
         </Container>
-      </Link>
+      </NavLink>
     </li>
   );
 }

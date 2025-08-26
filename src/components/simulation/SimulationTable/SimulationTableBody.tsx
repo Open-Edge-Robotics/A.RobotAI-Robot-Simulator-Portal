@@ -5,7 +5,9 @@ import { PATTERN_CONFIGS } from "@/constants/simulation";
 import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
 import { formatDateTime } from "@/utils/formatting";
 
-import ActionButtons from "./SimulationActionButtons";
+import ActionButtons from "../SimulationActionButtons";
+
+import { TABLE_GRID_COLS } from ".";
 
 interface TableBodyProps {
   simulations: Simulation[];
@@ -37,10 +39,7 @@ interface TableBodyRowProps {
 function TableBodyRow({ simulation, actionHandlers, isLoading }: TableBodyRowProps) {
   return (
     <Link to={`${simulation.simulationId}/edit`}>
-      <li
-        key={simulation.simulationId}
-        className={`hover:bg-gray-10 grid grid-cols-[1fr_188px_148px_220px_220px_152px_164px]`}
-      >
+      <li key={simulation.simulationId} className={`hover:bg-gray-10 grid ${TABLE_GRID_COLS}`}>
         <TableBodyCell>{simulation.simulationName}</TableBodyCell>
         <TableBodyCell justifyCenter>
           <StatusBadge status={simulation.status} />

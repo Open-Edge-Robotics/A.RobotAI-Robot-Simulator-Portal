@@ -22,7 +22,7 @@ export default function SimulationFilterToolbar({
   onReset,
 }: SimulationFilterToolbarProps) {
   return (
-    <div className="flex h-10 items-center gap-5">
+    <div className="flex h-10 flex-wrap items-center gap-5">
       <FilterSelect
         selectedStatus={statusFilterValue}
         selectedPatternType={patternTypeFilterValue}
@@ -78,8 +78,8 @@ function ResetButton({ onClick }: { onClick: () => void }) {
       onClick={onClick}
       className="flex cursor-pointer items-center gap-1 text-sm text-gray-400 hover:text-gray-700"
     >
-      <span>필터 초기화</span>
-      <Icon name="refresh" className="mt-0.5" size="20px" />
+      <span className="hidden sm:inline">필터 초기화</span>
+      <Icon name="refresh" size="20px" />
     </button>
   );
 }

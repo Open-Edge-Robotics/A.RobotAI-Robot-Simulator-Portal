@@ -20,7 +20,7 @@ export default function SystemOverviewSection({ overview, refetch }: SystemOverv
   return (
     <div>
       <Title margin="mb-5">
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           <span>전체 시스템 현황</span>
           {overview && (
             <div className="flex items-center gap-1 text-sm text-gray-600">

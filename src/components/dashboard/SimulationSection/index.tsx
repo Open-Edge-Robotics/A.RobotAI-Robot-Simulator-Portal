@@ -24,10 +24,10 @@ export default function SimulationSection({ simulations }: SimulationSectionProp
 
   return (
     <div>
-      <div className="mb-5 flex items-center justify-between">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
         {selectedSimulation ? (
           <Title>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <span>{selectedSimulation.simulationName} 상세 현황</span>
               <DetailPageLink to={`simulation/${selectedSimulation.simulationId}`} />
             </div>
