@@ -1,4 +1,5 @@
 import { SYSTEM_OVERVIEW_CONFIGS } from "@/constants/dashboard";
+
 import type { SystemOverviewData } from "@/types/dashboard/domain";
 
 import SystemOverviewCard from "./SystemOverviewCard";

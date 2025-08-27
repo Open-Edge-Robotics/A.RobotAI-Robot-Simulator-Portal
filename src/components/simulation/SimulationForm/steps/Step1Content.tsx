@@ -3,6 +3,7 @@ import { Input, Select, Textarea } from "innogrid-ui";
 import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
+
 import type { Mec, SimulationFormData } from "@/types/simulation/domain";
 
 interface Step1ContentProps {

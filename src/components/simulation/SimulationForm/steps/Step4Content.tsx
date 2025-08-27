@@ -2,8 +2,11 @@ import Badge from "@/components/common/Badge";
 import Container from "@/components/common/Container.tsx";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback.tsx";
 import LabeledValue from "@/components/common/LabeledValue";
+
 import { PATTERN_CONFIGS } from "@/constants/simulation";
+
 import { calculateTotalAgentCount, calculateTotalExecutionTime } from "@/pages/simulation/utils";
+
 import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
 
 interface Step4ContentProps {

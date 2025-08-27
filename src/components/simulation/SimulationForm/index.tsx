@@ -1,10 +1,14 @@
 import { useState } from "react";
 
 import Stepper from "@/components/common/Stepper";
+
 import { STEPS } from "@/constants/simulation.ts";
+
 import { getCurrentStepInfo, getPatternDataWithDefaultAgentGroup } from "@/pages/simulation/utils.ts";
 import { createFormValidator } from "@/pages/simulation/validation.ts";
+
 import type { Mec, PatternType, SimulationFormData, StepType, Template } from "@/types/simulation/domain.ts";
+
 import { errorToast } from "@/utils/toast.ts";
 
 import InfoBox from "./InfoBox.tsx";

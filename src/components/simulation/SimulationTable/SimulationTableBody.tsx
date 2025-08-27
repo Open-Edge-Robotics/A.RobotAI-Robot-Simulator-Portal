@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 
 import StatusBadge from "@/components/common/Badge/StatusBadge";
+
 import { PATTERN_CONFIGS } from "@/constants/simulation";
+
 import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
+
 import { formatDateTime } from "@/utils/formatting";
 
+import { TABLE_GRID_COLS } from ".";
 import ActionButtons from "../SimulationActionButtons";
 
-import { TABLE_GRID_COLS } from ".";
 
 interface TableBodyProps {
   simulations: Simulation[];

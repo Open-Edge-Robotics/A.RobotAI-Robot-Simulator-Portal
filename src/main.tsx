@@ -1,9 +1,10 @@
+
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { InnogridUIProvider } from "innogrid-ui";
+import { createRoot } from "react-dom/client";
 
 import App from "./App.tsx";
 

@@ -1,6 +1,8 @@
 import InformationFallback from "@/components/common/Fallback/InformationFallback";
 import LinkButton from "@/components/common/LinkButton";
+
 import { useScreenSize } from "@/hooks/useScreenSize";
+
 import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
 
 import SimulationCard from "../SimulationCard";

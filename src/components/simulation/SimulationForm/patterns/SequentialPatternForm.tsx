@@ -2,6 +2,7 @@ import { Button } from "innogrid-ui";
 
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
+
 import type { SequentialAgentGroup, Template } from "@/types/simulation/domain";
 
 import SequentialAgentGroupRow from "./SequentialAgentGroupRow";

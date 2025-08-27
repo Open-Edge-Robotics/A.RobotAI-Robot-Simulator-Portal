@@ -2,6 +2,7 @@ import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import SimulationSection from "@/components/dashboard/SimulationSection";
 import SystemOverviewSection from "@/components/dashboard/SystemOverviewSection";
+
 import { useDashboard } from "@/hooks/dashboard/useDashboard";
 
 export default function DashboardPage() {

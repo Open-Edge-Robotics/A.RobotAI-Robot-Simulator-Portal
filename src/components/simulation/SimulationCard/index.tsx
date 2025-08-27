@@ -5,8 +5,11 @@ import Container from "@/components/common/Container.tsx";
 import Divider from "@/components/common/Divider";
 import Icon from "@/components/common/Icon";
 import LabeledValue from "@/components/common/LabeledValue";
+
 import { PATTERN_CONFIGS } from "@/constants/simulation";
+
 import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
+
 import { formatDateTime } from "@/utils/formatting";
 
 import ActionButtons from "../SimulationActionButtons";

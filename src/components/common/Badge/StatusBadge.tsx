@@ -1,4 +1,5 @@
 import { STATUS_CONFIGS } from "@/constants/simulation";
+
 import type { SimulationStatus } from "@/types/simulation/domain";
 
 import Badge from ".";

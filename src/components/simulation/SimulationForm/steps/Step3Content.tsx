@@ -1,4 +1,5 @@
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
+
 import type { SimulationPattern, Template } from "@/types/simulation/domain";
 
 import ParallelPatternForm from "../patterns/ParallelPatternForm";

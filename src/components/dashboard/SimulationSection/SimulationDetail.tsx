@@ -1,6 +1,8 @@
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
+
 import { useSimulationSimple } from "@/hooks/dashboard/useSimulationSimple";
+
 import type { PatternType, SimulationStatus } from "@/types/simulation/domain";
 
 import PodStatusOverview from "./PodStatusOverview";

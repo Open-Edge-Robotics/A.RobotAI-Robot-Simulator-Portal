@@ -4,8 +4,8 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import { globalIgnores } from "eslint/config";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
 import pluginQuery from "@tanstack/eslint-plugin-query";
+import importPlugin from "eslint-plugin-import";
 
 export default tseslint.config([
   globalIgnores(["dist"]),
@@ -22,45 +22,51 @@ export default tseslint.config([
       globals: globals.browser,
     },
     plugins: {
-      "simple-import-sort": simpleImportSort,
       "@tanstack/query": pluginQuery,
+      import: importPlugin,
     },
     rules: {
       "@typescript-eslint/no-unused-vars": "warn",
       "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "warn",
+        { prefer: "type-imports", disallowTypeAnnotations: false },
+      ],
 
       "@tanstack/query/exhaustive-deps": "error",
       "@tanstack/query/stable-query-client": "error",
       "@tanstack/query/no-rest-destructuring": "warn",
 
-      "simple-import-sort/imports": [
+      "import/order": [
         "warn",
         {
           groups: [
-            // React 관련 (맨 위)
-            ["^react", "^react-dom"],
-
-            // Node.js builtin modules
-            ["^node:"],
-
-            // 외부 라이브러리 (node_modules의 패키지들)
-            ["^@?\\w"], // @로 시작하는 scoped 패키지도 포함
-
-            // 절대경로 imports (@/, ~/ 등)
-            ["^@/", "^~/"],
-
-            // 상위 디렉토리 상대경로 (../)
-            ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
-
-            // 같은 디렉토리 상대경로 (./) - 가장 아래
-            ["^\\./"],
-
-            // CSS/Style imports (맨 아래)
-            ["\\.(css|scss|sass|less)$"],
+            "builtin", // Node.js 내장 모듈 (예: fs, path)
+            "external", // 외부 라이브러리 (예: react, axios 등 npm 패키지)
+            "internal", // 프로젝트 내부 import (@/components 등)
+            ["parent", "sibling", "index"], // 상대경로 import (../, ./)
           ],
+          pathGroups: [
+            { pattern: "react*", group: "builtin", position: "before" }, // react는 builtin으로 별도 지정
+            { pattern: "@/apis/**", group: "internal" },
+            { pattern: "@/components/**", group: "internal" },
+            { pattern: "@/constants/**", group: "internal" },
+            { pattern: "@/hooks/**", group: "internal" },
+            { pattern: "@/pages/**", group: "internal" },
+            { pattern: "@/types/**", group: "internal" },
+            { pattern: "@/utils/**", group: "internal" },
+          ],
+          pathGroupsExcludedImportTypes: ["react"], // react는 external에서 제외
+          "newlines-between": "always-and-inside-groups", // 그룹 간 줄바꿈
+          alphabetize: {
+            order: "asc", // 알파벳순 정렬
+            caseInsensitive: true, // 대소문자 구분 X
+          },
         },
       ],
-      "simple-import-sort/exports": "warn",
+      "import/first": "warn",
+      "import/newline-after-import": "warn",
+      "import/no-duplicates": "warn",
     },
   },
 ]);

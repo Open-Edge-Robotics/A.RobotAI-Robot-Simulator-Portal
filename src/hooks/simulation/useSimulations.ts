@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { simulationAPI } from "@/apis/simulation";
+
 import { QUERY_KEYS } from "@/constants/api";
 
 const REFETCH_INTERVAL_MS = 30000; // 30초

@@ -3,6 +3,7 @@ import { Button, Input, Select } from "innogrid-ui";
 import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
+
 import type { ParallelAgentGroup, Template } from "@/types/simulation/domain";
 
 interface ParallelAgentGroupRowProps {

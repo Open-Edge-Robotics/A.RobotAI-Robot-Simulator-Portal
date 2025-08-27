@@ -1,4 +1,5 @@
 import Container from "@/components/common/Container.tsx";
+
 import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
 
 import TableBody from "./SimulationTableBody";

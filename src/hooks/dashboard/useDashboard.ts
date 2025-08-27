@@ -2,6 +2,7 @@ import { useQueries } from "@tanstack/react-query";
 
 import { dashboardAPI } from "@/apis/dashboard";
 import { simulationAPI } from "@/apis/simulation";
+
 import { QUERY_KEYS } from "@/constants/api";
 
 const REFETCH_INTERVAL_MS = 60000; // 1분

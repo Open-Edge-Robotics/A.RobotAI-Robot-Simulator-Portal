@@ -1,6 +1,7 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 
 import { API_DEFAULT_TIMEOUT } from "@/constants/api";
+
 import type { APIResponse } from "@/types/api";
 
 type Url = string;

@@ -1,4 +1,5 @@
 import { FILTER_OPTIONS } from "@/constants/simulation";
+
 import type {
   ParallelAgentGroup,
   PatternTypeFilterOption,

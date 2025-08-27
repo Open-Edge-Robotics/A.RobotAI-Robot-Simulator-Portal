@@ -3,7 +3,9 @@ import { Button, Input, Select } from "innogrid-ui";
 import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
+
 import type { SequentialAgentGroup, Template } from "@/types/simulation/domain";
+
 import { infoToast } from "@/utils/toast";
 
 interface SequentialAgentGroupRowProps {

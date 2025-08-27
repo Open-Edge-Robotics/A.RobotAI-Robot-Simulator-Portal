@@ -1,6 +1,8 @@
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
+
 import { PATTERN_CONFIGS } from "@/constants/simulation";
+
 import type { PatternType } from "@/types/simulation/domain";
 
 interface Step2ContentProps {
