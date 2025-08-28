@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 
 export type ScreenSize = "sm" | "md" | "lg" | "xl";
 
-export function useScreenSize(): ScreenSize {
+export function useScreenSize() {
   const [screenSize, setScreenSize] = useState<ScreenSize>("sm");
+
+  const isDesktop = screenSize === "lg" || screenSize === "xl";
+  const isMobile = screenSize === "sm" || screenSize === "md";
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -28,5 +31,5 @@ export function useScreenSize(): ScreenSize {
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  return screenSize;
+  return { screenSize, isDesktop, isMobile };
 }

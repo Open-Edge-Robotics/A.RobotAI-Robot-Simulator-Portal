@@ -8,11 +8,12 @@ interface NavItemProps {
   iconName: string;
   href: string;
   isSelected: boolean;
+  onClick?: () => void;
 }
 
-export default function NavItem({ title, iconName, href, isSelected }: NavItemProps) {
+export default function NavItem({ title, iconName, href, isSelected, onClick }: NavItemProps) {
   return (
-    <li>
+    <li onClick={onClick}>
       <NavLink
         to={href}
         className={({ isActive }) => (isActive ? "font-semibold text-gray-900" : "font-medium text-gray-600")}

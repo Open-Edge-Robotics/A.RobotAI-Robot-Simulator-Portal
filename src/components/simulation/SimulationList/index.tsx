@@ -15,7 +15,7 @@ interface SimulationListProps {
 }
 
 export default function SimulationList({ simulations, actionHandlers, isLoading }: SimulationListProps) {
-  const screenSize = useScreenSize();
+  const { screenSize } = useScreenSize();
 
   if (simulations.length === 0) {
     return <Fallback />;
