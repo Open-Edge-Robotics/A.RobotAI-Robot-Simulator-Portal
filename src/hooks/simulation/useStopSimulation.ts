@@ -4,7 +4,7 @@ import { simulationAPI } from "@/apis/simulation";
 
 import { QUERY_KEYS } from "@/constants/api";
 
-import { successToast, warnToast } from "@/utils/toast";
+import { errorToast, successToast } from "@/utils/toast";
 
 export function useStopSimulation() {
   const queryClient = useQueryClient();
@@ -15,8 +15,10 @@ export function useStopSimulation() {
       successToast("시뮬레이션을 중지했습니다.");
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation });
     },
-    onMutate: () => {
-      warnToast("개발 중입니다.");
+
+    onError: (e: { response: object }) => {
+      errorToast("시뮬레이션을 중지하지 못했습니다.");
+      console.log(e.response);
     },
   });
 }

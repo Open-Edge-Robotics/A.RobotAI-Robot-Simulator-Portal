@@ -37,7 +37,7 @@ export interface SimulationOverview {
 export type SimulationStatus = "INITIATING" | "RUNNING" | "COMPLETED" | "FAILED" | "READY" | "STOPPED";
 export type StepType = 1 | 2 | 3 | 4;
 export type PatternType = "sequential" | "parallel";
-export type SimulationActionType = "start" | "stop" | "delete" | "view";
+export type SimulationActionType = "start" | "stop" | "delete";
 export type PodStatus = "READY" | "RUNNING" | "SUCCESS" | "FAILED" | "STOPPED";
 
 // ========== 에이전트 그룹 타입 ==========

@@ -190,11 +190,6 @@ export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig
     color: "hover:border-magenta-200 hover:bg-magenta-50 hover:text-magenta-500 active:text-magenta-700",
     label: "중지",
   },
-  view: {
-    iconName: "search_insights",
-    color: "hover:border-gray-200 hover:bg-gray-50 hover:text-gray-500 active:text-gray-700",
-    label: "결과보기",
-  },
   delete: {
     iconName: "delete",
     color: "hover:border-red-200 hover:bg-red-50 hover:text-red-500 active:text-red-700",
@@ -205,11 +200,11 @@ export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig
 // 상태별로 허용되는 액션
 export const ALLOWED_ACTIONS_BY_STATUS: Record<SimulationStatus, SimulationActionType[]> = {
   INITIATING: [],
-  READY: ["start", "stop", "delete"],
+  READY: ["start", "delete"],
   RUNNING: ["stop"],
-  STOPPED: ["start"],
-  COMPLETED: ["view", "delete"],
-  FAILED: ["view", "delete"],
+  STOPPED: ["start", "delete"],
+  COMPLETED: ["delete"],
+  FAILED: ["delete"],
 };
 
 // ========== 필터 옵션 ==========
