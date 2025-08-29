@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import { Select } from "innogrid-ui";
 
-
 import InformationFallback from "@/components/common/Fallback/InformationFallback";
 import Icon from "@/components/common/Icon";
 import Title from "@/components/common/Title";

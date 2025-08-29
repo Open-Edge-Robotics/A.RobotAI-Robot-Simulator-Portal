@@ -10,7 +10,7 @@ import { useUpdateSimulation } from "@/hooks/simulation/useUpdateSimulation.ts";
 
 import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
 
-import { transformFormDataToRequest, transformResponseToFormdata } from "../utils";
+import { transformSimulationFormDataToRequest, transformSimulationResponseToFormdata } from "../utils";
 
 export default function SimulationEditPage() {
   const { id: rawId } = useParams();
@@ -34,13 +34,13 @@ function SimulationEditContent({ id }: { id: number }) {
   const templateList = getMockTemplateList();
 
   // 수정할 시뮬레이션 정보 가져오기
-  const { status, data, refetch } = useSimulation(id, { select: transformResponseToFormdata });
+  const { status, data, refetch } = useSimulation(id, { select: transformSimulationResponseToFormdata });
 
   // 시뮬레이션 수정 함수
   const { mutate: updateSimulation, isPending, isSuccess } = useUpdateSimulation(id);
 
   const handleSubmit = (formData: SimulationFormData) => {
-    const newSimulation = transformFormDataToRequest(formData);
+    const newSimulation = transformSimulationFormDataToRequest(formData);
     updateSimulation(newSimulation);
   };
 

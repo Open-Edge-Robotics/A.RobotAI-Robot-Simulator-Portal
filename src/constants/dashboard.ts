@@ -1,6 +1,6 @@
 import type { SystemOverviewConfig, SystemOverviewData } from "@/types/dashboard/domain";
 
-export const SYSTEM_OVERVIEW_CONFIGS: Record<keyof SystemOverviewData, SystemOverviewConfig> = {
+export const SYSTEM_OVERVIEW_CONFIGS: Record<keyof Omit<SystemOverviewData, "timestamp">, SystemOverviewConfig> = {
   totalSimulations: {
     label: "전체 시뮬레이션 개수",
     iconName: "insert_chart",

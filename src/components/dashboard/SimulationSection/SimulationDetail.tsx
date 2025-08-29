@@ -1,9 +1,7 @@
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 
-import { useSimulationSimple } from "@/hooks/dashboard/useSimulationSimple";
-
-import type { PatternType, SimulationStatus } from "@/types/simulation/domain";
+import { useSimulationSummary } from "@/hooks/simulation/useSimulationSummary";
 
 import PodStatusOverview from "./PodStatusOverview";
 import ResourceUsage from "./ResourceUsage";
@@ -15,7 +13,7 @@ interface SimulationDetailProps {
 
 export default function SimulationDetail({ simulationId }: SimulationDetailProps) {
   // 선택된 시뮬레이션 상세 정보 조회
-  const { data, status, refetch } = useSimulationSimple(simulationId);
+  const { data, status, refetch } = useSimulationSummary(simulationId);
 
   if (status === "pending") {
     return <LoadingFallback message="시뮬레이션 정보를 불러오고 있습니다" />;
@@ -35,30 +33,9 @@ export default function SimulationDetail({ simulationId }: SimulationDetailProps
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-      <ResourceUsage resource={simulation.resource} />
+      <ResourceUsage resource={simulation.resourceUsage} />
       <SimulationInformation simulation={simulation} />
-      <PodStatusOverview pods={simulation.pods} />
+      <PodStatusOverview pods={simulation.podStatus} />
     </div>
   );
-}
-
-export interface SimulationDetailData {
-  simulationId: number;
-  simulationName: string;
-  status: SimulationStatus;
-  createdAt: string;
-  updatedAt: string;
-  patternType: PatternType;
-  totalExecutionTime: number;
-  autonomousAgentCount: number;
-  resource: {
-    cpu: number;
-    memory: number;
-    disk: number;
-  };
-  pods: {
-    total: number;
-    success: number;
-    failed: number;
-  };
 }

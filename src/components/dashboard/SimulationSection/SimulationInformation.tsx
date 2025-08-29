@@ -5,10 +5,10 @@ import Title from "@/components/common/Title";
 
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
-import type { SimulationDetailData } from "./SimulationDetail";
+import type { GetSimulationSummaryResult } from "@/types/simulation/api";
 
 interface SimulationInformationProps {
-  simulation: SimulationDetailData;
+  simulation: GetSimulationSummaryResult;
 }
 
 export default function SimulationInformation({ simulation }: SimulationInformationProps) {

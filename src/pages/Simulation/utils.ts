@@ -1,11 +1,12 @@
 import { ALLOWED_PARAMS, STEPS_INFO } from "@/constants/simulation";
 
 import type { APIResponse } from "@/types/api";
-import type { CreateSimulationRequest, GetSimulationResult } from "@/types/simulation/api";
+import type { CreateSimulationRequest, GetSimulationResult, GetSimulationSummaryResult } from "@/types/simulation/api";
 import type {
   AllowedParam,
   ParallelAgentGroup,
   PatternType,
+  PodStatusBreakdownData,
   SequentialAgentGroup,
   SimulationFormData,
   SimulationPattern,
@@ -17,7 +18,7 @@ import { validatePage, validatePatternTypeFilter, validateSize, validateStatusFi
 
 // 데이터 변환
 
-export const transformResponseToFormdata = (data: APIResponse<GetSimulationResult>): SimulationFormData => {
+export const transformSimulationResponseToFormdata = (data: APIResponse<GetSimulationResult>): SimulationFormData => {
   const simulation = data.data;
   return {
     name: simulation.simulationName,
@@ -30,7 +31,7 @@ export const transformResponseToFormdata = (data: APIResponse<GetSimulationResul
   } satisfies SimulationFormData;
 };
 
-export const transformFormDataToRequest = (formData: SimulationFormData): CreateSimulationRequest => {
+export const transformSimulationFormDataToRequest = (formData: SimulationFormData): CreateSimulationRequest => {
   const baseRequest = {
     mecId: formData.mecId!,
     simulationName: formData.name,

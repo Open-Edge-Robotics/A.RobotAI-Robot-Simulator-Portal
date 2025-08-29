@@ -12,7 +12,7 @@ export function useStopSimulation() {
   return useMutation({
     mutationFn: (id: number) => simulationAPI.stopSimulation(id),
     onSuccess: () => {
-      successToast("시뮬레이션을 정지했습니다.");
+      successToast("시뮬레이션을 중지했습니다.");
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation });
     },
     onMutate: () => {

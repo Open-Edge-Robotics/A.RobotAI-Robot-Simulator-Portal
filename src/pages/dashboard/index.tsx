@@ -38,7 +38,7 @@ export default function DashboardPage() {
 
   // 성공 상태
   const overview = overviewQuery.data.data;
-  const simulations = simulationsQuery.data.data.simulations;
+  const simulations = simulationsQuery.data.data;
 
   return (
     <div className="bg-gray-10 flex min-h-full flex-col gap-9 p-6">

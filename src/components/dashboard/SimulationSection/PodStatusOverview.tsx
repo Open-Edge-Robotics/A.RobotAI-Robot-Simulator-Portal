@@ -1,58 +1,32 @@
 import Container from "@/components/common/Container.tsx";
 import Title from "@/components/common/Title";
+import { POD_STATUS_CONFIGS } from "@/constants/simulation";
+import type { PodStatus, PodStatusBreakdownData, PodStatusData } from "@/types/simulation/domain";
 
 interface PodStatusOverviewProps {
-  pods: {
-    total: number;
-    success: number;
-    failed: number;
-  };
+  pods: PodStatusData;
 }
 
-export default function PodStatusOverview({ pods }: PodStatusOverviewProps) {
-  const pendingCount = pods.total - pods.success - pods.failed;
+const STATUSBREAKDOWN_DEFAULT_DATA: PodStatusBreakdownData = {
+  READY: { count: 0, percentage: 0 },
+  RUNNING: { count: 0, percentage: 0 },
+  SUCCESS: { count: 0, percentage: 0 },
+  FAILED: { count: 0, percentage: 0 },
+  STOPPED: { count: 0, percentage: 0 },
+};
 
-  const successRatio = calculateRatio(pods.success, pods.total);
-  const pendingRatio = calculateRatio(pendingCount, pods.total);
-  const failedRatio = calculateRatio(pods.failed, pods.total);
+export default function PodStatusOverview({ pods }: PodStatusOverviewProps) {
+  const statusBreakdown = getPodStatusBreakdownWithDefaults(pods.statusBreakdown);
 
   return (
     <Container shadow className="p-6 lg:col-span-2">
       <div className="mb-5 flex items-center justify-between">
         <Title title="Pod 상태 현황" fontSize="text-xl" fontWeight="font-medium" />
-        <span className="mr-3 text-sm leading-7">총 {pods.total}개</span>
+        <span className="mr-3 text-sm leading-7">총 {pods.totalCount}개</span>
       </div>
       <div className="space-y-4">
-        <PodStatusBar successPercentage={Number(successRatio)} />
-        <div className="flex flex-col gap-6 md:flex-row">
-          <PodStatusCard
-            value={pods.success}
-            status="성공"
-            ratio={successRatio}
-            bgColor="bg-green-10"
-            borderColor="border-green-200"
-            textColor="text-green-700"
-            highlightColor="bg-green-500"
-          />
-          <PodStatusCard
-            value={pendingCount}
-            status="대기"
-            ratio={pendingRatio}
-            bgColor="bg-yellow-10"
-            borderColor="border-yellow-200"
-            textColor="text-yellow-700"
-            highlightColor="bg-yellow-500"
-          />
-          <PodStatusCard
-            value={pods.failed}
-            status="실패"
-            ratio={failedRatio}
-            bgColor="bg-red-10"
-            borderColor="border-red-200"
-            textColor="text-red-700"
-            highlightColor="bg-red-500"
-          />
-        </div>
+        <PodStatusBar successPercentage={pods.overallHealthPercent} />
+        <PodStatusCards statusBreakdown={statusBreakdown} />
       </div>
     </Container>
   );
@@ -72,21 +46,49 @@ function PodStatusBar({ successPercentage }: { successPercentage: number }) {
   );
 }
 
+interface PodStatusCardsProps {
+  statusBreakdown: PodStatusBreakdownData;
+}
+
+function PodStatusCards({ statusBreakdown }: PodStatusCardsProps) {
+  return (
+    <div className="flex flex-col gap-6 md:flex-row">
+      {(Object.keys(POD_STATUS_CONFIGS) as PodStatus[]).map((podStatus) => {
+        const config = POD_STATUS_CONFIGS[podStatus];
+        const statusData = statusBreakdown[podStatus];
+
+        return (
+          <PodStatusCard
+            key={podStatus}
+            count={statusData.count}
+            status={config.text}
+            ratio={statusData.percentage}
+            bgColor={config.bgColor}
+            borderColor={config.borderColor}
+            textColor={config.textColor}
+            highlightColor={config.highlightColor}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
 interface PodStatusCardProps {
-  value: number;
+  count: number;
   status: string;
-  ratio: string;
+  ratio: number;
   bgColor: string;
   borderColor: string;
   textColor: string;
   highlightColor: string;
 }
 
-function PodStatusCard({ value, status, ratio, bgColor, borderColor, textColor, highlightColor }: PodStatusCardProps) {
+function PodStatusCard({ count, status, ratio, bgColor, borderColor, textColor, highlightColor }: PodStatusCardProps) {
   return (
     <Container borderColor={borderColor} bgColor={bgColor} className="grow items-center justify-center gap-1 p-4">
       <div className={`rounded-full ${highlightColor} h-3 w-3`} />
-      <div className={`${textColor} mt-1 text-xl font-bold`}>{value}</div>
+      <div className={`${textColor} mt-1 text-xl font-bold`}>{count}</div>
       <div className={`flex flex-wrap justify-center gap-1 ${textColor}`}>
         <span>{status}</span>
         <span>({ratio}%)</span>
@@ -95,6 +97,11 @@ function PodStatusCard({ value, status, ratio, bgColor, borderColor, textColor, 
   );
 }
 
-const calculateRatio = (value: number, total: number) => {
-  return total > 0 ? ((value / total) * 100).toFixed(2) : "0.00";
+const getPodStatusBreakdownWithDefaults = (statusBreakdown: PodStatusData["statusBreakdown"]) => {
+  const normalizedStatusBreakdown =
+    Object.keys(statusBreakdown).length === 0
+      ? STATUSBREAKDOWN_DEFAULT_DATA
+      : (statusBreakdown as PodStatusBreakdownData);
+
+  return normalizedStatusBreakdown;
 };

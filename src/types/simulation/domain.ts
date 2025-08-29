@@ -38,6 +38,7 @@ export type SimulationStatus = "INITIATING" | "RUNNING" | "COMPLETED" | "FAILED"
 export type StepType = 1 | 2 | 3 | 4;
 export type PatternType = "sequential" | "parallel";
 export type SimulationActionType = "start" | "stop" | "delete" | "view";
+export type PodStatus = "READY" | "RUNNING" | "SUCCESS" | "FAILED" | "STOPPED";
 
 // ========== 에이전트 그룹 타입 ==========
 
@@ -101,6 +102,7 @@ export interface PatternConfig {
 
 export interface SimulationStatusConfig {
   bgColor: string;
+  highlightColor: string;
   textColor: string;
   text: string;
 }
@@ -110,6 +112,14 @@ export interface SimulationOverviewConfig {
   iconName: string;
   textColor: string;
   bgColor: string;
+}
+
+export interface PodStatusConfig {
+  bgColor: string;
+  borderColor: string;
+  textColor: string;
+  highlightColor: string;
+  text: string;
 }
 
 // ========== 액션 관련 타입 ==========
@@ -130,8 +140,25 @@ export interface SimulationActionConfig {
   color: string;
   label?: string;
 }
+
 // ========== 필터 및 검색 관련 타입 ==========
 
 export type AllowedParam = (typeof ALLOWED_PARAMS)[number];
 export type StatusFilterOption = (typeof FILTER_OPTIONS.status)[number]["value"];
 export type PatternTypeFilterOption = (typeof FILTER_OPTIONS.patternType)[number]["value"];
+
+export interface ResourceUsageData {
+  cpu: { usagePercent: number; status: string };
+  memory: { usagePercent: number; status: string };
+  disk: { usagePercent: number; status: string };
+}
+
+export interface PodStatusData {
+  totalCount: number;
+  overallHealthPercent: number;
+  statusBreakdown: PodStatusBreakdownData | {};
+}
+
+export type PodStatusBreakdownData = {
+  [K in PodStatus]: { count: number; percentage: number };
+};

@@ -5,7 +5,7 @@ import { useCreateSimulation } from "@/hooks/simulation/useCreateSimulation.ts";
 
 import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
 
-import { transformFormDataToRequest } from "../utils";
+import { transformSimulationFormDataToRequest } from "../utils";
 
 const defaultFormData: SimulationFormData = {
   name: "",
@@ -21,7 +21,7 @@ export default function SimulationCreatePage() {
   const { mutate: createSimulation, isPending, isSuccess } = useCreateSimulation();
 
   const handleSubmit = (formData: SimulationFormData) => {
-    const newSimulation = transformFormDataToRequest(formData);
+    const newSimulation = transformSimulationFormDataToRequest(formData);
     createSimulation(newSimulation);
   };
 

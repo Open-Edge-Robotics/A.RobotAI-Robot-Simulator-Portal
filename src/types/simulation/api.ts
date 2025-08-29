@@ -1,6 +1,13 @@
 import type { Timestamp } from "../common";
 
-import type { PatternType, Simulation, SimulationOverview, SimulationStatus } from "./domain";
+import type {
+  PatternType,
+  PodStatusData,
+  ResourceUsageData,
+  Simulation,
+  SimulationOverview,
+  SimulationStatus,
+} from "./domain";
 
 // ========== API 요청 타입 ==========
 
@@ -125,3 +132,21 @@ interface GetParallelSimulationResult extends SimulationResultBase {
 
 // 설정 정보 포함 (정적)
 export type GetSimulationResult = GetSequentialSimulationResult | GetParallelSimulationResult;
+
+interface SimulationLite {
+  simulationId: number;
+  simulationName: string;
+}
+
+export type GetSimulationsLiteResult = SimulationLite[];
+
+export interface GetSimulationSummaryResult {
+  simulationId: number;
+  simulationName: string;
+  status: SimulationStatus;
+  patternType: PatternType;
+  totalExecutionTime: number;
+  autonomousAgentCount: number;
+  resourceUsage: ResourceUsageData;
+  podStatus: PodStatusData;
+}
