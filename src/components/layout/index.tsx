@@ -9,18 +9,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { isMobile } = useScreenSize();
   const [isMobileNavOpen, toggleMobileNav] = useReducer((x) => !x, false);
 
-  return isMobile ? (
-    <>
-      <div className="flex min-h-screen flex-col">
-        <Header onMenuToggle={toggleMobileNav} />
-        <main className="overflow-auto">{children}</main>
-      </div>
-      <MobileNavigationBar isOpen={isMobileNavOpen} onClose={toggleMobileNav} />
-    </>
-  ) : (
-    <div className="grid min-h-screen grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
-      <DesktopNavigationBar />
-      <Header />
+  return (
+    <div className="grid min-h-screen grid-rows-[auto_1fr] lg:grid-cols-[auto_1fr]">
+      {isMobile ? (
+        <>
+          <MobileNavigationBar isOpen={isMobileNavOpen} onClose={toggleMobileNav} />
+          <Header onMenuToggle={toggleMobileNav} />
+        </>
+      ) : (
+        <>
+          <DesktopNavigationBar />
+          <Header />
+        </>
+      )}
       <main className="overflow-auto">{children}</main>
     </div>
   );
