@@ -6,6 +6,7 @@ import DashboardPage from "./pages/dashboard";
 import MecPage from "./pages/mec";
 import SimulationPage from "./pages/simulation";
 import SimulationCreatePage from "./pages/simulation/create";
+import SimulationDetailPage from "./pages/simulation/detail";
 import SimulationEditPage from "./pages/simulation/edit";
 import TemplatePage from "./pages/template";
 
@@ -18,6 +19,7 @@ function AppRoutes() {
       <Route path="/simulation">
         <Route index element={<SimulationPage />} />
         <Route path="create" element={<SimulationCreatePage />} />
+        <Route path=":id" element={<SimulationDetailPage />} />
         <Route path=":id/edit" element={<SimulationEditPage />} />
       </Route>
       <Route path="/template" element={<TemplatePage />} />

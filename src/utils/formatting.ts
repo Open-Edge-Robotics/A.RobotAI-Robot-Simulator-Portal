@@ -17,3 +17,16 @@ export const formatDateTime = (dateString: Timestamp): string => {
 
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 };
+
+// 밀리초 차이를 사람이 읽기 쉬운 형태로 변환하는 함수
+export const formatDuration = (milliseconds: number): string => {
+  const seconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) return `${days}일 ${hours % 24}시간`;
+  if (hours > 0) return `${hours}시간 ${minutes % 60}분`;
+  if (minutes > 0) return `${minutes}분 ${seconds % 60}초`;
+  return `${seconds}초`;
+};

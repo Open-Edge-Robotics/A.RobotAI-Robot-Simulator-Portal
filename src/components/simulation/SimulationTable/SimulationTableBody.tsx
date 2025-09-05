@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import StatusBadge from "@/components/common/Badge/StatusBadge";
 
-import { PATTERN_CONFIGS } from "@/constants/simulation";
+import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS } from "@/constants/simulation";
 
 import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
 
@@ -10,7 +10,6 @@ import { formatDateTime } from "@/utils/formatting";
 
 import { TABLE_GRID_COLS } from ".";
 import ActionButtons from "../SimulationActionButtons";
-
 
 interface TableBodyProps {
   simulations: Simulation[];
@@ -40,8 +39,10 @@ interface TableBodyRowProps {
 }
 
 function TableBodyRow({ simulation, actionHandlers, isLoading }: TableBodyRowProps) {
+  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.status].filter((action) => action !== "edit");
+
   return (
-    <Link to={`${simulation.simulationId}/edit`}>
+    <Link to={`${simulation.simulationId}`}>
       <li key={simulation.simulationId} className={`hover:bg-gray-10 grid ${TABLE_GRID_COLS}`}>
         <TableBodyCell>{simulation.simulationName}</TableBodyCell>
         <TableBodyCell justifyCenter>
@@ -53,7 +54,7 @@ function TableBodyRow({ simulation, actionHandlers, isLoading }: TableBodyRowPro
         <TableBodyCell>{simulation.mecId}</TableBodyCell>
         <TableBodyCell>
           <ActionButtons
-            status={simulation.status}
+            actions={allowedActions}
             simulationId={simulation.simulationId}
             actionHandlers={actionHandlers}
             isLoading={isLoading}

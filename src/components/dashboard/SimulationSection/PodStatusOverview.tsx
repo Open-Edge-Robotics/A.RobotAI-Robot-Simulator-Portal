@@ -1,4 +1,6 @@
 import Container from "@/components/common/Container.tsx";
+import Dot from "@/components/common/Dot";
+import ProgressBar from "@/components/common/ProgressBar";
 import Title from "@/components/common/Title";
 import { POD_STATUS_CONFIGS } from "@/constants/simulation";
 import type { PodStatus, PodStatusBreakdownData, PodStatusData } from "@/types/simulation/domain";
@@ -7,8 +9,8 @@ interface PodStatusOverviewProps {
   pods: PodStatusData;
 }
 
-const STATUSBREAKDOWN_DEFAULT_DATA: PodStatusBreakdownData = {
-  READY: { count: 0, percentage: 0 },
+const STATUS_BREAKDOWN_DEFAULT_DATA: PodStatusBreakdownData = {
+  PENDING: { count: 0, percentage: 0 },
   RUNNING: { count: 0, percentage: 0 },
   SUCCESS: { count: 0, percentage: 0 },
   FAILED: { count: 0, percentage: 0 },
@@ -39,9 +41,7 @@ function PodStatusBar({ successPercentage }: { successPercentage: number }) {
         <span>전체 상태</span>
         <span>{successPercentage}% 정상</span>
       </div>
-      <div className="h-2.5 rounded-lg bg-gray-100">
-        <div className="h-2.5 rounded-lg bg-green-500" style={{ width: `${successPercentage}%` }} />
-      </div>
+      <ProgressBar progress={successPercentage} />
     </div>
   );
 }
@@ -60,9 +60,9 @@ function PodStatusCards({ statusBreakdown }: PodStatusCardsProps) {
         return (
           <PodStatusCard
             key={podStatus}
-            count={statusData.count}
+            count={statusData?.count || 0}
             status={config.text}
-            ratio={statusData.percentage}
+            ratio={statusData?.percentage || 0}
             bgColor={config.bgColor}
             borderColor={config.borderColor}
             textColor={config.textColor}
@@ -87,7 +87,7 @@ interface PodStatusCardProps {
 function PodStatusCard({ count, status, ratio, bgColor, borderColor, textColor, highlightColor }: PodStatusCardProps) {
   return (
     <Container borderColor={borderColor} bgColor={bgColor} className="grow items-center justify-center gap-1 p-4">
-      <div className={`rounded-full ${highlightColor} h-3 w-3`} />
+      <Dot color={highlightColor} />
       <div className={`${textColor} mt-1 text-xl font-bold`}>{count}</div>
       <div className={`flex flex-wrap justify-center gap-1 ${textColor}`}>
         <span>{status}</span>
@@ -100,7 +100,7 @@ function PodStatusCard({ count, status, ratio, bgColor, borderColor, textColor, 
 const getPodStatusBreakdownWithDefaults = (statusBreakdown: PodStatusData["statusBreakdown"]) => {
   const normalizedStatusBreakdown =
     Object.keys(statusBreakdown).length === 0
-      ? STATUSBREAKDOWN_DEFAULT_DATA
+      ? STATUS_BREAKDOWN_DEFAULT_DATA
       : (statusBreakdown as PodStatusBreakdownData);
 
   return normalizedStatusBreakdown;

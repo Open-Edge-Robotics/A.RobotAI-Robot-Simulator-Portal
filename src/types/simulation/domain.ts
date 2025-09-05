@@ -1,6 +1,9 @@
-import type { ALLOWED_PARAMS, FILTER_OPTIONS } from "@/constants/simulation";
+// types/simulation/domain.ts
+
+import type { ALLOWED_PARAMS, FILTER_OPTIONS, SIMULATION_ACTION_TYPES } from "@/constants/simulation";
 
 import type { Timestamp } from "../common";
+import type { ParallelProgress, SequentialProgress } from "./api";
 
 // ========== 기본 엔티티 타입 ==========
 
@@ -26,7 +29,7 @@ export interface Mec {
 
 export interface SimulationOverview {
   total: number;
-  ready: number;
+  pending: number;
   running: number;
   completed: number;
   failed: number;
@@ -34,11 +37,12 @@ export interface SimulationOverview {
 
 // ========== 각종 열거형 타입 ==========
 
-export type SimulationStatus = "INITIATING" | "RUNNING" | "COMPLETED" | "FAILED" | "READY" | "STOPPED";
+export type SimulationStatus = "INITIATING" | "RUNNING" | "COMPLETED" | "FAILED" | "PENDING" | "STOPPED" | "READY";
+export type GroupStatus = "RUNNING" | "COMPLETED" | "FAILED" | "PENDING" | "STOPPED";
 export type StepType = 1 | 2 | 3 | 4;
 export type PatternType = "sequential" | "parallel";
-export type SimulationActionType = "start" | "stop" | "delete";
-export type PodStatus = "READY" | "RUNNING" | "SUCCESS" | "FAILED" | "STOPPED";
+export type SimulationActionType = (typeof SIMULATION_ACTION_TYPES)[number];
+export type PodStatus = "PENDING" | "RUNNING" | "SUCCESS" | "FAILED" | "STOPPED";
 
 // ========== 에이전트 그룹 타입 ==========
 
@@ -162,3 +166,13 @@ export interface PodStatusData {
 export type PodStatusBreakdownData = {
   [K in PodStatus]: { count: number; percentage: number };
 };
+
+export interface SequentialProgressData {
+  patternType: "sequential";
+  progress: SequentialProgress;
+}
+
+export interface ParallelProgressData {
+  patternType: "parallel";
+  progress: ParallelProgress;
+}

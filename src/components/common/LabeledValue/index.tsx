@@ -1,25 +1,39 @@
-interface LabelValuePairProps {
+interface LabeledValueProps {
+  orientation?: "horizontal" | "vertical";
   label: string;
-  labelWidth?: string;
-  labelFontWeight?: "font-bold" | "font-semibold" | "font-medium" | "font-normal";
   value?: string;
-  justifyContent?: "justify-normal" | "justify-between" | "justify-center";
+  labelClass?: string;
+  valueClass?: string;
+  containerClass?: string;
   children?: React.ReactNode;
 }
 
 export default function LabeledValue({
+  orientation = "horizontal",
   label,
-  labelWidth = "w-auto",
-  labelFontWeight = "font-normal",
   value,
-  justifyContent = "justify-normal",
+  labelClass,
+  valueClass,
+  containerClass,
   children,
-}: LabelValuePairProps) {
+}: LabeledValueProps) {
   return (
-    <div className={`flex ${justifyContent}`}>
-      <span className={`${labelWidth} ${labelFontWeight}`}>{label}</span>
-      <span>{value}</span>
+    <div className={`flex ${orientation === "vertical" ? "flex-col" : "flex-row"} ${containerClass}`}>
+      <div className={labelClass}>{label}</div>
+      <div className={valueClass}>{value}</div>
       {children}
     </div>
+  );
+}
+
+export function CustomVerticalLabeledValue({ label, value }: LabeledValueProps) {
+  return (
+    <LabeledValue
+      orientation="vertical"
+      label={label}
+      value={value}
+      labelClass="mb-1 text-sm text-gray-500"
+      valueClass="font-semibold"
+    />
   );
 }

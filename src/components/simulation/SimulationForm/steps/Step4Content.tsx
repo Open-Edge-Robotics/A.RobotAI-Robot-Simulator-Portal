@@ -15,8 +15,6 @@ interface Step4ContentProps {
   templateList: Template[];
 }
 
-// TODO: 컴포넌트 분리, 폴더 구조 생각해보기
-
 export default function Step4Content({ formData, mecList, templateList }: Step4ContentProps) {
   if (!formData.mecId || !formData.pattern) return <ErrorFallback message="필수 정보를 모두 입력해주세요." />;
 
@@ -32,10 +30,10 @@ export default function Step4Content({ formData, mecList, templateList }: Step4C
       <Container shadow className="gap-6 p-6">
         <Header title="기본 정보" />
         <Body>
-          <LabeledValue label="이름:" value={formData.name} labelWidth="w-24" />
-          <LabeledValue label="설명:" value={formData.description || "-"} labelWidth="w-24" />
-          <LabeledValue label="MEC:" value={mecName} labelWidth="w-24" />
-          <LabeledValue label="실행 패턴:" value={PATTERN_CONFIGS[formData.pattern.type].title} labelWidth="w-24" />
+          <LabeledValue label="이름:" value={formData.name} labelClass="w-24" />
+          <LabeledValue label="설명:" value={formData.description || "-"} labelClass="w-24" />
+          <LabeledValue label="MEC:" value={mecName} labelClass="w-24" />
+          <LabeledValue label="실행 패턴:" value={PATTERN_CONFIGS[formData.pattern.type].title} labelClass="w-24" />
         </Body>
       </Container>
 
@@ -47,7 +45,7 @@ export default function Step4Content({ formData, mecList, templateList }: Step4C
 
           {/* 총 실행 정보 */}
           <Container bgColor="bg-gray-10" borderColor="border-gray-100" className="mt-5 p-4">
-            <LabeledValue label="총 실행 정보:" justifyContent="justify-between">
+            <LabeledValue label="총 실행 정보:" containerClass="justify-between">
               <div className="flex gap-3">
                 <span>
                   총 가상자율행동체: <span className="font-semibold">{totalAgentCount}대</span>
@@ -140,17 +138,17 @@ function PatternConfigCard({
         <LabeledValue
           label="가상자율행동체 개수:"
           value={`${autonomousAgentCount}대`}
-          justifyContent="justify-between"
+          containerClass="justify-between"
         />
-        <LabeledValue label="실행 시간:" value={`${executionTime}초`} justifyContent="justify-between" />
+        <LabeledValue label="실행 시간:" value={`${executionTime}초`} containerClass="justify-between" />
         {delayAfterCompletion && (
           <LabeledValue
             label="완료 후 대기 시간:"
             value={`${delayAfterCompletion}초`}
-            justifyContent="justify-between"
+            containerClass="justify-between"
           />
         )}
-        <LabeledValue label="반복 횟수:" value={`${repeatCount}초`} justifyContent="justify-between" />
+        <LabeledValue label="반복 횟수:" value={`${repeatCount}초`} containerClass="justify-between" />
       </div>
     </Container>
   );

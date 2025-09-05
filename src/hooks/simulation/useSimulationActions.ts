@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import type { SimulationActionHandler } from "@/types/simulation/domain";
 
 import { useDeleteSimulation } from "./useDeleteSimulation";
@@ -11,6 +13,7 @@ export function useSimulationActions(): {
   // 각 액션별 mutation
   const startMutation = useStartSimulation();
   const stopMutation = useStopSimulation();
+  const editNavigation = useNavigate();
   const deleteMutation = useDeleteSimulation();
 
   const isLoading = [startMutation.isPending, stopMutation.isPending, deleteMutation.isPending].some(Boolean);
@@ -19,6 +22,7 @@ export function useSimulationActions(): {
   const actionHandlers: SimulationActionHandler[] = [
     { type: "start", handler: (id: number) => startMutation.mutate(id) },
     { type: "stop", handler: (id: number) => stopMutation.mutate(id) },
+    { type: "edit", handler: (id: number) => editNavigation(`/simulation/${id}/edit`) },
     { type: "delete", handler: (id: number) => deleteMutation.mutate(id) },
   ];
 

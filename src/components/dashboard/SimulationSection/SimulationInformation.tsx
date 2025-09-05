@@ -16,23 +16,23 @@ export default function SimulationInformation({ simulation }: SimulationInformat
     <Container shadow className="grow p-6">
       <Title title="시뮬레이션 정보" fontSize="text-xl" fontWeight="font-medium" margin="mb-2.5" />
       <div className="space-y-2">
-        <LabeledValue label="상태:" justifyContent="justify-between">
+        <LabeledValue label="상태:" containerClass="justify-between">
           <StatusBadge status={simulation.status} />
         </LabeledValue>
         <LabeledValue
           label="패턴 유형:"
           value={PATTERN_CONFIGS[simulation.patternType].title}
-          justifyContent="justify-between"
+          containerClass="justify-between"
         />
         <LabeledValue
           label="총 실행 시간:"
           value={`${simulation.totalExecutionTime}초`}
-          justifyContent="justify-between"
+          containerClass="justify-between"
         />
         <LabeledValue
           label="자율행동체 수:"
           value={`${simulation.autonomousAgentCount.toString()}대`}
-          justifyContent="justify-between"
+          containerClass="justify-between"
         />
       </div>
     </Container>

@@ -1,7 +1,7 @@
 import Container from "@/components/common/Container.tsx";
 import DonutChart from "@/components/common/DonutChart";
 import Title from "@/components/common/Title";
-import type { ResourceUsageData } from "@/types/simulation/api";
+import type { ResourceUsageData } from "@/types/simulation/domain";
 
 interface ResourceUsageProps {
   resource: ResourceUsageData;

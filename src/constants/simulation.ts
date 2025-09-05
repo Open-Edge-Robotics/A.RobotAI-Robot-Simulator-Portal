@@ -1,3 +1,4 @@
+import type { OverviewConfig } from "@/types/common";
 import type {
   PatternConfig,
   PatternType,
@@ -94,7 +95,7 @@ export const STATUS_CONFIGS: Record<SimulationStatus, SimulationStatusConfig> = 
     textColor: "text-red-700",
     text: "실패",
   },
-  READY: {
+  PENDING: {
     bgColor: "bg-yellow-50",
     highlightColor: "bg-yellow-500",
     textColor: "text-yellow-700",
@@ -106,11 +107,17 @@ export const STATUS_CONFIGS: Record<SimulationStatus, SimulationStatusConfig> = 
     textColor: "text-gray-700",
     text: "중지",
   },
+  READY: {
+    bgColor: "bg-yellow-50",
+    highlightColor: "bg-yellow-500",
+    textColor: "text-yellow-700",
+    text: "대기중",
+  },
 } as const;
 
 // Pod Status별 설정 상수
 export const POD_STATUS_CONFIGS: Record<PodStatus, PodStatusConfig> = {
-  READY: {
+  PENDING: {
     bgColor: "bg-yellow-10",
     borderColor: "border-yellow-200",
     textColor: "text-yellow-700",
@@ -176,19 +183,47 @@ export const SIMULATION_OVERVIEW_CONFIGS: { [key: string]: SimulationOverviewCon
   },
 };
 
+export const SIMULATION_PROGRESS_OVERVIEW_CONFIGS: { [key: string]: OverviewConfig } = {
+  total: {
+    label: "전체 단계",
+    iconName: "layers",
+    iconColor: "text-gray-500",
+    iconBgColor: "bg-gray-50",
+  },
+  current: {
+    label: "현재 단계",
+    iconName: "adjust",
+    iconColor: "text-blue-500",
+    iconBgColor: "bg-blue-50",
+  },
+  completed: {
+    label: "완료된 단계",
+    iconName: "check_circle",
+    iconColor: "text-green-500",
+    iconBgColor: "bg-green-50",
+  },
+} as const;
+
 // ========== 액션 관련 상수 ==========
+
+export const SIMULATION_ACTION_TYPES = ["start", "stop", "edit", "delete"] as const;
 
 // 액션별 설정 정의
 export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig> = {
   start: {
-    iconName: "play_circle",
+    iconName: "play_arrow",
     color: "hover:border-blue-200 hover:bg-blue-50 hover:text-blue-500 active:text-blue-700",
     label: "시작",
   },
   stop: {
-    iconName: "stop_circle",
+    iconName: "stop",
     color: "hover:border-magenta-200 hover:bg-magenta-50 hover:text-magenta-500 active:text-magenta-700",
     label: "중지",
+  },
+  edit: {
+    iconName: "edit",
+    color: "hover:border-gray-200 hover:bg-gray-50 hover:text-gray-500 active:text-gray-700",
+    label: "편집",
   },
   delete: {
     iconName: "delete",
@@ -200,9 +235,10 @@ export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig
 // 상태별로 허용되는 액션
 export const ALLOWED_ACTIONS_BY_STATUS: Record<SimulationStatus, SimulationActionType[]> = {
   INITIATING: [],
-  READY: ["start", "delete"],
+  PENDING: ["start", "edit", "delete"],
+  READY: ["start", "edit", "delete"],
   RUNNING: ["stop"],
-  STOPPED: ["start", "delete"],
+  STOPPED: ["start", "edit", "delete"],
   COMPLETED: ["delete"],
   FAILED: ["delete"],
 };
@@ -213,7 +249,7 @@ export const ALLOWED_ACTIONS_BY_STATUS: Record<SimulationStatus, SimulationActio
 export const FILTER_OPTIONS = {
   status: [
     { value: "", label: "전체 상태" },
-    { value: "READY", label: "대기중" },
+    { value: "PENDING", label: "대기중" },
     { value: "RUNNING", label: "실행중" },
     { value: "COMPLETED", label: "완료" },
     { value: "FAILED", label: "실패" },

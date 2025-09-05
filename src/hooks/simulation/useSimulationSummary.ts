@@ -8,8 +8,8 @@ const REFETCH_INTERVAL_MS = 60000; // 1분
 export function useSimulationSummary(selectedSimulationId: number) {
   return useQuery({
     queryKey: [...QUERY_KEYS.simulation, selectedSimulationId],
-    // queryFn: () => simulationAPI.getSimulationSummary(selectedSimulationId),
-    queryFn: () => simulationAPI.getMockSimulationSummary(selectedSimulationId),
+    queryFn: () => simulationAPI.getSimulationSummary(selectedSimulationId),
+    // queryFn: () => simulationAPI.getMockSimulationSummary(selectedSimulationId),
     enabled: selectedSimulationId !== null,
     refetchInterval: (query) => {
       // simulationId가 있고 에러 상태가 아닐 때만 1분(60000ms) 간격으로 polling

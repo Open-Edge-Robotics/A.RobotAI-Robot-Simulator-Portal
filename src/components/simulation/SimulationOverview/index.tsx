@@ -3,8 +3,7 @@ import Icon from "@/components/common/Icon";
 
 import { SIMULATION_OVERVIEW_CONFIGS } from "@/constants/simulation";
 
-import type { SimulationOverview } from "@/types/simulation/api";
-import type { SimulationOverviewConfig } from "@/types/simulation/domain";
+import type { SimulationOverview, SimulationOverviewConfig } from "@/types/simulation/domain";
 
 export default function SimulationOverview({ overview }: { overview: SimulationOverview | null }) {
   const { TOTAL, COMPLETED, RUNNING, FAILED } = SIMULATION_OVERVIEW_CONFIGS;

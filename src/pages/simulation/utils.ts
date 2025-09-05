@@ -1,7 +1,11 @@
 import { ALLOWED_PARAMS, STEPS_INFO } from "@/constants/simulation";
 
 import type { APIResponse } from "@/types/api";
-import type { CreateSimulationRequest, GetSimulationResult, GetSimulationSummaryResult } from "@/types/simulation/api";
+import type {
+  CreateSimulationRequest,
+  GetSimulationStaticResult,
+  GetSimulationSummaryResult,
+} from "@/types/simulation/api";
 import type {
   AllowedParam,
   ParallelAgentGroup,
@@ -18,7 +22,9 @@ import { validatePage, validatePatternTypeFilter, validateSize, validateStatusFi
 
 // 데이터 변환
 
-export const transformSimulationResponseToFormdata = (data: APIResponse<GetSimulationResult>): SimulationFormData => {
+export const transformSimulationResponseToFormdata = (
+  data: APIResponse<GetSimulationStaticResult>,
+): SimulationFormData => {
   const simulation = data.data;
   return {
     name: simulation.simulationName,

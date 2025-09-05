@@ -7,7 +7,7 @@ import InformationFallback from "@/components/common/Fallback/InformationFallbac
 import Icon from "@/components/common/Icon";
 import Title from "@/components/common/Title";
 
-import SimulationDetail from "./SimulationDetail";
+import SimulationSummary from "./SimulationSummary";
 
 interface SimulationSectionProps {
   simulations: { simulationId: number; simulationName: string }[];
@@ -51,7 +51,7 @@ export default function SimulationSection({ simulations }: SimulationSectionProp
           subMessage="우측 상단에서 시뮬레이션을 선택하면 해당 시뮬레이션의 상세 정보를 확인할 수 있습니다."
         />
       ) : (
-        <SimulationDetail simulationId={selectedSimulationId} />
+        <SimulationSummary simulationId={selectedSimulationId} />
       )}
     </div>
   );

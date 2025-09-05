@@ -11,7 +11,7 @@ interface SimulationDetailProps {
   simulationId: number;
 }
 
-export default function SimulationDetail({ simulationId }: SimulationDetailProps) {
+export default function SimulationSummary({ simulationId }: SimulationDetailProps) {
   // 선택된 시뮬레이션 상세 정보 조회
   const { data, status, refetch } = useSimulationSummary(simulationId);
 

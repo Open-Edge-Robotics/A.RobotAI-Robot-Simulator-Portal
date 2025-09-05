@@ -6,7 +6,7 @@ import Divider from "@/components/common/Divider";
 import Icon from "@/components/common/Icon";
 import LabeledValue from "@/components/common/LabeledValue";
 
-import { PATTERN_CONFIGS } from "@/constants/simulation";
+import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS } from "@/constants/simulation";
 
 import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
 
@@ -21,6 +21,7 @@ interface SimulationTableCardProps {
 }
 
 export default function SimulationCard({ simulation, actionHandlers, isLoading }: SimulationTableCardProps) {
+  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.status].filter((action) => action !== "edit");
   return (
     <Container className="p-5">
       {/* Card Header */}
@@ -42,25 +43,25 @@ export default function SimulationCard({ simulation, actionHandlers, isLoading }
         <LabeledValue
           label="실행 패턴"
           value={PATTERN_CONFIGS[simulation.patternType].title}
-          justifyContent="justify-between"
+          containerClass="justify-between"
         />
-        <LabeledValue label="생성일시" value={formatDateTime(simulation.createdAt)} justifyContent="justify-between" />
+        <LabeledValue label="생성일시" value={formatDateTime(simulation.createdAt)} containerClass="justify-between" />
         <LabeledValue
           label="최종 업데이트"
           value={formatDateTime(simulation.updatedAt)}
-          justifyContent="justify-between"
+          containerClass="justify-between"
         />
-        <LabeledValue label="MEC ID" value={simulation.mecId} justifyContent="justify-between" />
+        <LabeledValue label="MEC ID" value={simulation.mecId} containerClass="justify-between" />
       </div>
 
       <Divider color="bg-gray-50" className="my-4" />
 
       {/* Card Actions */}
       <ActionButtons
+        actions={allowedActions}
         actionHandlers={actionHandlers}
         isLoading={isLoading}
         simulationId={simulation.simulationId}
-        status={simulation.status}
         className="ml-auto"
       />
     </Container>

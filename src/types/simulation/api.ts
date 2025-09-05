@@ -1,3 +1,5 @@
+// types/simulation/api.ts
+
 import type { Timestamp } from "../common";
 
 import type {
@@ -8,6 +10,7 @@ import type {
   SimulationOverview,
   SimulationStatus,
 } from "./domain";
+import type { ParallelGroupDetail, SequentialGroupDetail } from "./simulationDetail";
 
 // ========== API 요청 타입 ==========
 
@@ -78,67 +81,14 @@ export interface GetSimulationsResult {
   };
 }
 
-interface SimulationResultBase {
-  // 정적 데이터
-  simulationId: number;
-  simulationName: string;
-  simulationDescription: string;
-  mecId: string;
-  namespace: string;
-  createdAt: Timestamp;
-
-  // 현재 상태 스냅샷 (동적)
-  currentStatus: {
-    status: string;
-    progress: {
-      overallProgress: number;
-      currentStep: number;
-      completedSteps: number;
-    };
-    timestamps: {
-      startedAt: Timestamp;
-      lastUpdated: Timestamp;
-    };
-  };
-}
-
-interface GetSequentialSimulationResult extends SimulationResultBase {
-  patternType: "sequential";
-  executionPlan: {
-    steps: {
-      stepOrder: number;
-      templateId: number;
-      templateName: string;
-      autonomousAgentCount: number;
-      repeatCount: number;
-      executionTime: number;
-      delayAfterCompletion: number;
-    }[];
-  };
-}
-
-interface GetParallelSimulationResult extends SimulationResultBase {
-  patternType: "parallel";
-  executionPlan: {
-    groups: {
-      templateId: number;
-      templateName: string;
-      autonomousAgentCount: number;
-      repeatCount: number;
-      executionTime: number;
-    }[];
-  };
-}
-
-// 설정 정보 포함 (정적)
-export type GetSimulationResult = GetSequentialSimulationResult | GetParallelSimulationResult;
-
 interface SimulationLite {
   simulationId: number;
   simulationName: string;
 }
 
 export type GetSimulationsLiteResult = SimulationLite[];
+
+// ------------ Simulation Summary ---------------
 
 export interface GetSimulationSummaryResult {
   simulationId: number;
@@ -150,3 +100,112 @@ export interface GetSimulationSummaryResult {
   resourceUsage: ResourceUsageData;
   podStatus: PodStatusData;
 }
+
+interface SimulationStaticResultBase {
+  simulationId: number;
+  simulationName: string;
+  simulationDescription: string;
+  patternType: PatternType;
+  mecId: string;
+  namespace: string;
+  createdAt: Timestamp;
+  currentStatus: {
+    status: SimulationStatus;
+    timestamps: {
+      createdAt: string;
+      lastUpdated: string;
+    };
+  };
+}
+
+interface GroupStaticBase {
+  templateId: number;
+  templateName: string;
+  autonomousAgentCount: number;
+  repeatCount: number;
+  executionTime: number;
+}
+
+interface SequentialGroupStatic extends GroupStaticBase {
+  stepOrder: number;
+  delayAfterCompletion: number;
+}
+
+interface ParallelGroupStatic extends GroupStaticBase {
+  groupId: number;
+}
+
+interface GetSequentialSimulationStaticResult extends SimulationStaticResultBase {
+  patternType: "sequential";
+  executionPlan: {
+    steps: SequentialGroupStatic[];
+  };
+}
+
+interface GetParallelSimulationStaticResult extends SimulationStaticResultBase {
+  patternType: "parallel";
+  executionPlan: {
+    groups: ParallelGroupStatic[];
+  };
+}
+
+// -------------- 시뮬레이션 상세 정보 (정적) -----------------
+
+export type GetSimulationStaticResult = GetSequentialSimulationStaticResult | GetParallelSimulationStaticResult;
+
+// -------------- 시뮬레이션 상세 정보 (동적 Status) -----------------
+
+export interface TimeStamps {
+  createdAt: string;
+  startedAt?: string;
+  lastUpdated: string;
+}
+interface CurrentStatusBase {
+  status: SimulationStatus;
+  timestamps: TimeStamps;
+  message: string;
+}
+
+export interface SequentialProgress {
+  overallProgress: number;
+  currentStep?: number;
+  totalSteps: number;
+  completedSteps: number;
+}
+
+export interface ParallelProgress {
+  overallProgress: number;
+  completedGroups: number;
+  runningGroups?: number;
+  totalGroups: number;
+}
+
+export interface SequentialCurrentStatus extends CurrentStatusBase {
+  progress: SequentialProgress;
+  stepDetails: SequentialGroupDetail[];
+}
+
+export interface ParallelCurrentStatus extends CurrentStatusBase {
+  progress: ParallelProgress;
+  groupDetails: ParallelGroupDetail[];
+}
+
+export type SimulationCurrentStatus = ParallelCurrentStatus | SequentialCurrentStatus;
+
+// 시뮬레이션 상세 정보 (동적)
+export interface GetSimulationStatusResultBase {
+  simulationId: number;
+  patternType: PatternType;
+}
+
+export interface GetSequentialSimulationStatusResult extends GetSimulationStatusResultBase {
+  patternType: "sequential";
+  currentStatus: SequentialCurrentStatus;
+}
+
+export interface GetParallelSimulationStatusResult extends GetSimulationStatusResultBase {
+  patternType: "parallel";
+  currentStatus: ParallelCurrentStatus;
+}
+
+export type GetSimulationStatusResult = GetSequentialSimulationStatusResult | GetParallelSimulationStatusResult;

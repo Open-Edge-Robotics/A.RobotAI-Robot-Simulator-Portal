@@ -1,6 +1,7 @@
 import IconButton from "@/components/common/IconButton.tsx";
 import Title from "@/components/common/Title";
 
+import type { Timestamp } from "@/types/common";
 import type { SystemOverviewData } from "@/types/dashboard/domain";
 
 import { formatDateTime } from "@/utils/formatting";
@@ -21,18 +22,29 @@ export default function SystemOverviewSection({ overview, refetch }: SystemOverv
 
   return (
     <div>
-      <Title margin="mb-5">
-        <div className="flex flex-wrap items-center gap-2.5">
-          <span>전체 시스템 현황</span>
-          {overview && (
-            <div className="flex items-center gap-1 text-sm text-gray-600">
-              <span>마지막 업데이트: {formatDateTime(overview.timestamp)}</span>
-              <IconButton iconName="refresh" iconSize="20px" onClick={handleRefresh} />
-            </div>
-          )}
-        </div>
-      </Title>
+      <SystemOverviewSectionHeader timestamp={overview?.timestamp} onRefreshClick={handleRefresh} />
       <SystemOverview overview={overview} />
     </div>
+  );
+}
+
+interface SystemOverviewSectionHeaderProps {
+  timestamp?: Timestamp;
+  onRefreshClick: () => void;
+}
+
+function SystemOverviewSectionHeader({ timestamp, onRefreshClick }: SystemOverviewSectionHeaderProps) {
+  return (
+    <Title margin="mb-5">
+      <div className="flex flex-wrap items-center gap-2.5">
+        <span>전체 시스템 현황</span>
+        {timestamp && (
+          <div className="flex items-center gap-1 text-sm text-gray-600">
+            <span>마지막 업데이트: {formatDateTime(timestamp)}</span>
+            <IconButton iconName="refresh" iconSize="20px" onClick={onRefreshClick} />
+          </div>
+        )}
+      </div>
+    </Title>
   );
 }
