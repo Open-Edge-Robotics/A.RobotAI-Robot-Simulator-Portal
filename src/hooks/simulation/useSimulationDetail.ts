@@ -15,7 +15,7 @@ type UseSimulationOptions<TData = APIResponse<GetSimulationStaticResult>> = Omit
 >;
 
 // select가 있는 경우 (제네릭 타입 T를 반환)
-export function useSimulation<T>(
+export function useSimulationDetail<T>(
   id: number,
   options: UseSimulationOptions<T> & {
     select: (data: APIResponse<GetSimulationStaticResult>) => T;
@@ -23,21 +23,21 @@ export function useSimulation<T>(
 ): ReturnType<typeof useQuery<APIResponse<GetSimulationStaticResult>, Error, T>>;
 
 // select가 없는 경우 (원본 데이터 타입 반환)
-export function useSimulation(
+export function useSimulationDetail(
   id: number,
   options?: UseSimulationOptions,
 ): ReturnType<typeof useQuery<APIResponse<GetSimulationStaticResult>, Error, APIResponse<GetSimulationStaticResult>>>;
 
-export function useSimulation<T>(
+export function useSimulationDetail<T>(
   id: number,
   options?: UseSimulationOptions<T> & {
     select?: (data: APIResponse<GetSimulationStaticResult>) => T;
   },
 ) {
   return useQuery({
-    queryKey: [...QUERY_KEYS.simulation, id],
-    queryFn: () => simulationAPI.getSimulation(id),
-    // queryFn: () => simulationAPI.getMockSimulation(id),
+    queryKey: QUERY_KEYS.simulation.byId(id, "detail"),
+    // queryFn: () => simulationAPI.getSimulation(id),
+    queryFn: () => simulationAPI.getMockSimulation(id),
     ...options,
   });
 }

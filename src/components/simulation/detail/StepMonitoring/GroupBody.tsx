@@ -49,11 +49,12 @@ function getFieldConfigs(group: GroupDetail, lastUpdatedAt: string): FieldConfig
           value: formatDateTime(group.startedAt),
         },
         {
-          label: "실행 시간",
+          label: "경과 시간",
           value: formatDuration(new Date(lastUpdatedAt).getTime() - new Date(group.startedAt).getTime()),
         },
+
         {
-          label: "반복 진행",
+          label: "반복 횟수",
           value: `${group.currentRepeat}/${group.totalRepeats}`,
         },
       ];
@@ -80,7 +81,7 @@ function getFieldConfigs(group: GroupDetail, lastUpdatedAt: string): FieldConfig
           value: formatDuration(new Date(group.completedAt).getTime() - new Date(group.startedAt).getTime()),
         },
         {
-          label: "반복 완료",
+          label: "반복 횟수",
           value: `${group.currentRepeat}/${group.totalRepeats}`,
         },
       ];
@@ -91,8 +92,28 @@ function getFieldConfigs(group: GroupDetail, lastUpdatedAt: string): FieldConfig
     case "FAILED": {
       return [
         {
+          label: "자율행동체 수",
+          value: group.autonomousAgents.toString(),
+        },
+        {
+          label: "시작 시간",
+          value: formatDateTime(group.startedAt),
+        },
+        {
           label: "실패 시간",
           value: formatDateTime(group.failedAt),
+        },
+        {
+          label: "경과 시간",
+          value: formatDuration(new Date(group.failedAt).getTime() - new Date(group.startedAt).getTime()),
+        },
+        {
+          label: "반복 횟수",
+          value: `${group.currentRepeat}/${group.totalRepeats}`,
+        },
+        {
+          label: "오류 ",
+          value: group.error,
         },
       ];
     }
@@ -100,8 +121,24 @@ function getFieldConfigs(group: GroupDetail, lastUpdatedAt: string): FieldConfig
     case "STOPPED": {
       return [
         {
+          label: "자율행동체 수",
+          value: group.autonomousAgents.toString(),
+        },
+        {
+          label: "시작 시간",
+          value: formatDateTime(group.startedAt),
+        },
+        {
           label: "중지 시간",
           value: formatDateTime(group.stoppedAt),
+        },
+        {
+          label: "경과 시간",
+          value: formatDuration(new Date(group.stoppedAt).getTime() - new Date(group.startedAt).getTime()),
+        },
+        {
+          label: "반복 횟수",
+          value: `${group.currentRepeat}/${group.totalRepeats}`,
         },
       ];
     }

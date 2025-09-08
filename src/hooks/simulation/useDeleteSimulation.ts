@@ -10,10 +10,10 @@ export function useDeleteSimulation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: number) => simulationAPI.deleteSimulation(id),
+    mutationFn: (id: number) => simulationAPI.deleteMockSimulation(id),
     onSuccess: () => {
       successToast("시뮬레이션을 삭제했습니다.");
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation.all });
     },
     onMutate: () => {
       warnToast("개발 중입니다.");

@@ -212,22 +212,25 @@ export const SIMULATION_ACTION_TYPES = ["start", "stop", "edit", "delete"] as co
 export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig> = {
   start: {
     iconName: "play_arrow",
-    color: "hover:border-blue-200 hover:bg-blue-50 hover:text-blue-500 active:text-blue-700",
+    color:
+      "border-blue-400 bg-blue-400 text-white hover:bg-blue-500 disabled:bg-gray-300 disabled:border-gray-300 hover:border-blue-500 active:border-blue-300 active:bg-blue-300",
     label: "시작",
   },
   stop: {
     iconName: "stop",
-    color: "hover:border-magenta-200 hover:bg-magenta-50 hover:text-magenta-500 active:text-magenta-700",
+    color:
+      "border-red-400 bg-red-400 text-white hover:bg-red-500 disabled:bg-gray-300 disabled:border-gray-300 hover:border-red-500 active:border-red-300 active:bg-red-300",
     label: "중지",
   },
   edit: {
     iconName: "edit",
-    color: "hover:border-gray-200 hover:bg-gray-50 hover:text-gray-500 active:text-gray-700",
+    color:
+      "hover:border-gray-200 hover:bg-gray-50 hover:text-gray-500 active:text-gray-700 text-gray-500 border-gray-100",
     label: "편집",
   },
   delete: {
     iconName: "delete",
-    color: "hover:border-red-200 hover:bg-red-50 hover:text-red-500 active:text-red-700",
+    color: "hover:border-red-200 hover:bg-red-50 hover:text-red-500 active:text-red-700 text-gray-500 border-gray-100",
     label: "삭제",
   },
 };
@@ -265,3 +268,6 @@ export const FILTER_OPTIONS = {
 // ========== 허용된 URL 파라미터 ==========
 
 export const ALLOWED_PARAMS = ["page", "size", "status", "pattern_type"] as const;
+
+export const SIMULATION_REFETCH_INTERVAL_MS = 60000; // 1 minute
+export const SIMULATION_STATUS_REFETCH_INTERVAL_MS = 5000; // 5 seconds

@@ -19,7 +19,7 @@ export function useUpdateSimulation(id: number) {
       return simulationAPI.updateSimulation(id, newSimulation);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation.all });
       successToast("시뮬레이션을 수정했습니다.");
       navigate(`/simulation/${id}`);
     },

@@ -13,11 +13,15 @@ interface ParallelGroupDetailBase extends GroupDetailBase {
   groupId: number;
 }
 
+// Pending 상태의 그룹 세부 정보
+interface PendingGroupDetail extends GroupDetailBase {
+  status: "PENDING";
+}
+
 // Running 상태의 그룹 세부 정보
 interface RunningGroupDetail extends GroupDetailBase {
   status: "RUNNING";
   startedAt: string;
-  completedAt: string; // running인데 어케 completed가 있지
   autonomousAgents: number;
   currentRepeat: number;
   totalRepeats: number;
@@ -36,18 +40,22 @@ interface CompletedGroupDetail extends GroupDetailBase {
 // Failed 상태의 그룹 세부 정보
 interface FailedGroupDetail extends GroupDetailBase {
   status: "FAILED";
+  startedAt: string;
   failedAt: string;
+  error: string;
+  autonomousAgents: number;
+  currentRepeat: number;
+  totalRepeats: number;
 }
 
 // Stopped 상태의 그룹 세부 정보
 interface StoppedGroupDetail extends GroupDetailBase {
   status: "STOPPED";
+  startedAt: string;
   stoppedAt: string;
-}
-
-// Pending 상태의 그룹 세부 정보
-interface PendingGroupDetail extends GroupDetailBase {
-  status: "PENDING";
+  autonomousAgents: number;
+  currentRepeat: number;
+  totalRepeats: number;
 }
 
 // Sequential 그룹 세부 정보 타입들

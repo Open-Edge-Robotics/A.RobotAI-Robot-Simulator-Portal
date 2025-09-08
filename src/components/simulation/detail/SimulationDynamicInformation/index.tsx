@@ -31,10 +31,6 @@ export default function SimulationDynamicInformation({ simulationId }: Simulatio
   }
 
   const result = data.data;
-  const hasStepDetails =
-    result.currentStatus.status !== "INITIATING" &&
-    result.currentStatus.status !== "PENDING" &&
-    ("stepDetails" in result.currentStatus || "groupDetails" in result.currentStatus);
 
   if (result.currentStatus.status === "INITIATING") {
     return (

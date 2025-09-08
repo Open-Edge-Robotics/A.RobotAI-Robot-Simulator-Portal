@@ -39,9 +39,9 @@ function SystemOverviewSectionHeader({ timestamp, onRefreshClick }: SystemOvervi
       <div className="flex flex-wrap items-center gap-2.5">
         <span>전체 시스템 현황</span>
         {timestamp && (
-          <div className="flex items-center gap-1 text-sm text-gray-600">
+          <div className="flex items-center gap-1 text-sm text-gray-500">
             <span>마지막 업데이트: {formatDateTime(timestamp)}</span>
-            <IconButton iconName="refresh" iconSize="20px" onClick={onRefreshClick} />
+            <IconButton iconName="refresh" iconSize="20px" onClick={onRefreshClick} title="새로고침" />
           </div>
         )}
       </div>

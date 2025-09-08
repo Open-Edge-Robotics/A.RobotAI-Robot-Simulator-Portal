@@ -12,17 +12,15 @@ import SimulationFilterToolbar from "@/components/simulation/SimulationFilterToo
 import SimulationList from "@/components/simulation/SimulationList";
 import SimulationOverview from "@/components/simulation/SimulationOverview";
 
-import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
 import { useSimulations } from "@/hooks/simulation/useSimulations";
 
 import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "@/types/simulation/domain";
 
 import { getValidParams } from "./utils";
 
-export default function SimulationPage() {
+export default function SimulationListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { status, data, refetch } = useSimulations(searchParams);
-  const { actionHandlers, isLoading } = useSimulationActions();
 
   const statusFilterValue = (searchParams.get("status") || "") as StatusFilterOption;
   const patternTypeFilterValue = (searchParams.get("pattern_type") || "") as PatternTypeFilterOption;
@@ -90,7 +88,7 @@ export default function SimulationPage() {
       {status === "pending" && <LoadingFallback message="시뮬레이션 정보를 불러오고 있습니다." />}
       {status === "success" && (
         <>
-          <SimulationList simulations={simulations} actionHandlers={actionHandlers} isLoading={isLoading} />
+          <SimulationList simulations={simulations} />
           <Pagination
             currentPage={pageValue}
             size={pageSizeValue}
@@ -110,7 +108,7 @@ export default function SimulationPage() {
 
 function SimulationCreateButton() {
   return (
-    <LinkButton to="/simulation/create">
+    <LinkButton to="/simulation/create" title="시뮬레이션 생성">
       <div className="flex items-center gap-1">
         <Icon name="add" className="ml-[-6px]" />
         시뮬레이션 생성

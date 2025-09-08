@@ -3,11 +3,15 @@ import { useParams } from "react-router-dom";
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import Icon from "@/components/common/Icon";
+import IconButton from "@/components/common/IconButton.tsx";
 import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
 import SimulationDynamicInformation from "@/components/simulation/detail/SimulationDynamicInformation";
 import SimulationStaticInformation from "@/components/simulation/detail/SimulationStaticInformation";
-import { useSimulation } from "@/hooks/simulation/useSimulation";
+import { SIMULATION_REFETCH_INTERVAL_MS } from "@/constants/simulation";
+import { useSimulationDetail } from "@/hooks/simulation/useSimulationDetail";
+import { formatDateTime } from "@/utils/formatting";
+import { successToast } from "@/utils/toast";
 
 export default function SimulationDetailPage() {
   const { id: rawId } = useParams();
@@ -26,12 +30,12 @@ export default function SimulationDetailPage() {
 }
 
 function SimulationDetailPageContent({ id }: { id: number }) {
-  const { status, data, refetch } = useSimulation(id, {
+  const { status, data, refetch } = useSimulationDetail(id, {
     refetchInterval: (query) => {
       const data = query.state.data;
 
       // 데이터가 없으면 polling 계속
-      if (!data) return 60000;
+      if (!data) return SIMULATION_REFETCH_INTERVAL_MS;
 
       const status = data.data.currentStatus.status;
 
@@ -41,7 +45,7 @@ function SimulationDetailPageContent({ id }: { id: number }) {
       }
 
       // PENDING, RUNNING 상태면 1분마다 polling
-      return 60000;
+      return SIMULATION_REFETCH_INTERVAL_MS;
     },
   });
 
@@ -60,9 +64,17 @@ function SimulationDetailPageContent({ id }: { id: number }) {
     );
   }
 
+  const handleRefresh = () => {
+    refetch();
+    successToast("시뮬레이션 정보를 새로고침했습니다.");
+  };
+
   return (
     <div className="flex flex-col gap-6">
-      <SimulationDetailPageHeader />
+      <SimulationDetailPageHeader
+        lastUpdated={data.data.currentStatus.timestamps.lastUpdated}
+        onRefreshClick={handleRefresh}
+      />
       <div className="space-y-6">
         <SimulationStaticInformation simulation={data.data} />
         <SimulationDynamicInformation simulationId={id} />
@@ -71,10 +83,23 @@ function SimulationDetailPageContent({ id }: { id: number }) {
   );
 }
 
-function SimulationDetailPageHeader() {
+interface SimulationDetailPageHeaderProps {
+  lastUpdated: string;
+  onRefreshClick: () => void;
+}
+
+function SimulationDetailPageHeader({ lastUpdated, onRefreshClick }: SimulationDetailPageHeaderProps) {
   return (
     <div className="flex items-center justify-between">
-      <Title title="시뮬레이션 상세 모니터링" />
+      <Title>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <span>시뮬레이션 상세 모니터링</span>
+          <div className="flex items-center gap-1 text-sm text-gray-500">
+            <span>마지막 업데이트: {formatDateTime(lastUpdated)}</span>
+            <IconButton iconName="refresh" iconSize="20px" onClick={onRefreshClick} />
+          </div>
+        </div>
+      </Title>
       <LinkButton to="/simulation">
         <div className="flex items-center gap-1">
           <Icon name="list" className="ml-[-6px]" />

@@ -74,7 +74,7 @@ export const simulationAPI = {
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 상태를 성공적으로 조회했습니다.",
-      data: mockStatusData.failed.sequential,
+      data: mockStatusData.completed.parallel,
     }),
 
   // 시뮬레이션 생성
@@ -91,4 +91,40 @@ export const simulationAPI = {
 
   // 시뮬레이션 중지
   stopSimulation: (id: number) => apiClient.postApi(`${ENDPOINT}/action`, { simulationId: id, action: "stop" }),
+
+  startMockSimulation: (id: number): Promise<APIResponse<unknown>> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          status: "success",
+          message: "시뮬레이션을 성공적으로 시작했습니다.",
+          data: { simulationId: id, action: "start" },
+        });
+      }, 5000); // 5초 지연
+    });
+  },
+
+  stopMockSimulation: (id: number): Promise<APIResponse<unknown>> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          status: "success",
+          message: "시뮬레이션을 성공적으로 중지했습니다.",
+          data: { simulationId: id, action: "stop" },
+        });
+      }, 5000); // 5초 지연
+    });
+  },
+
+  deleteMockSimulation: (id: number): Promise<APIResponse<unknown>> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          status: "success",
+          message: "시뮬레이션을 성공적으로 삭제했습니다.",
+          data: { simulationId: id, action: "delete" },
+        });
+      }, 3000); // 3초 지연 (삭제는 조금 더 빠르게)
+    });
+  },
 };

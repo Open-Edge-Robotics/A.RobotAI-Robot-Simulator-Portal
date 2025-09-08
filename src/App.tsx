@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import Layout from "./components/layout";
 import DashboardPage from "./pages/dashboard";
 import MecPage from "./pages/mec";
-import SimulationPage from "./pages/simulation";
+import SimulationListPage from "./pages/simulation";
 import SimulationCreatePage from "./pages/simulation/create";
 import SimulationDetailPage from "./pages/simulation/detail";
 import SimulationEditPage from "./pages/simulation/edit";
@@ -17,7 +17,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<DashboardPage />} />
       <Route path="/simulation">
-        <Route index element={<SimulationPage />} />
+        <Route index element={<SimulationListPage />} />
         <Route path="create" element={<SimulationCreatePage />} />
         <Route path=":id" element={<SimulationDetailPage />} />
         <Route path=":id/edit" element={<SimulationEditPage />} />

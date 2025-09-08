@@ -8,7 +8,8 @@ import LabeledValue from "@/components/common/LabeledValue";
 
 import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS } from "@/constants/simulation";
 
-import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
+import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
+import type { Simulation } from "@/types/simulation/domain";
 
 import { formatDateTime } from "@/utils/formatting";
 
@@ -16,12 +17,12 @@ import ActionButtons from "../SimulationActionButtons";
 
 interface SimulationTableCardProps {
   simulation: Simulation;
-  actionHandlers: SimulationActionHandler[];
-  isLoading: boolean;
 }
 
-export default function SimulationCard({ simulation, actionHandlers, isLoading }: SimulationTableCardProps) {
+export default function SimulationCard({ simulation }: SimulationTableCardProps) {
+  const { actionHandlers, isLoading, loadingStates } = useSimulationActions();
   const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.status].filter((action) => action !== "edit");
+
   return (
     <Container className="p-5">
       {/* Card Header */}
@@ -59,9 +60,10 @@ export default function SimulationCard({ simulation, actionHandlers, isLoading }
       {/* Card Actions */}
       <ActionButtons
         actions={allowedActions}
+        simulationId={simulation.simulationId}
         actionHandlers={actionHandlers}
         isLoading={isLoading}
-        simulationId={simulation.simulationId}
+        loadingStates={loadingStates}
         className="ml-auto"
       />
     </Container>

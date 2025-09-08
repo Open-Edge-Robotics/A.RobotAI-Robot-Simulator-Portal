@@ -21,6 +21,7 @@ export default function LogoSection({ onClose }: LogoSectionProps) {
           iconName="close"
           onClick={onClose}
           aria-label="메뉴 닫기"
+          title="메뉴 닫기"
           className="rounded-md p-2 hover:bg-gray-50"
         />
       )}

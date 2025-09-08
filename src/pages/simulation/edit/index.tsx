@@ -5,7 +5,7 @@ import LoadingFallback from "@/components/common/Fallback/LoadingFallback.tsx";
 import SimulationHeader from "@/components/simulation/SimluationHeader";
 import SimulationForm from "@/components/simulation/SimulationForm";
 
-import { useSimulation } from "@/hooks/simulation/useSimulation";
+import { useSimulationDetail } from "@/hooks/simulation/useSimulationDetail";
 import { useUpdateSimulation } from "@/hooks/simulation/useUpdateSimulation.ts";
 
 import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
@@ -34,7 +34,7 @@ function SimulationEditContent({ id }: { id: number }) {
   const templateList = getMockTemplateList();
 
   // 수정할 시뮬레이션 정보 가져오기
-  const { status, data, refetch } = useSimulation(id, { select: transformSimulationResponseToFormdata });
+  const { status, data, refetch } = useSimulationDetail(id, { select: transformSimulationResponseToFormdata });
 
   // 시뮬레이션 수정 함수
   const { mutate: updateSimulation, isPending, isSuccess } = useUpdateSimulation(id);

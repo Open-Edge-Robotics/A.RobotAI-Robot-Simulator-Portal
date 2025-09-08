@@ -19,7 +19,7 @@ export function useCreateSimulation() {
       return simulationAPI.createSimulation(newSimulation);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation.all });
       successToast("시뮬레이션을 생성했습니다.");
       navigate("/simulation");
     },

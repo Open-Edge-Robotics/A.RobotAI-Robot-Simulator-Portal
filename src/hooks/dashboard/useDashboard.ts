@@ -4,23 +4,22 @@ import { dashboardAPI } from "@/apis/dashboard";
 
 import { simulationAPI } from "@/apis/simulation";
 import { QUERY_KEYS } from "@/constants/api";
-
-const REFETCH_INTERVAL_MS = 60000; // 1분
+import { DASHBOARD_REFETCH_INTERVAL_MS } from "@/constants/dashboard";
 
 export function useDashboard() {
   return useQueries({
     queries: [
       {
-        queryKey: QUERY_KEYS.dashboard,
+        queryKey: QUERY_KEYS.dashboard.all,
         queryFn: () => dashboardAPI.getSystemOverview(),
-        refetchInterval: REFETCH_INTERVAL_MS,
+        refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
       },
       {
-        queryKey: QUERY_KEYS.simulation,
+        queryKey: QUERY_KEYS.simulation.list("lite"),
         queryFn: () => {
           return simulationAPI.getSimulationsLite();
         },
-        refetchInterval: REFETCH_INTERVAL_MS,
+        refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
       },
     ],
   });

@@ -26,3 +26,5 @@ export const SYSTEM_OVERVIEW_CONFIGS: Record<keyof Omit<SystemOverviewData, "tim
     iconBgColor: "bg-green-50",
   },
 } as const;
+
+export const DASHBOARD_REFETCH_INTERVAL_MS = 60000; // 1 minute

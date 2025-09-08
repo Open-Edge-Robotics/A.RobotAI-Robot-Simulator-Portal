@@ -22,6 +22,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
               iconName="menu"
               onClick={onMenuToggle}
               aria-label="메뉴 열기"
+              title="메뉴 열기"
               className="rounded-md p-2 hover:bg-gray-50"
             />
             <div className="flex items-center gap-2">
@@ -40,7 +41,9 @@ export default function Header({ onMenuToggle }: HeaderProps) {
         )}
       </div>
 
-      <Button color="secondary">로그아웃</Button>
+      <Button color="secondary" title="로그아웃">
+        로그아웃
+      </Button>
     </header>
   );
 }

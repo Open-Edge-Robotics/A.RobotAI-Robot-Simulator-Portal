@@ -8,7 +8,7 @@ import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
 import { calculateTotalExecutionTime } from "@/pages/simulation/utils";
 import type { GetSimulationStaticResult } from "@/types/simulation/api";
 
-import type { SimulationActionHandler } from "@/types/simulation/domain";
+import type { SimulationActionHandler, SimulationActionType } from "@/types/simulation/domain";
 
 import ExecutionConfiguration from "./ExecutionConfiguration";
 import SimulationInformation from "./SimulationInformation";
@@ -19,13 +19,18 @@ interface SimulationSpecificationProps {
 }
 
 export default function SimulationStaticInformation({ simulation }: SimulationSpecificationProps) {
-  const { actionHandlers, isLoading } = useSimulationActions();
+  const { actionHandlers, isLoading, loadingStates } = useSimulationActions();
 
   const executionInformation = getExecutionInformationByPatternType(simulation);
 
   return (
     <Container className="p-6">
-      <Header simulation={simulation} actionHandlers={actionHandlers} isLoading={isLoading} />
+      <Header
+        simulation={simulation}
+        actionHandlers={actionHandlers}
+        isLoading={isLoading}
+        loadingStates={loadingStates}
+      />
 
       {/* 시뮬레이션 기본 정보 */}
       <SimulationInformation
@@ -45,9 +50,10 @@ interface HeaderProps {
   simulation: GetSimulationStaticResult;
   actionHandlers: SimulationActionHandler[];
   isLoading: boolean;
+  loadingStates: Record<SimulationActionType, boolean>;
 }
 
-function Header({ simulation, actionHandlers, isLoading }: HeaderProps) {
+function Header({ simulation, actionHandlers, isLoading, loadingStates }: HeaderProps) {
   const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.currentStatus.status];
 
   return (
@@ -69,6 +75,7 @@ function Header({ simulation, actionHandlers, isLoading }: HeaderProps) {
         simulationId={simulation.simulationId}
         actionHandlers={actionHandlers}
         isLoading={isLoading}
+        loadingStates={loadingStates}
       />
     </div>
   );

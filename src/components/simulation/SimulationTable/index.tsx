@@ -1,21 +1,19 @@
 import Container from "@/components/common/Container.tsx";
 
-import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
+import type { Simulation } from "@/types/simulation/domain";
 
 import TableBody from "./SimulationTableBody";
 import TableHeader from "./SimulationTableHeader";
 
 interface SimulationTableProps {
   simulations: Simulation[];
-  actionHandlers: SimulationActionHandler[];
-  isLoading: boolean;
 }
 
-export default function SimulationTable({ simulations, actionHandlers, isLoading }: SimulationTableProps) {
+export default function SimulationTable({ simulations }: SimulationTableProps) {
   return (
     <Container shadow className="overflow-hidden">
       <TableHeader />
-      <TableBody simulations={simulations} actionHandlers={actionHandlers} isLoading={isLoading} />
+      <TableBody simulations={simulations} />
     </Container>
   );
 }

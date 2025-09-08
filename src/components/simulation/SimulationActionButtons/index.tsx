@@ -9,6 +9,7 @@ interface ActionButtonsProps {
   simulationId: number;
   actionHandlers: SimulationActionHandler[];
   isLoading: boolean;
+  loadingStates: Record<SimulationActionType, boolean>;
   disableButton?: (actionType: SimulationActionType) => boolean;
   className?: string;
 }
@@ -18,6 +19,7 @@ export default function ActionButtons({
   simulationId,
   actionHandlers,
   isLoading,
+  loadingStates,
   disableButton,
   className,
 }: ActionButtonsProps) {
@@ -40,6 +42,9 @@ export default function ActionButtons({
         const config = ACTION_CONFIGS[actionType];
         const handler = handlerMap[actionType];
 
+        const isActionLoading = loadingStates[actionType];
+        const isDisabled = disableButton?.(actionType) || isLoading;
+
         return (
           <ActionButton
             key={actionType}
@@ -47,7 +52,8 @@ export default function ActionButtons({
             color={config.color}
             label={config.label}
             onClick={() => handler(simulationId)}
-            disabled={disableButton?.(actionType) || isLoading}
+            disabled={isDisabled}
+            isLoading={isActionLoading}
           />
         );
       })}
@@ -61,9 +67,10 @@ interface ActionButtonProps {
   label?: string;
   onClick: () => void;
   disabled: boolean;
+  isLoading: boolean;
 }
 
-function ActionButton({ iconName, color, label, onClick, disabled }: ActionButtonProps) {
+function ActionButton({ iconName, color, label, onClick, disabled, isLoading }: ActionButtonProps) {
   return (
     <button
       onClick={(e) => {
@@ -73,11 +80,11 @@ function ActionButton({ iconName, color, label, onClick, disabled }: ActionButto
       }}
       disabled={disabled}
       title={label} // 툴팁으로 액션 이름 표시
-      className={`flex h-8 w-8 items-center justify-center rounded-md border border-gray-100 text-gray-500 ${
-        disabled ? "cursor-default opacity-50" : `cursor-pointer ${color}`
+      className={`flex h-8 w-8 items-center justify-center rounded-md border ${color} ${
+        disabled || isLoading ? "cursor-default opacity-50" : `cursor-pointer`
       }`}
     >
-      <Icon name={iconName} size="22px" />
+      <Icon name={isLoading ? "progress_activity" : iconName} size="22px" className={isLoading ? "animate-spin" : ""} />
     </button>
   );
 }

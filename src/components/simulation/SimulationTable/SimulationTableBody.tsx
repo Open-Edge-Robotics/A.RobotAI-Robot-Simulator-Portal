@@ -4,7 +4,8 @@ import StatusBadge from "@/components/common/Badge/StatusBadge";
 
 import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS } from "@/constants/simulation";
 
-import type { Simulation, SimulationActionHandler } from "@/types/simulation/domain";
+import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
+import type { Simulation } from "@/types/simulation/domain";
 
 import { formatDateTime } from "@/utils/formatting";
 
@@ -13,20 +14,13 @@ import ActionButtons from "../SimulationActionButtons";
 
 interface TableBodyProps {
   simulations: Simulation[];
-  actionHandlers: SimulationActionHandler[];
-  isLoading: boolean;
 }
 
-export default function TableBody({ simulations, actionHandlers, isLoading }: TableBodyProps) {
+export default function TableBody({ simulations }: TableBodyProps) {
   return (
     <ul className="divide-y divide-gray-100">
       {simulations.map((simulation) => (
-        <TableBodyRow
-          simulation={simulation}
-          actionHandlers={actionHandlers}
-          key={simulation.simulationId}
-          isLoading={isLoading}
-        />
+        <TableBodyRow simulation={simulation} key={simulation.simulationId} />
       ))}
     </ul>
   );
@@ -34,11 +28,10 @@ export default function TableBody({ simulations, actionHandlers, isLoading }: Ta
 
 interface TableBodyRowProps {
   simulation: Simulation;
-  actionHandlers: SimulationActionHandler[];
-  isLoading: boolean;
 }
 
-function TableBodyRow({ simulation, actionHandlers, isLoading }: TableBodyRowProps) {
+function TableBodyRow({ simulation }: TableBodyRowProps) {
+  const { actionHandlers, isLoading, loadingStates } = useSimulationActions();
   const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.status].filter((action) => action !== "edit");
 
   return (
@@ -58,6 +51,7 @@ function TableBodyRow({ simulation, actionHandlers, isLoading }: TableBodyRowPro
             simulationId={simulation.simulationId}
             actionHandlers={actionHandlers}
             isLoading={isLoading}
+            loadingStates={loadingStates}
           />
         </TableBodyCell>
       </li>
