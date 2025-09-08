@@ -6,6 +6,7 @@ import Divider from "@/components/common/Divider";
 import Icon from "@/components/common/Icon";
 import LabeledValue from "@/components/common/LabeledValue";
 
+import { SEGMENTS } from "@/constants/navigation";
 import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS } from "@/constants/simulation";
 
 import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
@@ -32,7 +33,7 @@ export default function SimulationCard({ simulation }: SimulationTableCardProps)
           <StatusBadge status={simulation.status} />
         </div>
         <Link
-          to={`/simulations/${simulation.simulationId}`}
+          to={`${SEGMENTS.absolute.simulation}/${simulation.simulationId}`}
           className="flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-50"
         >
           <Icon name="chevron_right" className="text-gray-400" />

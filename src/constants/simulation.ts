@@ -225,7 +225,7 @@ export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig
   edit: {
     iconName: "edit",
     color:
-      "hover:border-gray-200 hover:bg-gray-50 hover:text-gray-500 active:text-gray-700 text-gray-500 border-gray-100",
+      "hover:border-gray-200 hover:bg-gray-50 hover:text-gray-500 active:text-gray-700 disabled:bg-white disabled:border-gray-200 text-gray-500 border-gray-100",
     label: "편집",
   },
   delete: {
@@ -270,4 +270,4 @@ export const FILTER_OPTIONS = {
 export const ALLOWED_PARAMS = ["page", "size", "status", "pattern_type"] as const;
 
 export const SIMULATION_REFETCH_INTERVAL_MS = 60000; // 1 minute
-export const SIMULATION_STATUS_REFETCH_INTERVAL_MS = 5000; // 5 seconds
+export const SIMULATION_STATUS_REFETCH_INTERVAL_MS = 1000; // 1 second

@@ -1,16 +1,11 @@
 import { ALLOWED_PARAMS, STEPS_INFO } from "@/constants/simulation";
 
 import type { APIResponse } from "@/types/api";
-import type {
-  CreateSimulationRequest,
-  GetSimulationStaticResult,
-  GetSimulationSummaryResult,
-} from "@/types/simulation/api";
+import type { CreateSimulationRequest, GetSimulationStaticResult } from "@/types/simulation/api";
 import type {
   AllowedParam,
   ParallelAgentGroup,
   PatternType,
-  PodStatusBreakdownData,
   SequentialAgentGroup,
   SimulationFormData,
   SimulationPattern,

@@ -10,7 +10,7 @@ export function useStopSimulation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: number) => simulationAPI.stopMockSimulation(id),
+    mutationFn: (id: number) => simulationAPI.stopSimulation(id),
     onSuccess: () => {
       successToast("시뮬레이션을 중지했습니다.");
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation.all });

@@ -36,8 +36,8 @@ export function useSimulationDetail<T>(
 ) {
   return useQuery({
     queryKey: QUERY_KEYS.simulation.byId(id, "detail"),
-    // queryFn: () => simulationAPI.getSimulation(id),
-    queryFn: () => simulationAPI.getMockSimulation(id),
+    queryFn: () => simulationAPI.getSimulation(id),
+    // queryFn: () => simulationAPI.getMockSimulation(id),
     ...options,
   });
 }

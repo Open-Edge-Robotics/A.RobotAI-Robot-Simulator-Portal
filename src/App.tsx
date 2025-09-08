@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import Layout from "./components/layout";
+import { SEGMENTS } from "./constants/navigation";
 import DashboardPage from "./pages/dashboard";
 import MecPage from "./pages/mec";
 import SimulationListPage from "./pages/simulation";
@@ -15,15 +16,15 @@ import "./App.css";
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<DashboardPage />} />
-      <Route path="/simulation">
+      <Route path={SEGMENTS.absolute.home} element={<DashboardPage />} />
+      <Route path={SEGMENTS.absolute.simulation}>
         <Route index element={<SimulationListPage />} />
-        <Route path="create" element={<SimulationCreatePage />} />
+        <Route path={SEGMENTS.relative.create} element={<SimulationCreatePage />} />
         <Route path=":id" element={<SimulationDetailPage />} />
-        <Route path=":id/edit" element={<SimulationEditPage />} />
+        <Route path={`:id/${SEGMENTS.relative.edit}`} element={<SimulationEditPage />} />
       </Route>
-      <Route path="/template" element={<TemplatePage />} />
-      <Route path="/mec" element={<MecPage />} />
+      <Route path={SEGMENTS.absolute.template} element={<TemplatePage />} />
+      <Route path={SEGMENTS.absolute.mec} element={<MecPage />} />
     </Routes>
   );
 }

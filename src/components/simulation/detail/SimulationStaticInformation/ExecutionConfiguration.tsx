@@ -1,8 +1,6 @@
 import { CustomVerticalLabeledValue } from "@/components/common/LabeledValue";
 import Title from "@/components/common/Title";
 
-import { formatDuration } from "@/utils/formatting";
-
 interface ExecutionConfigurationProps {
   executionInformation: {
     pattern: string;
@@ -20,10 +18,6 @@ export default function ExecutionConfiguration({ executionInformation }: Executi
         <CustomVerticalLabeledValue label="실행 패턴" value={executionInformation.pattern} />
         <CustomVerticalLabeledValue label="총 에이전트 그룹 수" value={executionInformation.totalGroups.toString()} />
         <CustomVerticalLabeledValue label="총 에이전트 수" value={executionInformation.totalAgent.toString()} />
-        <CustomVerticalLabeledValue
-          label="예상 실행 시간"
-          value={`${formatDuration(executionInformation.totalExecutionTime)} (${executionInformation.totalExecutionTime}ms)`}
-        />
       </div>
     </div>
   );

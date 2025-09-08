@@ -4,7 +4,8 @@ import Backdrop from "@/components/common/Backdrop";
 
 import UserInfoSection from "@/components/layout/NavigationBar/UserInfoSection";
 
-import { NAV_ITEMS } from "../constants";
+import { NAV_ITEMS } from "@/constants/navigation";
+
 import LogoSection from "../LogoSection";
 import NavItem from "../NavItem";
 

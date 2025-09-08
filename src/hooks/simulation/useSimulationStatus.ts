@@ -1,21 +1,38 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { simulationAPI } from "@/apis/simulation";
 
 import { QUERY_KEYS } from "@/constants/api";
 import { SIMULATION_STATUS_REFETCH_INTERVAL_MS } from "@/constants/simulation";
-import type {
-  GetParallelSimulationStatusResult,
-  GetSequentialSimulationStatusResult,
-  ParallelCurrentStatus,
-  SequentialCurrentStatus,
-} from "@/types/simulation/api";
+import type { APIResponse } from "@/types/api";
+
+import type { GetStatusResponseFinal } from "@/types/simulation/status";
 
 export function useSimulationStatus(id: number) {
+  const queryClient = useQueryClient();
+
   return useQuery({
     queryKey: QUERY_KEYS.simulation.byId(id, "status"),
-    // queryFn: () => simulationAPI.getSimulationStatus(id),
-    queryFn: () => simulationAPI.getMockSimulationStatus(id),
+    queryFn: async () => {
+      // 이전 상태 데이터 가져오기
+      const previousStatus = queryClient.getQueryData<APIResponse<GetStatusResponseFinal>>(
+        QUERY_KEYS.simulation.byId(id, "status"),
+      );
+
+      // 새 상태 데이터 fetch
+      const newStatus = await simulationAPI.getSimulationStatus(id);
+
+      // 상태 변화 감지 및 detail 쿼리 invalidate
+      const isStatusChanged =
+        previousStatus && newStatus && previousStatus.data.currentStatus.status !== newStatus.data.currentStatus.status;
+      if (isStatusChanged) {
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.simulation.byId(id, "detail"),
+        });
+      }
+
+      return newStatus;
+    },
     refetchInterval: (query) => {
       const data = query.state.data;
 
@@ -32,25 +49,5 @@ export function useSimulationStatus(id: number) {
       // PENDING, RUNNING 상태면 5초마다 polling
       return SIMULATION_STATUS_REFETCH_INTERVAL_MS;
     },
-    // select: (data) => {
-    //   // currentStatus의 구조를 보고 patternType을 동적으로 결정
-    //   const isSequential = "stepDetails" in data.data.currentStatus;
-
-    //   if (isSequential) {
-    //     const transformedData: GetSequentialSimulationStatusResult = {
-    //       ...data.data,
-    //       patternType: "sequential",
-    //       currentStatus: data.data.currentStatus as SequentialCurrentStatus,
-    //     };
-    //     return { ...data, data: transformedData };
-    //   } else {
-    //     const transformedData: GetParallelSimulationStatusResult = {
-    //       ...data.data,
-    //       patternType: "parallel",
-    //       currentStatus: data.data.currentStatus as ParallelCurrentStatus,
-    //     };
-    //     return { ...data, data: transformedData };
-    //   }
-    // },
   });
 }

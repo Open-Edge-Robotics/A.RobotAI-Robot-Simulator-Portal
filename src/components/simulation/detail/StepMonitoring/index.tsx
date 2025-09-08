@@ -5,7 +5,6 @@ import InformationFallback from "@/components/common/Fallback/InformationFallbac
 import Title from "@/components/common/Title";
 
 import { PATTERN_CONFIGS } from "@/constants/simulation";
-import type { GetSimulationStatusResult } from "@/types/simulation/api";
 
 import type { PatternType } from "@/types/simulation/domain";
 import type { GroupDetail } from "@/types/simulation/simulationDetail";

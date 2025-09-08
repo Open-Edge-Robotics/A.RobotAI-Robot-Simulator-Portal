@@ -2,9 +2,6 @@ import Container from "@/components/common/Container.tsx";
 import Divider from "@/components/common/Divider";
 import InformationFallback from "@/components/common/Fallback/InformationFallback";
 import Title from "@/components/common/Title";
-import type { GetSimulationStatusResult, TimeStamps } from "@/types/simulation/api";
-
-import type { ParallelProgressData, SequentialProgressData } from "@/types/simulation/domain";
 
 import type { GetStatusResponseFinal } from "@/types/simulation/status";
 

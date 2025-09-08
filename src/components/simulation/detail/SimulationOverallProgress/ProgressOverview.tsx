@@ -2,7 +2,7 @@ import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
 import { SIMULATION_PROGRESS_OVERVIEW_CONFIGS } from "@/constants/simulation";
 import type { OverviewConfig } from "@/types/common";
-import type { ParallelProgress, SequentialProgress, SimulationCurrentStatus } from "@/types/simulation/api";
+import type { ParallelProgress, SequentialProgress } from "@/types/simulation/api";
 import type { PatternType } from "@/types/simulation/domain";
 
 // TODO: patternType 속성 생기면 프롭 Progress만 받아오기

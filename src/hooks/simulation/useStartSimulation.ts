@@ -10,7 +10,7 @@ export function useStartSimulation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: number) => simulationAPI.startMockSimulation(id),
+    mutationFn: (id: number) => simulationAPI.startSimulation(id),
     onSuccess: () => {
       successToast("시뮬레이션을 시작했습니다.");
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation.all });

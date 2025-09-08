@@ -2,7 +2,6 @@ import { ENDPOINTS } from "@/constants/api";
 
 import type { APIResponse } from "@/types/api";
 import type {
-  GetSimulationStatusResult,
   CreateSimulationRequest,
   CreateSimulationResult,
   GetSimulationsLiteResult,
@@ -68,7 +67,7 @@ export const simulationAPI = {
     }),
 
   // 시뮬레이션 동적 상태 조회
-  getSimulationStatus: (id: number) => apiClient.getApi<GetSimulationStatusResult>(`${ENDPOINT}/${id}/status`),
+  getSimulationStatus: (id: number) => apiClient.getApi<GetStatusResponseFinal>(`${ENDPOINT}/${id}/status`),
 
   getMockSimulationStatus: (simulationId: number): Promise<APIResponse<GetStatusResponseFinal>> =>
     Promise.resolve({

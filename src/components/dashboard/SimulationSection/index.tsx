@@ -7,6 +7,8 @@ import InformationFallback from "@/components/common/Fallback/InformationFallbac
 import Icon from "@/components/common/Icon";
 import Title from "@/components/common/Title";
 
+import { SEGMENTS } from "@/constants/navigation";
+
 import SimulationSummary from "./SimulationSummary";
 
 interface SimulationSectionProps {
@@ -29,7 +31,7 @@ export default function SimulationSection({ simulations }: SimulationSectionProp
           <Title>
             <div className="flex items-center gap-1">
               <span>{selectedSimulation.simulationName} 상세 현황</span>
-              <DetailPageLink to={`simulation/${selectedSimulation.simulationId}`} />
+              <DetailPageLink to={`${SEGMENTS.absolute.simulation}/${selectedSimulation.simulationId}`} />
             </div>
           </Title>
         ) : (
