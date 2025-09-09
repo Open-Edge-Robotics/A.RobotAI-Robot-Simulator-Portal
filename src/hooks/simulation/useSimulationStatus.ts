@@ -36,6 +36,8 @@ export function useSimulationStatus(id: number) {
     refetchInterval: (query) => {
       const data = query.state.data;
 
+      if (query.state.error) return false;
+
       // 데이터가 없으면 polling 계속
       if (!data) return SIMULATION_STATUS_REFETCH_INTERVAL_MS;
 
@@ -46,8 +48,12 @@ export function useSimulationStatus(id: number) {
         return false;
       }
 
-      // PENDING, RUNNING 상태면 5초마다 polling
+      // PENDING, RUNNING 상태면 지정한 간격으로 polling
       return SIMULATION_STATUS_REFETCH_INTERVAL_MS;
+    },
+    retry: (failureCount) => {
+      // 2회까지 재시도
+      return failureCount < 2;
     },
   });
 }

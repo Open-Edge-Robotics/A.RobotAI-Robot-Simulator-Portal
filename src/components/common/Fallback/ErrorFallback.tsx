@@ -28,7 +28,7 @@ export default function ErrorFallback({
         {subMessage && <p className="mb-6 text-sm text-gray-500">{subMessage}</p>}
         <div className="flex gap-3">
           {onRetry && (
-            <Button onClick={onRetry} size="medium" color="primary" title="다시 시도">
+            <Button onClick={onRetry} size="medium" color="primary">
               <div className="flex items-center gap-1">
                 <Icon name="refresh" size="20px" className="mt-0.5 ml-[-4px]" />
                 <span>다시 시도</span>

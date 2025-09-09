@@ -6,8 +6,8 @@ export interface APIResponse<T = unknown> {
 }
 
 // 에러 응답 타입
-export interface APIError<T = unknown> {
-  status: "error";
-  error: { code: string; message: string; details: T };
-  timestamp: string;
+export interface APIError {
+  statusCode: number;
+  message: string;
+  data?: null;
 }

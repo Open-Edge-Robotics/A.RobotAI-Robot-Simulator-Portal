@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 
 import Layout from "./components/layout";
 import { SEGMENTS } from "./constants/navigation";
@@ -35,7 +34,6 @@ function App() {
       <Layout>
         <AppRoutes />
       </Layout>
-      <ToastContainer position="top-center" newestOnTop autoClose={3000} />
     </BrowserRouter>
   );
 }

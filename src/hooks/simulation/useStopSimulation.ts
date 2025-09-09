@@ -15,10 +15,5 @@ export function useStopSimulation() {
       successToast("시뮬레이션을 중지했습니다.");
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.simulation.all });
     },
-
-    onError: (e: { response: object }) => {
-      errorToast("시뮬레이션을 중지하지 못했습니다.");
-      console.log(e.response);
-    },
   });
 }

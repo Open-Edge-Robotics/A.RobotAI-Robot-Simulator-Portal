@@ -23,10 +23,5 @@ export function useCreateSimulation() {
       successToast("시뮬레이션을 생성했습니다.");
       navigate("/simulation");
     },
-    // TODO: 에러 처리
-    onError: (e: { response: object }) => {
-      errorToast("시뮬레이션을 생성하지 못했습니다.");
-      console.log(e.response);
-    },
   });
 }

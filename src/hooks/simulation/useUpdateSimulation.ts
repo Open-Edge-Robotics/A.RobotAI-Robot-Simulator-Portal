@@ -23,10 +23,5 @@ export function useUpdateSimulation(id: number) {
       successToast("시뮬레이션을 수정했습니다.");
       navigate(`/simulation/${id}`);
     },
-    // TODO: 에러 처리
-    onError: (e: { response: object }) => {
-      errorToast("시뮬레이션을 수정하지 못했습니다.");
-      console.log(e.response);
-    },
   });
 }
