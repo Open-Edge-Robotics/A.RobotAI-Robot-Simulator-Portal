@@ -4,8 +4,7 @@ import SimulationForm from "@/components/simulation/SimulationForm";
 import { useCreateSimulation } from "@/hooks/simulation/useCreateSimulation.ts";
 
 import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
-
-import { transformSimulationFormDataToRequest } from "../utils";
+import { transformSimulationFormDataToRequest } from "@/utils/simulation/transformData";
 
 const defaultFormData: SimulationFormData = {
   name: "",

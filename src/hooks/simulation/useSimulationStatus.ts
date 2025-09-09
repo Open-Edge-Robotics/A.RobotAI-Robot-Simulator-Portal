@@ -20,7 +20,7 @@ export function useSimulationStatus(id: number) {
       );
 
       // 새 상태 데이터 fetch
-      const newStatus = await simulationAPI.getSimulationStatus(id);
+      const newStatus = await simulationAPI.getMockSimulationStatus(id);
 
       // 상태 변화 감지 및 detail 쿼리 invalidate
       const isStatusChanged =

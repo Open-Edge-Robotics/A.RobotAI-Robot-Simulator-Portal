@@ -1,7 +1,6 @@
 import { useReducer } from "react";
 
 import Container from "@/components/common/Container.tsx";
-import InformationFallback from "@/components/common/Fallback/InformationFallback";
 import Title from "@/components/common/Title";
 
 import { PATTERN_CONFIGS } from "@/constants/simulation";
@@ -11,8 +10,6 @@ import type { GroupDetail } from "@/types/simulation/simulationDetail";
 
 import type { GetStatusResponseFinal } from "@/types/simulation/status";
 
-import { formatDateTime } from "@/utils/formatting";
-
 import GroupBody from "./GroupBody";
 import GroupHeader from "./GroupHeader";
 
@@ -21,22 +18,10 @@ interface StepMonitoringProps {
 }
 
 export default function StepMonitoring({ result }: StepMonitoringProps) {
-  const unit = PATTERN_CONFIGS[result.patternType].unit;
-
-  if (result.currentStatus.status === "INITIATING" || result.currentStatus.status === "PENDING") {
-    return (
-      <Container className="p-6">
-        <StepMonitoringTitle unit={unit} />
-        <InformationFallback
-          message={result.currentStatus.message}
-          subMessage={`마지막 업데이트: ${formatDateTime(result.currentStatus.timestamps.lastUpdated)}`}
-          removeBorder
-        />
-      </Container>
-    );
-  }
+  if (result.currentStatus.status === "INITIATING") return null;
 
   const { patternType, currentStatus } = result;
+  const unit = PATTERN_CONFIGS[result.patternType].unit;
 
   return (
     <Container className="p-6">

@@ -73,7 +73,7 @@ export const simulationAPI = {
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 상태를 성공적으로 조회했습니다.",
-      data: mockStatusData.completed.parallel,
+      data: mockStatusData.running.parallel,
     }),
 
   // 시뮬레이션 생성

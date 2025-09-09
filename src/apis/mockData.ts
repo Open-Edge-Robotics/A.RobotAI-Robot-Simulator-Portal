@@ -523,7 +523,13 @@ export const mockSequentialPendingStatus: GetStatusResponseFinal = {
       overallProgress: 0,
       totalSteps: 3,
       completedSteps: 0,
+      currentStep: 0,
     },
+    stepDetails: [
+      { stepOrder: 1, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
+      { stepOrder: 2, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
+      { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
+    ],
   },
 };
 
@@ -541,7 +547,13 @@ export const mockParallelPendingStatus: GetStatusResponseFinal = {
       overallProgress: 0,
       totalGroups: 3,
       completedGroups: 0,
+      runningGroups: 0,
     },
+    groupDetails: [
+      { groupId: 1, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 1 },
+      { groupId: 2, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
+      { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 1, currentRepeat: 0, totalRepeats: 1 },
+    ],
   },
 };
 
@@ -583,8 +595,8 @@ export const mockSequentialRunningStatus: GetStatusResponseFinal = {
         currentRepeat: 1,
         totalRepeats: 2,
       },
-      { stepOrder: 3, status: "PENDING", progress: 0 },
-      { stepOrder: 4, status: "PENDING", progress: 0 },
+      { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 4, currentRepeat: 0, totalRepeats: 1 },
+      { stepOrder: 4, status: "PENDING", progress: 0, autonomousAgents: 5, currentRepeat: 0, totalRepeats: 1 },
     ],
   },
 };
@@ -626,7 +638,7 @@ export const mockParallelRunningStatus: GetStatusResponseFinal = {
         currentRepeat: 1,
         totalRepeats: 3,
       },
-      { groupId: 3, status: "PENDING", progress: 0 },
+      { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 2 },
     ],
   },
 };
@@ -777,8 +789,8 @@ export const mockSequentialFailedStatus: GetStatusResponseFinal = {
         error: "네트워크 연결 실패",
         startedAt: "2025-09-01T10:03:30Z",
       },
-      { stepOrder: 3, status: "PENDING", progress: 0 },
-      { stepOrder: 4, status: "PENDING", progress: 0 },
+      { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 4, currentRepeat: 0, totalRepeats: 1 },
+      { stepOrder: 4, status: "PENDING", progress: 0, autonomousAgents: 5, currentRepeat: 0, totalRepeats: 1 },
     ],
   },
 };
@@ -823,7 +835,7 @@ export const mockParallelFailedStatus: GetStatusResponseFinal = {
         error: "메모리 부족 오류",
         startedAt: "2025-09-01T11:03:30Z",
       },
-      { groupId: 3, status: "PENDING", progress: 0 },
+      { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 2 },
     ],
   },
 };
@@ -868,8 +880,8 @@ export const mockSequentialStoppedStatus: GetStatusResponseFinal = {
         totalRepeats: 2,
         startedAt: "2025-09-01T10:03:30Z",
       },
-      { stepOrder: 3, status: "PENDING", progress: 0 },
-      { stepOrder: 4, status: "PENDING", progress: 0 },
+      { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 4, currentRepeat: 0, totalRepeats: 1 },
+      { stepOrder: 4, status: "PENDING", progress: 0, autonomousAgents: 5, currentRepeat: 0, totalRepeats: 1 },
     ],
   },
 };
@@ -913,7 +925,7 @@ export const mockParallelStoppedStatus: GetStatusResponseFinal = {
         totalRepeats: 3,
         startedAt: "2025-09-01T11:03:30Z",
       },
-      { groupId: 3, status: "PENDING", progress: 0 },
+      { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 2 },
     ],
   },
 };

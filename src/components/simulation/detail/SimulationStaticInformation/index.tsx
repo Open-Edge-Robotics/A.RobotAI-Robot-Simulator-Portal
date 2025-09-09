@@ -5,10 +5,11 @@ import Title from "@/components/common/Title";
 import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS, SIMULATION_ACTION_TYPES } from "@/constants/simulation";
 
 import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
-import { calculateTotalExecutionTime } from "@/pages/simulation/utils";
 import type { GetSimulationStaticResult } from "@/types/simulation/api";
 
 import type { SimulationActionHandler, SimulationActionType } from "@/types/simulation/domain";
+
+import { calculateTotalExecutionTime } from "@/utils/simulation/calculate";
 
 import ExecutionConfiguration from "./ExecutionConfiguration";
 import SimulationInformation from "./SimulationInformation";

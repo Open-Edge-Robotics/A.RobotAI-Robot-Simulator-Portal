@@ -1,8 +1,11 @@
-export type GroupStatus = "RUNNING" | "COMPLETED" | "FAILED" | "PENDING" | "STOPPED";
+import type { GroupStatus } from "./domain";
 
 interface GroupDetailBase {
   status: GroupStatus;
   progress: number;
+  autonomousAgents: number;
+  currentRepeat: number;
+  totalRepeats: number;
 }
 
 interface SequentialGroupDetailBase extends GroupDetailBase {
@@ -22,9 +25,6 @@ interface PendingGroupDetail extends GroupDetailBase {
 interface RunningGroupDetail extends GroupDetailBase {
   status: "RUNNING";
   startedAt: string;
-  autonomousAgents: number;
-  currentRepeat: number;
-  totalRepeats: number;
 }
 
 // Completed 상태의 그룹 세부 정보
@@ -32,9 +32,6 @@ interface CompletedGroupDetail extends GroupDetailBase {
   status: "COMPLETED";
   startedAt: string;
   completedAt: string;
-  autonomousAgents: number;
-  currentRepeat: number;
-  totalRepeats: number;
 }
 
 // Failed 상태의 그룹 세부 정보
@@ -43,9 +40,6 @@ interface FailedGroupDetail extends GroupDetailBase {
   startedAt: string;
   failedAt: string;
   error: string;
-  autonomousAgents: number;
-  currentRepeat: number;
-  totalRepeats: number;
 }
 
 // Stopped 상태의 그룹 세부 정보
@@ -53,9 +47,6 @@ interface StoppedGroupDetail extends GroupDetailBase {
   status: "STOPPED";
   startedAt: string;
   stoppedAt: string;
-  autonomousAgents: number;
-  currentRepeat: number;
-  totalRepeats: number;
 }
 
 // Sequential 그룹 세부 정보 타입들

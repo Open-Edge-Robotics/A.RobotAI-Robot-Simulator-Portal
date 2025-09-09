@@ -57,9 +57,11 @@ interface GetSequentialPendingStatusResult {
   };
   progress: {
     overallProgress: number;
+    currentStep: number;
     totalSteps: number;
     completedSteps: number;
   };
+  stepDetails: SequentialGroupDetail[];
 }
 
 interface GetParallelPendingStatusResult {
@@ -71,9 +73,11 @@ interface GetParallelPendingStatusResult {
   };
   progress: {
     overallProgress: number;
+    runningGroups: number;
     totalGroups: number;
     completedGroups: number;
   };
+  groupDetails: ParallelGroupDetail[];
 }
 
 interface GetSequentialRunningStatusResult {

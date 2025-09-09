@@ -15,8 +15,7 @@ import SimulationOverview from "@/components/simulation/SimulationOverview";
 import { useSimulations } from "@/hooks/simulation/useSimulations";
 
 import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "@/types/simulation/domain";
-
-import { getValidParams } from "./utils";
+import { getValidParams } from "@/utils/simulation/validation";
 
 export default function SimulationListPage() {
   const [searchParams, setSearchParams] = useSearchParams();

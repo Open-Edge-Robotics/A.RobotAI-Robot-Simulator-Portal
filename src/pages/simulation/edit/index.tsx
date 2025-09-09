@@ -9,8 +9,10 @@ import { useSimulationDetail } from "@/hooks/simulation/useSimulationDetail";
 import { useUpdateSimulation } from "@/hooks/simulation/useUpdateSimulation.ts";
 
 import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
-
-import { transformSimulationFormDataToRequest, transformSimulationResponseToFormdata } from "../utils";
+import {
+  transformSimulationFormDataToRequest,
+  transformSimulationResponseToFormdata,
+} from "@/utils/simulation/transformData";
 
 export default function SimulationEditPage() {
   const { id: rawId } = useParams();

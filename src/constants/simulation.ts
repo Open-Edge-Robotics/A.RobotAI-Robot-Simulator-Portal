@@ -107,12 +107,6 @@ export const STATUS_CONFIGS: Record<SimulationStatus, SimulationStatusConfig> = 
     textColor: "text-gray-700",
     text: "중지",
   },
-  READY: {
-    bgColor: "bg-yellow-50",
-    highlightColor: "bg-yellow-500",
-    textColor: "text-yellow-700",
-    text: "대기중",
-  },
 } as const;
 
 // Pod Status별 설정 상수
@@ -239,7 +233,6 @@ export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig
 export const ALLOWED_ACTIONS_BY_STATUS: Record<SimulationStatus, SimulationActionType[]> = {
   INITIATING: [],
   PENDING: ["start", "edit", "delete"],
-  READY: ["start", "edit", "delete"],
   RUNNING: ["stop"],
   STOPPED: ["start", "edit", "delete"],
   COMPLETED: ["delete"],

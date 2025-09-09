@@ -5,9 +5,8 @@ import LabeledValue from "@/components/common/LabeledValue";
 
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
-import { calculateTotalAgentCount, calculateTotalExecutionTime } from "@/pages/simulation/utils";
-
 import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
+import { calculateTotalAgentCount, calculateTotalExecutionTime } from "@/utils/simulation/calculate";
 
 interface Step4ContentProps {
   formData: SimulationFormData;

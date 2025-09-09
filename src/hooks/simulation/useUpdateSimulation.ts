@@ -8,7 +8,7 @@ import { QUERY_KEYS } from "@/constants/api";
 
 import type { CreateSimulationRequest } from "@/types/simulation/api";
 
-import { errorToast, successToast } from "@/utils/toast";
+import { successToast } from "@/utils/toast";
 
 export function useUpdateSimulation(id: number) {
   const navigate = useNavigate();
