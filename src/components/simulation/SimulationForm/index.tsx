@@ -6,8 +6,9 @@ import { STEPS } from "@/constants/simulation.ts";
 
 import { createFormValidator } from "@/pages/simulation/validation.ts";
 
-import type { Mec, PatternType, SimulationFormData, StepType, Template } from "@/types/simulation/domain.ts";
+import type { Mec, PatternType, SimulationFormData, StepType } from "@/types/simulation/domain.ts";
 
+import type { TemplateLite } from "@/types/template/domain.ts";
 import { getCurrentStepInfo, getPatternDataWithDefaultAgentGroup } from "@/utils/simulation/data.ts";
 import { errorToast } from "@/utils/toast.ts";
 
@@ -21,7 +22,7 @@ import Step4Content from "./steps/Step4Content.tsx";
 interface SimulationFormProps {
   initialData: SimulationFormData;
   mecList: Mec[];
-  templateList: Template[];
+  templateList: TemplateLite[];
   disableSubmitButton?: boolean;
   submitButtonText: string;
   onSubmit: (formData: SimulationFormData) => void;

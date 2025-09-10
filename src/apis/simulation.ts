@@ -20,7 +20,7 @@ import {
   mockSimulationSequential,
   mockSimulations,
   mockStatusData,
-} from "./mockData";
+} from "./simulationMockData";
 
 const ENDPOINT = ENDPOINTS.simulation;
 

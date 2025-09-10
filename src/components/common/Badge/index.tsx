@@ -8,6 +8,7 @@ interface BadgeProps {
   fontSize?: string;
   fontWeight?: string;
   padding?: string;
+  textClass?: string;
 }
 
 export default function Badge({
@@ -18,11 +19,12 @@ export default function Badge({
   fontWeight = "font-normal",
   padding = "px-3 py-1",
   textColor = "text-white",
+  textClass,
 }: BadgeProps) {
   return (
     <div className={`flex items-center justify-center gap-1.5 rounded-full ${bgColor} ${padding}`}>
       {highlightColor && <Dot color={highlightColor} size="sm" />}
-      <span className={`${fontSize} ${fontWeight} ${textColor}`}>{text}</span>
+      <span className={`${fontSize} ${fontWeight} ${textColor} ${textClass}`}>{text}</span>
     </div>
   );
 }

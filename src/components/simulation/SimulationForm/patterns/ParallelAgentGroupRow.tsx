@@ -4,11 +4,12 @@ import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
 
-import type { ParallelAgentGroup, Template } from "@/types/simulation/domain";
+import type { ParallelAgentGroup } from "@/types/simulation/domain";
+import type { TemplateLite } from "@/types/template/domain";
 
 interface ParallelAgentGroupRowProps {
   index: number;
-  templateList: Template[];
+  templateList: TemplateLite[];
   agentGroup: ParallelAgentGroup;
   hideDeleteButton?: boolean;
   onUpdate: <K extends keyof ParallelAgentGroup>(index: number, field: K, value: ParallelAgentGroup[K]) => void;
@@ -30,11 +31,11 @@ export default function ParallelAgentGroupRow({
         <Label label="템플릿 선택" fontSize="text-xs" marginBottom="mb-1" required />
         <Select
           options={templateList}
-          value={templateList.find((template) => template.id === agentGroup.templateId) || null}
+          value={templateList.find((template) => template.templateId === agentGroup.templateId) || null}
           getOptionLabel={(option) => option.name}
-          getOptionValue={(option) => option.id.toString()}
+          getOptionValue={(option) => option.templateId.toString()}
           size="l-medium"
-          onChange={(option) => onUpdate(index, "templateId", option ? option.id : null)}
+          onChange={(option) => onUpdate(index, "templateId", option ? option.templateId : null)}
           aria-label="템플릿 선택"
         />
       </Fieldset>

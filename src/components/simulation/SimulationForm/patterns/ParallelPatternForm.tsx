@@ -3,13 +3,14 @@ import { Button } from "innogrid-ui";
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
 
-import type { ParallelAgentGroup, Template } from "@/types/simulation/domain";
+import type { ParallelAgentGroup } from "@/types/simulation/domain";
+import type { TemplateLite } from "@/types/template/domain";
 
 import ParallelAgentGroupRow from "./ParallelAgentGroupRow";
 
 // 병렬 패턴 폼 컴포넌트
 interface ParallelPatternFormProps {
-  templateList: Template[];
+  templateList: TemplateLite[];
   agentGroups: ParallelAgentGroup[];
   onChangeAgentGroups: (agentGroups: ParallelAgentGroup[]) => void;
 }

@@ -5,13 +5,15 @@ import LabeledValue from "@/components/common/LabeledValue";
 
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
-import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
+import type { Mec, SimulationFormData } from "@/types/simulation/domain";
+import type { TemplateLite } from "@/types/template/domain";
+
 import { calculateTotalAgentCount, calculateTotalExecutionTime } from "@/utils/simulation/calculate";
 
 interface Step4ContentProps {
   formData: SimulationFormData;
   mecList: Mec[];
-  templateList: Template[];
+  templateList: TemplateLite[];
 }
 
 export default function Step4Content({ formData, mecList, templateList }: Step4ContentProps) {
@@ -61,7 +63,7 @@ export default function Step4Content({ formData, mecList, templateList }: Step4C
   );
 }
 
-function renderPatternDetails(pattern: NonNullable<SimulationFormData["pattern"]>, templateList: Template[]) {
+function renderPatternDetails(pattern: NonNullable<SimulationFormData["pattern"]>, templateList: TemplateLite[]) {
   // 순차 실행
   if (pattern.type === "sequential") {
     const groupUnit = PATTERN_CONFIGS.sequential.unit;
@@ -76,7 +78,7 @@ function renderPatternDetails(pattern: NonNullable<SimulationFormData["pattern"]
           delayAfterCompletion={group.delayAfterCompletion}
           executionTime={group.executionTime}
           repeatCount={group.repeatCount}
-          template={templateList.find((template) => template.id === group.templateId)?.name || "-"}
+          template={templateList.find((template) => template.templateId === group.templateId)?.name || "-"}
           key={label}
         />
       );
@@ -95,7 +97,7 @@ function renderPatternDetails(pattern: NonNullable<SimulationFormData["pattern"]
         autonomousAgentCount={group.autonomousAgentCount}
         executionTime={group.executionTime}
         repeatCount={group.repeatCount}
-        template={templateList.find((template) => template.id === group.templateId)?.name || "-"}
+        template={templateList.find((template) => template.templateId === group.templateId)?.name || "-"}
         key={label}
       />
     );

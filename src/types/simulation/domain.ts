@@ -17,11 +17,6 @@ export interface Simulation {
   updatedAt: Timestamp;
 }
 
-export interface Template {
-  id: number;
-  name: string;
-}
-
 export interface Mec {
   id: string;
   name: string;

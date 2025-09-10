@@ -3,7 +3,9 @@ import SimulationForm from "@/components/simulation/SimulationForm";
 
 import { useCreateSimulation } from "@/hooks/simulation/useCreateSimulation.ts";
 
-import type { Mec, SimulationFormData, Template } from "@/types/simulation/domain";
+import type { Mec, SimulationFormData } from "@/types/simulation/domain";
+import type { TemplateLite } from "@/types/template/domain";
+
 import { transformSimulationFormDataToRequest } from "@/utils/simulation/transformData";
 
 const defaultFormData: SimulationFormData = {
@@ -45,4 +47,4 @@ const getMockMecList = (): Mec[] => [
   { id: "mec3", name: "MEC-003" },
 ];
 
-const getMockTemplateList = (): Template[] => [{ id: 1, name: "템플릿 1" }];
+const getMockTemplateList = (): TemplateLite[] => [{ templateId: 1, name: "템플릿 1" }];

@@ -3,13 +3,14 @@ import { Button } from "innogrid-ui";
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
 
-import type { SequentialAgentGroup, Template } from "@/types/simulation/domain";
+import type { SequentialAgentGroup } from "@/types/simulation/domain";
+import type { TemplateLite } from "@/types/template/domain";
 
 import SequentialAgentGroupRow from "./SequentialAgentGroupRow";
 
 // 순차 패턴 폼 컴포넌트
 interface SequentialPatternFormProps {
-  templateList: Template[];
+  templateList: TemplateLite[];
   agentGroups: SequentialAgentGroup[];
   onChangeAgentGroups: (agentGroups: SequentialAgentGroup[]) => void;
 }

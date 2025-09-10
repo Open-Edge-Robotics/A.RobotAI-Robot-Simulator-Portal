@@ -12,6 +12,7 @@ import SimulationFilterToolbar from "@/components/simulation/SimulationFilterToo
 import SimulationList from "@/components/simulation/SimulationList";
 import SimulationOverview from "@/components/simulation/SimulationOverview";
 
+import { SEGMENTS } from "@/constants/navigation";
 import { useSimulations } from "@/hooks/simulation/useSimulations";
 
 import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "@/types/simulation/domain";
@@ -107,10 +108,9 @@ export default function SimulationListPage() {
 
 function SimulationCreateButton() {
   return (
-    <LinkButton to="/simulation/create" title="시뮬레이션 생성">
+    <LinkButton to={`${SEGMENTS.absolute.simulation}/${SEGMENTS.relative.create}`}>
       <div className="flex items-center gap-1">
-        <Icon name="add" className="ml-[-6px]" />
-        시뮬레이션 생성
+        <Icon name="add" className="ml-[-6px]" />새 시뮬레이션
       </div>
     </LinkButton>
   );

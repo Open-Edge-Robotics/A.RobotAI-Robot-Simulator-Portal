@@ -4,12 +4,13 @@ import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
 
-import type { SequentialAgentGroup, Template } from "@/types/simulation/domain";
+import type { SequentialAgentGroup } from "@/types/simulation/domain";
+import type { TemplateLite } from "@/types/template/domain";
 
 import { infoToast } from "@/utils/toast";
 
 interface SequentialAgentGroupRowProps {
-  templateList: Template[];
+  templateList: TemplateLite[];
   agentGroup: SequentialAgentGroup;
   hideDeleteButton?: boolean;
   disableDelayInput?: boolean;
@@ -40,11 +41,11 @@ export default function SequentialAgentGroupRow({
         <div className="rounded-sm bg-white">
           <Select
             options={templateList}
-            value={templateList.find((template) => template.id === agentGroup.templateId) || null}
+            value={templateList.find((template) => template.templateId === agentGroup.templateId) || null}
             getOptionLabel={(option) => option.name}
-            getOptionValue={(option) => option.id.toString()}
+            getOptionValue={(option) => option.templateId.toString()}
             size="l-medium"
-            onChange={(option) => onUpdate(agentGroup.stepOrder, "templateId", option ? option.id : null)}
+            onChange={(option) => onUpdate(agentGroup.stepOrder, "templateId", option ? option.templateId : null)}
             aria-label="템플릿 선택"
           />
         </div>
