@@ -36,7 +36,7 @@ export const simulationAPI = {
     }),
 
   // 드롭다운용 시뮬레이션 목록 조회
-  getSimulationsLite: () => apiClient.getApi<GetSimulationsLiteResult>(`${ENDPOINTS.simulation}/summary`),
+  getSimulationsLite: () => apiClient.getApi<GetSimulationsLiteResult>(`${ENDPOINT}/summary`),
 
   getMockSimulationsLite: () =>
     Promise.resolve({

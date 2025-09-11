@@ -1,18 +1,22 @@
 import { ENDPOINTS } from "@/constants/api";
 
-import type { GetTemplatesResult } from "@/types/template/api";
+import type { CreateTemplateRequest, CreateTemplateResult, GetTemplatesResult } from "@/types/template/api";
 import type { Template } from "@/types/template/domain";
 
 import { apiClient } from ".";
 
+const ENDPOINT = ENDPOINTS.template;
+
 export const templateAPI = {
-  getTemplates: () => apiClient.getApi<GetTemplatesResult>(`${ENDPOINTS.template}`),
+  getTemplates: () => apiClient.getApi<GetTemplatesResult>(`${ENDPOINT}`),
   getMockTemplates: () =>
     Promise.resolve({
       status: "success",
       message: "템플릿 정보를 성공적으로 조회했습니다.",
       data: { templates: mockTemplates },
     }),
+
+  createTemplate: (data: CreateTemplateRequest) => apiClient.postFormDataApi<CreateTemplateResult>(`${ENDPOINT}`, data),
 };
 
 const mockTemplates: Template[] = [

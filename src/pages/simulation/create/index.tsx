@@ -8,13 +8,6 @@ import type { TemplateLite } from "@/types/template/domain";
 
 import { transformSimulationFormDataToRequest } from "@/utils/simulation/transformData";
 
-const defaultFormData: SimulationFormData = {
-  name: "",
-  description: "",
-  mecId: null,
-  pattern: null,
-};
-
 export default function SimulationCreatePage() {
   const mecList = getMockMecList();
   const templateList = getMockTemplateList();
@@ -28,9 +21,8 @@ export default function SimulationCreatePage() {
 
   return (
     <div className="bg-gray-10 flex h-full flex-col gap-6 p-6">
-      <SimulationHeader title="시뮬레이션 생성" />
+      <SimulationHeader title="새 시뮬레이션 생성" />
       <SimulationForm
-        initialData={defaultFormData}
         mecList={mecList}
         templateList={templateList}
         onSubmit={handleSubmit}

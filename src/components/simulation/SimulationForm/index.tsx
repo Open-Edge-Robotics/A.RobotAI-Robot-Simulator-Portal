@@ -20,7 +20,7 @@ import Step3Content from "./steps/Step3Content.tsx";
 import Step4Content from "./steps/Step4Content.tsx";
 
 interface SimulationFormProps {
-  initialData: SimulationFormData;
+  initialData?: SimulationFormData;
   mecList: Mec[];
   templateList: TemplateLite[];
   disableSubmitButton?: boolean;
@@ -37,7 +37,7 @@ export default function SimulationForm({
   submitButtonText,
 }: SimulationFormProps) {
   const [currentStep, setCurrentStep] = useState<StepType>(1);
-  const [formData, setFormData] = useState<SimulationFormData>(initialData);
+  const [formData, setFormData] = useState<SimulationFormData>(initialData ?? defaultFormData);
 
   const stepInfo = getCurrentStepInfo(currentStep, formData.pattern?.type ?? null);
 
@@ -129,3 +129,10 @@ export default function SimulationForm({
     </div>
   );
 }
+
+const defaultFormData: SimulationFormData = {
+  name: "",
+  description: "",
+  mecId: null,
+  pattern: null,
+};

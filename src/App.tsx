@@ -9,6 +9,7 @@ import SimulationCreatePage from "./pages/simulation/create";
 import SimulationDetailPage from "./pages/simulation/detail";
 import SimulationEditPage from "./pages/simulation/edit";
 import TemplatePage from "./pages/template";
+import TemplateCreatePage from "./pages/template/create";
 
 import "./App.css";
 
@@ -22,7 +23,10 @@ function AppRoutes() {
         <Route path=":id" element={<SimulationDetailPage />} />
         <Route path={`:id/${SEGMENTS.relative.edit}`} element={<SimulationEditPage />} />
       </Route>
-      <Route path={SEGMENTS.absolute.template} element={<TemplatePage />} />
+      <Route path={SEGMENTS.absolute.template}>
+        <Route index element={<TemplatePage />} />
+        <Route path={SEGMENTS.relative.create} element={<TemplateCreatePage />} />
+      </Route>
       <Route path={SEGMENTS.absolute.mec} element={<MecPage />} />
     </Routes>
   );

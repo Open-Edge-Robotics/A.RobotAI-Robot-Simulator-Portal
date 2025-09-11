@@ -10,3 +10,14 @@ export interface Template {
 }
 
 export type TemplateLite = Pick<Template, "templateId" | "name">;
+
+export interface TemplateFormData {
+  name: string;
+  description: string;
+  type: string;
+  topics: string[];
+  files: {
+    metadata: File | null;
+    database: File | null;
+  };
+}

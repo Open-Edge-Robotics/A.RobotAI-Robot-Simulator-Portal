@@ -1,7 +1,7 @@
 import Dot from "../Dot";
 
 interface BadgeProps {
-  text: string;
+  text?: string;
   bgColor?: string;
   highlightColor?: string;
   textColor?: string;
@@ -9,6 +9,7 @@ interface BadgeProps {
   fontWeight?: string;
   padding?: string;
   textClass?: string;
+  children?: React.ReactNode;
 }
 
 export default function Badge({
@@ -20,11 +21,13 @@ export default function Badge({
   padding = "px-3 py-1",
   textColor = "text-white",
   textClass,
+  children,
 }: BadgeProps) {
   return (
     <div className={`flex items-center justify-center gap-1.5 rounded-full ${bgColor} ${padding}`}>
       {highlightColor && <Dot color={highlightColor} size="sm" />}
-      <span className={`${fontSize} ${fontWeight} ${textColor} ${textClass}`}>{text}</span>
+      {text && <span className={`${fontSize} ${fontWeight} ${textColor} ${textClass}`}>{text}</span>}
+      {children}
     </div>
   );
 }

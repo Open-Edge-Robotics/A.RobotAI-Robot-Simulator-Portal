@@ -19,7 +19,7 @@ export default function IconButton({
   ...buttonProps
 }: IconButtonProps) {
   return (
-    <button className={`flex cursor-pointer items-center ${className}`} {...buttonProps}>
+    <button className={`flex cursor-pointer items-center justify-center ${className}`} {...buttonProps} type="button">
       <Icon name={iconName} fill={iconFill} size={iconSize} className={iconClassName} />
       {children}
     </button>

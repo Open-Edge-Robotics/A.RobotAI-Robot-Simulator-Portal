@@ -56,8 +56,8 @@ export default tseslint.config([
             { pattern: "@/types/**", group: "internal" },
             { pattern: "@/utils/**", group: "internal" },
           ],
-          pathGroupsExcludedImportTypes: ["react"], // react는 external에서 제외
           "newlines-between": "always-and-inside-groups", // 그룹 간 줄바꿈
+          pathGroupsExcludedImportTypes: ["react"], // react는 external에서 제외
           alphabetize: {
             order: "asc", // 알파벳순 정렬
             caseInsensitive: true, // 대소문자 구분 X
