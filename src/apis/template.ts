@@ -17,6 +17,18 @@ export const templateAPI = {
     }),
 
   createTemplate: (data: CreateTemplateRequest) => apiClient.postFormDataApi<CreateTemplateResult>(`${ENDPOINT}`, data),
+
+  deleteTemplate: (id: number) => apiClient.deleteApi(`${ENDPOINT}/${id}`),
+
+  deleteMockTemplate: (id: number): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      // 2초 후에 성공
+      setTimeout(() => {
+        console.log(`Template ${id} deleted successfully`);
+        resolve();
+      }, 2000);
+    });
+  },
 };
 
 const mockTemplates: Template[] = [
