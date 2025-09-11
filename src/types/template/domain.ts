@@ -3,8 +3,7 @@ export interface Template {
   name: string;
   type: string;
   description: string;
-  meta: string;
-  db: string;
+  bagFilePath: string;
   topics: string; // comma-separated topics
   createdAt: string; // ISO date string
 }
