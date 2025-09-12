@@ -15,7 +15,7 @@ export default function SimulationHeader({ title }: HeaderProps) {
       <LinkButton to={SEGMENTS.absolute.simulation}>
         <div className="flex items-center gap-1">
           <Icon name="list" className="ml-[-6px]" />
-          시뮬레이션 목록
+          목록으로
         </div>
       </LinkButton>
     </div>

@@ -107,8 +107,21 @@ export const STATUS_CONFIGS: Record<SimulationStatus, SimulationStatusConfig> = 
     textColor: "text-gray-700",
     text: "중지",
   },
+  DELETING: {
+    bgColor: "bg-gray-50",
+    highlightColor: "bg-gray-500",
+    textColor: "text-gray-700",
+    text: "삭제중",
+  },
+  DELETED: {
+    bgColor: "bg-gray-50",
+    highlightColor: "bg-gray-500",
+    textColor: "text-gray-700",
+    text: "삭제완료",
+  },
 } as const;
 
+// TODO: DELETED 상태 제외
 // Pod Status별 설정 상수
 export const POD_STATUS_CONFIGS: Record<PodStatus, PodStatusConfig> = {
   PENDING: {
@@ -224,7 +237,8 @@ export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig
   },
   delete: {
     iconName: "delete",
-    color: "hover:border-red-200 hover:bg-red-50 hover:text-red-500 active:text-red-700 text-gray-500 border-gray-100",
+    color:
+      "hover:border-red-200 hover:bg-red-50 disabled:bg-white disabled:border-gray-200 disabled:text-gray-500 hover:text-red-500 active:text-red-700 text-gray-500 border-gray-100",
     label: "삭제",
   },
 };
@@ -237,6 +251,8 @@ export const ALLOWED_ACTIONS_BY_STATUS: Record<SimulationStatus, SimulationActio
   STOPPED: ["start", "edit", "delete"],
   COMPLETED: ["delete"],
   FAILED: ["delete"],
+  DELETING: [],
+  DELETED: [],
 };
 
 // ========== 필터 옵션 ==========

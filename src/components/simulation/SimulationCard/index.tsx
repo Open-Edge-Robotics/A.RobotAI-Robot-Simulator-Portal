@@ -7,12 +7,14 @@ import Icon from "@/components/common/Icon";
 import LabeledValue from "@/components/common/LabeledValue";
 
 import { SEGMENTS } from "@/constants/navigation";
-import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS } from "@/constants/simulation";
+import { PATTERN_CONFIGS } from "@/constants/simulation";
 
 import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
+
 import type { Simulation } from "@/types/simulation/domain";
 
 import { formatDateTime } from "@/utils/formatting";
+import { getAllowedActions } from "@/utils/simulation/allowedActions";
 
 import ActionButtons from "../SimulationActionButtons";
 
@@ -22,7 +24,7 @@ interface SimulationTableCardProps {
 
 export default function SimulationCard({ simulation }: SimulationTableCardProps) {
   const { actionHandlers, isLoading, loadingStates } = useSimulationActions();
-  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.status].filter((action) => action !== "edit");
+  const allowedActions = getAllowedActions(simulation.status, "detail");
 
   return (
     <Container className="p-5">

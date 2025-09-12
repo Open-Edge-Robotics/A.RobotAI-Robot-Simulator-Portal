@@ -24,7 +24,8 @@ export const QUERY_KEYS = {
       [...QUERY_KEYS.simulation.all, "list", type, { ...filters }] as const,
 
     // 2. Specific Simulation (by ID) - 통합된 함수
-    byId: (id: number, type: "detail" | "summary" | "status") => [...QUERY_KEYS.simulation.all, id, type] as const,
+    byId: (id: number, type: "detail" | "summary" | "status" | "deletion") =>
+      [...QUERY_KEYS.simulation.all, id, type] as const,
   },
   template: {
     all: ["template"] as const,

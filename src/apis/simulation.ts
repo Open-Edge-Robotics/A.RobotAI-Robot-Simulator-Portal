@@ -8,6 +8,7 @@ import type {
   GetSimulationStaticResult,
   GetSimulationsResult,
   GetSimulationSummaryResult,
+  GetSimulationDeletionStatusResult,
 } from "@/types/simulation/api";
 
 import type { GetStatusResponseFinal } from "@/types/simulation/status";
@@ -17,9 +18,10 @@ import {
   mockFailedParallel,
   mockRunningParallel,
   mockSimulationsLite,
-  mockSimulationSequential,
+  mockSimulationSequentialPending,
   mockSimulations,
   mockStatusData,
+  mockSimulationParallelCompleted,
 } from "./simulationMockData";
 
 const ENDPOINT = ENDPOINTS.simulation;
@@ -52,7 +54,7 @@ export const simulationAPI = {
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 정보를 성공적으로 조회했습니다.",
-      data: mockSimulationSequential,
+      data: mockSimulationParallelCompleted,
     }),
 
   // 대시보드용 시뮬레이션 조회
@@ -73,7 +75,7 @@ export const simulationAPI = {
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 상태를 성공적으로 조회했습니다.",
-      data: mockStatusData.running.parallel,
+      data: mockStatusData.failed.parallel,
     }),
 
   // 시뮬레이션 생성
@@ -84,6 +86,21 @@ export const simulationAPI = {
 
   // 시뮬레이션 삭제
   deleteSimulation: (id: number) => apiClient.deleteApi(`${ENDPOINT}/${id}`),
+
+  deleteMockSimulation: (id: number): Promise<APIResponse<unknown>> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          status: "success",
+          message: "시뮬레이션을 성공적으로 삭제했습니다.",
+          data: { simulationId: id, action: "delete" },
+        });
+      }, 3000); // 3초 지연 (삭제는 조금 더 빠르게)
+    });
+  },
+
+  getSimulationDeletionStatus: (id: number) =>
+    apiClient.getApi<GetSimulationDeletionStatusResult>(`${ENDPOINT}/${id}/deletion`),
 
   // 시뮬레이션 실행
   startSimulation: (id: number) => apiClient.postApi(`${ENDPOINT}/action`, { simulationId: id, action: "start" }),
@@ -112,18 +129,6 @@ export const simulationAPI = {
           data: { simulationId: id, action: "stop" },
         });
       }, 5000); // 5초 지연
-    });
-  },
-
-  deleteMockSimulation: (id: number): Promise<APIResponse<unknown>> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          status: "success",
-          message: "시뮬레이션을 성공적으로 삭제했습니다.",
-          data: { simulationId: id, action: "delete" },
-        });
-      }, 3000); // 3초 지연 (삭제는 조금 더 빠르게)
     });
   },
 };

@@ -24,7 +24,15 @@ export function useSimulationActions(): {
     { type: "start", handler: (id: number) => startMutation.mutate(id) },
     { type: "stop", handler: (id: number) => stopMutation.mutate(id) },
     { type: "edit", handler: (id: number) => editNavigation(`/simulation/${id}/edit`) },
-    { type: "delete", handler: (id: number) => deleteMutation.mutate(id) },
+    {
+      type: "delete",
+      handler: (id: number) => {
+        const confirmed = confirm("정말로 시뮬레이션을 삭제하시겠습니까? 삭제된 시뮬레이션은 복구할 수 없습니다.");
+        if (confirmed) {
+          return deleteMutation.mutate(id);
+        }
+      },
+    },
   ];
 
   // 개별 로딩 상태 객체

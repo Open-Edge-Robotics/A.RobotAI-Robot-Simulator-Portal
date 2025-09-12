@@ -32,8 +32,16 @@ export interface SimulationOverview {
 
 // ========== 각종 열거형 타입 ==========
 
-export type SimulationStatus = "INITIATING" | "RUNNING" | "COMPLETED" | "FAILED" | "PENDING" | "STOPPED";
-export type GroupStatus = "RUNNING" | "COMPLETED" | "FAILED" | "PENDING" | "STOPPED";
+export type SimulationStatus =
+  | "INITIATING"
+  | "PENDING"
+  | "RUNNING"
+  | "COMPLETED"
+  | "FAILED"
+  | "STOPPED"
+  | "DELETING"
+  | "DELETED";
+export type GroupStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED" | "STOPPED";
 export type StepType = 1 | 2 | 3 | 4;
 export type PatternType = "sequential" | "parallel";
 export type SimulationActionType = (typeof SIMULATION_ACTION_TYPES)[number];

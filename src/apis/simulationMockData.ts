@@ -5,23 +5,8 @@ import type {
 } from "@/types/simulation/api";
 import type { GetStatusResponseFinal } from "@/types/simulation/status";
 
-//  currentStatus: {
-//     status: "COMPLETED",
-//     message: "완료",
-//     progress: {
-//       overallProgress: 100,
-//       currentStep: 3,
-//       completedSteps: 3,
-//       totalSteps: 3,
-//     },
-//     timestamps: {
-//       startedAt: "2024-08-30T09:00:00Z",
-//       lastUpdated: "2024-08-30T09:25:00Z",
-//     },
-//   },
-
 // Sequential Pattern Mock Data
-export const mockSimulationSequential: GetSimulationStaticResult = {
+export const mockSimulationSequentialPending: GetSimulationStaticResult = {
   simulationId: 12345,
   simulationName: "IoT Device Load Test Simulation",
   simulationDescription: "IoT 디바이스의 부하 테스트를 위한 순차적 실행 시뮬레이션",
@@ -71,7 +56,7 @@ export const mockSimulationSequential: GetSimulationStaticResult = {
 };
 
 // Parallel Pattern Mock Data
-export const mockSimulationParallel: GetSimulationStaticResult = {
+export const mockSimulationParallelRunning: GetSimulationStaticResult = {
   simulationId: 67890,
   simulationName: "Multi-Service Parallel Test",
   simulationDescription: "여러 서비스의 동시 부하 테스트를 위한 병렬 실행 시뮬레이션",
@@ -112,6 +97,59 @@ export const mockSimulationParallel: GetSimulationStaticResult = {
         templateName: "File Upload Test",
         autonomousAgentCount: 30,
         repeatCount: 5,
+        executionTime: 1500,
+      },
+    ],
+  },
+};
+
+export const mockSimulationParallelCompleted: GetSimulationStaticResult = {
+  simulationId: 78901,
+  simulationName: "E-Commerce Platform Load Test",
+  simulationDescription: "온라인 쇼핑몰의 주요 기능들에 대한 종합적인 부하 테스트 완료",
+  mecId: "mec-003-seoul",
+  namespace: "ecommerce-test",
+  createdAt: "2024-08-30T10:00:00Z",
+  currentStatus: {
+    status: "COMPLETED",
+    timestamps: {
+      createdAt: "2024-08-30T10:00:00Z",
+      lastUpdated: "2024-08-30T11:45:00Z",
+    },
+  },
+  patternType: "parallel",
+  executionPlan: {
+    groups: [
+      {
+        groupId: 1,
+        templateId: 301,
+        templateName: "User Authentication Test",
+        autonomousAgentCount: 100,
+        repeatCount: 20,
+        executionTime: 900,
+      },
+      {
+        groupId: 2,
+        templateId: 302,
+        templateName: "Product Search Test",
+        autonomousAgentCount: 150,
+        repeatCount: 25,
+        executionTime: 1200,
+      },
+      {
+        groupId: 3,
+        templateId: 303,
+        templateName: "Shopping Cart Test",
+        autonomousAgentCount: 80,
+        repeatCount: 15,
+        executionTime: 800,
+      },
+      {
+        groupId: 4,
+        templateId: 304,
+        templateName: "Payment Process Test",
+        autonomousAgentCount: 60,
+        repeatCount: 10,
         executionTime: 1500,
       },
     ],

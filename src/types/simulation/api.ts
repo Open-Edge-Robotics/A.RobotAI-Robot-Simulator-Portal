@@ -209,3 +209,17 @@ export interface GetParallelSimulationStatusResult extends GetSimulationStatusRe
 }
 
 export type GetSimulationStatusResult = GetSequentialSimulationStatusResult | GetParallelSimulationStatusResult;
+
+export interface GetSimulationDeletionStatusResult {
+  simulationId: number;
+  status: "PENDING" | "RUNNING" | "SUCCESS" | "FAILED";
+  progress: number;
+  steps: {
+    namespace: string;
+    redis: string;
+    db: string;
+  };
+  startedAt: string;
+  completedAt: string | null;
+  errorMessage: string | null;
+}

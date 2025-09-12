@@ -15,7 +15,7 @@ export function useSimulations(searchParams: URLSearchParams) {
     size: searchParams.get("size") ? Number(searchParams.get("size")) : undefined,
   };
 
-  const cleanParams = Object.fromEntries(Object.entries(params).filter(([_, value]) => value !== undefined)) as {
+  const cleanParams = Object.fromEntries(Object.entries(params).filter(([, value]) => value !== undefined)) as {
     status?: string;
     pattern_type?: string;
     page?: number;

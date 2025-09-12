@@ -74,7 +74,7 @@ function DescriptionFieldset({
 }) {
   return (
     <Fieldset>
-      <Label label="설명" htmlFor="template-description" />
+      <Label label="설명" htmlFor="template-description" required />
       <Textarea
         id="template-description"
         value={description}

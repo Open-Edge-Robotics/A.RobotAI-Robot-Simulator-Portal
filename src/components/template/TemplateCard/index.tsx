@@ -1,3 +1,4 @@
+import Container from "@/components/common/Container.tsx";
 import Divider from "@/components/common/Divider";
 import Icon from "@/components/common/Icon";
 import IconButton from "@/components/common/IconButton.tsx";
@@ -24,14 +25,14 @@ export default function TemplateCard({ template }: TemplateCardProps) {
   };
 
   return (
-    <div key={template.templateId} className="relative rounded-lg border border-gray-200 bg-white p-4">
+    <Container shadow className="p-4">
       <CardHeader name={template.name} onDeleteClick={handleDeleteTemplate} isLoading={isPending} />
       <BasicInformation id={template.templateId} type={template.type} description={template.description} />
       <Divider className="my-4" color="bg-gray-50" />
       <RosbagFile filePath={template.bagFilePath} />
       <Divider className="my-4" color="bg-gray-50" />
       <Topics topics={template.topics.split(",")} />
-    </div>
+    </Container>
   );
 }
 

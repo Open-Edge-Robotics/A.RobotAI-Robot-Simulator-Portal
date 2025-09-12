@@ -6,8 +6,10 @@ import Icon from "@/components/common/Icon";
 import IconButton from "@/components/common/IconButton.tsx";
 import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
+import ActionProgressFallback from "@/components/simulation/ActionProgressFallback";
 import SimulationDynamicInformation from "@/components/simulation/detail/SimulationDynamicInformation";
 import SimulationStaticInformation from "@/components/simulation/detail/SimulationStaticInformation";
+import { SEGMENTS } from "@/constants/navigation";
 import { SIMULATION_REFETCH_INTERVAL_MS } from "@/constants/simulation";
 import { useSimulationDetail } from "@/hooks/simulation/useSimulationDetail";
 import { formatDateTime } from "@/utils/formatting";
@@ -69,16 +71,22 @@ function SimulationDetailPageContent({ id }: { id: number }) {
     successToast("시뮬레이션 정보를 새로고침했습니다.");
   };
 
+  const simulation = data.data;
+
   return (
-    <div className="flex flex-col gap-6">
+    <div className="relative flex flex-col gap-6">
       <SimulationDetailPageHeader
-        lastUpdated={data.data.currentStatus.timestamps.lastUpdated}
+        lastUpdated={simulation.currentStatus.timestamps.lastUpdated}
         onRefreshClick={handleRefresh}
       />
-      <div className="space-y-6">
-        <SimulationStaticInformation simulation={data.data} />
-        <SimulationDynamicInformation simulationId={id} />
-      </div>
+      {simulation.currentStatus.status === "DELETING" || simulation.currentStatus.status === "DELETED" ? (
+        <ActionProgressFallback id={id} />
+      ) : (
+        <div className="space-y-6">
+          <SimulationStaticInformation simulation={simulation} />
+          <SimulationDynamicInformation simulationId={id} />
+        </div>
+      )}
     </div>
   );
 }
@@ -100,10 +108,10 @@ function SimulationDetailPageHeader({ lastUpdated, onRefreshClick }: SimulationD
           </div>
         </div>
       </Title>
-      <LinkButton to="/simulation">
+      <LinkButton to={SEGMENTS.absolute.simulation}>
         <div className="flex items-center gap-1">
           <Icon name="list" className="ml-[-6px]" />
-          시뮬레이션 목록
+          <span className="leading-4">목록으로</span>
         </div>
       </LinkButton>
     </div>
