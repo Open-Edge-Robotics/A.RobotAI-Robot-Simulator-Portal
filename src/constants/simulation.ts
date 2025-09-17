@@ -59,7 +59,7 @@ export const PATTERN_CONFIGS: Record<PatternType, PatternConfig> = {
   },
   parallel: {
     title: "병렬 실행",
-    unit: "에이전트 그룹",
+    unit: "그룹",
     iconName: "arrow_split",
     bgColor: "bg-orange-10",
     iconBgColor: "bg-orange-50",

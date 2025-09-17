@@ -48,15 +48,15 @@ export default tseslint.config([
           ],
           pathGroups: [
             { pattern: "react*", group: "builtin", position: "before" }, // react는 builtin으로 별도 지정
-            { pattern: "@/apis/**", group: "internal" },
-            { pattern: "@/components/**", group: "internal" },
-            { pattern: "@/constants/**", group: "internal" },
-            { pattern: "@/hooks/**", group: "internal" },
-            { pattern: "@/pages/**", group: "internal" },
-            { pattern: "@/types/**", group: "internal" },
-            { pattern: "@/utils/**", group: "internal" },
+            { pattern: "@/apis/**", group: "internal", position: "before" },
+            { pattern: "@/components/**", group: "internal", position: "before" },
+            { pattern: "@/constants/**", group: "internal", position: "before" },
+            { pattern: "@/hooks/**", group: "internal", position: "before" },
+            { pattern: "@/pages/**", group: "internal", position: "before" },
+            { pattern: "@/types/**", group: "internal", position: "before" },
+            { pattern: "@/utils/**", group: "internal", position: "before" },
           ],
-          "newlines-between": "always-and-inside-groups", // 그룹 간 줄바꿈
+          "newlines-between": "always", // 그룹 간 줄바꿈
           pathGroupsExcludedImportTypes: ["react"], // react는 external에서 제외
           alphabetize: {
             order: "asc", // 알파벳순 정렬

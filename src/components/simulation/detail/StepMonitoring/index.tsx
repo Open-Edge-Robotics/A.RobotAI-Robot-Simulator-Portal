@@ -7,7 +7,6 @@ import { PATTERN_CONFIGS } from "@/constants/simulation";
 
 import type { PatternType } from "@/types/simulation/domain";
 import type { GroupDetail } from "@/types/simulation/simulationDetail";
-
 import type { GetStatusResponseFinal } from "@/types/simulation/status";
 
 import GroupBody from "./GroupBody";

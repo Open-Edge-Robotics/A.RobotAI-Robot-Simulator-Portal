@@ -1,8 +1,8 @@
 import { useQueries } from "@tanstack/react-query";
 
 import { dashboardAPI } from "@/apis/dashboard";
-
 import { simulationAPI } from "@/apis/simulation";
+
 import { QUERY_KEYS } from "@/constants/api";
 import { DASHBOARD_REFETCH_INTERVAL_MS } from "@/constants/dashboard";
 

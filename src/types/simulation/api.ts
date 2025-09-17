@@ -1,11 +1,12 @@
 // types/simulation/api.ts
 
 import type { Timestamp } from "../common";
-
 import type {
+  ParallelAgentGroup,
   PatternType,
   PodStatusData,
   ResourceUsageData,
+  SequentialAgentGroup,
   Simulation,
   SimulationOverview,
   SimulationStatus,
@@ -223,3 +224,21 @@ export interface GetSimulationDeletionStatusResult {
   completedAt: string | null;
   errorMessage: string | null;
 }
+
+export type CreatePatternGroupRequest =
+  | {
+      step: SequentialAgentGroup;
+    }
+  | { group: ParallelAgentGroup };
+
+export type UpdatePatternGroupRequest =
+  | {
+      step: SequentialAgentGroup;
+    }
+  | { group: ParallelAgentGroup & { groupId: number } };
+
+export type DeletePatternGroupRequest =
+  | {
+      step: { stepOrder: number };
+    }
+  | { group: { groupId: number } };

@@ -68,13 +68,4 @@ const mockTemplates: Template[] = [
     topics: "/scan, /map, /amcl_pose, /move_base/goal, /battery_state",
     createdAt: "2025-09-09 16:45:00",
   },
-  {
-    templateId: 5,
-    name: "Marine Robot",
-    type: "marine-robot",
-    description: "Underwater exploration and monitoring robotic system",
-    bagFilePath: "marine-robot.bag",
-    topics: "",
-    createdAt: "2025-09-09 10:20:30",
-  },
 ];

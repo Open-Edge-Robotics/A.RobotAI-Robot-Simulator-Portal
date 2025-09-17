@@ -2,7 +2,9 @@ import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import TemplateCard from "@/components/template/TemplateCard";
 import TemplatePageHeader from "@/components/template/TemplatePageHeader";
+
 import { useTemplates } from "@/hooks/template/useTemplates";
+
 import type { Template } from "@/types/template/domain";
 
 export default function TemplatePage() {

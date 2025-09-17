@@ -68,8 +68,12 @@ const patchApi = async <T = unknown, D = unknown>(
 };
 
 // DELETE 요청 함수
-const deleteApi = async <T = unknown>(url: Url, config?: AxiosRequestConfig): Promise<APIResponse<T>> => {
-  const response = await instance.delete<APIResponse<T>>(url, config);
+const deleteApi = async <T = unknown, D = unknown>(
+  url: Url,
+  data?: D,
+  config?: AxiosRequestConfig,
+): Promise<APIResponse<T>> => {
+  const response = await instance.delete<APIResponse<T>>(url, { ...config, data });
   return response.data;
 };
 

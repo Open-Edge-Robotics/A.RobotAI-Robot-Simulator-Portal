@@ -1,8 +1,8 @@
 import { STATUS_CONFIGS } from "@/constants/simulation";
 
-import { formatDateTime, formatDuration } from "@/utils/formatting";
+import type { GroupDetail } from "@/types/simulation/simulationDetail";
 
-import type { GroupDetail } from "./simulationDetail";
+import { formatDateTime, formatDuration } from "@/utils/formatting";
 
 interface FieldConfig {
   label: string;

@@ -20,12 +20,12 @@ export default function ParallelPatternForm({
   agentGroups,
   onChangeAgentGroups,
 }: ParallelPatternFormProps) {
-  // 새 에이전트 그룹 추가
+  // 새 가상 자율행동체 그룹 추가
   const handleAddNewAgentGroup = () => {
     const newAgentGroup: ParallelAgentGroup = {
       templateId: null,
       autonomousAgentCount: 1,
-      executionTime: 1,
+      executionTime: 60,
       repeatCount: 1,
     };
 
@@ -33,13 +33,13 @@ export default function ParallelPatternForm({
     onChangeAgentGroups(updatedGroups);
   };
 
-  // 에이전트 그룹 삭제
+  // 가상 자율행동체 그룹 삭제
   const handleRemoveAgentGroup = (index: number) => {
     const updatedGroups = agentGroups.filter((_, i) => i !== index);
     onChangeAgentGroups(updatedGroups);
   };
 
-  // 에이전트 그룹 업데이트
+  // 가상 자율행동체 그룹 업데이트
   const handleUpdateAgentGroup = <K extends keyof ParallelAgentGroup>(
     index: number,
     field: K,
@@ -53,11 +53,11 @@ export default function ParallelPatternForm({
     <Container shadow className="gap-6 p-6">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">에이전트 그룹 설정</h3>
+        <h3 className="text-lg font-semibold">가상 자율행동체 그룹 설정</h3>
         <AddAgentGroupButton handleAddNewAgentGroup={handleAddNewAgentGroup} />
       </div>
 
-      {/* 에이전트 그룹 리스트 */}
+      {/* 가상 자율행동체 그룹 리스트 */}
       {/* TODO: 시맨틱태그 적절히 활용하기 ul, li */}
       <div className="space-y-4">
         {agentGroups.map((agentGroup, i) => (
@@ -88,7 +88,7 @@ function AddAgentGroupButton({ handleAddNewAgentGroup }: { handleAddNewAgentGrou
     >
       <div className="flex items-center gap-1">
         <Icon name="add" className="ml-[-6px]" />
-        <span>에이전트 그룹 추가</span>
+        <span>가상 자율행동체 그룹 추가</span>
       </div>
     </Button>
   );

@@ -1,6 +1,8 @@
 import { CustomVerticalLabeledValue } from "@/components/common/LabeledValue";
 import Title from "@/components/common/Title";
+
 import type { Timestamp } from "@/types/common";
+
 import { formatDateTime } from "@/utils/formatting";
 
 interface SimulationInformationProps {

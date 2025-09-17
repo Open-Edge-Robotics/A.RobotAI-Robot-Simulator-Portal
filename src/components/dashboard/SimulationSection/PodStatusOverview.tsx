@@ -2,7 +2,9 @@ import Container from "@/components/common/Container.tsx";
 import Dot from "@/components/common/Dot";
 import ProgressBar from "@/components/common/ProgressBar";
 import Title from "@/components/common/Title";
+
 import { POD_STATUS_CONFIGS } from "@/constants/simulation";
+
 import type { PodStatus, PodStatusBreakdownData, PodStatusData } from "@/types/simulation/domain";
 
 interface PodStatusOverviewProps {

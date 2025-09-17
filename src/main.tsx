@@ -1,5 +1,4 @@
 import { StrictMode } from "react";
-
 import { ToastContainer } from "react-toastify";
 
 import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";

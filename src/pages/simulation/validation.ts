@@ -56,8 +56,8 @@ const validateAgentGroup = (group: SequentialAgentGroup | ParallelAgentGroup, gr
   if (group.autonomousAgentCount < 1) {
     return `${groupLabel}의 가상자율행동체 개수는 1대 이상이어야 합니다.`;
   }
-  if (group.executionTime < 1) {
-    return `${groupLabel}의 실행 시간은 1초 이상이어야 합니다.`;
+  if (group.executionTime < 60) {
+    return `${groupLabel}의 실행 시간은 60초 이상이어야 합니다.`;
   }
   if (group.repeatCount < 1) {
     return `${groupLabel}의 반복 횟수는 1회 이상이어야 합니다.`;

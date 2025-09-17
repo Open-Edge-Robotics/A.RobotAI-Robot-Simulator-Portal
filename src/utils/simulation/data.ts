@@ -1,4 +1,5 @@
 import { STEPS_INFO } from "@/constants/simulation";
+
 import type {
   ParallelAgentGroup,
   PatternType,
@@ -20,7 +21,7 @@ const sequentialDefaultData: SequentialAgentGroup = {
   stepOrder: 1,
   templateId: null,
   autonomousAgentCount: 1,
-  executionTime: 1,
+  executionTime: 60,
   delayAfterCompletion: 0,
   repeatCount: 1,
 };
@@ -28,7 +29,7 @@ const sequentialDefaultData: SequentialAgentGroup = {
 const parallelDefaultData: ParallelAgentGroup = {
   templateId: null,
   autonomousAgentCount: 1,
-  executionTime: 1,
+  executionTime: 60,
   repeatCount: 1,
 };
 

@@ -1,5 +1,7 @@
 import ProgressBar from "@/components/common/ProgressBar";
+
 import { PATTERN_CONFIGS, STATUS_CONFIGS } from "@/constants/simulation";
+
 import type { ParallelProgressData, SequentialProgressData, SimulationStatus } from "@/types/simulation/domain";
 
 interface ProgressIndicatorProps {

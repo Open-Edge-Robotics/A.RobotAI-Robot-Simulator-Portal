@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 
 import Backdrop from "@/components/common/Backdrop";
-
 import UserInfoSection from "@/components/layout/NavigationBar/UserInfoSection";
 
 import { NAV_ITEMS } from "@/constants/navigation";

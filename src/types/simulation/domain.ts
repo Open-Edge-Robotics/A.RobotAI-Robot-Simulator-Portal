@@ -3,7 +3,14 @@
 import type { ALLOWED_PARAMS, FILTER_OPTIONS, SIMULATION_ACTION_TYPES } from "@/constants/simulation";
 
 import type { Timestamp } from "../common";
-import type { ParallelProgress, SequentialProgress } from "./api";
+import type {
+  CreatePatternGroupRequest,
+  DeletePatternGroupRequest,
+  ParallelProgress,
+  SequentialProgress,
+  UpdatePatternGroupRequest,
+} from "./api";
+import type { TemplateLite } from "../template/domain";
 
 // ========== 기본 엔티티 타입 ==========
 
@@ -131,12 +138,6 @@ export interface PodStatusConfig {
 
 // ========== 액션 관련 타입 ==========
 
-export interface SimulationActions {
-  onStart: (id: number) => void;
-  onStop: (id: number) => void;
-  onDelete: (id: number) => void;
-}
-
 export interface SimulationActionHandler {
   type: SimulationActionType;
   handler: (id: number) => void;
@@ -178,4 +179,31 @@ export interface SequentialProgressData {
 export interface ParallelProgressData {
   patternType: "parallel";
   progress: ParallelProgress;
+}
+
+export interface GroupExecutionDetail {
+  id: number;
+  index: number; // UI에서 사용하기 위한 필드, 실제 API에는 없음
+  templateId: number;
+  templateName: string;
+  autonomousAgentCount: number;
+  repeatCount: number;
+  executionTime: number;
+  delayAfterCompletion?: number;
+}
+
+export type PatternActionType = "create" | "update" | "delete";
+
+export interface PatternGroupActions {
+  create: (data: CreatePatternGroupRequest) => void;
+  update: (data: UpdatePatternGroupRequest) => void;
+  delete: (data: DeletePatternGroupRequest) => void;
+}
+
+export interface GroupExecutionDetailFormData {
+  template: TemplateLite | null;
+  autonomousAgentCount: number;
+  repeatCount: number;
+  executionTime: number;
+  delayAfterCompletion?: number;
 }

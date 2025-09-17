@@ -1,3 +1,8 @@
-export default function Fieldset({ children }: { children: React.ReactNode }) {
-  return <fieldset>{children}</fieldset>;
+interface FieldsetProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+export default function Fieldset({ className, children }: FieldsetProps) {
+  return <fieldset className={className}>{children}</fieldset>;
 }

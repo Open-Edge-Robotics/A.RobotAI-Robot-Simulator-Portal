@@ -26,7 +26,7 @@ export default function SequentialPatternForm({
       stepOrder: agentGroups.length + 1,
       templateId: null,
       autonomousAgentCount: 1,
-      executionTime: 1,
+      executionTime: 60,
       delayAfterCompletion: 0,
       repeatCount: 1,
     };

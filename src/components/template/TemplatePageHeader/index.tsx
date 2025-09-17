@@ -1,6 +1,7 @@
 import Icon from "@/components/common/Icon";
 import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
+
 import { SEGMENTS } from "@/constants/navigation";
 
 export default function TemplatePageHeader() {

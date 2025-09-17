@@ -8,7 +8,6 @@ import { useStopSimulation } from "./useStopSimulation";
 
 export function useSimulationActions(): {
   actionHandlers: SimulationActionHandler[];
-  isLoading: boolean;
   loadingStates: Record<SimulationActionType, boolean>;
 } {
   // 각 액션별 mutation
@@ -16,8 +15,6 @@ export function useSimulationActions(): {
   const stopMutation = useStopSimulation();
   const editNavigation = useNavigate();
   const deleteMutation = useDeleteSimulation();
-
-  const isLoading = [startMutation.isPending, stopMutation.isPending, deleteMutation.isPending].some(Boolean);
 
   // 액션 핸들러들을 배열로 반환
   const actionHandlers: SimulationActionHandler[] = [
@@ -45,7 +42,6 @@ export function useSimulationActions(): {
 
   return {
     actionHandlers,
-    isLoading,
     loadingStates,
   };
 }

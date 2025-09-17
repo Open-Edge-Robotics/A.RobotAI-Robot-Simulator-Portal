@@ -8,7 +8,6 @@ interface ActionButtonsProps {
   actions: SimulationActionType[];
   simulationId: number;
   actionHandlers: SimulationActionHandler[];
-  isLoading: boolean;
   loadingStates: Record<SimulationActionType, boolean>;
   disableButton?: (actionType: SimulationActionType) => boolean;
   className?: string;
@@ -18,11 +17,12 @@ export default function ActionButtons({
   actions,
   simulationId,
   actionHandlers,
-  isLoading,
   loadingStates,
   disableButton,
   className,
 }: ActionButtonsProps) {
+  const isLoading = Object.values(loadingStates).some((state) => state);
+
   // 핸들러를 타입별로 매핑
   const handlerMap = actionHandlers.reduce(
     (acc, { type, handler }) => {

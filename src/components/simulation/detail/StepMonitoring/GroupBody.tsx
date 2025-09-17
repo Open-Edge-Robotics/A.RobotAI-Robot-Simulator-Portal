@@ -1,13 +1,15 @@
 import { CustomVerticalLabeledValue } from "@/components/common/LabeledValue";
-import { getFieldConfigs } from "@/types/simulation/groupField";
+
 import type { GroupDetail } from "@/types/simulation/simulationDetail";
 
-interface StepBodyProps {
+import { getFieldConfigs } from "@/utils/simulation/groupField";
+
+interface GroupBodyProps {
   group: GroupDetail;
   lastUpdatedAt: string;
 }
 
-export default function GroupBody({ group, lastUpdatedAt }: StepBodyProps) {
+export default function GroupBody({ group, lastUpdatedAt }: GroupBodyProps) {
   const fieldConfigs = getFieldConfigs(group, lastUpdatedAt);
 
   return (

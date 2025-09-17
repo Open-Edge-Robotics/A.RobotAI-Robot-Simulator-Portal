@@ -49,7 +49,6 @@ export default function ParallelAgentGroupRow({
             type="number"
             value={agentGroup.autonomousAgentCount.toString()}
             placeholder="가상 자율행동체 개수를 입력하세요"
-            className=""
             size="l-small"
             onChange={(e) => onUpdate(index, "autonomousAgentCount", parseInt(e.target.value) || 0)}
             aria-label="가상 자율행동체 개수"

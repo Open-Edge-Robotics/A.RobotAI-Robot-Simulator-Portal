@@ -7,6 +7,7 @@ interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   iconFill?: boolean;
   iconSize?: string;
   iconClassName?: string;
+  iconPosition?: "left" | "right";
 }
 
 export default function IconButton({
@@ -15,13 +16,15 @@ export default function IconButton({
   iconSize,
   iconClassName,
   className,
+  iconPosition = "left",
   children,
   ...buttonProps
 }: IconButtonProps) {
   return (
     <button className={`flex cursor-pointer items-center justify-center ${className}`} {...buttonProps} type="button">
-      <Icon name={iconName} fill={iconFill} size={iconSize} className={iconClassName} />
+      {iconPosition === "left" && <Icon name={iconName} fill={iconFill} size={iconSize} className={iconClassName} />}
       {children}
+      {iconPosition === "right" && <Icon name={iconName} fill={iconFill} size={iconSize} className={iconClassName} />}
     </button>
   );
 }

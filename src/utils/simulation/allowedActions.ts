@@ -5,7 +5,7 @@ import type { SimulationActionType, SimulationStatus } from "@/types/simulation/
 export const getAllowedActions = (status: SimulationStatus, context: "list" | "detail"): SimulationActionType[] => {
   const baseActions = ALLOWED_ACTIONS_BY_STATUS[status];
 
-  if (context === "detail") {
+  if (context === "list") {
     return baseActions.filter((action) => action !== "edit" && action !== "delete");
   }
 

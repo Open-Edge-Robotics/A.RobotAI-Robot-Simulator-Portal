@@ -1,6 +1,8 @@
+import { useReducer } from "react";
 import { useParams } from "react-router-dom";
 
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
+import InformationFallback from "@/components/common/Fallback/InformationFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import Icon from "@/components/common/Icon";
 import IconButton from "@/components/common/IconButton.tsx";
@@ -9,9 +11,12 @@ import Title from "@/components/common/Title";
 import ActionProgressFallback from "@/components/simulation/ActionProgressFallback";
 import SimulationDynamicInformation from "@/components/simulation/detail/SimulationDynamicInformation";
 import SimulationStaticInformation from "@/components/simulation/detail/SimulationStaticInformation";
+
 import { SEGMENTS } from "@/constants/navigation";
 import { SIMULATION_REFETCH_INTERVAL_MS } from "@/constants/simulation";
+
 import { useSimulationDetail } from "@/hooks/simulation/useSimulationDetail";
+
 import { formatDateTime } from "@/utils/formatting";
 import { successToast } from "@/utils/toast";
 
@@ -32,6 +37,7 @@ export default function SimulationDetailPage() {
 }
 
 function SimulationDetailPageContent({ id }: { id: number }) {
+  const [editMode, toggleEditMode] = useReducer((x) => !x, false);
   const { status, data, refetch } = useSimulationDetail(id, {
     refetchInterval: (query) => {
       const data = query.state.data;
@@ -41,13 +47,12 @@ function SimulationDetailPageContent({ id }: { id: number }) {
 
       const status = data.data.currentStatus.status;
 
-      // COMPLETED, STOPPED, FAILED 상태면 polling 중지
-      if (status === "COMPLETED" || status === "STOPPED" || status === "FAILED") {
-        return false;
+      // PENDING, RUNNING 상태면 1분마다 polling
+      if (!editMode && (status === "PENDING" || status === "RUNNING")) {
+        return SIMULATION_REFETCH_INTERVAL_MS;
       }
 
-      // PENDING, RUNNING 상태면 1분마다 polling
-      return SIMULATION_REFETCH_INTERVAL_MS;
+      return false;
     },
   });
 
@@ -83,8 +88,8 @@ function SimulationDetailPageContent({ id }: { id: number }) {
         <ActionProgressFallback id={id} />
       ) : (
         <div className="space-y-6">
-          <SimulationStaticInformation simulation={simulation} />
-          <SimulationDynamicInformation simulationId={id} />
+          <SimulationStaticInformation simulation={simulation} editMode={editMode} toggleEditMode={toggleEditMode} />
+          {editMode ? <EditFallback /> : <SimulationDynamicInformation simulationId={id} />}
         </div>
       )}
     </div>
@@ -116,4 +121,8 @@ function SimulationDetailPageHeader({ lastUpdated, onRefreshClick }: SimulationD
       </LinkButton>
     </div>
   );
+}
+
+function EditFallback() {
+  return <InformationFallback message="수정 중에는 시뮬레이션 진행 상황을 모니터링할 수 없습니다." />;
 }

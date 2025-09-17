@@ -9,8 +9,10 @@ import type {
   GetSimulationsResult,
   GetSimulationSummaryResult,
   GetSimulationDeletionStatusResult,
+  DeletePatternGroupRequest,
+  CreatePatternGroupRequest,
+  UpdatePatternGroupRequest,
 } from "@/types/simulation/api";
-
 import type { GetStatusResponseFinal } from "@/types/simulation/status";
 
 import { apiClient } from ".";
@@ -54,7 +56,7 @@ export const simulationAPI = {
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 정보를 성공적으로 조회했습니다.",
-      data: mockSimulationParallelCompleted,
+      data: mockSimulationSequentialPending,
     }),
 
   // 대시보드용 시뮬레이션 조회
@@ -75,14 +77,11 @@ export const simulationAPI = {
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 상태를 성공적으로 조회했습니다.",
-      data: mockStatusData.failed.parallel,
+      data: mockStatusData.pending.parallel,
     }),
 
   // 시뮬레이션 생성
   createSimulation: (data: CreateSimulationRequest) => apiClient.postApi<CreateSimulationResult>(`${ENDPOINT}`, data),
-
-  // 시뮬레이션 수정
-  updateSimulation: (id: number, data: unknown) => apiClient.putApi(`${ENDPOINT}/${id}`, data),
 
   // 시뮬레이션 삭제
   deleteSimulation: (id: number) => apiClient.deleteApi(`${ENDPOINT}/${id}`),
@@ -129,6 +128,52 @@ export const simulationAPI = {
           data: { simulationId: id, action: "stop" },
         });
       }, 5000); // 5초 지연
+    });
+  },
+
+  // 시뮬레이션(패턴 그룹) 수정 관련 api들
+  createPatternGroup: (id: number, data: CreatePatternGroupRequest) =>
+    apiClient.postApi(`${ENDPOINT}/${id}/pattern`, data),
+
+  createMockPatternGroup: (id: number, data: CreatePatternGroupRequest) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          status: "success",
+          message: "패턴 그룹을 성공적으로 추가했습니다.",
+          data: { simulationId: id },
+        });
+      }, 3000);
+    });
+  },
+
+  updatePatternGroup: (id: number, data: UpdatePatternGroupRequest) =>
+    apiClient.putApi(`${ENDPOINT}/${id}/pattern`, data),
+
+  updateMockPatternGroup: (id: number, data: UpdatePatternGroupRequest) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          status: "success",
+          message: "패턴 그룹을 성공적으로 수정했습니다.",
+          data: { simulationId: id, action: "update" },
+        });
+      }, 3000);
+    });
+  },
+
+  deletePatternGroup: (id: number, data: DeletePatternGroupRequest) =>
+    apiClient.deleteApi(`${ENDPOINT}/${id}/pattern`, data),
+
+  deleteMockPatternGroup: (id: number, data: DeletePatternGroupRequest) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          status: "success",
+          message: "패턴 그룹을 성공적으로 삭제했습니다.",
+          data: { simulationId: id, action: "delete" },
+        });
+      }, 3000);
     });
   },
 };
