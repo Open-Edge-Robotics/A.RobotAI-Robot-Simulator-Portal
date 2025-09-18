@@ -15,7 +15,7 @@ import SimulationStaticInformation from "@/components/simulation/detail/Simulati
 import { SEGMENTS } from "@/constants/navigation";
 import { SIMULATION_REFETCH_INTERVAL_MS } from "@/constants/simulation";
 
-import { useSimulationDetail } from "@/hooks/simulation/useSimulationDetail";
+import { useSimulationDetail } from "@/hooks/simulation/detail/useSimulationDetail";
 
 import { formatDateTime } from "@/utils/formatting";
 import { successToast } from "@/utils/toast";

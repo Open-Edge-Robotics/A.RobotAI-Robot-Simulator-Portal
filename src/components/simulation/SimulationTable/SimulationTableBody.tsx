@@ -4,7 +4,7 @@ import StatusBadge from "@/components/common/Badge/StatusBadge";
 
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
-import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
+import { useSimulationActions } from "@/hooks/simulation/detail/useSimulationActions";
 
 import type { Simulation } from "@/types/simulation/domain";
 

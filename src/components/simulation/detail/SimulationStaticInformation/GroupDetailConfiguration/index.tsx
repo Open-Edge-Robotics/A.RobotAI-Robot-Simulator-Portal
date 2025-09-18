@@ -1,3 +1,4 @@
+import { useReducer } from "react";
 import { useParams } from "react-router-dom";
 
 import Container from "@/components/common/Container.tsx";
@@ -6,8 +7,7 @@ import Title from "@/components/common/Title";
 
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
-import { useGroupDetailState } from "@/hooks/simulation/useGroupDetailState";
-import { useUpdateSimulation } from "@/hooks/simulation/useUpdateSimulation";
+import { useUpdateSimulation } from "@/hooks/simulation/core/useUpdateSimulation";
 
 import type { DeletePatternGroupRequest } from "@/types/simulation/api";
 import type { GroupExecutionDetail, GroupExecutionDetailFormData, PatternType } from "@/types/simulation/domain";
@@ -36,7 +36,8 @@ export default function GroupDetailConfiguration({
   const { id: rawId } = useParams();
   const simulationId = Number(rawId);
 
-  const { isConfigSectionOpen, toggleConfigSection, showAddEditor, toggleAddEditor } = useGroupDetailState();
+  const [isConfigSectionOpen, toggleConfigSection] = useReducer((x) => !x, false);
+  const [showAddEditor, toggleAddEditor] = useReducer((x) => !x, false);
   const { actionHandlers, loadingStates, mutations } = useUpdateSimulation(simulationId, {
     onSuccessCallback: {
       create: toggleAddEditor,

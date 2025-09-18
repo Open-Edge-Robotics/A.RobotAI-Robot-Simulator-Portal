@@ -10,7 +10,7 @@ import Icon from "@/components/common/Icon";
 
 import { SEGMENTS } from "@/constants/navigation";
 
-import { useDeleteSimulationStatus } from "@/hooks/simulation/useDeleteSimulationStatus";
+import { useDeleteSimulationStatus } from "@/hooks/simulation/detail/useDeleteSimulationStatus";
 
 interface ActionProgressFallbackProps {
   id: number;

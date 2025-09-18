@@ -1,7 +1,7 @@
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 
-import { useSimulationSummary } from "@/hooks/simulation/useSimulationSummary";
+import { useSimulationSummary } from "@/hooks/simulation/detail/useSimulationSummary";
 
 import PodStatusOverview from "./PodStatusOverview";
 import ResourceUsage from "./ResourceUsage";

@@ -7,8 +7,7 @@ import Title from "@/components/common/Title";
 
 import { PATTERN_CONFIGS, SIMULATION_ACTION_TYPES } from "@/constants/simulation";
 
-import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
-import { useUpdateSimulation } from "@/hooks/simulation/useUpdateSimulation";
+import { useSimulationActions } from "@/hooks/simulation/detail/useSimulationActions";
 
 import type { GetSimulationStaticResult } from "@/types/simulation/api";
 import type { GroupExecutionDetail, SimulationActionHandler, SimulationActionType } from "@/types/simulation/domain";

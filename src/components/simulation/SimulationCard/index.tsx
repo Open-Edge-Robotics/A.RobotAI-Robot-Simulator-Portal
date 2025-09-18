@@ -9,7 +9,7 @@ import LabeledValue from "@/components/common/LabeledValue";
 import { SEGMENTS } from "@/constants/navigation";
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
-import { useSimulationActions } from "@/hooks/simulation/useSimulationActions";
+import { useSimulationActions } from "@/hooks/simulation/detail/useSimulationActions";
 
 import type { Simulation } from "@/types/simulation/domain";
 

@@ -5,9 +5,9 @@ import type {
 } from "@/types/simulation/api";
 import type { PatternActionType } from "@/types/simulation/domain";
 
-import { useCreatePatternGroup } from "./useCreatePatternGroup";
-import { useDeletePatternGroup } from "./useDeletePatternGroup";
-import { useUpdatePatternGroup } from "./useUpdatePatternGroup";
+import { useCreatePatternGroup } from "../patternGroup/useCreatePatternGroup";
+import { useDeletePatternGroup } from "../patternGroup/useDeletePatternGroup";
+import { useUpdatePatternGroup } from "../patternGroup/useUpdatePatternGroup";
 
 interface UseUpdateSimulationOptions {
   onSuccessCallback?: {

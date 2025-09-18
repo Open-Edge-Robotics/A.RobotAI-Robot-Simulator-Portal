@@ -2,7 +2,7 @@ import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import InformationFallback from "@/components/common/Fallback/InformationFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 
-import { useSimulationStatus } from "@/hooks/simulation/useSimulationStatus";
+import { useSimulationStatus } from "@/hooks/simulation/detail/useSimulationStatus";
 
 import { formatDateTime } from "@/utils/formatting";
 

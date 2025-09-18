@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 
 import type { SimulationActionHandler, SimulationActionType } from "@/types/simulation/domain";
 
-import { useDeleteSimulation } from "./useDeleteSimulation";
 import { useStartSimulation } from "./useStartSimulation";
 import { useStopSimulation } from "./useStopSimulation";
+import { useDeleteSimulation } from "../core/useDeleteSimulation";
 
 export function useSimulationActions(): {
   actionHandlers: SimulationActionHandler[];

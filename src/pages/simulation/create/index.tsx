@@ -1,7 +1,7 @@
 import SimulationHeader from "@/components/simulation/SimluationHeader";
 import SimulationForm from "@/components/simulation/SimulationForm";
 
-import { useCreateSimulation } from "@/hooks/simulation/useCreateSimulation.ts";
+import { useCreateSimulation } from "@/hooks/simulation/core/useCreateSimulation";
 
 import type { MecLite, SimulationFormData } from "@/types/simulation/domain";
 import type { TemplateLite } from "@/types/template/domain";
