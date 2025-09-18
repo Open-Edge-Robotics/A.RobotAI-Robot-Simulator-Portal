@@ -5,10 +5,10 @@ export interface Template {
   templateName: string;
   templateType: string;
   templateDescription: string;
-  topics: string[];
+  topics: string;
   createdAt: string; // ISO date string
-  metadata: FileInfo;
-  database: FileInfo;
+  metadataFile: FileInfo;
+  dbFile: FileInfo;
 }
 
 export type TemplateLite = Pick<Template, "templateId" | "templateName">;

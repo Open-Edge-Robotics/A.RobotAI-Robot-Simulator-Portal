@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import { Button, Input, Select } from "innogrid-ui";
 
+import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
+import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import Fieldset from "@/components/common/Fieldset";
 import Icon from "@/components/common/Icon";
 import Label from "@/components/common/Label";
@@ -35,10 +37,21 @@ export default function GroupItemEditor({
   isLoading,
 }: GroupItemEditorProps) {
   const [newGroup, setNewGroup] = useState(initGroup || getDefaultGroup(patternType));
-  const { data } = useTemplates();
+  const { data, status, refetch } = useTemplates();
 
-  // TODO: 로딩 및 에러 처리
-  if (!data) return null;
+  if (status === "pending") {
+    return <LoadingFallback message="템플릿 정보를 불러오고 있습니다." />;
+  }
+
+  if (status === "error") {
+    return (
+      <ErrorFallback
+        onRetry={refetch}
+        message="템플릿 정보를 불러올 수 없습니다."
+        subMessage="네트워크 연결을 확인하거나 잠시 후 다시 시도해 주세요."
+      />
+    );
+  }
 
   const templateList = data.data.templates;
 

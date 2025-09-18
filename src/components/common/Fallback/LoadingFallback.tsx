@@ -5,7 +5,7 @@ interface LoadingFallbackProps {
   message?: string;
 }
 
-export default function LoadingFallback({ message = "정보를 불러오는 중입니다." }: LoadingFallbackProps) {
+export default function LoadingFallback({ message = "정보를 불러오고 있습니다." }: LoadingFallbackProps) {
   return (
     <Container shadow>
       <div className="px-6 py-12 text-center">

@@ -31,10 +31,10 @@ export const transformTemplateToFormdata = (template: Template): TemplateFormDat
     name: template.templateName,
     description: template.templateDescription,
     type: template.templateType,
-    topics: template.topics,
+    topics: template.topics.split(","),
     files: {
-      metadata: { type: "UPLOADED_FILE", file: template.metadata },
-      database: { type: "UPLOADED_FILE", file: template.database },
+      metadata: { type: "UPLOADED_FILE", file: template.metadataFile },
+      database: { type: "UPLOADED_FILE", file: template.dbFile },
     },
   } satisfies TemplateFormData;
 };

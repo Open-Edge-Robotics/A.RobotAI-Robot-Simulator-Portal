@@ -55,15 +55,15 @@ const mockTemplates: Template[] = [
     templateName: "Robot Arm",
     templateType: "robot-arm",
     templateDescription: "This is robot-arm",
-    metadata: {
+    metadataFile: {
       fileName: "robot-arm.yaml",
       downloadUrl: "https://example.com/robot-arm.yaml",
     },
-    database: {
+    dbFile: {
       fileName: "robot-arm.db3",
       downloadUrl: "https://example.com/robot-arm.db3",
     },
-    topics: ["/navi_motion_traj", "/nav_vel", "/scan_unified"],
+    topics: "/navi_motion_traj,/nav_vel,/scan_unified",
     createdAt: "2025-09-09 12:15:30",
   },
   {
@@ -71,15 +71,15 @@ const mockTemplates: Template[] = [
     templateName: "Autonomous Vehicle",
     templateType: "autonomous-vehicle",
     templateDescription: "Urban autonomous driving scenario with traffic navigation",
-    database: {
+    dbFile: {
       fileName: "autonomous-vehicle.db3",
       downloadUrl: "https://example.com/autonomous-vehicle.db3",
     },
-    metadata: {
+    metadataFile: {
       fileName: "autonomous-vehicle.yaml",
       downloadUrl: "https://example.com/autonomous-vehicle.yaml",
     },
-    topics: ["/camera/image_raw", "/lidar/points", "/odom", "/cmd_vel", "/imu/data"],
+    topics: "/camera/image_raw,/lidar/points,/odom,/cmd_vel,/imu/data",
     createdAt: "2025-09-09 14:12:00",
   },
   {
@@ -87,15 +87,15 @@ const mockTemplates: Template[] = [
     templateName: "Drone Inspection",
     templateType: "drone-inspection",
     templateDescription: "Building exterior inspection using quadcopter drone",
-    database: {
+    dbFile: {
       fileName: "drone-inspection.db3",
       downloadUrl: "https://example.com/drone-inspection.db3",
     },
-    metadata: {
+    metadataFile: {
       fileName: "drone-inspection.yaml",
       downloadUrl: "https://example.com/drone-inspection.yaml",
     },
-    topics: ["/camera/image", "/imu/data", "/gps/fix", "/battery_status", "/altitude"],
+    topics: "/camera/image,/imu/data,/gps/fix,/battery_status,/altitude",
     createdAt: "2025-09-09 09:30:00",
   },
   {
@@ -103,15 +103,15 @@ const mockTemplates: Template[] = [
     templateName: "Warehouse Robot",
     templateType: "warehouse-robot",
     templateDescription: "Automated warehouse logistics and inventory management robot",
-    database: {
+    dbFile: {
       fileName: "warehouse-robot.db3",
       downloadUrl: "https://example.com/warehouse-robot.db3",
     },
-    metadata: {
+    metadataFile: {
       fileName: "warehouse-robot.yaml",
       downloadUrl: "https://example.com/warehouse-robot.yaml",
     },
-    topics: ["/scan", "/map", "/amcl_pose", "/move_base/goal", "/battery_state"],
+    topics: "/scan,/map,/amcl_pose,/move_base/goal,/battery_state",
     createdAt: "2025-09-09 16:45:00",
   },
 ];

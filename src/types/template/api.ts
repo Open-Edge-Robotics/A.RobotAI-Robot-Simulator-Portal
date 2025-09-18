@@ -10,22 +10,8 @@ export interface GetTemplateResult {
 
 export type CreateTemplateRequest = FormData;
 
-export interface CreateTemplateResult {
-  templateId: number;
-  type: string;
-  description: string;
-  bagFilePath: string;
-  topics: string;
-  createdAt: string;
-}
+export type CreateTemplateResult = Template;
 
 export type UpdateTemplateRequest = FormData;
 
-export interface UpdateTemplateResult {
-  templateId: number;
-  type: string;
-  description: string;
-  bagFilePath: string;
-  topics: string;
-  createdAt: string;
-}
+export type UpdateTemplateResult = Template;

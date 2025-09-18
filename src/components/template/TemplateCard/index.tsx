@@ -47,9 +47,9 @@ export default function TemplateCard({ template }: TemplateCardProps) {
         description={template.templateDescription}
       />
       <Divider className="my-4" color="bg-gray-50" />
-      <TemplateFiles metadata={template.metadata} database={template.database} />
+      <TemplateFiles metadata={template.metadataFile} database={template.dbFile} />
       <Divider className="my-4" color="bg-gray-50" />
-      <Topics topics={template.topics} />
+      <Topics topics={template.topics.split(",")} />
     </Container>
   );
 }
