@@ -4,14 +4,14 @@ import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
 
-import type { Mec, SimulationFormData } from "@/types/simulation/domain";
+import type { MecLite, SimulationFormData } from "@/types/simulation/domain";
 
 interface Step1ContentProps {
   name: string;
   description: string;
   mecId: string | null;
   onFormDataChange: <K extends keyof SimulationFormData>(key: K, value: SimulationFormData[K]) => void;
-  mecList: Mec[];
+  mecList: MecLite[];
 }
 
 export default function Step1Content({ name, description, mecId, onFormDataChange, mecList }: Step1ContentProps) {

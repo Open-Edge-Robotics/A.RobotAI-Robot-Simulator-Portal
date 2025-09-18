@@ -5,14 +5,14 @@ import LabeledValue from "@/components/common/LabeledValue";
 
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
-import type { Mec, SimulationFormData } from "@/types/simulation/domain";
+import type { MecLite, SimulationFormData } from "@/types/simulation/domain";
 import type { TemplateLite } from "@/types/template/domain";
 
 import { calculateTotalAgentCount, calculateTotalExecutionTime } from "@/utils/simulation/calculate";
 
 interface Step4ContentProps {
   formData: SimulationFormData;
-  mecList: Mec[];
+  mecList: MecLite[];
   templateList: TemplateLite[];
 }
 
@@ -78,7 +78,7 @@ function renderPatternDetails(pattern: NonNullable<SimulationFormData["pattern"]
           delayAfterCompletion={group.delayAfterCompletion}
           executionTime={group.executionTime}
           repeatCount={group.repeatCount}
-          template={templateList.find((template) => template.templateId === group.templateId)?.name || "-"}
+          template={templateList.find((template) => template.templateId === group.templateId)?.templateName || "-"}
           key={label}
         />
       );
@@ -97,7 +97,7 @@ function renderPatternDetails(pattern: NonNullable<SimulationFormData["pattern"]
         autonomousAgentCount={group.autonomousAgentCount}
         executionTime={group.executionTime}
         repeatCount={group.repeatCount}
-        template={templateList.find((template) => template.templateId === group.templateId)?.name || "-"}
+        template={templateList.find((template) => template.templateId === group.templateId)?.templateName || "-"}
         key={label}
       />
     );

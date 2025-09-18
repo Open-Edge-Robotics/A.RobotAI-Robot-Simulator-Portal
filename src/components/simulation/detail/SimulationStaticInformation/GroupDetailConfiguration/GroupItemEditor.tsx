@@ -162,7 +162,7 @@ function TemplateFieldset({ templateList, selectedTemplate, onChange }: Template
         <Select
           options={templateList}
           value={templateList.find((template) => template.templateId === selectedTemplate?.templateId) || null}
-          getOptionLabel={(option) => option.name}
+          getOptionLabel={(option) => option.templateName}
           getOptionValue={(option) => option.templateId.toString()}
           size="l-medium"
           onChange={(option) => onChange(option ? option : null)}

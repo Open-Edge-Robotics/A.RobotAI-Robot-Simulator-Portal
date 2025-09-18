@@ -29,6 +29,7 @@ export const QUERY_KEYS = {
   },
   template: {
     all: ["template"] as const,
+    byId: (id: number) => [...QUERY_KEYS.template.all, id] as const,
   },
   mec: {
     all: ["mec"] as const,

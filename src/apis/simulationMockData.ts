@@ -32,6 +32,7 @@ export const mockSimulationSequentialPending: GetSimulationStaticResult = {
         repeatCount: 3,
         executionTime: 300,
         delayAfterCompletion: 30,
+        templateType: "HTTP",
       },
       {
         stepOrder: 2,
@@ -41,6 +42,7 @@ export const mockSimulationSequentialPending: GetSimulationStaticResult = {
         repeatCount: 5,
         executionTime: 600,
         delayAfterCompletion: 60,
+        templateType: "MQTT",
       },
       {
         stepOrder: 3,
@@ -50,6 +52,7 @@ export const mockSimulationSequentialPending: GetSimulationStaticResult = {
         repeatCount: 2,
         executionTime: 900,
         delayAfterCompletion: 0,
+        templateType: "HTTP",
       },
     ],
   },
@@ -82,6 +85,7 @@ export const mockSimulationParallelRunning: GetSimulationStaticResult = {
         autonomousAgentCount: 80,
         repeatCount: 10,
         executionTime: 1200,
+        templateType: "HTTP",
       },
       {
         groupId: 2,
@@ -90,6 +94,7 @@ export const mockSimulationParallelRunning: GetSimulationStaticResult = {
         autonomousAgentCount: 50,
         repeatCount: 15,
         executionTime: 800,
+        templateType: "SQL",
       },
       {
         groupId: 3,
@@ -98,6 +103,8 @@ export const mockSimulationParallelRunning: GetSimulationStaticResult = {
         autonomousAgentCount: 30,
         repeatCount: 5,
         executionTime: 1500,
+
+        templateType: "FTP",
       },
     ],
   },
@@ -127,6 +134,7 @@ export const mockSimulationParallelCompleted: GetSimulationStaticResult = {
         autonomousAgentCount: 100,
         repeatCount: 20,
         executionTime: 900,
+        templateType: "OAuth",
       },
       {
         groupId: 2,
@@ -135,6 +143,7 @@ export const mockSimulationParallelCompleted: GetSimulationStaticResult = {
         autonomousAgentCount: 150,
         repeatCount: 25,
         executionTime: 1200,
+        templateType: "Elasticsearch",
       },
       {
         groupId: 3,
@@ -143,6 +152,7 @@ export const mockSimulationParallelCompleted: GetSimulationStaticResult = {
         autonomousAgentCount: 80,
         repeatCount: 15,
         executionTime: 800,
+        templateType: "HTTP",
       },
       {
         groupId: 4,
@@ -151,6 +161,7 @@ export const mockSimulationParallelCompleted: GetSimulationStaticResult = {
         autonomousAgentCount: 60,
         repeatCount: 10,
         executionTime: 1500,
+        templateType: "Payment Gateway",
       },
     ],
   },

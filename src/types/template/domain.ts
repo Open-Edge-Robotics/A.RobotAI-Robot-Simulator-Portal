@@ -1,14 +1,17 @@
+import type { EditorFile, FileInfo } from "../common";
+
 export interface Template {
   templateId: number;
-  name: string;
-  type: string;
-  description: string;
-  bagFilePath: string;
-  topics: string; // comma-separated topics
+  templateName: string;
+  templateType: string;
+  templateDescription: string;
+  topics: string[];
   createdAt: string; // ISO date string
+  metadata: FileInfo;
+  database: FileInfo;
 }
 
-export type TemplateLite = Pick<Template, "templateId" | "name">;
+export type TemplateLite = Pick<Template, "templateId" | "templateName">;
 
 export interface TemplateFormData {
   name: string;
@@ -16,7 +19,7 @@ export interface TemplateFormData {
   type: string;
   topics: string[];
   files: {
-    metadata: File | null;
-    database: File | null;
+    metadata: EditorFile;
+    database: EditorFile;
   };
 }

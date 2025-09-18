@@ -32,11 +32,6 @@ export default function SimulationStaticInformation({
   toggleEditMode,
 }: SimulationSpecificationProps) {
   const { actionHandlers, loadingStates } = useSimulationActions();
-  // const {
-  //   actionHandlers: patternHandlers,
-  //   isLoading: isPatternLoading,
-  //   loadingStates: patternLoadingStates,
-  // } = useUpdateSimulation(simulation.simulationId);
 
   const executionOverviewInformation = getExecutionInformationByPatternType(simulation);
   const executionPlanInformation = getExecutionDetailPlan(simulation);
@@ -69,9 +64,6 @@ export default function SimulationStaticInformation({
         executionPlan={executionPlanInformation}
         patternType={simulation.patternType}
         isGlobalEditMode={editMode}
-        // actionHandlers={patternHandlers}
-        // isLoading={isPatternLoading}
-        // loadingStates={patternLoadingStates}
       />
     </Container>
   );
@@ -145,24 +137,15 @@ const getExecutionDetailPlan = (simulation: GetSimulationStaticResult): GroupExe
   switch (simulation.patternType) {
     case "sequential":
       return simulation.executionPlan.steps.map((step, index) => ({
+        ...step,
         id: step.stepOrder,
-        index: index + 1, // UI에서 사용하기 위한 필드, 실제 API에는 없음. stepOrder가 사라지면 중간이 비어서 취한 조치
-        templateId: step.templateId,
-        templateName: step.templateName,
-        autonomousAgentCount: step.autonomousAgentCount,
-        repeatCount: step.repeatCount,
-        executionTime: step.executionTime,
-        delayAfterCompletion: step.delayAfterCompletion,
+        index: index + 1, // UI에서 사용하기 위한 필드. step 삭제 시 중간 번호가 비어서 취한 조치
       }));
     case "parallel":
       return simulation.executionPlan.groups.map((group, index) => ({
+        ...group,
         id: group.groupId,
-        index: index + 1,
-        templateId: group.templateId,
-        templateName: group.templateName,
-        autonomousAgentCount: group.autonomousAgentCount,
-        repeatCount: group.repeatCount,
-        executionTime: group.executionTime,
+        index: index + 1, // UI에서 사용하기 위한 필드. group 삭제 시 중간 번호가 비어서 취한 조치
       }));
     default:
       throw new Error("Unknown pattern type");

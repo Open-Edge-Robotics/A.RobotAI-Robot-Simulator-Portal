@@ -32,7 +32,7 @@ export default function ParallelAgentGroupRow({
         <Select
           options={templateList}
           value={templateList.find((template) => template.templateId === agentGroup.templateId) || null}
-          getOptionLabel={(option) => option.name}
+          getOptionLabel={(option) => option.templateName}
           getOptionValue={(option) => option.templateId.toString()}
           size="l-medium"
           onChange={(option) => onUpdate(index, "templateId", option ? option.templateId : null)}

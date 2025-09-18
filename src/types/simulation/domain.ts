@@ -24,7 +24,9 @@ export interface Simulation {
   updatedAt: Timestamp;
 }
 
-export interface Mec {
+export type SimulationLite = Pick<Simulation, "simulationId" | "simulationName">;
+
+export interface MecLite {
   id: string;
   name: string;
 }
@@ -186,6 +188,7 @@ export interface GroupExecutionDetail {
   index: number; // UI에서 사용하기 위한 필드, 실제 API에는 없음
   templateId: number;
   templateName: string;
+  templateType: string;
   autonomousAgentCount: number;
   repeatCount: number;
   executionTime: number;

@@ -20,7 +20,7 @@ export default function LabeledValue({
   return (
     <div className={`flex ${orientation === "vertical" ? "flex-col" : "flex-row"} ${containerClass}`}>
       <div className={labelClass}>{label}</div>
-      <div className={valueClass}>{value}</div>
+      {value && <div className={valueClass}>{value}</div>}
       {children}
     </div>
   );

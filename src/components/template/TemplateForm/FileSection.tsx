@@ -4,26 +4,27 @@ import FileUploadZone from "@/components/common/FileUploadZone";
 import Label from "@/components/common/Label";
 import Title from "@/components/common/Title";
 
+import type { EditorFile, LocalFile } from "@/types/common";
 import type { TemplateFormData } from "@/types/template/domain";
 
 interface FileSectionProps {
-  formData: TemplateFormData;
+  files: TemplateFormData["files"];
   onFormDataChange: <K extends keyof TemplateFormData>(field: K, value: TemplateFormData[K]) => void;
 }
 
 type TemplateFileType = keyof TemplateFormData["files"];
 
-export default function FileSection({ formData, onFormDataChange }: FileSectionProps) {
-  const handleFileUpload = (field: TemplateFileType, file: File) => {
+export default function FileSection({ files, onFormDataChange }: FileSectionProps) {
+  const handleFileUpload = (field: TemplateFileType, file: LocalFile) => {
     onFormDataChange("files", {
-      ...formData.files,
+      ...files,
       [field]: file,
     });
   };
 
   const handleFileRemove = (field: TemplateFileType) => {
     onFormDataChange("files", {
-      ...formData.files,
+      ...files,
       [field]: null,
     });
   };
@@ -37,7 +38,7 @@ export default function FileSection({ formData, onFormDataChange }: FileSectionP
           iconName="settings"
           message="YAML 파일을 드래그하거나"
           allowedExtensions={[".yaml", ".yml"]}
-          file={formData.files.metadata}
+          file={files.metadata}
           onFileUpload={(file) => handleFileUpload("metadata", file)}
           onFileRemove={() => handleFileRemove("metadata")}
         />
@@ -46,7 +47,7 @@ export default function FileSection({ formData, onFormDataChange }: FileSectionP
           iconName="database"
           message="DB3 파일을 드래그하거나"
           allowedExtensions={[".db3"]}
-          file={formData.files.database}
+          file={files.database}
           onFileUpload={(file) => handleFileUpload("database", file)}
           onFileRemove={() => handleFileRemove("database")}
         />
@@ -60,8 +61,8 @@ interface FileFieldProps {
   iconName: string;
   message: string;
   allowedExtensions: string[];
-  file: File | null;
-  onFileUpload: (file: File) => void;
+  file: EditorFile;
+  onFileUpload: (file: LocalFile) => void;
   onFileRemove: () => void;
 }
 

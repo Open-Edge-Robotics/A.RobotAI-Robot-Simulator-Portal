@@ -85,7 +85,7 @@ export default function GroupDetailItem({
 }
 
 const transformGroupToFormData = (group: GroupExecutionDetail): GroupExecutionDetailFormData => ({
-  template: { templateId: group.templateId, name: group.templateName },
+  template: { templateId: group.templateId, templateName: group.templateName },
   autonomousAgentCount: group.autonomousAgentCount,
   repeatCount: group.repeatCount,
   executionTime: group.executionTime,

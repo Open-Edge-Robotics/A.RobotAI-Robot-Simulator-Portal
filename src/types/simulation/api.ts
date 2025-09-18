@@ -8,6 +8,7 @@ import type {
   ResourceUsageData,
   SequentialAgentGroup,
   Simulation,
+  SimulationLite,
   SimulationOverview,
   SimulationStatus,
 } from "./domain";
@@ -82,11 +83,6 @@ export interface GetSimulationsResult {
   };
 }
 
-interface SimulationLite {
-  simulationId: number;
-  simulationName: string;
-}
-
 export type GetSimulationsLiteResult = SimulationLite[];
 
 // ------------ Simulation Summary ---------------
@@ -122,6 +118,7 @@ interface SimulationStaticResultBase {
 interface GroupStaticBase {
   templateId: number;
   templateName: string;
+  templateType: string;
   autonomousAgentCount: number;
   repeatCount: number;
   executionTime: number;

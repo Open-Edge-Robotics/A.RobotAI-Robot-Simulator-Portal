@@ -2,7 +2,9 @@ import { useState } from "react";
 
 import { Button } from "innogrid-ui";
 
-import { validateFileExtension } from "@/utils/file.ts";
+import type { EditorFile, LocalFile } from "@/types/common.ts";
+
+import { getFileName, getFileSize, validateFileExtension } from "@/utils/file.ts";
 import { errorToast } from "@/utils/toast.ts";
 
 import Container from "../Container.tsx";
@@ -13,9 +15,9 @@ interface FileUploadZoneProps {
   iconName: string;
   message: string;
   allowedExtensions?: string[];
-  file: File | null;
+  file: EditorFile;
+  onFileUpload: (file: LocalFile) => void;
   onFileRemove: () => void;
-  onFileUpload: (file: File) => void;
 }
 
 export default function FileUploadZone({
@@ -23,8 +25,8 @@ export default function FileUploadZone({
   message,
   allowedExtensions,
   file,
-  onFileRemove,
   onFileUpload,
+  onFileRemove,
 }: FileUploadZoneProps) {
   const [isDragOver, setIsDragOver] = useState(false);
 
@@ -52,7 +54,7 @@ export default function FileUploadZone({
   const handleValidatedUpload = (file: File) => {
     // 파일 확장자 검증
     if (validateFileExtension(file, allowedExtensions || [])) {
-      onFileUpload(file);
+      onFileUpload({ type: "LOCAL_FILE", file });
     } else {
       errorToast(`허용되지 않는 파일 형식입니다. (${allowedExtensions?.join(", ")})`);
     }
@@ -80,7 +82,7 @@ export default function FileUploadZone({
       borderColor={styleClass.borderColor}
     >
       {file ? (
-        <FilePreview name={file.name} size={file.size} onRemove={onFileRemove} />
+        <FilePreview file={file} onRemove={onFileRemove} />
       ) : (
         <FileDropArea
           iconName={iconName}
@@ -94,17 +96,21 @@ export default function FileUploadZone({
 }
 
 interface FilePreviewProps {
-  name: string;
-  size: number;
+  file: EditorFile;
   onRemove: () => void;
 }
 
-function FilePreview({ name, size, onRemove }: FilePreviewProps) {
+function FilePreview({ file, onRemove }: FilePreviewProps) {
+  if (!file) return null;
+
+  const name = getFileName(file);
+  const size = getFileSize(file);
+
   return (
     <>
       <Icon name="check_circle" className="text-green-500" />
       <p className="text-sm font-medium text-green-600">{name ?? "파일 이름"}</p>
-      <p className="text-sm text-green-500">{(size / 1024).toFixed(1)} KB</p>
+      {size !== null && <p className="text-sm text-green-500">{(size / 1024).toFixed(1)} KB</p>}
       <Button
         onClick={() => onRemove()}
         className="flex cursor-pointer items-center gap-1 text-sm text-red-500 hover:text-red-600"

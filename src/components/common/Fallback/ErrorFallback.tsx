@@ -23,8 +23,8 @@ export default function ErrorFallback({
   return (
     <Container shadow>
       <div className="flex flex-col items-center px-6 py-12 text-center">
-        <Icon name="error" className="mb-4 text-red-500" size="48px" />
-        <h3 className="mb-2 text-lg font-semibold">{message}</h3>
+        <Icon name="error" className="mb-3 text-red-500" size="48px" />
+        <h3 className="mb-2.5 text-lg font-semibold">{message}</h3>
         {subMessage && <p className="mb-6 text-sm text-gray-500">{subMessage}</p>}
         <div className="flex gap-3">
           {onRetry && (

@@ -40,7 +40,6 @@ export default function GroupDetailConfiguration({
   const { actionHandlers, loadingStates, mutations } = useUpdateSimulation(simulationId, {
     onSuccessCallback: {
       create: toggleAddEditor,
-      // update: toggleConfigSection,
     },
   });
 

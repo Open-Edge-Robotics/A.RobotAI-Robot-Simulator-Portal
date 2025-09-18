@@ -1,6 +1,12 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { Modal } from "innogrid-ui";
+
 import Icon from "@/components/common/Icon";
 import IconButton from "@/components/common/IconButton.tsx";
 
+import { SEGMENTS } from "@/constants/navigation";
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
 import type { GroupExecutionDetail, PatternType } from "@/types/simulation/domain";
@@ -41,25 +47,18 @@ export default function GroupHeader({
     >
       <div className="flex items-center gap-4">
         <GroupIndexText index={group.index} unit={PATTERN_CONFIGS[patternType].unit} />
-        <GroupTemplate />
+        <GroupTemplate id={group.templateId} name={group.templateName} type={group.templateType} />
       </div>
       {!isEditMode && (
         <div className="flex items-center gap-4">
           {showActionButtons && (
-            <div className="flex items-center gap-4">
-              <EditButton isDisabled={isDeleteLoading} onClick={handleEditClick} />
-              <DeleteButton isLoading={isDeleteLoading} isDisabled={isDeleteDisabled} onClick={handleDeleteClick} />
-            </div>
-          )}
-          {/* {showActionButtons && (
             <ActionButtons
-              onEditClick={onEditClick}
-              onDeleteClick={onDeleteClick}
-              isDeleteLoading={isDeleteLoading}
-              showDeleteButton={showDeleteButton} // 순차 실행일 때는 마지막 스텝만 삭제 가능
-              disableButton={disableButton}
+              isLoading={isDeleteLoading}
+              isDeleteDisabled={isDeleteDisabled}
+              onDeleteClick={handleDeleteClick}
+              onEditClick={handleEditClick}
             />
-          )} */}
+          )}
           <div className="flex items-center text-gray-500">
             {isOpen ? <Icon name="keyboard_arrow_up " /> : <Icon name="keyboard_arrow_down" />}
           </div>
@@ -78,45 +77,59 @@ function GroupIndexText({ index, unit }: { index: number; unit: string }) {
   );
 }
 
-function GroupTemplate() {
+interface GroupTemplateProps {
+  id: number;
+  name: string;
+  type: string;
+}
+
+function GroupTemplate({ id, name, type }: GroupTemplateProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
   return (
-    <div
-      className="mt-0.5 mr-auto ml-[-6px] rounded-md p-1.5 text-sm text-gray-600 hover:bg-gray-50"
-      onClick={(e) => {
-        alert("TODO: 템플릿 모달 띄우기");
-        e.stopPropagation();
-      }}
-    >
-      템플릿
-    </div>
+    <>
+      <button
+        className="mt-0.5 mr-auto ml-[-6px] cursor-pointer rounded-md p-1.5 text-sm text-gray-600 hover:bg-gray-50"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(true);
+        }}
+        type="button"
+      >
+        템플릿
+      </button>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={() => setIsOpen(false)}
+        size="small"
+        title="템플릿 정보"
+        action={() => {
+          navigate(`${SEGMENTS.absolute.template}?id=${id}`);
+        }}
+        buttonTitle="템플릿 페이지로 이동"
+        allowOutsideInteraction
+      >
+        <p>템플릿 ID: {id}</p>
+        <p>템플릿 이름: {name}</p>
+        <p>템플릿 유형: {type}</p>
+      </Modal>
+    </>
   );
 }
 
 interface ActionButtonsProps {
   onEditClick: () => void;
   onDeleteClick: () => void;
-  isDeleteLoading: boolean;
-  showDeleteButton: boolean;
-  disableButton: boolean;
+  isLoading: boolean;
+  isDeleteDisabled: boolean;
 }
 
-function ActionButtons({
-  onEditClick,
-  onDeleteClick,
-  isDeleteLoading,
-  showDeleteButton,
-  disableButton,
-}: ActionButtonsProps) {
+function ActionButtons({ onEditClick, onDeleteClick, isLoading, isDeleteDisabled }: ActionButtonsProps) {
   return (
     <div className="flex items-center gap-4">
-      <EditButton isDisabled={disableButton} onClick={onEditClick} />
-      {showDeleteButton && (
-        <DeleteButton
-          isLoading={isDeleteLoading}
-          isDisabled={!showDeleteButton || disableButton}
-          onClick={onDeleteClick}
-        />
-      )}
+      <EditButton isDisabled={isLoading} onClick={onEditClick} />
+      <DeleteButton isLoading={isLoading} isDisabled={isDeleteDisabled} onClick={onDeleteClick} />
     </div>
   );
 }

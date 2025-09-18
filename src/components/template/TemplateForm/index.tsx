@@ -12,12 +12,13 @@ import BasicInformationSection from "./BasicInformationSection";
 import FileSection from "./FileSection";
 
 interface TemplateFormProps {
+  initialData?: TemplateFormData;
   disableSubmitButton: boolean;
   onSubmit: (data: TemplateFormData) => void;
 }
 
-export default function TemplateForm({ disableSubmitButton, onSubmit }: TemplateFormProps) {
-  const [formData, setFormData] = useState<TemplateFormData>(defaultFormData);
+export default function TemplateForm({ initialData, disableSubmitButton, onSubmit }: TemplateFormProps) {
+  const [formData, setFormData] = useState<TemplateFormData>(initialData || defaultFormData);
   const navigate = useNavigate();
 
   const updateFormData = <K extends keyof TemplateFormData>(field: K, value: TemplateFormData[K]) => {
@@ -48,7 +49,7 @@ export default function TemplateForm({ disableSubmitButton, onSubmit }: Template
     <form>
       <div className="space-y-6">
         <BasicInformationSection formData={formData} onFormDataChange={updateFormData} />
-        <FileSection formData={formData} onFormDataChange={updateFormData} />
+        <FileSection files={formData.files} onFormDataChange={updateFormData} />
       </div>
       <ActionButtons submitDisabled={disableSubmitButton} onCancel={handleCancel} onSubmit={handleSubmit} />
     </form>
@@ -80,7 +81,7 @@ function ActionButtons({ submitDisabled, onCancel, onSubmit }: ActionButtonsProp
       </Button>
 
       <Button disabled={submitDisabled} onClick={onSubmit} size="large" type="button">
-        템플릿 생성
+        템플릿 저장
       </Button>
     </div>
   );

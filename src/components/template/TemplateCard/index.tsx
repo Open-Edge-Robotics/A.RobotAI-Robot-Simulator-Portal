@@ -1,13 +1,17 @@
+import { useNavigate } from "react-router-dom";
+
 import Container from "@/components/common/Container.tsx";
 import Divider from "@/components/common/Divider";
-import Icon from "@/components/common/Icon";
 import IconButton from "@/components/common/IconButton.tsx";
+
+import { SEGMENTS } from "@/constants/navigation";
 
 import { useDeleteTemplate } from "@/hooks/template/useDeleteTemplate";
 
 import type { Template } from "@/types/template/domain";
 
 import BasicInformation from "./BasicInformation";
+import TemplateFiles from "./TemplateFiles";
 import Topics from "./Topics";
 
 interface TemplateCardProps {
@@ -16,6 +20,11 @@ interface TemplateCardProps {
 
 export default function TemplateCard({ template }: TemplateCardProps) {
   const { mutate: deleteTemplate, isPending } = useDeleteTemplate();
+  const navigate = useNavigate();
+
+  const handleEditClick = () => {
+    navigate(`${SEGMENTS.absolute.template}/${template.templateId}/${SEGMENTS.relative.edit}`);
+  };
 
   const handleDeleteTemplate = () => {
     const confirmed = confirm("정말로 템플릿을 삭제하시겠습니까? 삭제된 템플릿은 복구할 수 없습니다.");
@@ -26,12 +35,21 @@ export default function TemplateCard({ template }: TemplateCardProps) {
 
   return (
     <Container shadow className="p-4">
-      <CardHeader name={template.name} onDeleteClick={handleDeleteTemplate} isLoading={isPending} />
-      <BasicInformation id={template.templateId} type={template.type} description={template.description} />
+      <CardHeader
+        name={template.templateName}
+        onEditClick={handleEditClick}
+        onDeleteClick={handleDeleteTemplate}
+        isDeleteLoading={isPending}
+      />
+      <BasicInformation
+        id={template.templateId}
+        type={template.templateType}
+        description={template.templateDescription}
+      />
       <Divider className="my-4" color="bg-gray-50" />
-      <RosbagFile filePath={template.bagFilePath} />
+      <TemplateFiles metadata={template.metadata} database={template.database} />
       <Divider className="my-4" color="bg-gray-50" />
-      <Topics topics={template.topics.split(",")} />
+      <Topics topics={template.topics} />
     </Container>
   );
 }
@@ -39,33 +57,28 @@ export default function TemplateCard({ template }: TemplateCardProps) {
 interface CardHeaderProps {
   name: string;
   onDeleteClick: () => void;
-  isLoading: boolean;
+  onEditClick: () => void;
+  isDeleteLoading: boolean;
 }
 
-function CardHeader({ name, onDeleteClick, isLoading }: CardHeaderProps) {
+function CardHeader({ name, onEditClick, onDeleteClick, isDeleteLoading }: CardHeaderProps) {
   return (
     <div className="mb-2.5 flex justify-between">
       <h3 className="font-semibold">{name}</h3>
-      <IconButton
-        iconName={isLoading ? "progress_activity" : "delete"}
-        className={`flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:bg-red-50 hover:text-red-500 active:text-red-700 disabled:bg-white ${isLoading ? "animate-spin" : ""}`}
-        onClick={onDeleteClick}
-        disabled={isLoading}
-      />
+      <div className="flex items-center gap-1">
+        <IconButton
+          iconName="edit"
+          className={`flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-600 active:bg-gray-100 active:text-gray-600 disabled:bg-white`}
+          onClick={onEditClick}
+          disabled={isDeleteLoading}
+        />
+        <IconButton
+          iconName={isDeleteLoading ? "progress_activity" : "delete"}
+          className={`flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:bg-red-50 hover:text-red-500 active:bg-red-100 active:text-red-500 disabled:bg-white ${isDeleteLoading ? "animate-spin" : ""}`}
+          onClick={onDeleteClick}
+          disabled={isDeleteLoading}
+        />
+      </div>
     </div>
-  );
-}
-
-function RosbagFile({ filePath }: { filePath: string }) {
-  return (
-    <a
-      href={filePath}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group flex items-center gap-1.5 text-gray-600"
-    >
-      <Icon name="file_present" size="22px" />
-      <span className="text-sm group-hover:underline">{filePath}</span>
-    </a>
   );
 }
