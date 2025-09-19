@@ -5,14 +5,15 @@ import Container from "@/components/common/Container.tsx";
 import Divider from "@/components/common/Divider";
 import Title from "@/components/common/Title";
 
-import { PATTERN_CONFIGS, SIMULATION_ACTION_TYPES } from "@/constants/simulation";
+import { SIMULATION_ACTION_TYPES } from "@/constants/simulation";
 
 import { useSimulationActions } from "@/hooks/simulation/detail/useSimulationActions";
 
 import type { GetSimulationStaticResult } from "@/types/simulation/api";
-import type { GroupExecutionDetail, SimulationActionHandler, SimulationActionType } from "@/types/simulation/domain";
+import type { SimulationActionHandler, SimulationActionType } from "@/types/simulation/domain";
 
-import { getAllowedActions } from "@/utils/simulation/allowedActions";
+import { getAllowedActions, getExecutionOverview } from "@/utils/simulation/data";
+import { executionPlanToGroupDetail } from "@/utils/simulation/mappers";
 
 import ExecutionConfiguration from "./ExecutionConfiguration";
 import GroupDetailConfiguration from "./GroupDetailConfiguration";
@@ -32,8 +33,8 @@ export default function SimulationStaticInformation({
 }: SimulationSpecificationProps) {
   const { actionHandlers, loadingStates } = useSimulationActions();
 
-  const executionOverviewInformation = getExecutionInformationByPatternType(simulation);
-  const executionPlanInformation = getExecutionDetailPlan(simulation);
+  const executionOverviewInformation = getExecutionOverview(simulation);
+  const executionPlanInformation = executionPlanToGroupDetail(simulation);
 
   return (
     <Container className="p-6">
@@ -110,43 +111,3 @@ function Header({ simulation, actionHandlers, loadingStates, editMode, toggleEdi
     </div>
   );
 }
-
-const getExecutionInformationByPatternType = (simulation: GetSimulationStaticResult) => {
-  switch (simulation.patternType) {
-    case "sequential":
-      return {
-        patternName: PATTERN_CONFIGS[simulation.patternType].title,
-        patternUnit: PATTERN_CONFIGS[simulation.patternType].unit,
-        totalGroups: simulation.executionPlan.steps.length,
-        totalAgent: simulation.executionPlan.steps.reduce((acc, step) => acc + step.autonomousAgentCount, 0),
-      };
-    case "parallel":
-      return {
-        patternName: PATTERN_CONFIGS[simulation.patternType].title,
-        patternUnit: PATTERN_CONFIGS[simulation.patternType].unit,
-        totalGroups: simulation.executionPlan.groups.length,
-        totalAgent: simulation.executionPlan.groups.reduce((acc, group) => acc + group.autonomousAgentCount, 0),
-      };
-    default:
-      throw new Error("Unknown pattern type");
-  }
-};
-
-const getExecutionDetailPlan = (simulation: GetSimulationStaticResult): GroupExecutionDetail[] => {
-  switch (simulation.patternType) {
-    case "sequential":
-      return simulation.executionPlan.steps.map((step, index) => ({
-        ...step,
-        id: step.stepOrder,
-        index: index + 1, // UI에서 사용하기 위한 필드. step 삭제 시 중간 번호가 비어서 취한 조치
-      }));
-    case "parallel":
-      return simulation.executionPlan.groups.map((group, index) => ({
-        ...group,
-        id: group.groupId,
-        index: index + 1, // UI에서 사용하기 위한 필드. group 삭제 시 중간 번호가 비어서 취한 조치
-      }));
-    default:
-      throw new Error("Unknown pattern type");
-  }
-};

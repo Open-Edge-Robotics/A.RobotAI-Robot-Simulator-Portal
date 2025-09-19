@@ -6,10 +6,7 @@ import { useStartSimulation } from "./useStartSimulation";
 import { useStopSimulation } from "./useStopSimulation";
 import { useDeleteSimulation } from "../core/useDeleteSimulation";
 
-export function useSimulationActions(): {
-  actionHandlers: SimulationActionHandler[];
-  loadingStates: Record<SimulationActionType, boolean>;
-} {
+export function useSimulationActions() {
   // 각 액션별 mutation
   const startMutation = useStartSimulation();
   const stopMutation = useStopSimulation();
@@ -33,7 +30,7 @@ export function useSimulationActions(): {
   ];
 
   // 개별 로딩 상태 객체
-  const loadingStates = {
+  const loadingStates: Record<SimulationActionType, boolean> = {
     start: startMutation.isPending,
     stop: stopMutation.isPending,
     edit: false, // 편집은 즉시 네비게이션이므로 로딩 없음

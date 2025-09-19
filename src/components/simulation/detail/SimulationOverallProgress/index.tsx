@@ -5,7 +5,7 @@ import Title from "@/components/common/Title";
 
 import type { GetStatusResponseFinal } from "@/types/simulation/status";
 
-import { formatDateTime } from "@/utils/formatting";
+import { formatDateTime } from "@/utils/common/formatting";
 
 import ProgressIndicator from "./ProgressIndicator";
 import ProgressOverview from "./ProgressOverview";

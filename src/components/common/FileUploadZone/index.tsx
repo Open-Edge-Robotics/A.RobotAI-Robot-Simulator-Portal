@@ -4,8 +4,8 @@ import { Button } from "innogrid-ui";
 
 import type { EditorFile, LocalFile } from "@/types/common.ts";
 
-import { getFileName, getFileSize, validateFileExtension } from "@/utils/file.ts";
-import { errorToast } from "@/utils/toast.ts";
+import { getFileName, getFileSize, validateFileExtension } from "@/utils/common/file.ts";
+import { errorToast } from "@/utils/common/toast.ts";
 
 import Container from "../Container.tsx";
 import Icon from "../Icon";

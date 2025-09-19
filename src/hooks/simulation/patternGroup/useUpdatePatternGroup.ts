@@ -6,7 +6,7 @@ import { QUERY_KEYS } from "@/constants/api";
 
 import type { UpdatePatternGroupRequest } from "@/types/simulation/api";
 
-import { successToast } from "@/utils/toast";
+import { successToast } from "@/utils/common/toast";
 
 interface UseUpdatePatternGroupOptions {
   onSuccessCallback?: () => void;

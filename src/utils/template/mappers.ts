@@ -1,7 +1,21 @@
 import type { CreateTemplateRequest } from "@/types/template/api";
 import type { Template, TemplateFormData } from "@/types/template/domain";
 
-export const transformTemplateFormDataToRequest = (data: TemplateFormData): CreateTemplateRequest => {
+// API 응답 데이터를 폼 데이터 형식에 맞게 변환
+export const templateApiToForm = (template: Template): TemplateFormData => {
+  return {
+    name: template.templateName,
+    description: template.templateDescription,
+    type: template.templateType,
+    topics: template.topics.split(","),
+    files: {
+      metadata: { type: "UPLOADED_FILE", file: template.metadataFile },
+      database: { type: "UPLOADED_FILE", file: template.dbFile },
+    },
+  } satisfies TemplateFormData;
+};
+
+export const templateFormToCreateRequest = (data: TemplateFormData): CreateTemplateRequest => {
   const formData = new FormData();
 
   // 기본 필드 추가
@@ -23,18 +37,4 @@ export const transformTemplateFormDataToRequest = (data: TemplateFormData): Crea
   }
 
   return formData;
-};
-
-// API 응답 데이터를 폼 데이터 형식에 맞게 변환
-export const transformTemplateToFormdata = (template: Template): TemplateFormData => {
-  return {
-    name: template.templateName,
-    description: template.templateDescription,
-    type: template.templateType,
-    topics: template.topics.split(","),
-    files: {
-      metadata: { type: "UPLOADED_FILE", file: template.metadataFile },
-      database: { type: "UPLOADED_FILE", file: template.dbFile },
-    },
-  } satisfies TemplateFormData;
 };

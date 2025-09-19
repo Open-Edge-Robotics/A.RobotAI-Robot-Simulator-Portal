@@ -2,7 +2,7 @@ import { STATUS_CONFIGS } from "@/constants/simulation";
 
 import type { GroupDetail } from "@/types/simulation/simulationDetail";
 
-import { formatDateTime, formatDuration } from "@/utils/formatting";
+import { formatDateTime, formatDuration } from "@/utils/common/formatting";
 
 interface FieldConfig {
   label: string;

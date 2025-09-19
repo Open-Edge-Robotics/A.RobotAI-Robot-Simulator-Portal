@@ -12,12 +12,9 @@ import { useUpdateSimulation } from "@/hooks/simulation/core/useUpdateSimulation
 import type { DeletePatternGroupRequest } from "@/types/simulation/api";
 import type { GroupExecutionDetail, GroupExecutionDetailFormData, PatternType } from "@/types/simulation/domain";
 
-import {
-  transformFormDataToCreatePatternGroup,
-  transformFormDataToUpdatePatternGroup,
-} from "@/utils/simulation/transformData";
+import { errorToast } from "@/utils/common/toast";
+import { patternGroupFormToCreateRequest, patternGroupFormToUpdateRequest } from "@/utils/simulation/mappers";
 import { validatePatternGroupForm } from "@/utils/simulation/validation";
-import { errorToast } from "@/utils/toast";
 
 import GroupDetailItem from "./GroupDetailItem";
 import GroupItemEditor from "./GroupItemEditor";
@@ -56,7 +53,7 @@ export default function GroupDetailConfiguration({
       return;
     }
     const patternInfo = { patternType, id };
-    const requestData = transformFormDataToUpdatePatternGroup(newGroup, patternInfo);
+    const requestData = patternGroupFormToUpdateRequest(newGroup, patternInfo);
     actionHandlers.update(requestData);
   };
 
@@ -71,7 +68,7 @@ export default function GroupDetailConfiguration({
       patternType === "sequential"
         ? { patternType: "sequential" as const, stepOrder: executionPlan.at(-1)!.id + 1 }
         : { patternType: "parallel" as const };
-    const requestData = transformFormDataToCreatePatternGroup(newGroup, patternInfo);
+    const requestData = patternGroupFormToCreateRequest(newGroup, patternInfo);
     actionHandlers.create(requestData);
   };
 

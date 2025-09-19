@@ -9,7 +9,7 @@ import { SEGMENTS } from "@/constants/navigation";
 
 import type { CreateTemplateRequest } from "@/types/template/api";
 
-import { successToast } from "@/utils/toast";
+import { successToast } from "@/utils/common/toast";
 
 export function useCreateTemplate() {
   const queryClient = useQueryClient();

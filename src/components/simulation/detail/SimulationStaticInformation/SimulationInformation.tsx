@@ -3,7 +3,7 @@ import Title from "@/components/common/Title";
 
 import type { Timestamp } from "@/types/common";
 
-import { formatDateTime } from "@/utils/formatting";
+import { formatDateTime } from "@/utils/common/formatting";
 
 interface SimulationInformationProps {
   id: number;

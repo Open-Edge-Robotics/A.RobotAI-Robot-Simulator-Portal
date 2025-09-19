@@ -2,7 +2,7 @@ import { CustomVerticalLabeledValue } from "@/components/common/LabeledValue";
 
 import type { GroupDetail } from "@/types/simulation/simulationDetail";
 
-import { getFieldConfigs } from "@/utils/simulation/groupField";
+import { getFieldConfigs } from "@/utils/simulation/display";
 
 interface GroupBodyProps {
   group: GroupDetail;

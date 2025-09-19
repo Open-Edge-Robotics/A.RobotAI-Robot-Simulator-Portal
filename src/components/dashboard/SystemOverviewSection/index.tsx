@@ -4,8 +4,8 @@ import Title from "@/components/common/Title";
 import type { Timestamp } from "@/types/common";
 import type { SystemOverviewData } from "@/types/dashboard/domain";
 
-import { formatDateTime } from "@/utils/formatting";
-import { successToast } from "@/utils/toast";
+import { formatDateTime } from "@/utils/common/formatting";
+import { successToast } from "@/utils/common/toast";
 
 import SystemOverview from "./SystemOverview";
 

@@ -8,7 +8,7 @@ import { PATTERN_CONFIGS } from "@/constants/simulation";
 import type { MecLite, SimulationFormData } from "@/types/simulation/domain";
 import type { TemplateLite } from "@/types/template/domain";
 
-import { calculateTotalAgentCount, calculateTotalExecutionTime } from "@/utils/simulation/calculate";
+import { calculateTotalAgentCount, calculateTotalExecutionTime } from "@/utils/simulation/calculations";
 
 interface Step4ContentProps {
   formData: SimulationFormData;

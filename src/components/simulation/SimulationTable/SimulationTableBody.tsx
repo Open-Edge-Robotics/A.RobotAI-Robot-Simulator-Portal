@@ -8,8 +8,8 @@ import { useSimulationActions } from "@/hooks/simulation/detail/useSimulationAct
 
 import type { Simulation } from "@/types/simulation/domain";
 
-import { formatDateTime } from "@/utils/formatting";
-import { getAllowedActions } from "@/utils/simulation/allowedActions";
+import { formatDateTime } from "@/utils/common/formatting";
+import { getAllowedActions } from "@/utils/simulation/data";
 
 import { TABLE_GRID_COLS } from ".";
 import ActionButtons from "../SimulationActionButtons";
@@ -33,7 +33,7 @@ interface TableBodyRowProps {
 }
 
 function TableBodyRow({ simulation }: TableBodyRowProps) {
-  const { actionHandlers, isLoading, loadingStates } = useSimulationActions();
+  const { actionHandlers, loadingStates } = useSimulationActions();
   const allowedActions = getAllowedActions(simulation.status, "list");
 
   return (
@@ -52,7 +52,6 @@ function TableBodyRow({ simulation }: TableBodyRowProps) {
             actions={allowedActions}
             simulationId={simulation.simulationId}
             actionHandlers={actionHandlers}
-            isLoading={isLoading}
             loadingStates={loadingStates}
           />
         </TableBodyCell>

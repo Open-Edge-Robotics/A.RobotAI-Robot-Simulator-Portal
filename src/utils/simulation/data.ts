@@ -1,10 +1,13 @@
-import { STEPS_INFO } from "@/constants/simulation";
+import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS, STEPS_INFO } from "@/constants/simulation";
 
+import type { GetSimulationStaticResult } from "@/types/simulation/api";
 import type {
   ParallelAgentGroup,
   PatternType,
   SequentialAgentGroup,
+  SimulationActionType,
   SimulationPattern,
+  SimulationStatus,
   StepInfo,
   StepType,
 } from "@/types/simulation/domain";
@@ -40,3 +43,35 @@ export function getPatternDataWithDefaultAgentGroup(type: PatternType): Simulati
   }
   return { type: "parallel", agentGroups: [parallelDefaultData] };
 }
+
+// 시뮬레이션 실행 개요 정보(패턴명, 그룹 수, 총 에이전트 수) 생성
+export const getExecutionOverview = (simulation: GetSimulationStaticResult) => {
+  switch (simulation.patternType) {
+    case "sequential":
+      return {
+        patternName: PATTERN_CONFIGS[simulation.patternType].title,
+        patternUnit: PATTERN_CONFIGS[simulation.patternType].unit,
+        totalGroups: simulation.executionPlan.steps.length,
+        totalAgent: simulation.executionPlan.steps.reduce((acc, step) => acc + step.autonomousAgentCount, 0),
+      };
+    case "parallel":
+      return {
+        patternName: PATTERN_CONFIGS[simulation.patternType].title,
+        patternUnit: PATTERN_CONFIGS[simulation.patternType].unit,
+        totalGroups: simulation.executionPlan.groups.length,
+        totalAgent: simulation.executionPlan.groups.reduce((acc, group) => acc + group.autonomousAgentCount, 0),
+      };
+    default:
+      throw new Error("Unknown pattern type");
+  }
+};
+
+export const getAllowedActions = (status: SimulationStatus, context: "list" | "detail"): SimulationActionType[] => {
+  const baseActions = ALLOWED_ACTIONS_BY_STATUS[status];
+
+  if (context === "list") {
+    return baseActions.filter((action) => action !== "edit" && action !== "delete");
+  }
+
+  return baseActions;
+};

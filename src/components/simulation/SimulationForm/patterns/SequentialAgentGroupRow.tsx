@@ -7,7 +7,7 @@ import Label from "@/components/common/Label";
 import type { SequentialAgentGroup } from "@/types/simulation/domain";
 import type { TemplateLite } from "@/types/template/domain";
 
-import { infoToast } from "@/utils/toast";
+import { infoToast } from "@/utils/common/toast";
 
 interface SequentialAgentGroupRowProps {
   templateList: TemplateLite[];

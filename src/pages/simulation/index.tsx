@@ -14,7 +14,7 @@ import SimulationOverview from "@/components/simulation/SimulationOverview";
 
 import { SEGMENTS } from "@/constants/navigation";
 
-import { useSimulations } from "@/hooks/simulation/useSimulations";
+import { useSimulations } from "@/hooks/simulation/core/useSimulations";
 
 import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "@/types/simulation/domain";
 

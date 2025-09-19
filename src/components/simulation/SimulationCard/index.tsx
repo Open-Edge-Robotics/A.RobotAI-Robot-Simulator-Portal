@@ -13,8 +13,8 @@ import { useSimulationActions } from "@/hooks/simulation/detail/useSimulationAct
 
 import type { Simulation } from "@/types/simulation/domain";
 
-import { formatDateTime } from "@/utils/formatting";
-import { getAllowedActions } from "@/utils/simulation/allowedActions";
+import { formatDateTime } from "@/utils/common/formatting";
+import { getAllowedActions } from "@/utils/simulation/data";
 
 import ActionButtons from "../SimulationActionButtons";
 
@@ -23,7 +23,7 @@ interface SimulationTableCardProps {
 }
 
 export default function SimulationCard({ simulation }: SimulationTableCardProps) {
-  const { actionHandlers, isLoading, loadingStates } = useSimulationActions();
+  const { actionHandlers, loadingStates } = useSimulationActions();
   const allowedActions = getAllowedActions(simulation.status, "detail");
 
   return (
@@ -65,7 +65,6 @@ export default function SimulationCard({ simulation }: SimulationTableCardProps)
         actions={allowedActions}
         simulationId={simulation.simulationId}
         actionHandlers={actionHandlers}
-        isLoading={isLoading}
         loadingStates={loadingStates}
         className="ml-auto"
       />

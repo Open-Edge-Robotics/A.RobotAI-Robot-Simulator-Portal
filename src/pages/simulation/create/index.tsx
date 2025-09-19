@@ -6,7 +6,7 @@ import { useCreateSimulation } from "@/hooks/simulation/core/useCreateSimulation
 import type { MecLite, SimulationFormData } from "@/types/simulation/domain";
 import type { TemplateLite } from "@/types/template/domain";
 
-import { transformSimulationFormDataToRequest } from "@/utils/simulation/transformData";
+import { simulationFormToCreateRequest } from "@/utils/simulation/mappers";
 
 export default function SimulationCreatePage() {
   const mecList = getMockMecList();
@@ -15,7 +15,7 @@ export default function SimulationCreatePage() {
   const { mutate: createSimulation, isPending, isSuccess } = useCreateSimulation();
 
   const handleSubmit = (formData: SimulationFormData) => {
-    const newSimulation = transformSimulationFormDataToRequest(formData);
+    const newSimulation = simulationFormToCreateRequest(formData);
     createSimulation(newSimulation);
   };
 

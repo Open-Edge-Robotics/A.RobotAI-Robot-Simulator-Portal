@@ -5,12 +5,15 @@ import type {
   GetSimulationStaticResult,
   UpdatePatternGroupRequest,
 } from "@/types/simulation/api";
-import type { GroupExecutionDetailFormData, PatternType, SimulationFormData } from "@/types/simulation/domain";
+import type {
+  GroupExecutionDetail,
+  GroupExecutionDetailFormData,
+  PatternType,
+  SimulationFormData,
+} from "@/types/simulation/domain";
 
 // API 응답 데이터를 폼 데이터 형식에 맞게 변환
-export const transformSimulationResponseToFormdata = (
-  data: APIResponse<GetSimulationStaticResult>,
-): SimulationFormData => {
+export const simulationApiToForm = (data: APIResponse<GetSimulationStaticResult>): SimulationFormData => {
   const simulation = data.data;
   return {
     name: simulation.simulationName,
@@ -24,7 +27,7 @@ export const transformSimulationResponseToFormdata = (
 };
 
 // 폼 데이터를 API 요청 형식에 맞게 변환
-export const transformSimulationFormDataToRequest = (formData: SimulationFormData): CreateSimulationRequest => {
+export const simulationFormToCreateRequest = (formData: SimulationFormData): CreateSimulationRequest => {
   const baseRequest = {
     mecId: formData.mecId!,
     simulationName: formData.name,
@@ -65,7 +68,7 @@ export const transformSimulationFormDataToRequest = (formData: SimulationFormDat
 };
 
 // 패턴 그룹 생성 요청 데이터 변환
-export const transformFormDataToCreatePatternGroup = (
+export const patternGroupFormToCreateRequest = (
   formData: GroupExecutionDetailFormData,
   patternInfo: { patternType: "sequential"; stepOrder: number } | { patternType: "parallel" },
 ): CreatePatternGroupRequest => {
@@ -93,7 +96,7 @@ export const transformFormDataToCreatePatternGroup = (
 };
 
 // 패턴 그룹 수정 요청 데이터 변환
-export const transformFormDataToUpdatePatternGroup = (
+export const patternGroupFormToUpdateRequest = (
   formData: GroupExecutionDetailFormData,
   patternInfo: { patternType: PatternType; id: number },
 ): UpdatePatternGroupRequest => {
@@ -119,4 +122,31 @@ export const transformFormDataToUpdatePatternGroup = (
       executionTime: formData.executionTime,
     },
   };
+};
+
+export const patternGroupToForm = (group: GroupExecutionDetail): GroupExecutionDetailFormData => ({
+  template: { templateId: group.templateId, templateName: group.templateName },
+  autonomousAgentCount: group.autonomousAgentCount,
+  repeatCount: group.repeatCount,
+  executionTime: group.executionTime,
+  delayAfterCompletion: group.delayAfterCompletion,
+});
+
+export const executionPlanToGroupDetail = (simulation: GetSimulationStaticResult): GroupExecutionDetail[] => {
+  switch (simulation.patternType) {
+    case "sequential":
+      return simulation.executionPlan.steps.map((step, index) => ({
+        ...step,
+        id: step.stepOrder,
+        index: index + 1, // UI에서 사용하기 위한 필드. step 삭제 시 중간 번호가 비어서 취한 조치
+      }));
+    case "parallel":
+      return simulation.executionPlan.groups.map((group, index) => ({
+        ...group,
+        id: group.groupId,
+        index: index + 1, // UI에서 사용하기 위한 필드. group 삭제 시 중간 번호가 비어서 취한 조치
+      }));
+    default:
+      throw new Error("Unknown pattern type");
+  }
 };

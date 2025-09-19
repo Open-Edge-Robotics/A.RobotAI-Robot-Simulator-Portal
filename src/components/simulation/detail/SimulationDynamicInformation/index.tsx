@@ -4,7 +4,7 @@ import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 
 import { useSimulationStatus } from "@/hooks/simulation/detail/useSimulationStatus";
 
-import { formatDateTime } from "@/utils/formatting";
+import { formatDateTime } from "@/utils/common/formatting";
 
 import SimulationOverallProgress from "../SimulationOverallProgress";
 import StepMonitoring from "../StepMonitoring";

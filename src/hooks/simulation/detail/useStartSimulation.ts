@@ -4,7 +4,7 @@ import { simulationAPI } from "@/apis/simulation";
 
 import { QUERY_KEYS } from "@/constants/api";
 
-import { successToast } from "@/utils/toast";
+import { successToast } from "@/utils/common/toast";
 
 export function useStartSimulation() {
   const queryClient = useQueryClient();

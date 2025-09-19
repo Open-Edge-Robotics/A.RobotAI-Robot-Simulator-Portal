@@ -8,7 +8,7 @@ import { QUERY_KEYS } from "@/constants/api";
 
 import type { DeletePatternGroupRequest } from "@/types/simulation/api";
 
-import { successToast } from "@/utils/toast";
+import { successToast } from "@/utils/common/toast";
 
 interface UseDeletePatternGroupOptions {
   onSuccessCallback?: () => void;

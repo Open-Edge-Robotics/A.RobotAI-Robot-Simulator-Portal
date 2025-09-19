@@ -1,7 +1,7 @@
 import type { GetStatusResponseFinal } from "@/types/simulation/status";
 
-import { getField } from "@/utils/field";
-import { formatDateTime, formatDuration } from "@/utils/formatting";
+import { getField } from "@/utils/common/field";
+import { formatDateTime, formatDuration } from "@/utils/common/formatting";
 
 interface TimeInformationProps {
   status: GetStatusResponseFinal["currentStatus"]["status"];

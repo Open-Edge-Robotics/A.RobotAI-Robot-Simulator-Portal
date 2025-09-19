@@ -14,7 +14,7 @@ import { useUpdateTemplate } from "@/hooks/template/useUpdateTemplate";
 
 import type { TemplateFormData } from "@/types/template/domain";
 
-import { transformTemplateFormDataToRequest, transformTemplateToFormdata } from "@/utils/template/transformData";
+import { templateFormToCreateRequest, templateApiToForm } from "@/utils/template/mappers";
 
 export default function TemplateEditPage() {
   const { id: rawId } = useParams();
@@ -51,10 +51,10 @@ function TemplateEditPageContent({ id }: { id: number }) {
     );
   }
 
-  const templateFormData = transformTemplateToFormdata(data.data.template);
+  const templateFormData = templateApiToForm(data.data.template);
 
   const handleUpdateTemplate = (data: TemplateFormData) => {
-    const newTemplateFormData = transformTemplateFormDataToRequest(data);
+    const newTemplateFormData = templateFormToCreateRequest(data);
     updateTemplate(newTemplateFormData);
   };
 

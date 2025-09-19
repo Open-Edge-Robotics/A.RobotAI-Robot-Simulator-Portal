@@ -7,7 +7,7 @@ import { InnogridUIProvider } from "innogrid-ui";
 import { createRoot } from "react-dom/client";
 
 import App from "./App.tsx";
-import { handleMutationError, handleQueryError } from "./utils/error.ts";
+import { handleMutationError, handleQueryError } from "./utils/common/error.ts";
 
 const queryClient = new QueryClient({
   defaultOptions: {

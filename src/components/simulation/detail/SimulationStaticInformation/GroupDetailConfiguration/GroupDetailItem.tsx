@@ -4,6 +4,8 @@ import Container from "@/components/common/Container.tsx";
 
 import type { GroupExecutionDetail, GroupExecutionDetailFormData, PatternType } from "@/types/simulation/domain";
 
+import { patternGroupToForm } from "@/utils/simulation/mappers";
+
 import GroupItemContent from "./GroupItemContent";
 import GroupItemEditor from "./GroupItemEditor";
 import GroupHeader from "./GroupItemHeader";
@@ -46,7 +48,7 @@ export default function GroupDetailItem({
     }
   };
 
-  const groupEditorData = transformGroupToFormData(group);
+  const groupEditorData = patternGroupToForm(group);
 
   return (
     <Container
@@ -83,11 +85,3 @@ export default function GroupDetailItem({
     </Container>
   );
 }
-
-const transformGroupToFormData = (group: GroupExecutionDetail): GroupExecutionDetailFormData => ({
-  template: { templateId: group.templateId, templateName: group.templateName },
-  autonomousAgentCount: group.autonomousAgentCount,
-  repeatCount: group.repeatCount,
-  executionTime: group.executionTime,
-  delayAfterCompletion: group.delayAfterCompletion,
-});

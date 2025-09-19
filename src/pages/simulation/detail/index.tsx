@@ -17,8 +17,8 @@ import { SIMULATION_REFETCH_INTERVAL_MS } from "@/constants/simulation";
 
 import { useSimulationDetail } from "@/hooks/simulation/detail/useSimulationDetail";
 
-import { formatDateTime } from "@/utils/formatting";
-import { successToast } from "@/utils/toast";
+import { formatDateTime } from "@/utils/common/formatting";
+import { successToast } from "@/utils/common/toast";
 
 export default function SimulationDetailPage() {
   const { id: rawId } = useParams();

@@ -4,7 +4,7 @@ import { templateAPI } from "@/apis/template";
 
 import { QUERY_KEYS } from "@/constants/api";
 
-import { successToast } from "@/utils/toast";
+import { successToast } from "@/utils/common/toast";
 
 export function useDeleteTemplate() {
   const queryClient = useQueryClient();
