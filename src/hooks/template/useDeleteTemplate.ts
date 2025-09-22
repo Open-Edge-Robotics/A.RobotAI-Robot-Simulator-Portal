@@ -10,7 +10,7 @@ export function useDeleteTemplate() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: number) => templateAPI.deleteMockTemplate(id),
+    mutationFn: (id: number) => templateAPI.deleteTemplate(id),
     onSuccess: () => {
       successToast("템플릿을 삭제했습니다.");
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.template.all });

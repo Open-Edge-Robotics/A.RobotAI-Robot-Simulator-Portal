@@ -1,23 +1,40 @@
+import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
+import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import SimulationHeader from "@/components/simulation/SimluationHeader";
 import SimulationForm from "@/components/simulation/SimulationForm";
 
 import { useCreateSimulation } from "@/hooks/simulation/core/useCreateSimulation";
+import { useTemplates } from "@/hooks/template/useTemplates";
 
 import type { MecLite, SimulationFormData } from "@/types/simulation/domain";
-import type { TemplateLite } from "@/types/template/domain";
 
 import { simulationFormToCreateRequest } from "@/utils/simulation/mappers";
 
 export default function SimulationCreatePage() {
   const mecList = getMockMecList();
-  const templateList = getMockTemplateList();
-
+  const { data, status, refetch } = useTemplates();
   const { mutate: createSimulation, isPending, isSuccess } = useCreateSimulation();
+
+  if (status === "pending") {
+    return <LoadingFallback message="템플릿 정보를 불러오고 있습니다." />;
+  }
+
+  if (status === "error") {
+    return (
+      <ErrorFallback
+        onRetry={refetch}
+        message="템플릿 정보를 불러올 수 없습니다."
+        subMessage="네트워크 연결을 확인하거나 잠시 후 다시 시도해 주세요."
+      />
+    );
+  }
 
   const handleSubmit = (formData: SimulationFormData) => {
     const newSimulation = simulationFormToCreateRequest(formData);
     createSimulation(newSimulation);
   };
+
+  const templateList = data.data;
 
   return (
     <div className="bg-gray-10 flex h-full flex-col gap-6 p-6">
@@ -38,5 +55,3 @@ const getMockMecList = (): MecLite[] => [
   { id: "mec2", name: "MEC-002" },
   { id: "mec3", name: "MEC-003" },
 ];
-
-const getMockTemplateList = (): TemplateLite[] => [{ templateId: 1, templateName: "템플릿 1" }];

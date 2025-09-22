@@ -1,4 +1,7 @@
+import type { EditorFile } from "@/types/common";
 import type { TemplateFormData } from "@/types/template/domain";
+
+import { isLocalFile } from "../common/file";
 
 // 유효성 검사 결과 타입
 type ValidationResult = { isValid: true } | { isValid: false; error: string };
@@ -20,10 +23,11 @@ const validateArrayField = (array: unknown[], fieldName: string): string | null 
 };
 
 // 파일 필드 검사 헬퍼 함수
-const validateFileField = (file: File | null, fieldName: string): string | null => {
-  if (!file) {
+const validateFileField = (file: EditorFile, fieldName: string): string | null => {
+  if (!file || (isLocalFile(file) && !file.file)) {
     return `${fieldName} 파일을 업로드해주세요.`;
   }
+
   return null;
 };
 

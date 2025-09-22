@@ -20,7 +20,7 @@ export const templateAPI = {
     Promise.resolve({
       status: "success",
       message: "템플릿 정보를 성공적으로 조회했습니다.",
-      data: { templates: mockTemplates },
+      data: mockTemplates,
     }),
 
   getTemplate: (id: number) => apiClient.getApi<GetTemplateResult>(`${ENDPOINT}/${id}`),
@@ -34,7 +34,17 @@ export const templateAPI = {
   createTemplate: (data: CreateTemplateRequest) => apiClient.postFormDataApi<CreateTemplateResult>(`${ENDPOINT}`, data),
 
   updateTemplate: (id: number, data: UpdateTemplateRequest) =>
-    apiClient.putFormDataApi<UpdateTemplateResult>(`${ENDPOINT}/${id}`, data),
+    apiClient.patchFormDataApi<UpdateTemplateResult>(`${ENDPOINT}/${id}`, data),
+
+  updateMockTemplate: (id: number, data: UpdateTemplateRequest): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      // 2초 후에 성공
+      setTimeout(() => {
+        console.log(`Template ${id} updated successfully`);
+        resolve();
+      }, 2000);
+    });
+  },
 
   deleteTemplate: (id: number) => apiClient.deleteApi(`${ENDPOINT}/${id}`),
 

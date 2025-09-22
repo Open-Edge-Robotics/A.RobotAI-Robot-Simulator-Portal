@@ -1,8 +1,6 @@
 import type { Template } from "./domain";
 
-export interface GetTemplatesResult {
-  templates: Template[];
-}
+export type GetTemplatesResult = Template[];
 
 export interface GetTemplateResult {
   template: Template;

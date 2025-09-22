@@ -53,7 +53,7 @@ export default function GroupItemEditor({
     );
   }
 
-  const templateList = data.data.templates;
+  const templateList = data.data;
 
   const updateNewGroup = <K extends keyof GroupExecutionDetailFormData>(
     field: K,

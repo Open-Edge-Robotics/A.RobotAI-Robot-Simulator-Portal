@@ -9,13 +9,13 @@ import { useCreateTemplate } from "@/hooks/template/useCreateTemplate";
 
 import type { TemplateFormData } from "@/types/template/domain";
 
-import { templateFormToCreateRequest } from "@/utils/template/mappers";
+import { templateFormToRequest } from "@/utils/template/mappers";
 
 export default function TemplateCreatePage() {
   const { mutate: createTemplate, isPending, isSuccess } = useCreateTemplate();
 
   const handleCreateTemplate = (data: TemplateFormData) => {
-    const newTemplateFormData = templateFormToCreateRequest(data);
+    const newTemplateFormData = templateFormToRequest(data);
 
     createTemplate(newTemplateFormData);
   };

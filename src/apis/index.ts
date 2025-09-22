@@ -57,22 +57,6 @@ const putApi = async <T = unknown, D = unknown>(
   return response.data;
 };
 
-// 파일 업로드용 PUT 함수
-const putFormDataApi = async <T = unknown>(
-  url: Url,
-  formData: FormData,
-  config?: AxiosRequestConfig,
-): Promise<APIResponse<T>> => {
-  const response = await instance.put<APIResponse<T>>(url, formData, {
-    ...config,
-    headers: {
-      "Content-Type": "multipart/form-data",
-      ...config?.headers,
-    },
-  });
-  return response.data;
-};
-
 // PATCH 요청 함수
 const patchApi = async <T = unknown, D = unknown>(
   url: Url,
@@ -80,6 +64,22 @@ const patchApi = async <T = unknown, D = unknown>(
   config?: AxiosRequestConfig,
 ): Promise<APIResponse<T>> => {
   const response = await instance.patch<APIResponse<T>>(url, data, config);
+  return response.data;
+};
+
+// 파일 업로드용 PATCH 함수
+const patchFormDataApi = async <T = unknown>(
+  url: Url,
+  formData: FormData,
+  config?: AxiosRequestConfig,
+): Promise<APIResponse<T>> => {
+  const response = await instance.patch<APIResponse<T>>(url, formData, {
+    ...config,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      ...config?.headers,
+    },
+  });
   return response.data;
 };
 
@@ -98,7 +98,7 @@ export const apiClient = {
   postApi,
   postFormDataApi,
   putApi,
-  putFormDataApi,
   patchApi,
+  patchFormDataApi,
   deleteApi,
 };

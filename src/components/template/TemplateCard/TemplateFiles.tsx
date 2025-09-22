@@ -33,7 +33,13 @@ function FileItem({ href, iconName, label, fileName }: FileItemProps) {
           <Icon name={iconName} className="flex text-gray-500" />
           <span className="text-gray-600">{label}</span>
         </div>
-        <a href={href} className="text-blue-600 underline">
+        <a
+          href={href}
+          download={fileName}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline"
+        >
           {fileName}
         </a>
       </div>

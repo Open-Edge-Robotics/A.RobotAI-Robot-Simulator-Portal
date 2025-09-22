@@ -62,19 +62,22 @@ interface CardHeaderProps {
 }
 
 function CardHeader({ name, onEditClick, onDeleteClick, isDeleteLoading }: CardHeaderProps) {
+  const disabledStyle = "disabled:cursor-default disabled:bg-white disabled:hover:text-gray-500";
+  const commonStyle = "flex h-8 w-8 items-center justify-center rounded-md text-gray-500";
+
   return (
     <div className="mb-2.5 flex justify-between">
       <h3 className="font-semibold">{name}</h3>
       <div className="flex items-center gap-1">
         <IconButton
           iconName="edit"
-          className={`flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-600 active:bg-gray-100 active:text-gray-600 disabled:bg-white`}
+          className={`${commonStyle} hover:bg-gray-50 hover:text-gray-600 active:bg-gray-100 active:text-gray-600 disabled:opacity-50 ${disabledStyle}`}
           onClick={onEditClick}
           disabled={isDeleteLoading}
         />
         <IconButton
           iconName={isDeleteLoading ? "progress_activity" : "delete"}
-          className={`flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:bg-red-50 hover:text-red-500 active:bg-red-100 active:text-red-500 disabled:bg-white ${isDeleteLoading ? "animate-spin" : ""}`}
+          className={`${commonStyle} hover:bg-red-50 hover:text-red-500 active:bg-red-100 active:text-red-500 ${disabledStyle} ${isDeleteLoading ? "animate-spin" : ""}`}
           onClick={onDeleteClick}
           disabled={isDeleteLoading}
         />
