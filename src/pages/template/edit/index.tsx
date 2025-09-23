@@ -15,6 +15,7 @@ import { useUpdateTemplate } from "@/hooks/template/useUpdateTemplate";
 import type { TemplateFormData } from "@/types/template/domain";
 
 import { isArraysEqualUnique } from "@/utils/common/arrays";
+import { warnToast } from "@/utils/common/toast";
 import { templateFormToRequest, templateApiToForm } from "@/utils/template/mappers";
 
 export default function TemplateEditPage() {
@@ -60,8 +61,12 @@ function TemplateEditPageContent({ id }: { id: number }) {
   const templateFormData = templateApiToForm(template);
 
   const handleUpdateTemplate = (newTemplate: TemplateFormData) => {
-    const changedTemplate: Partial<TemplateFormData> = getTemplateChanges(newTemplate, templateFormData);
-    console.log(changedTemplate);
+    const changedTemplate = getTemplateChanges(newTemplate, templateFormData);
+    if (!changedTemplate) {
+      warnToast("변경된 내용이 없습니다.");
+      return;
+    }
+
     const newTemplateFormData = templateFormToRequest(changedTemplate);
     updateTemplate(newTemplateFormData);
   };
@@ -96,7 +101,7 @@ function TemplateHeader({ title }: { title: string }) {
 const getTemplateChanges = (
   newTemplate: TemplateFormData,
   currentTemplate: TemplateFormData,
-): Partial<TemplateFormData> => {
+): Partial<TemplateFormData> | null => {
   const changes: Partial<TemplateFormData> = {};
 
   if (newTemplate.name !== currentTemplate.name) {
@@ -128,8 +133,10 @@ const getTemplateChanges = (
       newFiles["database"] = newTemplate.files.database;
     }
 
-    changes.files = newFiles;
+    if (newFiles.metadata || newFiles.database) {
+      changes.files = newFiles;
+    }
   }
 
-  return changes;
+  return Object.keys(changes).length > 0 ? changes : null;
 };

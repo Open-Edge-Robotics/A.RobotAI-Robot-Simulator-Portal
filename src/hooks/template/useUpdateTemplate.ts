@@ -17,7 +17,7 @@ export function useUpdateTemplate(id: number) {
 
   return useMutation({
     mutationFn: (newTemplate: CreateTemplateRequest) => {
-      return templateAPI.updateMockTemplate(id, newTemplate);
+      return templateAPI.updateTemplate(id, newTemplate);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.template.all });
