@@ -3,6 +3,7 @@ import { FILTER_OPTIONS } from "@/constants/simulation";
 import type {
   ParallelAgentGroup,
   PatternTypeFilterOption,
+  PeriodFilterOption,
   SequentialAgentGroup,
   SimulationFormData,
   StatusFilterOption,
@@ -102,25 +103,38 @@ const isPatternTypeFilterOption = (value: string): value is PatternTypeFilterOpt
   return validPatternTypes.includes(value as PatternTypeFilterOption);
 };
 
+const isPeriodFilterOption = (value: string): value is PeriodFilterOption => {
+  const validPeriods = FILTER_OPTIONS.period.map((option) => option.value);
+  return validPeriods.includes(value as PeriodFilterOption);
+};
+
 // ========== 파라미터 검증 함수들 ==========
 
 export const validatePage = (value: string | null): number | null => {
   if (value === null) return null;
+
   const pageNum = parseInt(value, 10);
+
   return !isNaN(pageNum) && pageNum > 0 ? pageNum : null;
 };
 
 export const validateSize = (value: string | null): number | null => {
   if (value === null) return null;
+
   const validSizes = [10, 15, 20, 30, 50, 100, 500];
   const sizeNum = parseInt(value, 10);
+
   return validSizes.includes(sizeNum) ? sizeNum : null;
 };
 
-export const validateStatusFilter = (value: string | null): string | null => {
+export const validateStatusFilter = (value: string | null): StatusFilterOption | null => {
   return value && isStatusFilterOption(value) ? value : null;
 };
 
-export const validatePatternTypeFilter = (value: string | null): string | null => {
+export const validatePatternTypeFilter = (value: string | null): PatternTypeFilterOption | null => {
   return value && isPatternTypeFilterOption(value) ? value : null;
+};
+
+export const validatePeriodFilter = (value: string | null): PeriodFilterOption | null => {
+  return value && isPeriodFilterOption(value) ? value : null;
 };

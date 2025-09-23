@@ -3,8 +3,16 @@ import { Select } from "innogrid-ui";
 import Divider from "@/components/common/Divider";
 import Icon from "@/components/common/Icon";
 
-import { FILTER_OPTIONS } from "../../../constants/simulation";
-import type { PatternTypeFilterOption, StatusFilterOption } from "../../../types/simulation/domain";
+import { FILTER_OPTIONS } from "@/constants/simulation";
+
+import type {
+  AllowedParam,
+  PatternTypeFilterOption,
+  PeriodFilterOption,
+  StatusFilterOption,
+} from "@/types/simulation/domain";
+
+import PeriodFilter from "./PeriodFilter";
 
 interface SimulationFilterToolbarProps {
   statusFilterValue: StatusFilterOption | null;
@@ -12,6 +20,10 @@ interface SimulationFilterToolbarProps {
   patternTypeFilterValue: PatternTypeFilterOption | null;
   onPatternTypeFilterChange: (value: PatternTypeFilterOption | null) => void;
   onReset: () => void;
+  startDate?: string;
+  endDate?: string;
+  selectedPeriod: PeriodFilterOption | null;
+  handleQueriesChange: (queries: Partial<Record<AllowedParam, string | null>>) => void;
 }
 
 export default function SimulationFilterToolbar({
@@ -20,6 +32,10 @@ export default function SimulationFilterToolbar({
   patternTypeFilterValue,
   onPatternTypeFilterChange,
   onReset,
+  startDate,
+  endDate,
+  selectedPeriod,
+  handleQueriesChange,
 }: SimulationFilterToolbarProps) {
   return (
     <div className="flex h-10 flex-wrap items-center gap-5">
@@ -28,6 +44,10 @@ export default function SimulationFilterToolbar({
         selectedPatternType={patternTypeFilterValue}
         onStatusChange={onStatusFilterChange}
         onPatternTypeChange={onPatternTypeFilterChange}
+        startDate={startDate}
+        endDate={endDate}
+        selectedPeriod={selectedPeriod}
+        handleQueriesChange={handleQueriesChange}
       />
       <Divider orientation="vertical" />
       <ResetButton onClick={onReset} />
@@ -38,11 +58,24 @@ export default function SimulationFilterToolbar({
 interface FilterSelectProps {
   selectedStatus: StatusFilterOption | null;
   selectedPatternType: PatternTypeFilterOption | null;
+  startDate?: string;
+  endDate?: string;
   onStatusChange: (value: StatusFilterOption | null) => void;
   onPatternTypeChange: (value: PatternTypeFilterOption | null) => void;
+  selectedPeriod: PeriodFilterOption | null;
+  handleQueriesChange: (queries: Partial<Record<AllowedParam, string | null>>) => void;
 }
 
-function FilterSelect({ selectedStatus, selectedPatternType, onStatusChange, onPatternTypeChange }: FilterSelectProps) {
+function FilterSelect({
+  selectedStatus,
+  selectedPatternType,
+  startDate,
+  endDate,
+  onStatusChange,
+  onPatternTypeChange,
+  selectedPeriod,
+  handleQueriesChange,
+}: FilterSelectProps) {
   return (
     <div className="flex items-center gap-3">
       <div className="flex h-9 w-9 items-center justify-center rounded-md bg-gray-50">
@@ -67,6 +100,13 @@ function FilterSelect({ selectedStatus, selectedPatternType, onStatusChange, onP
         onChange={(option) => onPatternTypeChange(option ? option.value : FILTER_OPTIONS.patternType[0].value)}
         placeholder="패턴 타입"
         isClearable
+      />
+      <PeriodFilter
+        key={`${selectedPeriod}-${startDate}-${endDate}`} // selectedPeriod, startDate, endDate 변경 시 상태 리셋하기 위함
+        startDate={startDate}
+        endDate={endDate}
+        selectedPeriod={selectedPeriod}
+        onPeriodChange={(dateQueries) => handleQueriesChange(dateQueries)}
       />
     </div>
   );

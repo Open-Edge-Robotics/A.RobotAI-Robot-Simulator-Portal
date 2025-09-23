@@ -1,7 +1,7 @@
 import type { GetStatusResponseFinal } from "@/types/simulation/status";
 
 import { getField } from "@/utils/common/field";
-import { formatDateTime, formatDuration } from "@/utils/common/formatting";
+import { formatDateTime, formatMsToGeneralForm } from "@/utils/common/formatting";
 
 interface TimeInformationProps {
   status: GetStatusResponseFinal["currentStatus"]["status"];
@@ -21,13 +21,15 @@ export default function TimeInformation({ status, timestamps }: TimeInformationP
               <>
                 <span>종료: {formatDateTime(endedAt)}</span>
                 <span>
-                  소요: {formatDuration(new Date(endedAt).getTime() - new Date(timestamps.startedAt).getTime())}
+                  소요: {formatMsToGeneralForm(new Date(endedAt).getTime() - new Date(timestamps.startedAt).getTime())}
                 </span>
               </>
             ) : (
               <span>
                 경과:{" "}
-                {formatDuration(new Date(timestamps.lastUpdated).getTime() - new Date(timestamps.startedAt).getTime())}
+                {formatMsToGeneralForm(
+                  new Date(timestamps.lastUpdated).getTime() - new Date(timestamps.startedAt).getTime(),
+                )}
               </span>
             )}
           </>

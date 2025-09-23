@@ -1,10 +1,7 @@
-import type { EditorFile } from "@/types/common";
+import type { EditorFile, ValidationResult } from "@/types/common";
 import type { TemplateFormData } from "@/types/template/domain";
 
 import { isLocalFile } from "../common/file";
-
-// 유효성 검사 결과 타입
-type ValidationResult = { isValid: true } | { isValid: false; error: string };
 
 // 문자열 필드 검사 헬퍼 함수
 const validateStringField = (value: string, fieldName: string): string | null => {

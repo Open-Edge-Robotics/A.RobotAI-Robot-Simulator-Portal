@@ -156,6 +156,7 @@ export interface SimulationActionConfig {
 export type AllowedParam = (typeof ALLOWED_PARAMS)[number];
 export type StatusFilterOption = (typeof FILTER_OPTIONS.status)[number]["value"];
 export type PatternTypeFilterOption = (typeof FILTER_OPTIONS.patternType)[number]["value"];
+export type PeriodFilterOption = (typeof FILTER_OPTIONS.period)[number]["value"];
 
 export interface ResourceUsageData {
   cpu: { usagePercent: number; status: string };

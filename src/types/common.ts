@@ -23,3 +23,5 @@ export interface UploadedFile {
   type: "UPLOADED_FILE";
   file: FileInfo;
 }
+
+export type ValidationResult = { isValid: true } | { isValid: false; error: string };

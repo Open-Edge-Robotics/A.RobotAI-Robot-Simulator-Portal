@@ -2,7 +2,7 @@ import { STATUS_CONFIGS } from "@/constants/simulation";
 
 import type { GroupDetail } from "@/types/simulation/simulationDetail";
 
-import { formatDateTime, formatDuration } from "@/utils/common/formatting";
+import { formatDateTime, formatMsToGeneralForm } from "@/utils/common/formatting";
 
 interface FieldConfig {
   label: string;
@@ -12,7 +12,7 @@ interface FieldConfig {
 const createTimeFields = {
   duration: (label: string, startTime: string, endTime: string) => ({
     label,
-    value: formatDuration(new Date(endTime).getTime() - new Date(startTime).getTime()),
+    value: formatMsToGeneralForm(new Date(endTime).getTime() - new Date(startTime).getTime()),
   }),
 
   startTime: (time: string) => ({

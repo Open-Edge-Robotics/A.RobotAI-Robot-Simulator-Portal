@@ -16,9 +16,14 @@ import { SEGMENTS } from "@/constants/navigation";
 
 import { useSimulations } from "@/hooks/simulation/core/useSimulations";
 
-import type { AllowedParam, PatternTypeFilterOption, StatusFilterOption } from "@/types/simulation/domain";
+import type {
+  AllowedParam,
+  PatternTypeFilterOption,
+  PeriodFilterOption,
+  StatusFilterOption,
+} from "@/types/simulation/domain";
 
-import { getValidParams } from "@/utils/simulation/validation";
+import { getValidSearchParams } from "@/utils/simulation/validation";
 
 export default function SimulationListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,18 +33,24 @@ export default function SimulationListPage() {
   const patternTypeFilterValue = (searchParams.get("pattern_type") || "") as PatternTypeFilterOption;
   const pageValue = Number(searchParams.get("page")) || 1;
   const pageSizeValue = Number(searchParams.get("size")) || 10;
+  const selectedPeriod = (searchParams.get("period") || "") as PeriodFilterOption;
+  const startDate = searchParams.get("start_date") ?? undefined;
+  const endDate = searchParams.get("end_date") ?? undefined;
 
-  const handleChangeQuery = (key: AllowedParam, value: string | null) => {
+  const handleQueriesChange = (queries: Partial<Record<AllowedParam, string | null>>) => {
     const newSearchParams = new URLSearchParams(searchParams);
-    if (value) {
-      newSearchParams.set(key, value);
-    } else {
-      newSearchParams.delete(key); // 빈 값이면 해당 쿼리 제거
-    }
 
-    // 쿼리 변경 시 페이지 리셋 (size 변경 시에도 페이지 리셋)
-    if (key !== "page") {
-      newSearchParams.delete("page");
+    for (const [key, value] of Object.entries(queries)) {
+      if (value) {
+        newSearchParams.set(key, value);
+      } else {
+        newSearchParams.delete(key); // 빈 값이면 해당 쿼리 제거
+      }
+
+      // 쿼리 변경 시 페이지 리셋 (size 변경 시에도 페이지 리셋)
+      if (key !== "page") {
+        newSearchParams.delete("page");
+      }
     }
 
     setSearchParams(newSearchParams);
@@ -51,7 +62,7 @@ export default function SimulationListPage() {
 
   // 컴포넌트 마운트 시 URL 쿼리 유효한 값으로 정리
   useEffect(() => {
-    const validParams = getValidParams(searchParams);
+    const validParams = getValidSearchParams(searchParams);
     if (validParams) {
       setSearchParams(validParams);
     }
@@ -71,13 +82,17 @@ export default function SimulationListPage() {
       <SimulationFilterToolbar
         statusFilterValue={statusFilterValue}
         onStatusFilterChange={(value) => {
-          handleChangeQuery("status", value);
+          handleQueriesChange({ status: value });
         }}
         patternTypeFilterValue={patternTypeFilterValue}
         onPatternTypeFilterChange={(value) => {
-          handleChangeQuery("pattern_type", value);
+          handleQueriesChange({ pattern_type: value });
         }}
         onReset={handleReset}
+        handleQueriesChange={handleQueriesChange}
+        startDate={startDate}
+        endDate={endDate}
+        selectedPeriod={selectedPeriod}
       />
 
       {status === "error" && (
@@ -96,10 +111,10 @@ export default function SimulationListPage() {
             size={pageSizeValue}
             totalCount={pagination!.totalItems}
             onChangePage={(value) => {
-              handleChangeQuery("page", value);
+              handleQueriesChange({ page: value });
             }}
             onChangePageSize={(value) => {
-              handleChangeQuery("size", value);
+              handleQueriesChange({ size: value });
             }}
           />
         </>

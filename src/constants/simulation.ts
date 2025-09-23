@@ -272,11 +272,18 @@ export const FILTER_OPTIONS = {
     { value: "sequential", label: "순차실행" },
     { value: "parallel", label: "병렬실행" },
   ],
+  period: [
+    { value: "", label: "전체 기간" },
+    { value: "today", label: "오늘" },
+    { value: "7days", label: "최근 7일" },
+    { value: "1month", label: "최근 1개월" },
+    { value: "custom", label: "사용자 지정" },
+  ],
 } as const;
 
 // ========== 허용된 URL 파라미터 ==========
 
-export const ALLOWED_PARAMS = ["page", "size", "status", "pattern_type"] as const;
+export const ALLOWED_PARAMS = ["page", "size", "status", "pattern_type", "start_date", "end_date", "period"] as const;
 
 export const SIMULATION_REFETCH_INTERVAL_MS = 60000; // 1 minute
 export const SIMULATION_STATUS_REFETCH_INTERVAL_MS = 1000; // 1 second
