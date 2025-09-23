@@ -20,8 +20,8 @@ export const QUERY_KEYS = {
     all: ["simulation"] as const,
 
     // 1. Simulation List
-    list: (type: "lite" | "full", filters?: { status?: string; page?: number; limit?: number }) =>
-      [...QUERY_KEYS.simulation.all, "list", type, { ...filters }] as const,
+    list: (type: "lite" | "full", serachParams?: URLSearchParams) =>
+      [...QUERY_KEYS.simulation.all, "list", type, serachParams?.toString()] as const,
 
     // 2. Specific Simulation (by ID) - 통합된 함수
     byId: (id: number, type: "detail" | "summary" | "status" | "deletion") =>
