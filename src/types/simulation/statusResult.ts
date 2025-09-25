@@ -1,4 +1,4 @@
-import type { ParallelGroupDetail, SequentialGroupDetail } from "./simulationDetail";
+import type { ParallelGroupDetail, SequentialGroupDetail } from "./groupDetail";
 
 export type GetStatusResponseFinal = SequentialResponseBase | ParallelResponseBase;
 

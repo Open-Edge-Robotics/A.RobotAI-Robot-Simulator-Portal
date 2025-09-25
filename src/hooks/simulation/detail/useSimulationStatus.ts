@@ -3,10 +3,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { simulationAPI } from "@/apis/simulation";
 
 import { QUERY_KEYS } from "@/constants/api";
-import { SIMULATION_STATUS_REFETCH_INTERVAL_MS } from "@/constants/simulation";
+import { POLLING_REQUIRED_STATUSES, SIMULATION_STATUS_REFETCH_INTERVAL_MS } from "@/constants/simulation";
 
 import type { APIResponse } from "@/types/api";
-import type { GetStatusResponseFinal } from "@/types/simulation/status";
+import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
 
 export function useSimulationStatus(id: number) {
   const queryClient = useQueryClient();
@@ -20,8 +20,8 @@ export function useSimulationStatus(id: number) {
       );
 
       // 새 상태 데이터 fetch
-      // const newStatus = await simulationAPI.getMockSimulationStatus(id);
-      const newStatus = await simulationAPI.getSimulationStatus(id);
+      const newStatus = await simulationAPI.getMockSimulationStatus(id);
+      // const newStatus = await simulationAPI.getSimulationStatus(id);
 
       // 상태 변화 감지 및 detail 쿼리 invalidate
       const isStatusChanged =
@@ -38,7 +38,6 @@ export function useSimulationStatus(id: number) {
     },
     refetchInterval: (query) => {
       const data = query.state.data;
-      console.log("refetch status");
 
       if (query.state.error) return false;
 
@@ -47,8 +46,8 @@ export function useSimulationStatus(id: number) {
 
       const status = data.data.currentStatus.status;
 
-      // PENDING, RUNNING 상태면 지정한 간격으로 polling
-      if (status === "PENDING" || status === "RUNNING") {
+      // polling이 필요한 상태라면 지정한 간격으로 polling
+      if (POLLING_REQUIRED_STATUSES.includes(status)) {
         return SIMULATION_STATUS_REFETCH_INTERVAL_MS;
       }
 

@@ -3,7 +3,7 @@ import type {
   GetSimulationStaticResult,
   GetSimulationSummaryResult,
 } from "@/types/simulation/api";
-import type { GetStatusResponseFinal } from "@/types/simulation/status";
+import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
 
 // Sequential Pattern Mock Data
 export const mockSimulationSequentialPending: GetSimulationStaticResult = {

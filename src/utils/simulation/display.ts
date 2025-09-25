@@ -1,6 +1,6 @@
 import { STATUS_CONFIGS } from "@/constants/simulation";
 
-import type { GroupDetail } from "@/types/simulation/simulationDetail";
+import type { GroupDetail } from "@/types/simulation/groupDetail";
 
 import { formatDateTime, formatMsToGeneralForm } from "@/utils/common/formatting";
 

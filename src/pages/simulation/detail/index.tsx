@@ -9,19 +9,21 @@ import IconButton from "@/components/common/IconButton.tsx";
 import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
 import ActionProgressFallback from "@/components/simulation/ActionProgressFallback";
-import SimulationDynamicInformation from "@/components/simulation/detail/SimulationDynamicInformation";
+import SimulationExecutionHistory from "@/components/simulation/detail/SimulationExecutionHistory";
 import SimulationStaticInformation from "@/components/simulation/detail/SimulationStaticInformation";
 
 import { SEGMENTS } from "@/constants/navigation";
-import { SIMULATION_REFETCH_INTERVAL_MS } from "@/constants/simulation";
+import { DELETING_STATUSES, POLLING_REQUIRED_STATUSES, SIMULATION_REFETCH_INTERVAL_MS } from "@/constants/simulation";
 
 import { useSimulationDetail } from "@/hooks/simulation/detail/useSimulationDetail";
+
+import type { SimulationStatus } from "@/types/simulation/domain";
 
 import { formatDateTime } from "@/utils/common/formatting";
 import { successToast } from "@/utils/common/toast";
 
 export default function SimulationDetailPage() {
-  const { id: rawId } = useParams();
+  const { simulationId: rawId } = useParams();
   const id = rawId ? Number(rawId) : null;
   const isValidId = id && !isNaN(id);
 
@@ -82,14 +84,14 @@ function SimulationDetailPageContent({ id }: { id: number }) {
     <div className="relative flex flex-col gap-6">
       <SimulationDetailPageHeader
         lastUpdated={simulation.currentStatus.timestamps.lastUpdated}
-        onRefreshClick={handleRefresh}
+        onRefreshClick={POLLING_REQUIRED_STATUSES.includes(simulation.currentStatus.status) ? handleRefresh : undefined}
       />
-      {simulation.currentStatus.status === "DELETING" || simulation.currentStatus.status === "DELETED" ? (
+      {DELETING_STATUSES.includes(simulation.currentStatus.status) ? (
         <ActionProgressFallback id={id} />
       ) : (
         <div className="space-y-6">
           <SimulationStaticInformation simulation={simulation} editMode={editMode} toggleEditMode={toggleEditMode} />
-          {editMode ? <EditFallback /> : <SimulationDynamicInformation simulationId={id} />}
+          {editMode ? <EditFallback /> : <SimulationExecutionHistory />}
         </div>
       )}
     </div>
@@ -98,7 +100,7 @@ function SimulationDetailPageContent({ id }: { id: number }) {
 
 interface SimulationDetailPageHeaderProps {
   lastUpdated: string;
-  onRefreshClick: () => void;
+  onRefreshClick?: () => void;
 }
 
 function SimulationDetailPageHeader({ lastUpdated, onRefreshClick }: SimulationDetailPageHeaderProps) {
@@ -106,10 +108,10 @@ function SimulationDetailPageHeader({ lastUpdated, onRefreshClick }: SimulationD
     <div className="flex items-center justify-between">
       <Title>
         <div className="flex flex-wrap items-center gap-2.5">
-          <span>시뮬레이션 상세 모니터링</span>
+          <span>시뮬레이션 상세 정보</span>
           <div className="flex items-center gap-1 text-sm text-gray-500">
             <span>마지막 업데이트: {formatDateTime(lastUpdated)}</span>
-            <IconButton iconName="refresh" iconSize="20px" onClick={onRefreshClick} />
+            {onRefreshClick && <IconButton iconName="refresh" iconSize="20px" onClick={onRefreshClick} />}
           </div>
         </div>
       </Title>

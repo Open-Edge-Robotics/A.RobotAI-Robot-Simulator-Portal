@@ -1,4 +1,4 @@
-import type { GetStatusResponseFinal } from "@/types/simulation/status";
+import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
 
 import { getField } from "@/utils/common/field";
 import { formatDateTime, formatMsToGeneralForm } from "@/utils/common/formatting";

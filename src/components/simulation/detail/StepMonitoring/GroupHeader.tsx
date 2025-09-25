@@ -5,7 +5,7 @@ import ProgressBar from "@/components/common/ProgressBar";
 import { PATTERN_CONFIGS, STATUS_CONFIGS } from "@/constants/simulation";
 
 import type { PatternType } from "@/types/simulation/domain";
-import type { GroupDetail } from "@/types/simulation/simulationDetail";
+import type { GroupDetail } from "@/types/simulation/groupDetail";
 
 interface GroupHeaderProps {
   id: number;

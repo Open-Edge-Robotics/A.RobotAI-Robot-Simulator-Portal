@@ -50,18 +50,18 @@ interface StoppedGroupDetail extends GroupDetailBase {
 }
 
 // Sequential 그룹 세부 정보 타입들
-export type SequentialRunningGroupDetail = SequentialGroupDetailBase & RunningGroupDetail;
-export type SequentialCompletedGroupDetail = SequentialGroupDetailBase & CompletedGroupDetail;
-export type SequentialFailedGroupDetail = SequentialGroupDetailBase & FailedGroupDetail;
-export type SequentialStoppedGroupDetail = SequentialGroupDetailBase & StoppedGroupDetail;
-export type SequentialPendingGroupDetail = SequentialGroupDetailBase & PendingGroupDetail;
+type SequentialRunningGroupDetail = SequentialGroupDetailBase & RunningGroupDetail;
+type SequentialCompletedGroupDetail = SequentialGroupDetailBase & CompletedGroupDetail;
+type SequentialFailedGroupDetail = SequentialGroupDetailBase & FailedGroupDetail;
+type SequentialStoppedGroupDetail = SequentialGroupDetailBase & StoppedGroupDetail;
+type SequentialPendingGroupDetail = SequentialGroupDetailBase & PendingGroupDetail;
 
 // Parallel 그룹 세부 정보 타입들
-export type ParallelRunningGroupDetail = ParallelGroupDetailBase & RunningGroupDetail;
-export type ParallelCompletedGroupDetail = ParallelGroupDetailBase & CompletedGroupDetail;
-export type ParallelFailedGroupDetail = ParallelGroupDetailBase & FailedGroupDetail;
-export type ParallelStoppedGroupDetail = ParallelGroupDetailBase & StoppedGroupDetail;
-export type ParallelPendingGroupDetail = ParallelGroupDetailBase & PendingGroupDetail;
+type ParallelRunningGroupDetail = ParallelGroupDetailBase & RunningGroupDetail;
+type ParallelCompletedGroupDetail = ParallelGroupDetailBase & CompletedGroupDetail;
+type ParallelFailedGroupDetail = ParallelGroupDetailBase & FailedGroupDetail;
+type ParallelStoppedGroupDetail = ParallelGroupDetailBase & StoppedGroupDetail;
+type ParallelPendingGroupDetail = ParallelGroupDetailBase & PendingGroupDetail;
 
 // 모든 Sequential 그룹 세부 정보의 유니온 타입
 export type SequentialGroupDetail =

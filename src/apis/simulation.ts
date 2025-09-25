@@ -13,7 +13,7 @@ import type {
   CreatePatternGroupRequest,
   UpdatePatternGroupRequest,
 } from "@/types/simulation/api";
-import type { GetStatusResponseFinal } from "@/types/simulation/status";
+import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
 
 import { apiClient } from ".";
 import {
@@ -56,7 +56,7 @@ export const simulationAPI = {
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 정보를 성공적으로 조회했습니다.",
-      data: mockSimulationSequentialPending,
+      data: mockSimulationParallelCompleted,
     }),
 
   // 대시보드용 시뮬레이션 조회
@@ -77,7 +77,7 @@ export const simulationAPI = {
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 상태를 성공적으로 조회했습니다.",
-      data: mockStatusData.pending.parallel,
+      data: mockStatusData.running.parallel,
     }),
 
   // 시뮬레이션 생성

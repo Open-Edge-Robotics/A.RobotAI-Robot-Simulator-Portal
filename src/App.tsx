@@ -7,6 +7,7 @@ import MecPage from "./pages/mec";
 import SimulationListPage from "./pages/simulation";
 import SimulationCreatePage from "./pages/simulation/create";
 import SimulationDetailPage from "./pages/simulation/detail";
+import SimulationResultPage from "./pages/simulation/result";
 import TemplatePage from "./pages/template";
 import TemplateCreatePage from "./pages/template/create";
 import TemplateEditPage from "./pages/template/edit";
@@ -20,7 +21,8 @@ function AppRoutes() {
       <Route path={SEGMENTS.absolute.simulation}>
         <Route index element={<SimulationListPage />} />
         <Route path={SEGMENTS.relative.create} element={<SimulationCreatePage />} />
-        <Route path=":id" element={<SimulationDetailPage />} />
+        <Route path=":simulationId" element={<SimulationDetailPage />} />
+        <Route path=":simulationId/result/:executionId" element={<SimulationResultPage />} />
       </Route>
       <Route path={SEGMENTS.absolute.template}>
         <Route index element={<TemplatePage />} />

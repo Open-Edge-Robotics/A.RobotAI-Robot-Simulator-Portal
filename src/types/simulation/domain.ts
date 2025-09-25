@@ -211,3 +211,14 @@ export interface GroupExecutionDetailFormData {
   executionTime: number;
   delayAfterCompletion?: number;
 }
+
+export interface ExecutionRecord {
+  executionId: number;
+  status: SimulationStatus;
+  startedAt: string;
+  finishedAt: string;
+  updatedAt: string;
+  totalSteps: number;
+  completedSteps: number;
+  simulationId: number;
+}

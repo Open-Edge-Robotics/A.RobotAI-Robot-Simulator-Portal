@@ -12,7 +12,7 @@ import type {
   SimulationOverview,
   SimulationStatus,
 } from "./domain";
-import type { ParallelGroupDetail, SequentialGroupDetail } from "./simulationDetail";
+import type { ParallelGroupDetail, SequentialGroupDetail } from "./groupDetail";
 
 // ========== API 요청 타입 ==========
 

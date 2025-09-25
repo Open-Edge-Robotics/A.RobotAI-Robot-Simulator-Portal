@@ -1,9 +1,18 @@
+import { Button } from "innogrid-ui";
+
+import StatusBadge from "@/components/common/Badge/StatusBadge";
 import Container from "@/components/common/Container.tsx";
 import Divider from "@/components/common/Divider";
 import InformationFallback from "@/components/common/Fallback/InformationFallback";
+import Icon from "@/components/common/Icon";
 import Title from "@/components/common/Title";
 
-import type { GetStatusResponseFinal } from "@/types/simulation/status";
+import { ACTION_CONFIGS } from "@/constants/simulation";
+
+import { useStopSimulation } from "@/hooks/simulation/detail/useStopSimulation";
+
+import type { SimulationStatus } from "@/types/simulation/domain";
+import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
 
 import { formatDateTime } from "@/utils/common/formatting";
 
@@ -19,7 +28,11 @@ export default function SimulationOverallProgress({ result }: SimulationOverallP
   if (result.currentStatus.status === "INITIATING") {
     return (
       <Container className="p-6">
-        <SimulationOverallProgressTitle />
+        <SimulationOverallProgressHeader
+          simulationId={result.simulationId}
+          status={result.currentStatus.status}
+          message={result.currentStatus.message}
+        />
         <InformationFallback
           message={result.currentStatus.message}
           subMessage={`마지막 업데이트: ${formatDateTime(result.currentStatus.timestamps.lastUpdated)}`}
@@ -42,7 +55,11 @@ export default function SimulationOverallProgress({ result }: SimulationOverallP
 
   return (
     <Container className="p-6">
-      <SimulationOverallProgressTitle message={result.currentStatus.message} />
+      <SimulationOverallProgressHeader
+        simulationId={result.simulationId}
+        status={result.currentStatus.status}
+        message={result.currentStatus.message}
+      />
 
       {/* 진행 상황 개요 */}
       <ProgressOverview progressData={progressData} />
@@ -58,11 +75,49 @@ export default function SimulationOverallProgress({ result }: SimulationOverallP
   );
 }
 
-function SimulationOverallProgressTitle({ message }: { message?: string }) {
+interface SimulationOverallProgressHeaderProps {
+  simulationId: number;
+  status: SimulationStatus;
+  message?: string;
+}
+
+function SimulationOverallProgressHeader({ simulationId, status, message }: SimulationOverallProgressHeaderProps) {
+  const { mutate, isPending } = useStopSimulation();
+
   return (
     <Title fontSize="text-xl" margin="mb-4">
-      <span>전체 진행 상황</span>
-      <span className="ml-4 text-sm font-medium text-gray-600">{message}</span>
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="flex items-center gap-3">
+            <span>전체 진행 상황</span>
+            <StatusBadge status={status} />
+          </div>
+          <span className="text-sm font-medium text-gray-600">{message}</span>
+        </div>
+        {status === "RUNNING" && (
+          <StopButton onClick={() => mutate(simulationId)} disabled={isPending} isPending={isPending} />
+        )}
+      </div>
     </Title>
+  );
+}
+
+interface StopButtonProps {
+  onClick: () => void;
+  disabled: boolean;
+  isPending: boolean;
+}
+
+function StopButton({ onClick, disabled, isPending }: StopButtonProps) {
+  return (
+    <Button disabled={disabled} onClick={onClick} color="negative">
+      <Icon
+        name={isPending ? "progress_activity" : ACTION_CONFIGS.stop.iconName}
+        size="22px"
+        className={isPending ? "animate-spin" : ""}
+        fill
+      />
+      <span className="mr-1.5 ml-0.5">중지</span>
+    </Button>
   );
 }

@@ -1,6 +1,6 @@
 import { CustomVerticalLabeledValue } from "@/components/common/LabeledValue";
 
-import type { GroupDetail } from "@/types/simulation/simulationDetail";
+import type { GroupDetail } from "@/types/simulation/groupDetail";
 
 import { getFieldConfigs } from "@/utils/simulation/display";
 
