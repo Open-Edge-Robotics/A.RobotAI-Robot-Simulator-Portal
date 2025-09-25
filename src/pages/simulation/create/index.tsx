@@ -6,7 +6,8 @@ import SimulationForm from "@/components/simulation/SimulationForm";
 import { useCreateSimulation } from "@/hooks/simulation/core/useCreateSimulation";
 import { useTemplates } from "@/hooks/template/useTemplates";
 
-import type { MecLite, SimulationFormData } from "@/types/simulation/domain";
+import type { MecLite } from "@/types/mec/domain";
+import type { SimulationFormData } from "@/types/simulation/domain";
 
 import { simulationFormToCreateRequest } from "@/utils/simulation/mappers";
 

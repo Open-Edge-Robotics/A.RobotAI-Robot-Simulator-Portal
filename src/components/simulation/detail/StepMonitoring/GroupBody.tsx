@@ -1,11 +1,11 @@
 import { CustomVerticalLabeledValue } from "@/components/common/LabeledValue";
 
-import type { GroupDetail } from "@/types/simulation/groupDetail";
+import type { PatternGroupDetail } from "@/types/simulation/groupDetail";
 
 import { getFieldConfigs } from "@/utils/simulation/display";
 
 interface GroupBodyProps {
-  group: GroupDetail;
+  group: PatternGroupDetail;
   lastUpdatedAt: string;
 }
 

@@ -5,12 +5,12 @@ import ProgressBar from "@/components/common/ProgressBar";
 import { PATTERN_CONFIGS, STATUS_CONFIGS } from "@/constants/simulation";
 
 import type { PatternType } from "@/types/simulation/domain";
-import type { GroupDetail } from "@/types/simulation/groupDetail";
+import type { PatternGroupDetail } from "@/types/simulation/groupDetail";
 
 interface GroupHeaderProps {
   id: number;
   patternType: PatternType;
-  group: GroupDetail;
+  group: PatternGroupDetail;
   isOpen: boolean;
   toggleCard: () => void;
 }

@@ -12,9 +12,9 @@ export default function Topics({ topics }: { topics: string[] }) {
       {topics.map((topic, index) => (
         <Badge
           text={topic}
-          textColor="text-blue-500"
+          textColor="text-blue-600"
           bgColor="bg-blue-50"
-          textClass="text-blue-500 text-sm"
+          fontSize="text-sm"
           key={`${topic}_${index}`}
         />
       ))}

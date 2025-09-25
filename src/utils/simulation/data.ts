@@ -9,11 +9,11 @@ import type {
   SimulationPattern,
   SimulationStatus,
   StepInfo,
-  StepType,
+  SimulationCreationStep,
 } from "@/types/simulation/domain";
 
 // 스텝 정보 조회
-export const getCurrentStepInfo = (step: StepType, pattern: PatternType | null) => {
+export const getCurrentStepInfo = (step: SimulationCreationStep, pattern: PatternType | null) => {
   if (step === 3 && pattern) {
     return STEPS_INFO[3][pattern];
   }

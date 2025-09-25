@@ -1,6 +1,6 @@
 import { STATUS_CONFIGS } from "@/constants/simulation";
 
-import type { GroupDetail } from "@/types/simulation/groupDetail";
+import type { PatternGroupDetail } from "@/types/simulation/groupDetail";
 
 import { formatDateTime, formatMsToGeneralForm } from "@/utils/common/formatting";
 
@@ -32,7 +32,7 @@ const createTimeFields = {
 };
 
 // 상태별 필드 설정을 생성하는 함수
-export function getFieldConfigs(group: GroupDetail, lastUpdatedAt: string): FieldConfig[] {
+export function getFieldConfigs(group: PatternGroupDetail, lastUpdatedAt: string): FieldConfig[] {
   const baseFields: FieldConfig[] = [
     { label: "상태", value: STATUS_CONFIGS[group.status].text },
     { label: "자율행동체 수", value: group.autonomousAgents.toString() },

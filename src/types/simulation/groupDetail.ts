@@ -1,41 +1,41 @@
-import type { GroupStatus } from "./domain";
+import type { PatternGroupStatus } from "./domain";
 
-interface GroupDetailBase {
-  status: GroupStatus;
+interface PatternGroupDetailBase {
+  status: PatternGroupStatus;
   progress: number;
   autonomousAgents: number;
   currentRepeat: number;
   totalRepeats: number;
 }
 
-interface SequentialGroupDetailBase extends GroupDetailBase {
+interface SequentialGroupDetailBase extends PatternGroupDetailBase {
   stepOrder: number;
 }
 
-interface ParallelGroupDetailBase extends GroupDetailBase {
+interface ParallelGroupDetailBase extends PatternGroupDetailBase {
   groupId: number;
 }
 
 // Pending 상태의 그룹 세부 정보
-interface PendingGroupDetail extends GroupDetailBase {
+interface PendingGroupDetail extends PatternGroupDetailBase {
   status: "PENDING";
 }
 
 // Running 상태의 그룹 세부 정보
-interface RunningGroupDetail extends GroupDetailBase {
+interface RunningGroupDetail extends PatternGroupDetailBase {
   status: "RUNNING";
   startedAt: string;
 }
 
 // Completed 상태의 그룹 세부 정보
-interface CompletedGroupDetail extends GroupDetailBase {
+interface CompletedGroupDetail extends PatternGroupDetailBase {
   status: "COMPLETED";
   startedAt: string;
   completedAt: string;
 }
 
 // Failed 상태의 그룹 세부 정보
-interface FailedGroupDetail extends GroupDetailBase {
+interface FailedGroupDetail extends PatternGroupDetailBase {
   status: "FAILED";
   startedAt: string;
   failedAt: string;
@@ -43,7 +43,7 @@ interface FailedGroupDetail extends GroupDetailBase {
 }
 
 // Stopped 상태의 그룹 세부 정보
-interface StoppedGroupDetail extends GroupDetailBase {
+interface StoppedGroupDetail extends PatternGroupDetailBase {
   status: "STOPPED";
   startedAt: string;
   stoppedAt: string;
@@ -64,7 +64,7 @@ type ParallelStoppedGroupDetail = ParallelGroupDetailBase & StoppedGroupDetail;
 type ParallelPendingGroupDetail = ParallelGroupDetailBase & PendingGroupDetail;
 
 // 모든 Sequential 그룹 세부 정보의 유니온 타입
-export type SequentialGroupDetail =
+export type SequentialPatternGroupDetail =
   | SequentialRunningGroupDetail
   | SequentialCompletedGroupDetail
   | SequentialFailedGroupDetail
@@ -72,7 +72,7 @@ export type SequentialGroupDetail =
   | SequentialPendingGroupDetail;
 
 // 모든 Parallel 그룹 세부 정보의 유니온 타입
-export type ParallelGroupDetail =
+export type ParallelPatternGroupDetail =
   | ParallelRunningGroupDetail
   | ParallelCompletedGroupDetail
   | ParallelFailedGroupDetail
@@ -80,4 +80,4 @@ export type ParallelGroupDetail =
   | ParallelPendingGroupDetail;
 
 // 전체 GroupDetail 유니온 타입
-export type GroupDetail = SequentialGroupDetail | ParallelGroupDetail;
+export type PatternGroupDetail = SequentialPatternGroupDetail | ParallelPatternGroupDetail;

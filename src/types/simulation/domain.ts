@@ -1,15 +1,7 @@
-// types/simulation/domain.ts
-
 import type { ALLOWED_PARAMS, FILTER_OPTIONS, SIMULATION_ACTION_TYPES } from "@/constants/simulation";
 
 import type { Timestamp } from "../common";
-import type {
-  CreatePatternGroupRequest,
-  DeletePatternGroupRequest,
-  ParallelProgress,
-  SequentialProgress,
-  UpdatePatternGroupRequest,
-} from "./api";
+import type { CreatePatternGroupRequest, DeletePatternGroupRequest, UpdatePatternGroupRequest } from "./api";
 import type { TemplateLite } from "../template/domain";
 
 // ========== 기본 엔티티 타입 ==========
@@ -25,11 +17,6 @@ export interface Simulation {
 }
 
 export type SimulationLite = Pick<Simulation, "simulationId" | "simulationName">;
-
-export interface MecLite {
-  id: string;
-  name: string;
-}
 
 export interface SimulationOverview {
   total: number;
@@ -50,8 +37,8 @@ export type SimulationStatus =
   | "STOPPED"
   | "DELETING"
   | "DELETED";
-export type GroupStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED" | "STOPPED";
-export type StepType = 1 | 2 | 3 | 4;
+export type PatternGroupStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED" | "STOPPED";
+export type SimulationCreationStep = 1 | 2 | 3 | 4;
 export type PatternType = "sequential" | "parallel";
 export type SimulationActionType = (typeof SIMULATION_ACTION_TYPES)[number];
 export type PodStatus = "PENDING" | "RUNNING" | "SUCCESS" | "FAILED" | "STOPPED";
@@ -173,6 +160,20 @@ export interface PodStatusData {
 export type PodStatusBreakdownData = {
   [K in PodStatus]: { count: number; percentage: number };
 };
+
+export interface SequentialProgress {
+  overallProgress: number;
+  currentStep?: number;
+  totalSteps: number;
+  completedSteps: number;
+}
+
+export interface ParallelProgress {
+  overallProgress: number;
+  completedGroups: number;
+  runningGroups?: number;
+  totalGroups: number;
+}
 
 export interface SequentialProgressData {
   patternType: "sequential";

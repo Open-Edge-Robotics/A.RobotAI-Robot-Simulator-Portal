@@ -3,19 +3,15 @@ import { STATUS_CONFIGS } from "@/constants/simulation";
 import type { SimulationStatus } from "@/types/simulation/domain";
 
 import Badge from ".";
+import Dot from "../Dot";
 
 export default function StatusBadge({ status }: { status: SimulationStatus }) {
-  const config = STATUS_CONFIGS[status];
+  const { bgColor, highlightColor, text, textColor } = STATUS_CONFIGS[status];
 
   return (
-    <div className="flex items-center gap-1">
-      <Badge
-        text={config.text}
-        bgColor={config.bgColor}
-        highlightColor={config.highlightColor}
-        textColor={config.textColor}
-        fontSize="text-xs"
-      />
-    </div>
+    <Badge bgColor={bgColor}>
+      <Dot color={highlightColor} size="sm" />
+      <span className={`${textColor} text-xs font-normal`}>{text}</span>
+    </Badge>
   );
 }

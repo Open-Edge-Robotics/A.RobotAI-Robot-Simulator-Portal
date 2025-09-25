@@ -132,11 +132,11 @@ function TopicsFieldset({ topics, onChange }: { topics: string[]; onChange: (new
 
       {/* 토픽 목록 */}
       {topics.length > 0 ? (
-        <Container className="p-4" bgColor="bg-blue-50" borderColor="border-blue-50">
+        <Container className="p-4" bgColor="bg-blue-10" borderColor="border-blue-50">
           <p className="mb-3 text-sm font-medium text-gray-600">추가된 토픽 ({topics.length}개):</p>
           <div className="flex flex-wrap gap-2">
             {topics.map((topic, index) => (
-              <Badge bgColor="bg-blue-100" key={`${topic}_${index}`}>
+              <Badge bgColor="bg-blue-50" key={`${topic}_${index}`}>
                 <span className="text-sm leading-3.5 text-blue-600">{topic}</span>
                 <IconButton
                   iconName="close"
@@ -149,7 +149,7 @@ function TopicsFieldset({ topics, onChange }: { topics: string[]; onChange: (new
           </div>
         </Container>
       ) : (
-        <Container className="border-2 border-dashed p-4 text-sm text-gray-500" bgColor="bg-gray-25">
+        <Container className="border-1 border-dashed p-4 text-sm text-gray-500" bgColor="bg-gray-25">
           아직 추가된 토픽이 없습니다.
         </Container>
       )}

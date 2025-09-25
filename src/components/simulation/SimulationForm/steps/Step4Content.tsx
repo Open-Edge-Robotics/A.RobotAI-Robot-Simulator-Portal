@@ -5,7 +5,8 @@ import LabeledValue from "@/components/common/LabeledValue";
 
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
-import type { MecLite, SimulationFormData } from "@/types/simulation/domain";
+import type { MecLite } from "@/types/mec/domain";
+import type { SimulationFormData } from "@/types/simulation/domain";
 import type { TemplateLite } from "@/types/template/domain";
 
 import { calculateTotalAgentCount, calculateTotalExecutionTime } from "@/utils/simulation/calculations";
@@ -132,7 +133,7 @@ function PatternConfigCard({
   return (
     <Container bgColor="bg-green-10" borderColor="border-green-500" className="p-4">
       <div className="mb-3 flex items-center justify-between">
-        <Badge text={indexLabel} bgColor="bg-green-200" textColor="text-green-700" fontWeight="font-medium" />
+        <Badge text={indexLabel} bgColor="bg-green-200" textColor="text-green-700" />
         <Badge text={template} fontSize="text-sm" textColor="text-gray-700" />
       </div>
       <div className="space-y-2">

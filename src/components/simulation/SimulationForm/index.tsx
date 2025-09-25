@@ -4,13 +4,13 @@ import Stepper from "@/components/common/Stepper";
 
 import { STEPS } from "@/constants/simulation.ts";
 
-import { createFormValidator } from "@/pages/simulation/validation.ts";
-
-import type { MecLite, PatternType, SimulationFormData, StepType } from "@/types/simulation/domain.ts";
+import type { MecLite } from "@/types/mec/domain.ts";
+import type { PatternType, SimulationFormData, SimulationCreationStep } from "@/types/simulation/domain.ts";
 import type { TemplateLite } from "@/types/template/domain.ts";
 
 import { errorToast } from "@/utils/common/toast.ts";
 import { getCurrentStepInfo, getPatternDataWithDefaultAgentGroup } from "@/utils/simulation/data.ts";
+import { createFormValidator } from "@/utils/simulation/validation.ts";
 
 import InfoBox from "./InfoBox.tsx";
 import NavigationButtons from "./NavigationButtons.tsx";
@@ -28,6 +28,9 @@ interface SimulationFormProps {
   onSubmit: (formData: SimulationFormData) => void;
 }
 
+const FIRST_STEP: SimulationCreationStep = 1;
+const LAST_STEP: SimulationCreationStep = 4;
+
 export default function SimulationForm({
   initialData,
   mecList,
@@ -36,10 +39,10 @@ export default function SimulationForm({
   disableSubmitButton = false,
   submitButtonText,
 }: SimulationFormProps) {
-  const [currentStep, setCurrentStep] = useState<StepType>(1);
+  const [currentStep, setCurrentStep] = useState<SimulationCreationStep>(1);
   const [formData, setFormData] = useState<SimulationFormData>(initialData ?? defaultFormData);
 
-  const stepInfo = getCurrentStepInfo(currentStep, formData.pattern?.type ?? null);
+  const creationStepInfo = getCurrentStepInfo(currentStep, formData.pattern?.type ?? null);
 
   // 폼 데이터 업데이트 핸들러
   const updateFormData = <K extends keyof SimulationFormData>(field: K, value: SimulationFormData[K]) => {
@@ -57,7 +60,7 @@ export default function SimulationForm({
   };
 
   // 스텝 유효성 검사
-  const validateStep = (step: StepType): boolean => {
+  const validateStep = (step: SimulationCreationStep): boolean => {
     const errorMessage = createFormValidator[step](formData);
     if (errorMessage) {
       errorToast(errorMessage);
@@ -69,15 +72,15 @@ export default function SimulationForm({
   const handleNext = () => {
     const isValid = validateStep(currentStep);
     if (!isValid) return;
-    setCurrentStep((prev) => (currentStep < 4 ? ((prev + 1) as StepType) : prev));
+    setCurrentStep((prev) => (currentStep < LAST_STEP ? ((prev + 1) as SimulationCreationStep) : prev));
   };
 
   const handlePrev = () => {
-    setCurrentStep((prev) => (currentStep > 1 ? ((prev - 1) as StepType) : prev));
+    setCurrentStep((prev) => (currentStep > FIRST_STEP ? ((prev - 1) as SimulationCreationStep) : prev));
   };
 
   const handleSubmit = async () => {
-    const isValid = validateStep(4);
+    const isValid = validateStep(LAST_STEP);
     if (!isValid) return;
     onSubmit(formData);
   };
@@ -88,7 +91,7 @@ export default function SimulationForm({
       <Stepper activeStep={currentStep - 1} steps={STEPS} />
 
       {/* 현재 단계 설명 */}
-      <InfoBox title={stepInfo.title} description={stepInfo.description} />
+      <InfoBox title={creationStepInfo.title} description={creationStepInfo.description} />
 
       {/* 생성폼 */}
       <form>
@@ -117,8 +120,8 @@ export default function SimulationForm({
 
         {/* 단계 이동 버튼 */}
         <NavigationButtons
-          isFirstStep={currentStep === 1}
-          isLastStep={currentStep === 4}
+          isFirstStep={currentStep === FIRST_STEP}
+          isLastStep={currentStep === LAST_STEP}
           onPrevClick={handlePrev}
           onNextClick={handleNext}
           onCompleteClick={handleSubmit}

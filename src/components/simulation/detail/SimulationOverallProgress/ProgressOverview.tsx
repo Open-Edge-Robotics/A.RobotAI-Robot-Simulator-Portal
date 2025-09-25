@@ -4,21 +4,10 @@ import Icon from "@/components/common/Icon";
 import { SIMULATION_PROGRESS_OVERVIEW_CONFIGS } from "@/constants/simulation";
 
 import type { OverviewConfig } from "@/types/common";
-import type { ParallelProgress, SequentialProgress } from "@/types/simulation/api";
-import type { PatternType } from "@/types/simulation/domain";
+import type { ParallelProgressData, PatternType, SequentialProgressData } from "@/types/simulation/domain";
 
-// TODO: patternType 속성 생기면 프롭 Progress만 받아오기
-// patternType은 따로 받기
 interface ProgressOverviewProps {
-  progressData:
-    | {
-        patternType: "sequential";
-        progress: SequentialProgress;
-      }
-    | {
-        patternType: "parallel";
-        progress: ParallelProgress;
-      };
+  progressData: SequentialProgressData | ParallelProgressData;
 }
 
 export default function ProgressOverview({ progressData }: ProgressOverviewProps) {

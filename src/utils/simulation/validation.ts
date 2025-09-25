@@ -1,25 +1,105 @@
-import { ALLOWED_PARAMS } from "@/constants/simulation";
+import type {
+  AllowedParam,
+  GroupExecutionDetailFormData,
+  PeriodFilterOption,
+  ParallelAgentGroup,
+  PatternTypeFilterOption,
+  SequentialAgentGroup,
+  SimulationFormData,
+  StatusFilterOption,
+  SimulationCreationStep,
+} from "@/types/simulation/domain";
 
-import {
-  validatePage,
-  validatePatternTypeFilter,
-  validatePeriodFilter,
-  validateSize,
-  validateStatusFilter,
-} from "@/pages/simulation/validation";
+import { isPatternTypeFilterOption, isPeriodFilterOption, isStatusFilterOption } from "@/utils/simulation/typeGuards";
 
-import type { AllowedParam, GroupExecutionDetailFormData, PeriodFilterOption } from "@/types/simulation/domain";
-
+import { isAllowedParam } from "./typeGuards";
 import { formatDateToYYYYMMDD } from "../common/formatting";
 
-/**
- * 허용된 파라미터인지 검증
- * @param key - 검사할 키
- * @returns 키가 허용된 파라미터인지 여부
- */
-const isAllowedParam = (key: string): key is AllowedParam => {
-  return ALLOWED_PARAMS.includes(key as AllowedParam);
+// ========== 시뮬레이션 생성 폼 단계별 검증 함수 ==========
+
+const validateStep1 = (formData: SimulationFormData) => {
+  if (!formData.name.trim()) {
+    return "시뮬레이션 이름을 입력해주세요.";
+  }
+  if (!formData.mecId) {
+    return "MEC를 선택해주세요.";
+  }
+  return null;
 };
+
+const validateStep2 = (formData: SimulationFormData) => {
+  if (!formData.pattern) {
+    return "실행 패턴을 선택해주세요.";
+  }
+
+  return null;
+};
+
+const validateStep3 = (formData: SimulationFormData) => {
+  if (!formData.pattern) return "실행 패턴을 먼저 선택해주세요.";
+
+  const { agentGroups } = formData.pattern;
+
+  if (agentGroups.length === 0) {
+    return "최소 하나 이상의 그룹을 설정해주세요.";
+  }
+
+  for (let i = 0; i < agentGroups.length; i++) {
+    const group = agentGroups[i];
+    const errorMessage = validateAgentGroup(group, i + 1);
+    if (errorMessage) return errorMessage;
+  }
+
+  return null;
+};
+
+const MIN_AGENT_COUNT = 1; // 대
+const MIN_EXECUTION_TIME = 60; // 초
+const MIN_REPEAT_COUNT = 1; // 회
+const MIN_DELAY_AFTER_COMPLETION = 0; // 초
+
+const validateAgentGroup = (group: SequentialAgentGroup | ParallelAgentGroup, groupNumber: number) => {
+  const groupLabel = `${groupNumber}번 그룹`;
+
+  if (!group.templateId) {
+    return `${groupLabel}에 템플릿을 선택해주세요.`;
+  }
+  if (group.autonomousAgentCount < MIN_AGENT_COUNT) {
+    return `${groupLabel}의 가상자율행동체 개수는 ${MIN_AGENT_COUNT}대 이상이어야 합니다.`;
+  }
+  if (group.executionTime < MIN_EXECUTION_TIME) {
+    return `${groupLabel}의 실행 시간은 ${MIN_EXECUTION_TIME}초 이상이어야 합니다.`;
+  }
+  if (group.repeatCount < MIN_REPEAT_COUNT) {
+    return `${groupLabel}의 반복 횟수는 ${MIN_REPEAT_COUNT}회 이상이어야 합니다.`;
+  }
+
+  // 순차 실행일 경우 추가 검증
+  if ("delayAfterCompletion" in group && group.delayAfterCompletion < MIN_DELAY_AFTER_COMPLETION) {
+    return `${groupLabel}의 대기 시간은 ${MIN_DELAY_AFTER_COMPLETION}초 이상이어야 합니다.`;
+  }
+
+  return null;
+};
+
+const validateStep4 = (formData: SimulationFormData) => {
+  for (let step = 1 as SimulationCreationStep; step <= 3; step++) {
+    const errorMessage = createFormValidator[step](formData);
+    if (errorMessage) return errorMessage;
+  }
+
+  return null;
+};
+
+// 메인 검증 객체
+export const createFormValidator: {
+  [K in SimulationCreationStep]: (formData: SimulationFormData) => string | null;
+} = {
+  1: validateStep1,
+  2: validateStep2,
+  3: validateStep3,
+  4: validateStep4,
+} as const;
 
 /**
  * yyyy-mm-dd 형식의 날짜 문자열인지 검증
@@ -114,6 +194,37 @@ const validateDateRange = (
     : { startDate: null, endDate: null, isValid: false };
 };
 
+// ========== 파라미터 검증 함수들 ==========
+
+const validatePage = (value: string | null): number | null => {
+  if (value === null) return null;
+
+  const pageNum = parseInt(value, 10);
+
+  return !isNaN(pageNum) && pageNum > 0 ? pageNum : null;
+};
+
+const validateSize = (value: string | null): number | null => {
+  if (value === null) return null;
+
+  const validSizes = [10, 15, 20, 30, 50, 100, 500];
+  const sizeNum = parseInt(value, 10);
+
+  return validSizes.includes(sizeNum) ? sizeNum : null;
+};
+
+const validateStatusFilter = (value: string | null): StatusFilterOption | null => {
+  return value && isStatusFilterOption(value) ? value : null;
+};
+
+const validatePatternTypeFilter = (value: string | null): PatternTypeFilterOption | null => {
+  return value && isPatternTypeFilterOption(value) ? value : null;
+};
+
+const validatePeriodFilter = (value: string | null): PeriodFilterOption | null => {
+  return value && isPeriodFilterOption(value) ? value : null;
+};
+
 /**
  * 기간 및 날짜 검증
  * @param period - 검증할 기간
@@ -121,7 +232,7 @@ const validateDateRange = (
  * @param endDate - 검증할 종료일
  * @returns 검증된 기간과 날짜값
  */
-export const validatePeriodAndDates = (
+const validatePeriodAndDates = (
   period: string | null,
   startDate: string | null,
   endDate: string | null,
@@ -166,8 +277,6 @@ export const validatePeriodAndDates = (
     : // 다른 것이라면 startDate와 endDate null로 없애고 period를 따름
       { startDate: null, endDate: null, period: validPeriod };
 };
-
-// ========== getValidParams 함수 업데이트 ==========
 
 /**
  * 유효하지 않은 파라미터가 있으면 URL을 정리
@@ -266,9 +375,9 @@ export const validatePatternGroupForm = (formData: GroupExecutionDetailFormData)
   // 검증 규칙 정의
   const validations = [
     () => validateObjectField(formData.template, "템플릿"),
-    () => validateNumberField(formData.autonomousAgentCount, "자율행동체 수"),
-    () => validateNumberField(formData.executionTime, "실행 시간", 60),
-    () => validateNumberField(formData.repeatCount, "반복 횟수"),
+    () => validateNumberField(formData.autonomousAgentCount, "자율행동체 수", MIN_AGENT_COUNT),
+    () => validateNumberField(formData.executionTime, "실행 시간", MIN_EXECUTION_TIME),
+    () => validateNumberField(formData.repeatCount, "반복 횟수", MIN_REPEAT_COUNT),
   ];
 
   // 첫 번째 에러 발견 시 즉시 반환

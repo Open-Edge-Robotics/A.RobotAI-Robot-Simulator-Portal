@@ -1,18 +1,18 @@
-// types/simulation/api.ts
-
 import type { Timestamp } from "../common";
 import type {
   ParallelAgentGroup,
+  ParallelProgress,
   PatternType,
   PodStatusData,
   ResourceUsageData,
   SequentialAgentGroup,
+  SequentialProgress,
   Simulation,
   SimulationLite,
   SimulationOverview,
   SimulationStatus,
 } from "./domain";
-import type { ParallelGroupDetail, SequentialGroupDetail } from "./groupDetail";
+import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
 
 // ========== API 요청 타입 ==========
 
@@ -153,42 +153,27 @@ export type GetSimulationStaticResult = GetSequentialSimulationStaticResult | Ge
 
 // -------------- 시뮬레이션 상세 정보 (동적 Status) -----------------
 
-export interface TimeStamps {
+interface TimeStamps {
   createdAt: string;
   startedAt?: string;
   lastUpdated: string;
 }
+
 interface CurrentStatusBase {
   status: SimulationStatus;
   timestamps: TimeStamps;
   message: string;
 }
 
-export interface SequentialProgress {
-  overallProgress: number;
-  currentStep?: number;
-  totalSteps: number;
-  completedSteps: number;
-}
-
-export interface ParallelProgress {
-  overallProgress: number;
-  completedGroups: number;
-  runningGroups?: number;
-  totalGroups: number;
-}
-
-export interface SequentialCurrentStatus extends CurrentStatusBase {
+interface SequentialCurrentStatus extends CurrentStatusBase {
   progress: SequentialProgress;
-  stepDetails: SequentialGroupDetail[];
+  stepDetails: SequentialPatternGroupDetail[];
 }
 
-export interface ParallelCurrentStatus extends CurrentStatusBase {
+interface ParallelCurrentStatus extends CurrentStatusBase {
   progress: ParallelProgress;
-  groupDetails: ParallelGroupDetail[];
+  groupDetails: ParallelPatternGroupDetail[];
 }
-
-export type SimulationCurrentStatus = ParallelCurrentStatus | SequentialCurrentStatus;
 
 // 시뮬레이션 상세 정보 (동적)
 export interface GetSimulationStatusResultBase {

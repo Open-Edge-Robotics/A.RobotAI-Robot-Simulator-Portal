@@ -4,7 +4,8 @@ import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
 
-import type { MecLite, SimulationFormData } from "@/types/simulation/domain";
+import type { MecLite } from "@/types/mec/domain";
+import type { SimulationFormData } from "@/types/simulation/domain";
 
 interface Step1ContentProps {
   name: string;

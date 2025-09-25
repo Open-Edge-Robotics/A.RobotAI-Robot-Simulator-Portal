@@ -1,4 +1,5 @@
-import type { ParallelGroupDetail, SequentialGroupDetail } from "./groupDetail";
+import type { ParallelProgress, SequentialProgress } from "./domain";
+import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
 
 export type GetStatusResponseFinal = SequentialResponseBase | ParallelResponseBase;
 
@@ -55,13 +56,8 @@ interface GetSequentialPendingStatusResult {
     createdAt: string;
     lastUpdated: string;
   };
-  progress: {
-    overallProgress: number;
-    currentStep: number;
-    totalSteps: number;
-    completedSteps: number;
-  };
-  stepDetails: SequentialGroupDetail[];
+  progress: Required<SequentialProgress>;
+  stepDetails: SequentialPatternGroupDetail[];
 }
 
 interface GetParallelPendingStatusResult {
@@ -71,13 +67,8 @@ interface GetParallelPendingStatusResult {
     createdAt: string;
     lastUpdated: string;
   };
-  progress: {
-    overallProgress: number;
-    runningGroups: number;
-    totalGroups: number;
-    completedGroups: number;
-  };
-  groupDetails: ParallelGroupDetail[];
+  progress: Required<ParallelProgress>;
+  groupDetails: ParallelPatternGroupDetail[];
 }
 
 interface GetSequentialRunningStatusResult {
@@ -88,13 +79,8 @@ interface GetSequentialRunningStatusResult {
     lastUpdated: string;
     startedAt: string;
   };
-  progress: {
-    overallProgress: number;
-    currentStep: number;
-    totalSteps: number;
-    completedSteps: number;
-  };
-  stepDetails: SequentialGroupDetail[];
+  progress: Required<SequentialProgress>;
+  stepDetails: SequentialPatternGroupDetail[];
 }
 
 interface GetParallelRunningStatusResult {
@@ -105,13 +91,8 @@ interface GetParallelRunningStatusResult {
     lastUpdated: string;
     startedAt: string;
   };
-  progress: {
-    overallProgress: number;
-    runningGroups: number;
-    totalGroups: number;
-    completedGroups: number;
-  };
-  groupDetails: ParallelGroupDetail[];
+  progress: Required<ParallelProgress>;
+  groupDetails: ParallelPatternGroupDetail[];
 }
 
 interface GetSequentialCompletedStatusResult {
@@ -123,12 +104,8 @@ interface GetSequentialCompletedStatusResult {
     startedAt: string;
     completedAt: string;
   };
-  progress: {
-    overallProgress: number;
-    totalSteps: number;
-    completedSteps: number;
-  };
-  stepDetails: SequentialGroupDetail[];
+  progress: Omit<SequentialProgress, "currentStep">;
+  stepDetails: SequentialPatternGroupDetail[];
 }
 
 interface GetParallelCompletedStatusResult {
@@ -140,12 +117,8 @@ interface GetParallelCompletedStatusResult {
     startedAt: string;
     completedAt: string;
   };
-  progress: {
-    overallProgress: number;
-    totalGroups: number;
-    completedGroups: number;
-  };
-  groupDetails: ParallelGroupDetail[];
+  progress: Omit<ParallelProgress, "runningGroups">;
+  groupDetails: ParallelPatternGroupDetail[];
 }
 
 interface GetSequentialFailedStatusResult {
@@ -157,13 +130,8 @@ interface GetSequentialFailedStatusResult {
     startedAt: string;
     failedAt: string;
   };
-  progress: {
-    overallProgress: number;
-    currentStep: number;
-    totalSteps: number;
-    completedSteps: number;
-  };
-  stepDetails: SequentialGroupDetail[];
+  progress: Required<SequentialProgress>;
+  stepDetails: SequentialPatternGroupDetail[];
 }
 
 interface GetParallelFailedStatusResult {
@@ -175,13 +143,8 @@ interface GetParallelFailedStatusResult {
     startedAt: string;
     failedAt: string;
   };
-  progress: {
-    overallProgress: number;
-    runningGroups: number;
-    totalGroups: number;
-    completedGroups: number;
-  };
-  groupDetails: ParallelGroupDetail[];
+  progress: Required<ParallelProgress>;
+  groupDetails: ParallelPatternGroupDetail[];
 }
 
 interface GetSequentialStoppedStatusResult {
@@ -193,13 +156,9 @@ interface GetSequentialStoppedStatusResult {
     startedAt: string;
     stoppedAt: string;
   };
-  progress: {
-    overallProgress: number;
-    currentStep: number;
-    totalSteps: number;
-    completedSteps: number;
-  };
-  stepDetails: SequentialGroupDetail[];
+  progress: Required<SequentialProgress>;
+
+  stepDetails: SequentialPatternGroupDetail[];
 }
 
 interface GetParallelStoppedStatusResult {
@@ -211,11 +170,6 @@ interface GetParallelStoppedStatusResult {
     startedAt: string;
     stoppedAt: string;
   };
-  progress: {
-    overallProgress: number;
-    runningGroups: number;
-    totalGroups: number;
-    completedGroups: number;
-  };
-  groupDetails: ParallelGroupDetail[];
+  progress: Required<ParallelProgress>;
+  groupDetails: ParallelPatternGroupDetail[];
 }
