@@ -1,5 +1,6 @@
 import Icon from "@/components/common/Icon";
 
+import { ICONS } from "@/constants/icon";
 import { ACTION_CONFIGS } from "@/constants/simulation";
 
 import type { SimulationActionHandler, SimulationActionType } from "@/types/simulation/domain";
@@ -84,7 +85,7 @@ function ActionButton({ iconName, color, label, onClick, disabled, isLoading }: 
         disabled || isLoading ? "cursor-default opacity-50" : `cursor-pointer`
       }`}
     >
-      <Icon name={isLoading ? "progress_activity" : iconName} size="22px" className={isLoading ? "animate-spin" : ""} />
+      <Icon name={isLoading ? ICONS.loading : iconName} size="22px" className={isLoading ? "animate-spin" : ""} />
     </button>
   );
 }

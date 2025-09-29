@@ -1,27 +1,29 @@
 import type { SystemOverviewConfig, SystemOverviewData } from "@/types/dashboard/domain";
 
+import { ICONS } from "./icon";
+
 export const SYSTEM_OVERVIEW_CONFIGS: Record<keyof Omit<SystemOverviewData, "timestamp">, SystemOverviewConfig> = {
   totalSimulations: {
     label: "전체 시뮬레이션 개수",
-    iconName: "insert_chart",
+    iconName: ICONS.chart,
     iconColor: "text-gray-500",
     iconBgColor: "bg-gray-50",
   },
   runningSimulations: {
     label: "실행 중인 시뮬레이션 개수",
-    iconName: "play_arrow",
+    iconName: ICONS.play,
     iconColor: "text-blue-500",
     iconBgColor: "bg-blue-50",
   },
   totalMec: {
     label: "전체 MEC 개수",
-    iconName: "dns",
+    iconName: ICONS.mec,
     iconColor: "text-purple-500",
     iconBgColor: "bg-purple-50",
   },
   totalInstances: {
     label: "전체 인스턴스 개수",
-    iconName: "robot_2",
+    iconName: ICONS.robot,
     iconColor: "text-green-500",
     iconBgColor: "bg-green-50",
   },

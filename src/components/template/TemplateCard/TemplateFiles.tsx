@@ -1,5 +1,7 @@
 import Icon from "@/components/common/Icon";
 
+import { ICONS } from "@/constants/icon";
+
 import type { FileInfo } from "@/types/common";
 
 interface TemplateFilesProps {
@@ -11,8 +13,8 @@ export default function TemplateFiles({ metadata, database }: TemplateFilesProps
   return (
     <>
       <section className="space-y-1">
-        <FileItem href={metadata.downloadUrl} iconName="settings" label="Meta" fileName={metadata.fileName} />
-        <FileItem href={database.downloadUrl} iconName="database" label="DB" fileName={database.fileName} />
+        <FileItem href={metadata.downloadUrl} iconName={ICONS.metadata} label="Meta" fileName={metadata.fileName} />
+        <FileItem href={database.downloadUrl} iconName={ICONS.database} label="DB" fileName={database.fileName} />
       </section>
     </>
   );

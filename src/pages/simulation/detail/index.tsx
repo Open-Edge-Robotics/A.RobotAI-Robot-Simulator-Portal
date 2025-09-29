@@ -12,6 +12,7 @@ import ActionProgressFallback from "@/components/simulation/ActionProgressFallba
 import SimulationExecutionHistory from "@/components/simulation/detail/SimulationExecutionHistory";
 import SimulationStaticInformation from "@/components/simulation/detail/SimulationStaticInformation";
 
+import { ICONS } from "@/constants/icon";
 import { SEGMENTS } from "@/constants/navigation";
 import { DELETING_STATUSES, POLLING_REQUIRED_STATUSES, SIMULATION_REFETCH_INTERVAL_MS } from "@/constants/simulation";
 
@@ -111,7 +112,7 @@ function SimulationDetailPageHeader({ lastUpdated, onRefreshClick }: SimulationD
           <span>시뮬레이션 상세 정보</span>
           <div className="flex items-center gap-1 text-sm text-gray-500">
             <span>마지막 업데이트: {formatDateTime(lastUpdated)}</span>
-            {onRefreshClick && <IconButton iconName="refresh" iconSize="20px" onClick={onRefreshClick} />}
+            {onRefreshClick && <IconButton iconName={ICONS.refresh} iconSize="20px" onClick={onRefreshClick} />}
           </div>
         </div>
       </Title>

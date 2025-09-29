@@ -7,6 +7,7 @@ import InformationFallback from "@/components/common/Fallback/InformationFallbac
 import Icon from "@/components/common/Icon";
 import Title from "@/components/common/Title";
 
+import { ICONS } from "@/constants/icon";
 import { ACTION_CONFIGS } from "@/constants/simulation";
 
 import { useStopSimulation } from "@/hooks/simulation/detail/useStopSimulation";
@@ -112,7 +113,7 @@ function StopButton({ onClick, disabled, isPending }: StopButtonProps) {
   return (
     <Button disabled={disabled} onClick={onClick} color="negative">
       <Icon
-        name={isPending ? "progress_activity" : ACTION_CONFIGS.stop.iconName}
+        name={isPending ? ICONS.loading : ACTION_CONFIGS.stop.iconName}
         size="22px"
         className={isPending ? "animate-spin" : ""}
         fill

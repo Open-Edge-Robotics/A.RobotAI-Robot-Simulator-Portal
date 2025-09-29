@@ -1,6 +1,8 @@
 import IconButton from "@/components/common/IconButton.tsx";
 import Title from "@/components/common/Title";
 
+import { ICONS } from "@/constants/icon";
+
 import type { Timestamp } from "@/types/common";
 import type { SystemOverviewData } from "@/types/dashboard/domain";
 
@@ -41,7 +43,7 @@ function SystemOverviewSectionHeader({ timestamp, onRefreshClick }: SystemOvervi
         {timestamp && (
           <div className="flex items-center gap-1 text-sm text-gray-500">
             <span>마지막 업데이트: {formatDateTime(timestamp)}</span>
-            <IconButton iconName="refresh" iconSize="20px" onClick={onRefreshClick} title="새로고침" />
+            <IconButton iconName={ICONS.refresh} iconSize="20px" onClick={onRefreshClick} title="새로고침" />
           </div>
         )}
       </div>

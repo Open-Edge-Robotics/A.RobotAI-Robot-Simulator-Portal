@@ -6,6 +6,7 @@ import { Modal } from "innogrid-ui";
 import Icon from "@/components/common/Icon";
 import IconButton from "@/components/common/IconButton.tsx";
 
+import { ICONS } from "@/constants/icon";
 import { SEGMENTS } from "@/constants/navigation";
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
@@ -143,7 +144,7 @@ interface DeleteButtonProps {
 function DeleteButton({ onClick, isLoading, isDisabled }: DeleteButtonProps) {
   return (
     <IconButton
-      iconName={isLoading ? "progress_activity" : "delete"}
+      iconName={isLoading ? ICONS.loading : ICONS.delete}
       onClick={(e) => {
         e.stopPropagation();
         onClick();
@@ -162,7 +163,7 @@ interface EditButtonProps {
 function EditButton({ isDisabled, onClick }: EditButtonProps) {
   return (
     <IconButton
-      iconName="edit"
+      iconName={ICONS.edit}
       onClick={(e) => {
         e.stopPropagation();
         onClick();

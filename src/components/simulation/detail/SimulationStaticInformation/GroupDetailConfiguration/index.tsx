@@ -5,6 +5,7 @@ import Container from "@/components/common/Container.tsx";
 import IconButton from "@/components/common/IconButton.tsx";
 import Title from "@/components/common/Title";
 
+import { ICONS } from "@/constants/icon";
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
 import { useUpdateSimulation } from "@/hooks/simulation/core/useUpdateSimulation";
@@ -124,11 +125,11 @@ function GroupDetailConfigurationHeader({ isOpen, toggleCard }: GroupDetailConfi
     <header className="mb-3 flex items-center justify-between pr-2">
       <Title title="그룹별 설정 정보" fontSize="text-lg" fontWeight="font-medium" />
       {isOpen ? (
-        <IconButton iconName="keyboard_arrow_up" iconPosition="right" onClick={toggleCard} className="text-blue-500">
+        <IconButton iconName={ICONS.arrowUp} iconPosition="right" onClick={toggleCard} className="text-blue-500">
           <span>접기</span>
         </IconButton>
       ) : (
-        <IconButton iconName="keyboard_arrow_down" iconPosition="right" onClick={toggleCard} className="text-blue-500">
+        <IconButton iconName={ICONS.arrowDown} iconPosition="right" onClick={toggleCard} className="text-blue-500">
           <span>펼치기</span>
         </IconButton>
       )}
@@ -169,7 +170,7 @@ function AddGroupSection({
 
   return (
     <IconButton
-      iconName="add"
+      iconName={ICONS.add}
       iconPosition="right"
       onClick={toggleAddEditor}
       className="px-2 text-blue-500 hover:text-blue-600"

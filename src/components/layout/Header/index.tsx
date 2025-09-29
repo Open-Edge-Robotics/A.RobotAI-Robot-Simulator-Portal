@@ -4,6 +4,8 @@ import { Button } from "innogrid-ui";
 
 import IconButton from "@/components/common/IconButton.tsx";
 
+import { ICONS } from "@/constants/icon";
+
 import { useScreenSize } from "@/hooks/useScreenSize";
 
 interface HeaderProps {
@@ -20,7 +22,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
           // 모바일 버전
           <>
             <IconButton
-              iconName="menu"
+              iconName={ICONS.menu}
               onClick={onMenuToggle}
               aria-label="메뉴 열기"
               title="메뉴 열기"

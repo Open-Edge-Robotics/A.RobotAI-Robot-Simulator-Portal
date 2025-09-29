@@ -4,6 +4,7 @@ import Container from "@/components/common/Container.tsx";
 import Divider from "@/components/common/Divider";
 import IconButton from "@/components/common/IconButton.tsx";
 
+import { ICONS } from "@/constants/icon";
 import { SEGMENTS } from "@/constants/navigation";
 
 import { useDeleteTemplate } from "@/hooks/template/useDeleteTemplate";
@@ -70,13 +71,13 @@ function CardHeader({ name, onEditClick, onDeleteClick, isDeleteLoading }: CardH
       <h3 className="font-semibold">{name}</h3>
       <div className="flex items-center gap-1">
         <IconButton
-          iconName="edit"
+          iconName={ICONS.edit}
           className={`${commonStyle} hover:bg-gray-50 hover:text-gray-600 active:bg-gray-100 active:text-gray-600 disabled:opacity-50 ${disabledStyle}`}
           onClick={onEditClick}
           disabled={isDeleteLoading}
         />
         <IconButton
-          iconName={isDeleteLoading ? "progress_activity" : "delete"}
+          iconName={isDeleteLoading ? ICONS.loading : ICONS.delete}
           className={`${commonStyle} hover:bg-red-50 hover:text-red-500 active:bg-red-100 active:text-red-500 ${disabledStyle} ${isDeleteLoading ? "animate-spin" : ""}`}
           onClick={onDeleteClick}
           disabled={isDeleteLoading}

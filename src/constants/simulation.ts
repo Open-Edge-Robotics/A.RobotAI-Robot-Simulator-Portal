@@ -12,6 +12,8 @@ import type {
   StepsInfoType,
 } from "@/types/simulation/domain";
 
+import { ICONS } from "./icon";
+
 // ========== 스텝 관련 상수 ==========
 
 export const STEPS = ["기본 정보", "패턴 선택", "상세 설정", "검토 및 완료"];
@@ -51,7 +53,7 @@ export const PATTERN_CONFIGS: Record<PatternType, PatternConfig> = {
   sequential: {
     title: "순차 실행",
     unit: "단계",
-    iconName: "arrow_right_alt",
+    iconName: ICONS.arrowRight,
     bgColor: "bg-blue-10",
     iconBgColor: "bg-blue-50",
     iconTextColor: "text-blue-500",
@@ -60,7 +62,7 @@ export const PATTERN_CONFIGS: Record<PatternType, PatternConfig> = {
   parallel: {
     title: "병렬 실행",
     unit: "그룹",
-    iconName: "arrow_split",
+    iconName: ICONS.arrowSplit,
     bgColor: "bg-orange-10",
     iconBgColor: "bg-orange-50",
     iconTextColor: "text-orange-500",
@@ -166,25 +168,25 @@ export const POD_STATUS_CONFIGS: Record<PodStatus, PodStatusConfig> = {
 export const SIMULATION_OVERVIEW_CONFIGS: { [key: string]: SimulationOverviewConfig } = {
   TOTAL: {
     label: "전체 시뮬레이션",
-    iconName: "insert_chart",
+    iconName: ICONS.chart,
     textColor: "text-gray-500",
     bgColor: "bg-gray-50",
   },
   RUNNING: {
     label: "실행중",
-    iconName: "play_arrow",
+    iconName: ICONS.play,
     textColor: "text-blue-500",
     bgColor: "bg-blue-50",
   },
   COMPLETED: {
     label: "완료",
-    iconName: "check_box",
+    iconName: ICONS.checked,
     textColor: "text-green-500",
     bgColor: "bg-green-50",
   },
   FAILED: {
     label: "실패",
-    iconName: "error",
+    iconName: ICONS.error,
     textColor: "text-red-500",
     bgColor: "bg-red-50",
   },
@@ -193,19 +195,19 @@ export const SIMULATION_OVERVIEW_CONFIGS: { [key: string]: SimulationOverviewCon
 export const SIMULATION_PROGRESS_OVERVIEW_CONFIGS: { [key: string]: OverviewConfig } = {
   total: {
     label: "전체 단계",
-    iconName: "layers",
+    iconName: ICONS.layers,
     iconColor: "text-gray-500",
     iconBgColor: "bg-gray-50",
   },
   current: {
     label: "현재 단계",
-    iconName: "adjust",
+    iconName: ICONS.adjust,
     iconColor: "text-blue-500",
     iconBgColor: "bg-blue-50",
   },
   completed: {
     label: "완료된 단계",
-    iconName: "check_circle",
+    iconName: ICONS.checkCircle,
     iconColor: "text-green-500",
     iconBgColor: "bg-green-50",
   },
@@ -218,25 +220,25 @@ export const SIMULATION_ACTION_TYPES = ["start", "stop", "edit", "delete"] as co
 // 액션별 설정 정의
 export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig> = {
   start: {
-    iconName: "play_arrow",
+    iconName: ICONS.play,
     color:
       "border-blue-400 bg-blue-400 text-white hover:bg-blue-500 disabled:bg-gray-300 disabled:border-gray-300 hover:border-blue-500 active:border-blue-300 active:bg-blue-300",
     label: "시작",
   },
   stop: {
-    iconName: "stop",
+    iconName: ICONS.stop,
     color:
       "border-red-400 bg-red-400 text-white hover:bg-red-500 disabled:bg-gray-300 disabled:border-gray-300 hover:border-red-500 active:border-red-300 active:bg-red-300",
     label: "중지",
   },
   edit: {
-    iconName: "edit",
+    iconName: ICONS.edit,
     color:
       "hover:border-gray-200 hover:bg-gray-50 hover:text-gray-500 active:text-gray-700 disabled:bg-white disabled:border-gray-200 text-gray-500 border-gray-100",
     label: "편집",
   },
   delete: {
-    iconName: "delete",
+    iconName: ICONS.delete,
     color:
       "hover:border-red-200 hover:bg-red-50 disabled:bg-white disabled:border-gray-200 disabled:text-gray-500 hover:text-red-500 active:text-red-700 text-gray-500 border-gray-100",
     label: "삭제",

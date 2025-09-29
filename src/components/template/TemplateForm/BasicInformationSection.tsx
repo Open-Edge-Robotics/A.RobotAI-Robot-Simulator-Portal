@@ -9,6 +9,8 @@ import IconButton from "@/components/common/IconButton.tsx";
 import Label from "@/components/common/Label";
 import Title from "@/components/common/Title";
 
+import { ICONS } from "@/constants/icon";
+
 import type { TemplateFormData } from "@/types/template/domain";
 
 interface BasicInformationProps {
@@ -121,7 +123,7 @@ function TopicsFieldset({ topics, onChange }: { topics: string[]; onChange: (new
           }}
         />
         <IconButton
-          iconName="add"
+          iconName={ICONS.add}
           className="hover:bg-blue-primary-hover disabled:hover:bg-blue-primary bg-blue-primary h-10 w-10 rounded-md text-white active:bg-blue-600 disabled:cursor-default disabled:opacity-50"
           disabled={!topicInput.trim()}
           onClick={handleAddTopicClick}
@@ -139,7 +141,7 @@ function TopicsFieldset({ topics, onChange }: { topics: string[]; onChange: (new
               <Badge bgColor="bg-blue-50" key={`${topic}_${index}`}>
                 <span className="text-sm leading-3.5 text-blue-600">{topic}</span>
                 <IconButton
-                  iconName="close"
+                  iconName={ICONS.close}
                   iconSize="16px"
                   className="text-blue-600 hover:text-blue-800"
                   onClick={() => handleRemoveTopicClick(topic)}

@@ -10,6 +10,7 @@ import Title from "@/components/common/Title";
 import SimulationOverallProgress from "@/components/simulation/detail/SimulationOverallProgress";
 import StepMonitoring from "@/components/simulation/detail/StepMonitoring";
 
+import { ICONS } from "@/constants/icon";
 import { SEGMENTS } from "@/constants/navigation";
 import { POLLING_REQUIRED_STATUSES } from "@/constants/simulation";
 
@@ -99,7 +100,7 @@ function SimulationResultPageHeader({ detailHref, lastUpdated, onRefreshClick }:
           <span>시뮬레이션 실행 현황 및 결과</span>
           <div className="flex items-center gap-1 text-sm text-gray-500">
             <span>마지막 업데이트: {formatDateTime(lastUpdated)}</span>
-            <IconButton iconName="refresh" iconSize="20px" onClick={onRefreshClick} />
+            <IconButton iconName={ICONS.refresh} iconSize="20px" onClick={onRefreshClick} />
           </div>
         </div>
       </Title>

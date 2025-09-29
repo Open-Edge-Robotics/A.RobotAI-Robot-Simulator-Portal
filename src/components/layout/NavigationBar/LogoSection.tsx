@@ -1,5 +1,7 @@
 import IconButton from "@/components/common/IconButton.tsx";
 
+import { ICONS } from "@/constants/icon";
+
 interface LogoSectionProps {
   onClose?: () => void;
 }
@@ -18,7 +20,7 @@ export default function LogoSection({ onClose }: LogoSectionProps) {
       </div>
       {onClose && (
         <IconButton
-          iconName="close"
+          iconName={ICONS.close}
           onClick={onClose}
           aria-label="메뉴 닫기"
           title="메뉴 닫기"
