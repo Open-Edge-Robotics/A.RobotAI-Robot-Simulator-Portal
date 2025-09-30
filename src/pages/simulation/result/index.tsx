@@ -14,7 +14,7 @@ import { ICONS } from "@/constants/icon";
 import { SEGMENTS } from "@/constants/navigation";
 import { POLLING_REQUIRED_STATUSES } from "@/constants/simulation";
 
-import { useSimulationStatus } from "@/hooks/simulation/detail/useSimulationStatus";
+import { useSimulationExecutionRecord } from "@/hooks/simulation/detail/useSimulationExecutionRecord";
 
 import { formatDateTime } from "@/utils/common/formatting";
 import { successToast } from "@/utils/common/toast";
@@ -37,7 +37,7 @@ export default function SimulationResultPage() {
 }
 
 function SimulationResultPageContent({ simulationId, executionId }: { simulationId: number; executionId: number }) {
-  const { status, data, refetch } = useSimulationStatus(simulationId);
+  const { status, data, refetch } = useSimulationExecutionRecord(simulationId, executionId);
 
   if (status === "pending") {
     return <LoadingFallback message="시뮬레이션 정보를 불러오는 중입니다." />;
@@ -54,7 +54,7 @@ function SimulationResultPageContent({ simulationId, executionId }: { simulation
     );
   }
 
-  const result = data.data;
+  const result = data.data.execution;
 
   const handleRefresh = () => {
     refetch();
@@ -100,7 +100,7 @@ function SimulationResultPageHeader({ detailHref, lastUpdated, onRefreshClick }:
           <span>시뮬레이션 실행 현황 및 결과</span>
           <div className="flex items-center gap-1 text-sm text-gray-500">
             <span>마지막 업데이트: {formatDateTime(lastUpdated)}</span>
-            <IconButton iconName={ICONS.refresh} iconSize="20px" onClick={onRefreshClick} />
+            {onRefreshClick && <IconButton iconName={ICONS.refresh} iconSize="20px" onClick={onRefreshClick} />}
           </div>
         </div>
       </Title>

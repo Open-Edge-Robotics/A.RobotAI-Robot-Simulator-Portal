@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { Pagination as InnogridPagination } from "innogrid-ui";
-
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
 import Icon from "@/components/common/Icon";
 import LinkButton from "@/components/common/LinkButton";
+import Pagination from "@/components/common/Pagination";
 import Title from "@/components/common/Title";
 import SimulationFilterToolbar from "@/components/simulation/SimulationFilterToolbar";
 import SimulationList from "@/components/simulation/SimulationList";
@@ -110,10 +109,10 @@ export default function SimulationListPage() {
             currentPage={pageValue}
             size={pageSizeValue}
             totalCount={pagination!.totalItems}
-            onChangePage={(value) => {
+            onPageChange={(value) => {
               handleQueriesChange({ page: value });
             }}
-            onChangePageSize={(value) => {
+            onPageSizeChange={(value) => {
               handleQueriesChange({ size: value });
             }}
           />
@@ -130,39 +129,5 @@ function SimulationCreateButton() {
         <Icon name="add" className="ml-[-6px]" />새 시뮬레이션
       </div>
     </LinkButton>
-  );
-}
-
-interface PaginationProps {
-  currentPage: number;
-  size: number;
-  totalCount: number;
-  onChangePage: (value: string) => void;
-  onChangePageSize: (value: string) => void;
-}
-
-function Pagination({ currentPage, size, totalCount, onChangePage, onChangePageSize }: PaginationProps) {
-  return (
-    <div className="mt-[-10px] ml-auto w-[400px] p-0">
-      <InnogridPagination
-        page={currentPage}
-        size={size}
-        totalCount={totalCount}
-        onClickPrev={() => {
-          if (currentPage > 1) {
-            onChangePage(String(currentPage - 1));
-          }
-        }}
-        onClickNext={() => {
-          onChangePage(String(currentPage + 1));
-        }}
-        onChangePageInput={(e) => {
-          onChangePage(e.target.value);
-        }}
-        onChangePageSize={(e) => {
-          onChangePageSize(e.target.value);
-        }}
-      />
-    </div>
   );
 }

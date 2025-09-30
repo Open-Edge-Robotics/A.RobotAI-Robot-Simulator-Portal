@@ -12,6 +12,7 @@ import type {
   DeletePatternGroupRequest,
   CreatePatternGroupRequest,
   UpdatePatternGroupRequest,
+  GetSimulationExecutionHistoryResult,
 } from "@/types/simulation/api";
 import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
 
@@ -24,6 +25,7 @@ import {
   mockSimulations,
   mockStatusData,
   mockSimulationParallelCompleted,
+  mockExecutionHistoryData,
 } from "./simulationMockData";
 
 const ENDPOINT = ENDPOINTS.simulation;
@@ -59,6 +61,17 @@ export const simulationAPI = {
       data: mockSimulationParallelCompleted,
     }),
 
+  getSimulationExecutionHistory: (id: number, params: URLSearchParams) =>
+    apiClient.getApi<GetSimulationExecutionHistoryResult>(`${ENDPOINT}/${id}/execution`, { params }),
+
+  getMockSimulationExecutionHistory: (id: number, params: URLSearchParams) => {
+    return Promise.resolve({
+      status: "success",
+      message: "시뮬레이션 정보를 성공적으로 조회했습니다.",
+      data: mockExecutionHistoryData,
+    });
+  },
+
   // 대시보드용 시뮬레이션 조회
   getSimulationSummary: (id: number) =>
     apiClient.getApi<GetSimulationSummaryResult>(`${ENDPOINT}/${id}?view=dashboard`),
@@ -71,9 +84,13 @@ export const simulationAPI = {
     }),
 
   // 시뮬레이션 동적 상태 조회
-  getSimulationStatus: (id: number) => apiClient.getApi<GetStatusResponseFinal>(`${ENDPOINT}/${id}/status`),
+  getSimulationExecutionRecord: (simulationId: number, executionId: number) =>
+    apiClient.getApi<GetStatusResponseFinal>(`${ENDPOINT}/${simulationId}/execution/${executionId}`),
 
-  getMockSimulationStatus: (simulationId: number): Promise<APIResponse<GetStatusResponseFinal>> =>
+  getMockSimulationExecutionRecord: (
+    simulationId: number,
+    executionId: number,
+  ): Promise<APIResponse<GetStatusResponseFinal>> =>
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 상태를 성공적으로 조회했습니다.",
@@ -102,10 +119,11 @@ export const simulationAPI = {
     apiClient.getApi<GetSimulationDeletionStatusResult>(`${ENDPOINT}/${id}/deletion`),
 
   // 시뮬레이션 실행
-  startSimulation: (id: number) => apiClient.postApi(`${ENDPOINT}/action`, { simulationId: id, action: "start" }),
+  startSimulation: (id: number) => apiClient.postApi(`${ENDPOINT}/${id}/start`),
 
   // 시뮬레이션 중지
-  stopSimulation: (id: number) => apiClient.postApi(`${ENDPOINT}/action`, { simulationId: id, action: "stop" }),
+  stopSimulation: (simulationId: number, executionId: number) =>
+    apiClient.postApi(`${ENDPOINT}/${simulationId}/execution/${executionId}/stop`),
 
   startMockSimulation: (id: number): Promise<APIResponse<unknown>> => {
     return new Promise((resolve) => {

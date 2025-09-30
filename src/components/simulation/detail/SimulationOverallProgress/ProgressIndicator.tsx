@@ -11,14 +11,15 @@ interface ProgressIndicatorProps {
 
 export default function ProgressIndicator({ progressData, status }: ProgressIndicatorProps) {
   const { runningText, completedText } = getProgressTexts(progressData);
+  const progressPercentage = progressData.progress.overallProgress;
 
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
         <span className="text-sm font-medium text-gray-700">진행률</span>
-        <span className="text-sm font-semibold">{progressData.progress.overallProgress}%</span>
+        <span className="text-sm font-semibold">{progressPercentage}%</span>
       </div>
-      <ProgressBar progress={progressData.progress.overallProgress} color={STATUS_CONFIGS[status].highlightColor} />
+      <ProgressBar progress={progressPercentage} color={STATUS_CONFIGS[status].highlightColor} />
       <div className="mt-2.5 flex justify-between text-sm text-gray-500">
         <span>{runningText}</span>
         <span>{completedText}</span>

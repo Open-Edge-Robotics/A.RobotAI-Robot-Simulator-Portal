@@ -16,7 +16,7 @@ interface ActionProgressFallbackProps {
   id: number;
 }
 
-export default function ActionProgressFallback({ id }: ActionProgressFallbackProps) {
+export default function DeleteActionProgressFallback({ id }: ActionProgressFallbackProps) {
   const { data, status, refetch } = useDeleteSimulationStatus(id);
 
   if (status === "pending") {
@@ -34,7 +34,7 @@ export default function ActionProgressFallback({ id }: ActionProgressFallbackPro
     );
   }
 
-  return data.data.status === "SUCCESS" ? <CompletedView /> : <ProgressView />;
+  return data.data.status === "COMPLETED" ? <CompletedView /> : <ProgressView />;
 }
 
 function ProgressView() {

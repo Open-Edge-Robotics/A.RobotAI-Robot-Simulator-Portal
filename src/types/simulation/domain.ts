@@ -1,7 +1,9 @@
 import type { ALLOWED_PARAMS, FILTER_OPTIONS, SIMULATION_ACTION_TYPES } from "@/constants/simulation";
 
-import type { Timestamp } from "../common";
+import type { Pagination, Timestamp } from "../common";
 import type { CreatePatternGroupRequest, DeletePatternGroupRequest, UpdatePatternGroupRequest } from "./api";
+import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
+import type { GetParallelStatusResult, GetSequentialStatusResult } from "./statusResult";
 import type { TemplateLite } from "../template/domain";
 
 // ========== 기본 엔티티 타입 ==========
@@ -37,6 +39,7 @@ export type SimulationStatus =
   | "STOPPED"
   | "DELETING"
   | "DELETED";
+export type SimulationExecutionHistoryStatus = "RUNNING" | "COMPLETED" | "FAILED" | "STOPPED";
 export type PatternGroupStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED" | "STOPPED";
 export type SimulationCreationStep = 1 | 2 | 3 | 4;
 export type PatternType = "sequential" | "parallel";
@@ -129,7 +132,7 @@ export interface PodStatusConfig {
 
 export interface SimulationActionHandler {
   type: SimulationActionType;
-  handler: (id: number) => void;
+  handler: (id: number, executionId?: number) => void;
 }
 
 export interface SimulationActionConfig {
@@ -213,13 +216,23 @@ export interface GroupExecutionDetailFormData {
   delayAfterCompletion?: number;
 }
 
-export interface ExecutionRecord {
-  executionId: number;
-  status: SimulationStatus;
-  startedAt: string;
-  finishedAt: string;
-  updatedAt: string;
-  totalSteps: number;
-  completedSteps: number;
+// status 결과에서 details 필드 제거
+type RemoveDetails<T> = T extends { stepDetails: SequentialPatternGroupDetail[] }
+  ? Omit<T, "stepDetails">
+  : T extends { groupDetails: ParallelPatternGroupDetail[] }
+    ? Omit<T, "groupDetails">
+    : T;
+
+export type SimulationExecutionRecord = {
   simulationId: number;
-}
+  executionId: number;
+} & (
+  | {
+      patternType: "sequential";
+      currentStatus: RemoveDetails<Extract<GetSequentialStatusResult, { status: SimulationExecutionHistoryStatus }>>;
+    }
+  | {
+      patternType: "parallel";
+      currentStatus: RemoveDetails<Extract<GetParallelStatusResult, { status: SimulationExecutionHistoryStatus }>>;
+    }
+);

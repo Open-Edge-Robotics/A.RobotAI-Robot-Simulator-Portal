@@ -8,7 +8,7 @@ const REFETCH_INTERVAL_MS = 60000; // 1분
 
 export function useSimulationSummary(selectedSimulationId: number) {
   return useQuery({
-    queryKey: QUERY_KEYS.simulation.byId(selectedSimulationId, "summary"),
+    queryKey: QUERY_KEYS.simulation.bySimulationId(selectedSimulationId, "summary"),
     queryFn: () => simulationAPI.getSimulationSummary(selectedSimulationId),
     // queryFn: () => simulationAPI.getMockSimulationSummary(selectedSimulationId),
     enabled: selectedSimulationId !== null,

@@ -1,4 +1,5 @@
 import type {
+  GetSimulationExecutionHistoryResult,
   GetSimulationsResult,
   GetSimulationStaticResult,
   GetSimulationSummaryResult,
@@ -986,4 +987,104 @@ export const mockStatusData = {
   completed: { sequential: mockSequentialCompletedStatus, parallel: mockParallelCompletedStatus },
   failed: { sequential: mockSequentialFailedStatus, parallel: mockParallelFailedStatus },
   stopped: { sequential: mockSequentialStoppedStatus, parallel: mockParallelStoppedStatus },
+};
+
+export const mockExecutionHistoryData: GetSimulationExecutionHistoryResult = {
+  executions: [
+    // 4회차 실행: RUNNING (현재 진행중)
+    {
+      simulationId: 123,
+      executionId: 4,
+      patternType: "sequential",
+      currentStatus: {
+        status: "RUNNING",
+        message: "순차 실행 시뮬레이션이 2단계를 진행 중입니다.",
+        timestamps: {
+          createdAt: "2025-09-25T14:00:00.000Z",
+          lastUpdated: "2025-09-25T14:25:30.000Z",
+          startedAt: "2025-09-25T14:15:00.000Z",
+        },
+        progress: {
+          overallProgress: 33,
+          currentStep: 2,
+          totalSteps: 3,
+          completedSteps: 1,
+        },
+      },
+    },
+    // 3회차 실행: COMPLETED
+    {
+      simulationId: 123,
+      executionId: 3,
+      patternType: "sequential",
+      currentStatus: {
+        status: "COMPLETED",
+        message: "순차 실행 시뮬레이션이 성공적으로 완료되었습니다.",
+        timestamps: {
+          createdAt: "2025-09-25T11:00:00.000Z",
+          lastUpdated: "2025-09-25T11:18:30.000Z",
+          startedAt: "2025-09-25T11:05:00.000Z",
+          completedAt: "2025-09-25T11:18:30.000Z",
+        },
+        progress: {
+          overallProgress: 100,
+          totalSteps: 3,
+          completedSteps: 3,
+        },
+      },
+    },
+    // 2회차 실행: STOPPED
+    {
+      simulationId: 123,
+      executionId: 2,
+      patternType: "sequential",
+      currentStatus: {
+        status: "STOPPED",
+        message: "사용자 요청에 의해 시뮬레이션이 중지되었습니다.",
+        timestamps: {
+          createdAt: "2025-09-25T10:00:00.000Z",
+          lastUpdated: "2025-09-25T10:12:15.000Z",
+          startedAt: "2025-09-25T10:05:00.000Z",
+          stoppedAt: "2025-09-25T10:12:15.000Z",
+        },
+        progress: {
+          overallProgress: 67,
+          currentStep: 3,
+          totalSteps: 3,
+          completedSteps: 2,
+        },
+      },
+    },
+
+    // 1회차 실행: FAILED
+    {
+      simulationId: 123,
+      executionId: 1,
+      patternType: "sequential",
+      currentStatus: {
+        status: "FAILED",
+        message: "네트워크 연결 오류로 인해 시뮬레이션이 실패했습니다.",
+        timestamps: {
+          createdAt: "2025-09-25T09:00:00.000Z",
+          lastUpdated: "2025-09-25T09:08:22.000Z",
+          startedAt: "2025-09-25T09:03:00.000Z",
+          failedAt: "2025-09-25T09:08:22.000Z",
+        },
+        progress: {
+          overallProgress: 33,
+          currentStep: 2,
+          totalSteps: 3,
+          completedSteps: 1,
+        },
+      },
+    },
+  ],
+  pagination: {
+    currentPage: 1,
+    pageSize: 10,
+    totalItems: 4,
+    totalPages: 1,
+    hasNext: false,
+    hasPrevious: false,
+  },
 };

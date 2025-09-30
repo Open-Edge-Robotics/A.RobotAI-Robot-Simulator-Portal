@@ -48,7 +48,7 @@ export default function GroupHeader({
     >
       <div className="flex items-center gap-4">
         <GroupIndexText index={group.index} unit={PATTERN_CONFIGS[patternType].unit} />
-        <GroupTemplate id={group.templateId} name={group.templateName} type={group.templateType} />
+        <GroupTemplate id={group.templateId} type={group.templateType} />
       </div>
       {!isEditMode && (
         <div className="flex items-center gap-4">
@@ -80,11 +80,10 @@ function GroupIndexText({ index, unit }: { index: number; unit: string }) {
 
 interface GroupTemplateProps {
   id: number;
-  name: string;
   type: string;
 }
 
-function GroupTemplate({ id, name, type }: GroupTemplateProps) {
+function GroupTemplate({ id, type }: GroupTemplateProps) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -112,7 +111,6 @@ function GroupTemplate({ id, name, type }: GroupTemplateProps) {
         allowOutsideInteraction
       >
         <p>템플릿 ID: {id}</p>
-        <p>템플릿 이름: {name}</p>
         <p>템플릿 유형: {type}</p>
       </Modal>
     </>

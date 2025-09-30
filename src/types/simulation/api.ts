@@ -1,18 +1,19 @@
-import type { Timestamp } from "../common";
+import type { Pagination, Timestamp } from "../common";
 import type {
   ParallelAgentGroup,
-  ParallelProgress,
   PatternType,
   PodStatusData,
   ResourceUsageData,
   SequentialAgentGroup,
-  SequentialProgress,
   Simulation,
+  SimulationExecutionHistoryStatus,
+  SimulationExecutionRecord,
   SimulationLite,
   SimulationOverview,
   SimulationStatus,
 } from "./domain";
 import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
+import type { GetParallelStatusResult, GetSequentialStatusResult } from "./statusResult";
 
 // ========== API 요청 타입 ==========
 
@@ -73,14 +74,7 @@ export interface CreateSimulationResult {
 export interface GetSimulationsResult {
   overview: SimulationOverview;
   simulations: Simulation[];
-  pagination: {
-    currentPage: number;
-    pageSize: number;
-    totalItems: number;
-    totalPages: number;
-    hasNext: boolean;
-    hasPrevious: boolean;
-  };
+  pagination: Pagination;
 }
 
 export type GetSimulationsLiteResult = SimulationLite[];
@@ -151,51 +145,9 @@ interface GetParallelSimulationStaticResult extends SimulationStaticResultBase {
 
 export type GetSimulationStaticResult = GetSequentialSimulationStaticResult | GetParallelSimulationStaticResult;
 
-// -------------- 시뮬레이션 상세 정보 (동적 Status) -----------------
-
-interface TimeStamps {
-  createdAt: string;
-  startedAt?: string;
-  lastUpdated: string;
-}
-
-interface CurrentStatusBase {
-  status: SimulationStatus;
-  timestamps: TimeStamps;
-  message: string;
-}
-
-interface SequentialCurrentStatus extends CurrentStatusBase {
-  progress: SequentialProgress;
-  stepDetails: SequentialPatternGroupDetail[];
-}
-
-interface ParallelCurrentStatus extends CurrentStatusBase {
-  progress: ParallelProgress;
-  groupDetails: ParallelPatternGroupDetail[];
-}
-
-// 시뮬레이션 상세 정보 (동적)
-export interface GetSimulationStatusResultBase {
-  simulationId: number;
-  patternType: PatternType;
-}
-
-export interface GetSequentialSimulationStatusResult extends GetSimulationStatusResultBase {
-  patternType: "sequential";
-  currentStatus: SequentialCurrentStatus;
-}
-
-export interface GetParallelSimulationStatusResult extends GetSimulationStatusResultBase {
-  patternType: "parallel";
-  currentStatus: ParallelCurrentStatus;
-}
-
-export type GetSimulationStatusResult = GetSequentialSimulationStatusResult | GetParallelSimulationStatusResult;
-
 export interface GetSimulationDeletionStatusResult {
   simulationId: number;
-  status: "PENDING" | "RUNNING" | "SUCCESS" | "FAILED";
+  status: "PENDING" | "RUNNING" | "COMPLETED" | "FAILED";
   progress: number;
   steps: {
     namespace: string;
@@ -224,3 +176,8 @@ export type DeletePatternGroupRequest =
       step: { stepOrder: number };
     }
   | { group: { groupId: number } };
+
+export interface GetSimulationExecutionHistoryResult {
+  executions: SimulationExecutionRecord[];
+  pagination: Pagination;
+}

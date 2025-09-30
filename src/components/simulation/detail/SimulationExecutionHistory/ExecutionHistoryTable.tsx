@@ -5,27 +5,31 @@ import Container from "@/components/common/Container.tsx";
 import ProgressBar from "@/components/common/ProgressBar";
 
 import { SEGMENTS } from "@/constants/navigation";
+import { POLLING_REQUIRED_STATUSES, STATUS_CONFIGS } from "@/constants/simulation";
 
-import type { ExecutionRecord } from "@/types/simulation/domain";
+import { useSimulationExecutionRecord } from "@/hooks/simulation/detail/useSimulationExecutionRecord";
+
+import type { SimulationExecutionRecord } from "@/types/simulation/domain";
+import type { GetParallelRunningStatusResult, GetSequentialRunningStatusResult } from "@/types/simulation/statusResult";
 
 import { formatDateTime } from "@/utils/common/formatting";
 
 interface SimulationHistoryTableProps {
-  history: ExecutionRecord[];
+  history: SimulationExecutionRecord[];
 }
 
 export default function ExecutionHistoryTable({ history }: SimulationHistoryTableProps) {
   return (
-    <Container shadow className="overflow-hidden">
+    <Container shadow className="mb-2 overflow-hidden">
       <TableHeader />
-      <TableBody simulations={history} />
+      <TableBody history={history} />
     </Container>
   );
 }
 
 // 실행 ID | 상태 | 시작 일시 | 업데이트 일시 | 진행률
 const TABLE_GRID_COLS =
-  "grid-cols-[minmax(100px,140px)_minmax(140px,220px)_minmax(180px,260px)_minmax(180px,260px)_minmax(200px,260px)]";
+  "grid-cols-[minmax(60px,100px)_minmax(140px,220px)_minmax(180px,260px)_minmax(180px,260px)_minmax(200px,260px)]";
 
 function TableHeader() {
   return (
@@ -55,43 +59,51 @@ function TableHeaderCell({ justifyCenter, children }: TableHeaderCellProps) {
 }
 
 interface TableBodyProps {
-  simulations: ExecutionRecord[];
+  history: SimulationExecutionRecord[];
 }
 
-function TableBody({ simulations }: TableBodyProps) {
+function TableBody({ history }: TableBodyProps) {
   return (
     <ul className="divide-y divide-gray-100">
-      {simulations.map((simulation) => (
-        <TableBodyRow simulation={simulation} key={simulation.executionId} />
+      {history.map((record) => (
+        <TableBodyRow record={record} key={record.executionId} />
       ))}
     </ul>
   );
 }
 
 interface TableBodyRowProps {
-  simulation: ExecutionRecord;
+  record: SimulationExecutionRecord;
 }
 
-function TableBodyRow({ simulation }: TableBodyRowProps) {
+function TableBodyRow({ record }: TableBodyRowProps) {
+  const { currentStatus, executionId, simulationId } = record;
+
+  const isRunning = POLLING_REQUIRED_STATUSES.includes(currentStatus.status);
+  const { data: liveStatus } = useSimulationExecutionRecord(simulationId, executionId, isRunning);
+
+  const displayStatus =
+    liveStatus && isRunning
+      ? (liveStatus.data.execution.currentStatus as GetSequentialRunningStatusResult | GetParallelRunningStatusResult)
+      : currentStatus;
+
   return (
-    <Link to={`${SEGMENTS.absolute.simulation}/${simulation.simulationId}/result/${simulation.executionId}`}>
-      <li key={simulation.executionId} className={`hover:bg-gray-10 grid ${TABLE_GRID_COLS}`}>
-        <TableBodyCell>{simulation.executionId}</TableBodyCell>
+    <Link to={`${SEGMENTS.absolute.simulation}/${simulationId}/result/${executionId}`}>
+      <li key={executionId} className={`hover:bg-gray-10 grid ${TABLE_GRID_COLS}`}>
+        <TableBodyCell>{executionId}</TableBodyCell>
         <TableBodyCell justifyCenter>
-          <StatusBadge status={simulation.status} />
+          <StatusBadge status={currentStatus.status} />
         </TableBodyCell>
-        <TableBodyCell>{formatDateTime(simulation.startedAt)}</TableBodyCell>
-        <TableBodyCell>{formatDateTime(simulation.updatedAt)}</TableBodyCell>
+        <TableBodyCell>{formatDateTime(currentStatus.timestamps.startedAt)}</TableBodyCell>
+        <TableBodyCell>{formatDateTime(currentStatus.timestamps.lastUpdated)}</TableBodyCell>
         <TableBodyCell>
           <div className="flex grow flex-col items-end gap-1.5">
             <ProgressBar
-              progress={(simulation.completedSteps / simulation.totalSteps) * 100}
-              color="bg-blue-500"
+              progress={displayStatus.progress.overallProgress * 100}
+              color={STATUS_CONFIGS[displayStatus.status].highlightColor}
               className="w-full"
             />
-            <span>
-              {simulation.completedSteps}/{simulation.totalSteps}
-            </span>
+            <span>{displayStatus.progress.overallProgress * 100}%</span>
           </div>
         </TableBodyCell>
       </li>

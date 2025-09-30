@@ -7,7 +7,7 @@ import { SIMULATION_STATUS_REFETCH_INTERVAL_MS } from "@/constants/simulation";
 
 export function useDeleteSimulationStatus(id: number) {
   return useQuery({
-    queryKey: QUERY_KEYS.simulation.byId(id, "deletion"),
+    queryKey: QUERY_KEYS.simulation.bySimulationId(id, "deletion"),
     queryFn: () => simulationAPI.getSimulationDeletionStatus(id),
     refetchInterval: (query) => {
       const data = query.state.data;
@@ -19,8 +19,8 @@ export function useDeleteSimulationStatus(id: number) {
 
       const status = data.data.status;
 
-      // SUCCESS, FAILED 상태면 polling 중지
-      if (status === "SUCCESS" || status === "FAILED") {
+      // COMPLETED, FAILED 상태면 polling 중지
+      if (status === "COMPLETED" || status === "FAILED") {
         return false;
       }
 

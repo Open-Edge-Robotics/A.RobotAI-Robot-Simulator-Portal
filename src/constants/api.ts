@@ -20,12 +20,22 @@ export const QUERY_KEYS = {
     all: ["simulation"] as const,
 
     // 1. Simulation List
-    list: (type: "lite" | "full", serachParams?: URLSearchParams) =>
-      [...QUERY_KEYS.simulation.all, "list", type, serachParams?.toString()] as const,
+    list: (type: "lite" | "full", searchParams?: URLSearchParams) =>
+      [...QUERY_KEYS.simulation.all, "list", type, searchParams?.toString()].filter((x) => x !== undefined),
 
-    // 2. Specific Simulation (by ID) - 통합된 함수
-    byId: (id: number, type: "detail" | "summary" | "status" | "deletion") =>
-      [...QUERY_KEYS.simulation.all, id, type] as const,
+    // 2. Specific Simulation (by ID)
+    bySimulationId: (
+      id: number,
+      type: "detail" | "summary" | "status" | "deletion" | "history",
+      searchParams?: URLSearchParams,
+    ) => [...QUERY_KEYS.simulation.all, id, type, searchParams?.toString()].filter((x) => x !== undefined),
+
+    // 3. Specific Result of Simulation (by IDs)
+    byExecutionId: (simulationId: number, executionId: number) => [
+      ...QUERY_KEYS.simulation.all,
+      simulationId,
+      executionId,
+    ],
   },
   template: {
     all: ["template"] as const,

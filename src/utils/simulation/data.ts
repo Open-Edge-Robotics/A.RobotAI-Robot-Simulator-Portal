@@ -1,13 +1,11 @@
-import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS, STEPS_INFO } from "@/constants/simulation";
+import { PATTERN_CONFIGS, STEPS_INFO } from "@/constants/simulation";
 
 import type { GetSimulationStaticResult } from "@/types/simulation/api";
 import type {
   ParallelAgentGroup,
   PatternType,
   SequentialAgentGroup,
-  SimulationActionType,
   SimulationPattern,
-  SimulationStatus,
   StepInfo,
   SimulationCreationStep,
 } from "@/types/simulation/domain";
@@ -64,14 +62,4 @@ export const getExecutionOverview = (simulation: GetSimulationStaticResult) => {
     default:
       throw new Error("Unknown pattern type");
   }
-};
-
-export const getAllowedActions = (status: SimulationStatus, context: "list" | "detail"): SimulationActionType[] => {
-  const baseActions = ALLOWED_ACTIONS_BY_STATUS[status];
-
-  if (context === "list") {
-    return baseActions.filter((action) => action !== "edit" && action !== "delete");
-  }
-
-  return baseActions;
 };

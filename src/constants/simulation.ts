@@ -248,11 +248,11 @@ export const ACTION_CONFIGS: Record<SimulationActionType, SimulationActionConfig
 // 상태별로 허용되는 액션
 export const ALLOWED_ACTIONS_BY_STATUS: Record<SimulationStatus, SimulationActionType[]> = {
   INITIATING: [],
-  PENDING: ["start", "edit", "delete"],
+  PENDING: ["start", "delete", "edit"],
   RUNNING: ["stop"],
-  STOPPED: ["start", "edit", "delete"],
-  COMPLETED: ["delete"],
-  FAILED: ["delete"],
+  STOPPED: ["start", "delete", "edit"],
+  COMPLETED: ["start", "delete", "edit"],
+  FAILED: ["start", "delete", "edit"],
   DELETING: [],
   DELETED: [],
 };

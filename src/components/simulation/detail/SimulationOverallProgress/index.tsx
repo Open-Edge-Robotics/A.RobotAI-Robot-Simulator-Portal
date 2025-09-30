@@ -1,14 +1,8 @@
-import { Button } from "innogrid-ui";
-
 import StatusBadge from "@/components/common/Badge/StatusBadge";
 import Container from "@/components/common/Container.tsx";
 import Divider from "@/components/common/Divider";
 import InformationFallback from "@/components/common/Fallback/InformationFallback";
-import Icon from "@/components/common/Icon";
 import Title from "@/components/common/Title";
-
-import { ICONS } from "@/constants/icon";
-import { ACTION_CONFIGS } from "@/constants/simulation";
 
 import { useStopSimulation } from "@/hooks/simulation/detail/useStopSimulation";
 
@@ -20,9 +14,10 @@ import { formatDateTime } from "@/utils/common/formatting";
 import ProgressIndicator from "./ProgressIndicator";
 import ProgressOverview from "./ProgressOverview";
 import TimeInformation from "./TimeInformation";
+import { StopButton } from "../../SimulationActionButtons";
 
 interface SimulationOverallProgressProps {
-  result: GetStatusResponseFinal;
+  result: GetStatusResponseFinal["execution"];
 }
 
 export default function SimulationOverallProgress({ result }: SimulationOverallProgressProps) {
@@ -33,6 +28,7 @@ export default function SimulationOverallProgress({ result }: SimulationOverallP
           simulationId={result.simulationId}
           status={result.currentStatus.status}
           message={result.currentStatus.message}
+          executionId={result.executionId}
         />
         <InformationFallback
           message={result.currentStatus.message}
@@ -58,6 +54,7 @@ export default function SimulationOverallProgress({ result }: SimulationOverallP
     <Container className="p-6">
       <SimulationOverallProgressHeader
         simulationId={result.simulationId}
+        executionId={result.executionId}
         status={result.currentStatus.status}
         message={result.currentStatus.message}
       />
@@ -80,9 +77,15 @@ interface SimulationOverallProgressHeaderProps {
   simulationId: number;
   status: SimulationStatus;
   message?: string;
+  executionId: number;
 }
 
-function SimulationOverallProgressHeader({ simulationId, status, message }: SimulationOverallProgressHeaderProps) {
+function SimulationOverallProgressHeader({
+  simulationId,
+  status,
+  message,
+  executionId,
+}: SimulationOverallProgressHeaderProps) {
   const { mutate, isPending } = useStopSimulation();
 
   return (
@@ -96,29 +99,13 @@ function SimulationOverallProgressHeader({ simulationId, status, message }: Simu
           <span className="text-sm font-medium text-gray-600">{message}</span>
         </div>
         {status === "RUNNING" && (
-          <StopButton onClick={() => mutate(simulationId)} disabled={isPending} isPending={isPending} />
+          <StopButton
+            onClick={() => mutate({ simulationId, executionId })}
+            disabled={isPending}
+            isPending={isPending}
+          />
         )}
       </div>
     </Title>
-  );
-}
-
-interface StopButtonProps {
-  onClick: () => void;
-  disabled: boolean;
-  isPending: boolean;
-}
-
-function StopButton({ onClick, disabled, isPending }: StopButtonProps) {
-  return (
-    <Button disabled={disabled} onClick={onClick} color="negative">
-      <Icon
-        name={isPending ? ICONS.loading : ACTION_CONFIGS.stop.iconName}
-        size="22px"
-        className={isPending ? "animate-spin" : ""}
-        fill
-      />
-      <span className="mr-1.5 ml-0.5">중지</span>
-    </Button>
   );
 }

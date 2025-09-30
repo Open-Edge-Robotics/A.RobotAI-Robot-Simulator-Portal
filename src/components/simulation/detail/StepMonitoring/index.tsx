@@ -13,7 +13,7 @@ import GroupBody from "./GroupBody";
 import GroupHeader from "./GroupHeader";
 
 interface StepMonitoringProps {
-  result: GetStatusResponseFinal;
+  result: GetStatusResponseFinal["execution"];
 }
 
 export default function StepMonitoring({ result }: StepMonitoringProps) {

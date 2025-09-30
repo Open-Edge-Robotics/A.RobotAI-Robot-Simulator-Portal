@@ -31,7 +31,7 @@ export default function GroupDetailConfiguration({
   patternType,
   isGlobalEditMode,
 }: GroupDetailConfigurationProps) {
-  const { id: rawId } = useParams();
+  const { simulationId: rawId } = useParams();
   const simulationId = Number(rawId);
 
   const [isConfigSectionOpen, toggleConfigSection] = useReducer((x) => !x, false);

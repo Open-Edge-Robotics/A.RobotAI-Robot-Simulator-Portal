@@ -16,15 +16,21 @@ interface GroupHeaderProps {
 }
 
 export default function GroupHeader({ id, patternType, group, isOpen, toggleCard }: GroupHeaderProps) {
+  const progressPercentage = group.progress;
+
   return (
     <header className="hover:bg-gray-10 cursor-pointer p-5" onClick={toggleCard}>
       <div className="flex items-center gap-4">
         <GroupIndexText index={id} unit={PATTERN_CONFIGS[patternType].unit} />
         <StatusBadge status={group.status} />
-        <ProgressPercentage progress={group.progress} />
+        <ProgressPercentage progress={progressPercentage} />
         <ToggleIcon isOpen={isOpen} />
       </div>
-      <ProgressBar progress={group.progress} color={STATUS_CONFIGS[group.status].highlightColor} className="mt-3.5" />
+      <ProgressBar
+        progress={progressPercentage}
+        color={STATUS_CONFIGS[group.status].highlightColor}
+        className="mt-3.5"
+      />
     </header>
   );
 }

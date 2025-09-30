@@ -1,21 +1,23 @@
 import type { ParallelProgress, SequentialProgress } from "./domain";
 import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
 
-export type GetStatusResponseFinal = SequentialResponseBase | ParallelResponseBase;
+export type GetStatusResponseFinal = { execution: SequentialResponseBase | ParallelResponseBase };
 
 interface SequentialResponseBase {
   simulationId: number;
   patternType: "sequential";
   currentStatus: GetSequentialStatusResult;
+  executionId: number;
 }
 
 interface ParallelResponseBase {
   simulationId: number;
   patternType: "parallel";
   currentStatus: GetParallelStatusResult;
+  executionId: number;
 }
 
-type GetSequentialStatusResult =
+export type GetSequentialStatusResult =
   | GetSequentialInitiatingStatusResult
   | GetSequentialPendingStatusResult
   | GetSequentialRunningStatusResult
@@ -23,7 +25,7 @@ type GetSequentialStatusResult =
   | GetSequentialFailedStatusResult
   | GetSequentialStoppedStatusResult;
 
-type GetParallelStatusResult =
+export type GetParallelStatusResult =
   | GetParallelInitiatingStatusResult
   | GetParallelPendingStatusResult
   | GetParallelRunningStatusResult
@@ -71,7 +73,7 @@ interface GetParallelPendingStatusResult {
   groupDetails: ParallelPatternGroupDetail[];
 }
 
-interface GetSequentialRunningStatusResult {
+export interface GetSequentialRunningStatusResult {
   status: "RUNNING";
   message: string;
   timestamps: {
@@ -83,7 +85,7 @@ interface GetSequentialRunningStatusResult {
   stepDetails: SequentialPatternGroupDetail[];
 }
 
-interface GetParallelRunningStatusResult {
+export interface GetParallelRunningStatusResult {
   status: "RUNNING";
   message: string;
   timestamps: {

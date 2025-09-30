@@ -7,24 +7,23 @@ import Icon from "@/components/common/Icon";
 import LabeledValue from "@/components/common/LabeledValue";
 
 import { SEGMENTS } from "@/constants/navigation";
-import { PATTERN_CONFIGS } from "@/constants/simulation";
+import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS } from "@/constants/simulation";
 
-import { useSimulationActions } from "@/hooks/simulation/detail/useSimulationActions";
+import { useStartSimulation } from "@/hooks/simulation/detail/useStartSimulation";
 
 import type { Simulation } from "@/types/simulation/domain";
 
 import { formatDateTime } from "@/utils/common/formatting";
-import { getAllowedActions } from "@/utils/simulation/data";
 
-import ActionButtons from "../SimulationActionButtons";
+import { StartButton } from "../SimulationActionButtons";
 
-interface SimulationTableCardProps {
+interface SimulationCardProps {
   simulation: Simulation;
 }
 
-export default function SimulationCard({ simulation }: SimulationTableCardProps) {
-  const { actionHandlers, loadingStates } = useSimulationActions();
-  const allowedActions = getAllowedActions(simulation.status, "detail");
+export default function SimulationCard({ simulation }: SimulationCardProps) {
+  const { mutate: startSimulation, isPending: isStarting } = useStartSimulation();
+  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.status];
 
   return (
     <Container className="p-5">
@@ -41,7 +40,6 @@ export default function SimulationCard({ simulation }: SimulationTableCardProps)
           <Icon name="chevron_right" className="text-gray-400" />
         </Link>
       </div>
-
       {/* Card Details */}
       <div className="space-y-2 text-gray-500">
         <LabeledValue
@@ -57,17 +55,15 @@ export default function SimulationCard({ simulation }: SimulationTableCardProps)
         />
         <LabeledValue label="MEC ID" value={simulation.mecId} containerClass="justify-between" />
       </div>
-
       <Divider color="bg-gray-50" className="my-4" />
-
       {/* Card Actions */}
-      <ActionButtons
-        actions={allowedActions}
-        simulationId={simulation.simulationId}
-        actionHandlers={actionHandlers}
-        loadingStates={loadingStates}
-        className="ml-auto"
-      />
+      <div className="ml-auto w-fit">
+        <StartButton
+          isPending={isStarting}
+          onClick={() => startSimulation(simulation.simulationId)}
+          disabled={!allowedActions.includes("start") || isStarting}
+        />
+      </div>
     </Container>
   );
 }

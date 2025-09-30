@@ -1,91 +1,95 @@
+import { Button } from "innogrid-ui";
+
 import Icon from "@/components/common/Icon";
 
 import { ICONS } from "@/constants/icon";
 import { ACTION_CONFIGS } from "@/constants/simulation";
 
-import type { SimulationActionHandler, SimulationActionType } from "@/types/simulation/domain";
-
-interface ActionButtonsProps {
-  actions: SimulationActionType[];
-  simulationId: number;
-  actionHandlers: SimulationActionHandler[];
-  loadingStates: Record<SimulationActionType, boolean>;
-  disableButton?: (actionType: SimulationActionType) => boolean;
-  className?: string;
-}
-
-export default function ActionButtons({
-  actions,
-  simulationId,
-  actionHandlers,
-  loadingStates,
-  disableButton,
-  className,
-}: ActionButtonsProps) {
-  const isLoading = Object.values(loadingStates).some((state) => state);
-
-  // 핸들러를 타입별로 매핑
-  const handlerMap = actionHandlers.reduce(
-    (acc, { type, handler }) => {
-      acc[type] = handler;
-      return acc;
-    },
-    {} as Record<SimulationActionType, (id: number) => void>,
-  );
-
-  if (actions.length === 0) {
-    return <span>-</span>;
-  }
-
-  return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      {actions.map((actionType) => {
-        const config = ACTION_CONFIGS[actionType];
-        const handler = handlerMap[actionType];
-
-        const isActionLoading = loadingStates[actionType];
-        const isDisabled = disableButton?.(actionType) || isLoading;
-
-        return (
-          <ActionButton
-            key={actionType}
-            iconName={config.iconName}
-            color={config.color}
-            label={config.label}
-            onClick={() => handler(simulationId)}
-            disabled={isDisabled}
-            isLoading={isActionLoading}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
 interface ActionButtonProps {
-  iconName: string;
-  color: string;
-  label?: string;
   onClick: () => void;
   disabled: boolean;
-  isLoading: boolean;
+  isPending: boolean;
+  color?: "primary" | "secondary" | "tertiary" | "negative";
+  iconName?: string;
+  buttonText?: string;
 }
 
-function ActionButton({ iconName, color, label, onClick, disabled, isLoading }: ActionButtonProps) {
+function ActionButton({ onClick, disabled, isPending, color, iconName, buttonText }: ActionButtonProps) {
   return (
-    <button
+    <Button
+      disabled={disabled}
       onClick={(e) => {
         e.preventDefault(); // Link 이동 방지
         e.stopPropagation(); // 행 클릭 이벤트 방지
         onClick();
       }}
-      disabled={disabled}
-      title={label} // 툴팁으로 액션 이름 표시
-      className={`flex h-8 w-8 items-center justify-center rounded-md border ${color} ${
-        disabled || isLoading ? "cursor-default opacity-50" : `cursor-pointer`
-      }`}
+      color={color}
     >
-      <Icon name={isLoading ? ICONS.loading : iconName} size="22px" className={isLoading ? "animate-spin" : ""} />
-    </button>
+      {iconName && (
+        <Icon
+          name={isPending ? ICONS.loading : iconName}
+          size="22px"
+          className={isPending ? "animate-spin" : ""}
+          fill
+        />
+      )}
+      {buttonText && <span className="mr-1.5 ml-0.5">{buttonText}</span>}
+    </Button>
+  );
+}
+
+interface StopButtonProps {
+  onClick: () => void;
+  disabled: boolean;
+  isPending: boolean;
+}
+
+export function StopButton({ onClick, disabled, isPending }: StopButtonProps) {
+  return (
+    <ActionButton
+      buttonText="중지"
+      disabled={disabled}
+      onClick={onClick}
+      color="negative"
+      iconName={ACTION_CONFIGS.stop.iconName}
+      isPending={isPending}
+    />
+  );
+}
+
+interface StartButtonProps {
+  onClick: () => void;
+  disabled: boolean;
+  isPending: boolean;
+}
+
+export function StartButton({ onClick, disabled, isPending }: StartButtonProps) {
+  return (
+    <ActionButton
+      buttonText="시작"
+      disabled={disabled}
+      onClick={onClick}
+      color="primary"
+      iconName={ACTION_CONFIGS.start.iconName}
+      isPending={isPending}
+    />
+  );
+}
+
+interface DeleteButtonProps {
+  onClick: () => void;
+  disabled: boolean;
+  isPending: boolean;
+}
+
+export function DeleteButton({ onClick, disabled, isPending }: DeleteButtonProps) {
+  return (
+    <ActionButton
+      iconName={ACTION_CONFIGS.delete.iconName}
+      onClick={onClick}
+      disabled={disabled}
+      isPending={isPending}
+      color="negative"
+    />
   );
 }

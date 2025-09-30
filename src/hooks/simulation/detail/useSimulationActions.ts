@@ -16,7 +16,16 @@ export function useSimulationActions() {
   // 액션 핸들러들을 배열로 반환
   const actionHandlers: SimulationActionHandler[] = [
     { type: "start", handler: (id: number) => startMutation.mutate(id) },
-    { type: "stop", handler: (id: number) => stopMutation.mutate(id) },
+    {
+      type: "stop",
+      handler: (id: number, executionId?: number) => {
+        if (!executionId) {
+          console.error("Execution ID is required to stop the simulation.");
+          return;
+        }
+        return stopMutation.mutate({ simulationId: id, executionId });
+      },
+    },
     { type: "edit", handler: (id: number) => editNavigation(`/simulation/${id}/edit`) },
     {
       type: "delete",

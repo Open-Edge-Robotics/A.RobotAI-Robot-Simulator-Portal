@@ -8,7 +8,7 @@ import Icon from "@/components/common/Icon";
 import IconButton from "@/components/common/IconButton.tsx";
 import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
-import ActionProgressFallback from "@/components/simulation/ActionProgressFallback";
+import DeleteActionProgressFallback from "@/components/simulation/DeleteActionProgressFallback";
 import SimulationExecutionHistory from "@/components/simulation/detail/SimulationExecutionHistory";
 import SimulationStaticInformation from "@/components/simulation/detail/SimulationStaticInformation";
 
@@ -17,8 +17,6 @@ import { SEGMENTS } from "@/constants/navigation";
 import { DELETING_STATUSES, POLLING_REQUIRED_STATUSES, SIMULATION_REFETCH_INTERVAL_MS } from "@/constants/simulation";
 
 import { useSimulationDetail } from "@/hooks/simulation/detail/useSimulationDetail";
-
-import type { SimulationStatus } from "@/types/simulation/domain";
 
 import { formatDateTime } from "@/utils/common/formatting";
 import { successToast } from "@/utils/common/toast";
@@ -51,7 +49,7 @@ function SimulationDetailPageContent({ id }: { id: number }) {
       const status = data.data.currentStatus.status;
 
       // PENDING, RUNNING 상태면 1분마다 polling
-      if (!editMode && (status === "PENDING" || status === "RUNNING")) {
+      if (!editMode && POLLING_REQUIRED_STATUSES.includes(status)) {
         return SIMULATION_REFETCH_INTERVAL_MS;
       }
 
@@ -88,11 +86,11 @@ function SimulationDetailPageContent({ id }: { id: number }) {
         onRefreshClick={POLLING_REQUIRED_STATUSES.includes(simulation.currentStatus.status) ? handleRefresh : undefined}
       />
       {DELETING_STATUSES.includes(simulation.currentStatus.status) ? (
-        <ActionProgressFallback id={id} />
+        <DeleteActionProgressFallback id={id} />
       ) : (
         <div className="space-y-6">
           <SimulationStaticInformation simulation={simulation} editMode={editMode} toggleEditMode={toggleEditMode} />
-          {editMode ? <EditFallback /> : <SimulationExecutionHistory />}
+          {editMode ? <EditFallback /> : <SimulationExecutionHistory id={simulation.simulationId} />}
         </div>
       )}
     </div>

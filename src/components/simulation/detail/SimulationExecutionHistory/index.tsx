@@ -1,70 +1,76 @@
+import { useSearchParams } from "react-router-dom";
+
 import Container from "@/components/common/Container.tsx";
+import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
+import InformationFallback from "@/components/common/Fallback/InformationFallback";
+import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
+import Pagination from "@/components/common/Pagination";
 import Title from "@/components/common/Title";
 
-import type { ExecutionRecord } from "@/types/simulation/domain";
+import { useSimulationExecutionHistory } from "@/hooks/simulation/detail/useSimulationExecutionHistory";
 
 import ExecutionHistoryTable from "./ExecutionHistoryTable";
 
-export default function SimulationExecutionHistory() {
-  const history = historyMockData;
+interface SimulationExecutionHistoryProps {
+  id: number;
+}
+
+type PaginationQueryKey = "page" | "size";
+
+export default function SimulationExecutionHistory({ id }: SimulationExecutionHistoryProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { data, status, refetch } = useSimulationExecutionHistory(id, searchParams);
+
+  const pageValue = Number(searchParams.get("page")) || 1;
+  const pageSizeValue = Number(searchParams.get("size")) || 10;
+
+  if (status === "pending") {
+    return <LoadingFallback message="시뮬레이션 정보를 불러오는 중입니다." />;
+  }
+
+  if (status === "error") {
+    return (
+      <ErrorFallback
+        onRetry={refetch}
+        message="시뮬레이션 정보를 불러올 수 없습니다."
+        subMessage="네트워크 연결을 확인하거나 잠시 후 다시 시도해 주세요."
+        showBackButton
+      />
+    );
+  }
+
+  const history = data.data.executions;
+  const pagination = data.data.pagination;
+
+  const handlePaginationQueryChange = (key: PaginationQueryKey, value: string | null) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (value) {
+      newSearchParams.set(key, value);
+    } else {
+      newSearchParams.delete(key);
+    }
+    setSearchParams(newSearchParams);
+  };
+
+  if (history.length === 0) {
+    return <InformationFallback message="시뮬레이션 실행 내역이 없습니다" subMessage="시뮬레이션을 실행해보세요." />;
+  }
 
   return (
     <Container className="p-6">
       <Title title="시뮬레이션 실행 내역" fontSize="text-xl" margin="mb-4" />
       <ExecutionHistoryTable history={history} />
+      <Pagination
+        currentPage={pageValue}
+        size={pageSizeValue}
+        totalCount={pagination.totalItems}
+        onPageChange={(value) => {
+          handlePaginationQueryChange("page", value);
+        }}
+        onPageSizeChange={(value) => {
+          handlePaginationQueryChange("size", value);
+        }}
+      />
     </Container>
   );
 }
-
-const historyMockData: ExecutionRecord[] = [
-  {
-    executionId: 1001,
-    status: "COMPLETED",
-    startedAt: "2025-09-24T09:15:30.000Z",
-    finishedAt: "2025-09-24T09:45:22.000Z",
-    updatedAt: "2025-09-24T09:45:22.000Z",
-    totalSteps: 10,
-    completedSteps: 10,
-    simulationId: 1,
-  },
-  {
-    executionId: 1002,
-    status: "RUNNING",
-    startedAt: "2025-09-24T10:30:15.000Z",
-    finishedAt: "",
-    updatedAt: "2025-09-24T10:42:18.000Z",
-    totalSteps: 8,
-    completedSteps: 5,
-    simulationId: 1,
-  },
-  {
-    executionId: 1003,
-    status: "FAILED",
-    startedAt: "2025-09-24T08:20:45.000Z",
-    finishedAt: "2025-09-24T08:35:12.000Z",
-    updatedAt: "2025-09-24T08:35:12.000Z",
-    totalSteps: 12,
-    completedSteps: 7,
-    simulationId: 1,
-  },
-  {
-    executionId: 1004,
-    status: "STOPPED",
-    startedAt: "2025-09-24T07:45:00.000Z",
-    finishedAt: "2025-09-24T08:10:33.000Z",
-    updatedAt: "2025-09-24T08:10:33.000Z",
-    totalSteps: 15,
-    completedSteps: 9,
-    simulationId: 1,
-  },
-  {
-    executionId: 1005,
-    status: "COMPLETED",
-    startedAt: "2025-09-24T11:00:12.000Z",
-    finishedAt: "2025-09-24T11:25:48.000Z",
-    updatedAt: "2025-09-24T11:25:48.000Z",
-    totalSteps: 6,
-    completedSteps: 6,
-    simulationId: 1,
-  },
-];

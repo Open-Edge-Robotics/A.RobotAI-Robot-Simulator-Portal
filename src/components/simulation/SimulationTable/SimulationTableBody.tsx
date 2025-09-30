@@ -2,17 +2,16 @@ import { Link } from "react-router-dom";
 
 import StatusBadge from "@/components/common/Badge/StatusBadge";
 
-import { PATTERN_CONFIGS } from "@/constants/simulation";
+import { ALLOWED_ACTIONS_BY_STATUS, PATTERN_CONFIGS } from "@/constants/simulation";
 
-import { useSimulationActions } from "@/hooks/simulation/detail/useSimulationActions";
+import { useStartSimulation } from "@/hooks/simulation/detail/useStartSimulation";
 
 import type { Simulation } from "@/types/simulation/domain";
 
 import { formatDateTime } from "@/utils/common/formatting";
-import { getAllowedActions } from "@/utils/simulation/data";
 
 import { TABLE_GRID_COLS } from ".";
-import ActionButtons from "../SimulationActionButtons";
+import { StartButton } from "../SimulationActionButtons";
 
 interface TableBodyProps {
   simulations: Simulation[];
@@ -33,8 +32,8 @@ interface TableBodyRowProps {
 }
 
 function TableBodyRow({ simulation }: TableBodyRowProps) {
-  const { actionHandlers, loadingStates } = useSimulationActions();
-  const allowedActions = getAllowedActions(simulation.status, "list");
+  const { mutate: startSimulation, isPending: isStarting } = useStartSimulation();
+  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.status];
 
   return (
     <Link to={`${simulation.simulationId}`}>
@@ -48,11 +47,10 @@ function TableBodyRow({ simulation }: TableBodyRowProps) {
         <TableBodyCell>{formatDateTime(simulation.updatedAt)}</TableBodyCell>
         <TableBodyCell>{simulation.mecId}</TableBodyCell>
         <TableBodyCell>
-          <ActionButtons
-            actions={allowedActions}
-            simulationId={simulation.simulationId}
-            actionHandlers={actionHandlers}
-            loadingStates={loadingStates}
+          <StartButton
+            isPending={isStarting}
+            onClick={() => startSimulation(simulation.simulationId)}
+            disabled={!allowedActions.includes("start") || isStarting}
           />
         </TableBodyCell>
       </li>
