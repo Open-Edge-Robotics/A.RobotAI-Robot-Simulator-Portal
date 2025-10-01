@@ -1,16 +1,17 @@
 #!/bin/bash
 
 # Robot Simulator Frontend 자동배포 스크립트
+# SSH 키 인증 우선, 없으면 비밀번호 사용
 # 사용법: ./scripts/deploy.sh
 
-set -e  # 오류 발생 시 스크립트 중단
+set -e
 
 # 색상 정의
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 # 로그 함수
 log_info() {
@@ -62,7 +63,6 @@ if [ -n "$(git status --porcelain)" ]; then
         exit 0
     fi
     
-    # 변경사항 임시 저장
     log_info "변경사항을 임시 저장합니다..."
     git stash push -m "Auto-stash before deploy $(date '+%Y-%m-%d %H:%M:%S')"
     STASHED=true
@@ -72,7 +72,6 @@ fi
 if [ "$CURRENT_BRANCH" != "$TARGET_BRANCH" ]; then
     log_info "$TARGET_BRANCH 브랜치로 전환 중..."
     
-    # deploy 브랜치 존재 확인
     if ! git show-ref --verify --quiet refs/heads/$TARGET_BRANCH; then
         log_warning "$TARGET_BRANCH 브랜치가 존재하지 않습니다."
         read -p "현재 브랜치를 기반으로 $TARGET_BRANCH 브랜치를 생성하시겠습니까? (y/N): " -n 1 -r
@@ -82,7 +81,6 @@ if [ "$CURRENT_BRANCH" != "$TARGET_BRANCH" ]; then
             log_success "$TARGET_BRANCH 브랜치 생성 완료"
         else
             log_info "배포를 취소합니다."
-            # 변경사항이 stash되었다면 복원
             if [ "$STASHED" = true ]; then
                 git stash pop
             fi
@@ -103,15 +101,14 @@ else
     log_warning "원격 저장소에 $TARGET_BRANCH 브랜치가 없습니다. 로컬 브랜치를 사용합니다."
 fi
 
-# .env 파일 확인
+# .env 파일 확인 및 로드
 if [ ! -f ".env" ]; then
     log_error ".env 파일이 없습니다. 팀 리더에게 요청하여 받으세요."
     exit 1
 fi
 
-# .env 파일 로드
 log_info ".env 파일에서 환경변수 로드 중..."
-set -a  # 자동으로 export
+set -a
 source .env
 set +a
 
@@ -127,10 +124,44 @@ check_env_var "GITLAB_TOKEN"
 check_env_var "DOCKER_HUB_USER"
 check_env_var "SERVER_IP"
 check_env_var "SSH_PORT"
-check_env_var "SSH_PASSWORD"
 
 IMAGE_NAME=${IMAGE_NAME:-"robot-simulator-front"}
 log_success "환경변수 로드 완료"
+
+# SSH 연결 방식 결정
+log_info "SSH 연결 방식 확인 중..."
+SSH_METHOD=""
+
+# SSH 키 인증 테스트
+if ssh -o BatchMode=yes -o ConnectTimeout=5 -p $SSH_PORT ubuntu@$SERVER_IP "echo 'test'" 2>/dev/null; then
+    log_success "SSH 키 인증 사용 (비밀번호 불필요)"
+    SSH_METHOD="key"
+    SSH_CMD="ssh -o StrictHostKeyChecking=no -p $SSH_PORT ubuntu@$SERVER_IP"
+else
+    # SSH 키가 없으면 비밀번호 방식 사용
+    if [ -z "$SSH_PASSWORD" ]; then
+        log_error "SSH 키가 없고 SSH_PASSWORD도 설정되지 않았습니다."
+        echo
+        echo -e "${YELLOW}해결 방법:${NC}"
+        echo "1. SSH 키 설정 (추천): ssh-keygen -t ed25519 && ssh-copy-id -p $SSH_PORT ubuntu@$SERVER_IP"
+        echo "2. .env 파일에 SSH_PASSWORD 추가"
+        exit 1
+    fi
+    
+    # sshpass 확인
+    if command -v sshpass > /dev/null 2>&1; then
+        log_warning "SSH 비밀번호 인증 사용 (SSH 키 설정을 권장합니다)"
+        SSH_METHOD="password"
+        SSH_CMD="sshpass -p '$SSH_PASSWORD' ssh -o StrictHostKeyChecking=no -p $SSH_PORT ubuntu@$SERVER_IP"
+    else
+        log_error "sshpass가 설치되지 않았고 SSH 키도 없습니다."
+        echo
+        echo -e "${YELLOW}해결 방법:${NC}"
+        echo "1. SSH 키 설정 (추천): ssh-keygen -t ed25519 && ssh-copy-id -p $SSH_PORT ubuntu@$SERVER_IP"
+        echo "2. sshpass 설치 (Linux): sudo apt-get install sshpass"
+        exit 1
+    fi
+fi
 
 # Docker 실행 확인
 if ! docker info > /dev/null 2>&1; then
@@ -149,10 +180,8 @@ read -p "위 정보로 배포를 진행하시겠습니까? (y/N): " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     log_info "배포를 취소합니다."
-    # 원래 브랜치로 돌아가기
     if [ "$CURRENT_BRANCH" != "$TARGET_BRANCH" ]; then
         git checkout $CURRENT_BRANCH
-        # 변경사항이 stash되었다면 복원
         if [ "$STASHED" = true ]; then
             git stash pop
         fi
@@ -173,7 +202,6 @@ log_success "빌드 완료"
 
 # 2단계: Docker 이미지 빌드
 log_info "Docker 이미지 빌드 중..."
-# 커밋 해시를 포함한 태그 생성
 IMAGE_TAG="$TARGET_BRANCH-$CURRENT_COMMIT"
 docker build --build-arg GITLAB_TOKEN="$GITLAB_TOKEN" -t $IMAGE_NAME:$IMAGE_TAG .
 docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
@@ -197,7 +225,6 @@ log_success "Docker Hub 푸시 완료"
 # 5단계: 서버 배포
 log_info "서버에 배포 중..."
 
-# 배포 명령어 생성 (환경변수 값을 직접 포함)
 DEPLOY_COMMANDS="
 echo '🔄 서버에서 배포 진행 중...'
 echo '📥 이미지 다운로드: $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG'
@@ -214,48 +241,18 @@ echo '   - 커밋: $CURRENT_COMMIT'
 echo '   - 이미지: $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG'
 "
 
-# sshpass 설치 확인
-if command -v sshpass > /dev/null 2>&1; then
-    # sshpass 사용 (자동화)
-    log_info "자동으로 서버에 배포합니다..."
-    sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p $SSH_PORT ubuntu@$SERVER_IP "$DEPLOY_COMMANDS"
-else
-    # sshpass가 없으면 설치 시도
-    log_warning "sshpass가 설치되지 않았습니다."
-    
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        log_info "sshpass 설치를 시도합니다..."
-        if sudo apt-get update && sudo apt-get install -y sshpass 2>/dev/null; then
-            log_success "sshpass 설치 완료!"
-            sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p $SSH_PORT ubuntu@$SERVER_IP "$DEPLOY_COMMANDS"
-        else
-            log_warning "sshpass 설치에 실패했습니다. 수동 배포로 진행합니다."
-        fi
-    fi
-    
-    # sshpass가 여전히 없으면 수동 접속
-    if ! command -v sshpass > /dev/null 2>&1; then
-        log_warning "SSH 비밀번호를 입력해주세요."
-        log_info "서버 접속 정보: ubuntu@$SERVER_IP:$SSH_PORT"
-        
-        ssh -p $SSH_PORT ubuntu@$SERVER_IP "$DEPLOY_COMMANDS"
-    fi
-fi
+# SSH 명령 실행
+eval "$SSH_CMD \"$DEPLOY_COMMANDS\""
 
 # 6단계: 배포 확인
 log_info "배포 상태 확인 중..."
 sleep 3
 
-# 서버 상태 확인
-if command -v sshpass > /dev/null 2>&1; then
-    CONTAINER_STATUS=$(sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p $SSH_PORT ubuntu@$SERVER_IP "docker ps --filter name=$IMAGE_NAME --format 'table {{.Status}}'" | tail -n +2)
-    if [ -n "$CONTAINER_STATUS" ]; then
-        log_success "컨테이너 실행 중: $CONTAINER_STATUS"
-    fi
+CONTAINER_STATUS=$(eval "$SSH_CMD 'docker ps --filter name=$IMAGE_NAME --format \"table {{.Status}}\"'" | tail -n +2)
+if [ -n "$CONTAINER_STATUS" ]; then
+    log_success "컨테이너 실행 중: $CONTAINER_STATUS"
 else
-    log_info "수동으로 서버 상태를 확인하세요:"
-    echo "ssh -p $SSH_PORT ubuntu@$SERVER_IP"
-    echo "docker ps --filter name=$IMAGE_NAME"
+    log_warning "컨테이너 상태를 확인할 수 없습니다."
 fi
 
 # 원래 브랜치로 복귀
@@ -263,7 +260,6 @@ if [ "$CURRENT_BRANCH" != "$TARGET_BRANCH" ]; then
     log_info "원래 브랜치($CURRENT_BRANCH)로 복귀 중..."
     git checkout $CURRENT_BRANCH
     
-    # 변경사항이 stash되었다면 복원
     if [ "$STASHED" = true ]; then
         git stash pop
         log_success "임시 저장된 변경사항을 복원했습니다."
@@ -283,6 +279,13 @@ echo "   📦 메시지: $COMMIT_MESSAGE"
 echo "   🐳 Docker 이미지: $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG"
 echo "   🌐 서비스 주소: http://$SERVER_IP:3001"
 echo "   📦 컨테이너명: $IMAGE_NAME"
+if [ "$SSH_METHOD" = "password" ]; then
+    echo
+    echo -e "${YELLOW}💡 SSH 키 설정 권장:${NC}"
+    echo "   ssh-keygen -t ed25519 -C \"robot-simulator-front-deploy\""
+    echo "   ssh-copy-id -p $SSH_PORT ubuntu@$SERVER_IP"
+    echo "   이후 비밀번호 입력 없이 자동 배포됩니다!"
+fi
 echo
 echo -e "${YELLOW}💡 확인 방법:${NC}"
 echo "   1. 브라우저에서 http://$SERVER_IP:3001 접속"
