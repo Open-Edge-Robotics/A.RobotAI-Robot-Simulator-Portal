@@ -71,7 +71,7 @@ function Header({ simulation, editMode, toggleEditMode }: HeaderProps) {
   const { mutate: startSimulation, isPending: isStarting } = useStartSimulation();
   const { mutate: deleteSimulation, isPending: isDeleting } = useDeleteSimulation();
 
-  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.currentStatus.status];
+  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.latestExecutionStatus.status];
 
   return (
     <div className="mb-6 flex items-start justify-between">
@@ -79,7 +79,7 @@ function Header({ simulation, editMode, toggleEditMode }: HeaderProps) {
         {/* 제목 */}
         <div className="mb-2 flex items-center gap-3">
           <Title title={simulation.simulationName} fontSize="text-xl" />
-          <StatusBadge status={simulation.currentStatus.status} />
+          <StatusBadge status={simulation.latestExecutionStatus.status} />
         </div>
         {/* 설명 */}
         <p className="mb-2.5 text-gray-600">{simulation.simulationDescription}</p>

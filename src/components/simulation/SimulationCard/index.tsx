@@ -23,7 +23,7 @@ interface SimulationCardProps {
 
 export default function SimulationCard({ simulation }: SimulationCardProps) {
   const { mutate: startSimulation, isPending: isStarting } = useStartSimulation();
-  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.status];
+  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.latestExecutionStatus];
 
   return (
     <Container className="p-5">
@@ -31,7 +31,7 @@ export default function SimulationCard({ simulation }: SimulationCardProps) {
       <div className="mb-3 flex items-start justify-between">
         <div className="flex items-center gap-3">
           <h3 className="text-xl font-medium">{simulation.simulationName}</h3>
-          <StatusBadge status={simulation.status} />
+          <StatusBadge status={simulation.latestExecutionStatus} />
         </div>
         <Link
           to={`${SEGMENTS.absolute.simulation}/${simulation.simulationId}`}

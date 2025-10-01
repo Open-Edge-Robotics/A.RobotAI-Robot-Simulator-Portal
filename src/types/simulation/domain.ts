@@ -1,6 +1,6 @@
 import type { ALLOWED_PARAMS, FILTER_OPTIONS, SIMULATION_ACTION_TYPES } from "@/constants/simulation";
 
-import type { Pagination, Timestamp } from "../common";
+import type { Timestamp } from "../common";
 import type { CreatePatternGroupRequest, DeletePatternGroupRequest, UpdatePatternGroupRequest } from "./api";
 import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
 import type { GetParallelStatusResult, GetSequentialStatusResult } from "./statusResult";
@@ -12,7 +12,7 @@ export interface Simulation {
   simulationId: number;
   simulationName: string;
   patternType: PatternType;
-  status: SimulationStatus;
+  latestExecutionStatus: SimulationStatus;
   mecId: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;

@@ -6,14 +6,11 @@ import type {
   ResourceUsageData,
   SequentialAgentGroup,
   Simulation,
-  SimulationExecutionHistoryStatus,
   SimulationExecutionRecord,
   SimulationLite,
   SimulationOverview,
   SimulationStatus,
 } from "./domain";
-import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
-import type { GetParallelStatusResult, GetSequentialStatusResult } from "./statusResult";
 
 // ========== API 요청 타입 ==========
 
@@ -84,7 +81,7 @@ export type GetSimulationsLiteResult = SimulationLite[];
 export interface GetSimulationSummaryResult {
   simulationId: number;
   simulationName: string;
-  status: SimulationStatus;
+  latestExecutionStatus: SimulationStatus;
   patternType: PatternType;
   totalExecutionTime: number;
   autonomousAgentCount: number;
@@ -100,7 +97,8 @@ interface SimulationStaticResultBase {
   mecId: string;
   namespace: string;
   createdAt: Timestamp;
-  currentStatus: {
+  latestExecutionStatus: {
+    executionId: number;
     status: SimulationStatus;
     timestamps: {
       createdAt: string;

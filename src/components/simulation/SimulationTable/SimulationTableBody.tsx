@@ -33,14 +33,14 @@ interface TableBodyRowProps {
 
 function TableBodyRow({ simulation }: TableBodyRowProps) {
   const { mutate: startSimulation, isPending: isStarting } = useStartSimulation();
-  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.status];
+  const allowedActions = ALLOWED_ACTIONS_BY_STATUS[simulation.latestExecutionStatus];
 
   return (
     <Link to={`${simulation.simulationId}`}>
       <li key={simulation.simulationId} className={`hover:bg-gray-10 grid ${TABLE_GRID_COLS}`}>
         <TableBodyCell>{simulation.simulationName}</TableBodyCell>
         <TableBodyCell justifyCenter>
-          <StatusBadge status={simulation.status} />
+          <StatusBadge status={simulation.latestExecutionStatus} />
         </TableBodyCell>
         <TableBodyCell>{PATTERN_CONFIGS[simulation.patternType].title}</TableBodyCell>
         <TableBodyCell>{formatDateTime(simulation.createdAt)}</TableBodyCell>

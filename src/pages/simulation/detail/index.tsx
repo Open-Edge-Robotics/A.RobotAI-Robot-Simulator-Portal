@@ -46,7 +46,7 @@ function SimulationDetailPageContent({ id }: { id: number }) {
       // 데이터가 없으면 polling 계속
       if (!data) return SIMULATION_REFETCH_INTERVAL_MS;
 
-      const status = data.data.currentStatus.status;
+      const status = data.data.latestExecutionStatus.status;
 
       // PENDING, RUNNING 상태면 1분마다 polling
       if (!editMode && POLLING_REQUIRED_STATUSES.includes(status)) {
@@ -82,10 +82,12 @@ function SimulationDetailPageContent({ id }: { id: number }) {
   return (
     <div className="relative flex flex-col gap-6">
       <SimulationDetailPageHeader
-        lastUpdated={simulation.currentStatus.timestamps.lastUpdated}
-        onRefreshClick={POLLING_REQUIRED_STATUSES.includes(simulation.currentStatus.status) ? handleRefresh : undefined}
+        lastUpdated={simulation.latestExecutionStatus.timestamps.lastUpdated}
+        onRefreshClick={
+          POLLING_REQUIRED_STATUSES.includes(simulation.latestExecutionStatus.status) ? handleRefresh : undefined
+        }
       />
-      {DELETING_STATUSES.includes(simulation.currentStatus.status) ? (
+      {DELETING_STATUSES.includes(simulation.latestExecutionStatus.status) ? (
         <DeleteActionProgressFallback id={id} />
       ) : (
         <div className="space-y-6">

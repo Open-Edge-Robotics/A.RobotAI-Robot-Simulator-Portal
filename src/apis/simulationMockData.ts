@@ -14,7 +14,8 @@ export const mockSimulationSequentialPending: GetSimulationStaticResult = {
   mecId: "mec-001-seoul",
   namespace: "iot-simulation",
   createdAt: "2024-08-30T09:30:00Z",
-  currentStatus: {
+  latestExecutionStatus: {
+    executionId: 8,
     status: "PENDING",
     timestamps: {
       createdAt: "2024-08-30T09:30:00Z",
@@ -67,7 +68,8 @@ export const mockSimulationParallelRunning: GetSimulationStaticResult = {
   mecId: "mec-002-busan",
   namespace: "parallel-test",
   createdAt: "2024-08-30T08:15:00Z",
-  currentStatus: {
+  latestExecutionStatus: {
+    executionId: 2,
     status: "RUNNING",
     timestamps: {
       createdAt: "2024-08-30T08:15:00Z",
@@ -118,7 +120,8 @@ export const mockSimulationParallelCompleted: GetSimulationStaticResult = {
   mecId: "mec-003-seoul",
   namespace: "ecommerce-test",
   createdAt: "2024-08-30T10:00:00Z",
-  currentStatus: {
+  latestExecutionStatus: {
+    executionId: 6,
     status: "COMPLETED",
     timestamps: {
       createdAt: "2024-08-30T10:00:00Z",
@@ -194,7 +197,7 @@ export const mockSimulationsLite = [
 export const mockSimulationSummaryData: GetSimulationSummaryResult = {
   simulationId: 12345,
   simulationName: "대규모 트래픽 시뮬레이션 v2.1",
-  status: "RUNNING",
+  latestExecutionStatus: "RUNNING",
   patternType: "parallel",
   totalExecutionTime: 3600, // 1시간 (초 단위)
   autonomousAgentCount: 1500,
@@ -220,7 +223,7 @@ export const mockSimulationSummaryData: GetSimulationSummaryResult = {
 export const mockInitiatingSequential: GetSimulationSummaryResult = {
   simulationId: 1,
   simulationName: "순차 시뮬레이션 예시",
-  status: "INITIATING",
+  latestExecutionStatus: "INITIATING",
   patternType: "sequential",
   totalExecutionTime: 0,
   autonomousAgentCount: 0,
@@ -240,7 +243,7 @@ export const mockInitiatingSequential: GetSimulationSummaryResult = {
 export const mockInitiatingParallel: GetSimulationSummaryResult = {
   simulationId: 2,
   simulationName: "병렬 시뮬레이션 예시",
-  status: "INITIATING",
+  latestExecutionStatus: "INITIATING",
   patternType: "parallel",
   totalExecutionTime: 0,
   autonomousAgentCount: 0,
@@ -260,7 +263,7 @@ export const mockInitiatingParallel: GetSimulationSummaryResult = {
 export const mockPendingSequential: GetSimulationSummaryResult = {
   simulationId: 3,
   simulationName: "순차 대기 시뮬레이션",
-  status: "PENDING",
+  latestExecutionStatus: "PENDING",
   patternType: "sequential",
   totalExecutionTime: 200,
   autonomousAgentCount: 2,
@@ -286,7 +289,7 @@ export const mockPendingSequential: GetSimulationSummaryResult = {
 export const mockPendingParallel: GetSimulationSummaryResult = {
   simulationId: 4,
   simulationName: "병렬 대기 시뮬레이션",
-  status: "PENDING",
+  latestExecutionStatus: "PENDING",
   patternType: "parallel",
   totalExecutionTime: 300,
   autonomousAgentCount: 6,
@@ -312,7 +315,7 @@ export const mockPendingParallel: GetSimulationSummaryResult = {
 export const mockRunningSequential: GetSimulationSummaryResult = {
   simulationId: 5,
   simulationName: "순차 실행 중 시뮬레이션",
-  status: "RUNNING",
+  latestExecutionStatus: "RUNNING",
   patternType: "sequential",
   totalExecutionTime: 200,
   autonomousAgentCount: 2,
@@ -338,7 +341,7 @@ export const mockRunningSequential: GetSimulationSummaryResult = {
 export const mockRunningParallel: GetSimulationSummaryResult = {
   simulationId: 6,
   simulationName: "병렬 실행 중 시뮬레이션",
-  status: "RUNNING",
+  latestExecutionStatus: "RUNNING",
   patternType: "parallel",
   totalExecutionTime: 300,
   autonomousAgentCount: 6,
@@ -364,7 +367,7 @@ export const mockRunningParallel: GetSimulationSummaryResult = {
 export const mockCompletedSequential: GetSimulationSummaryResult = {
   simulationId: 7,
   simulationName: "순차 완료 시뮬레이션",
-  status: "COMPLETED",
+  latestExecutionStatus: "COMPLETED",
   patternType: "sequential",
   totalExecutionTime: 200,
   autonomousAgentCount: 2,
@@ -390,7 +393,7 @@ export const mockCompletedSequential: GetSimulationSummaryResult = {
 export const mockCompletedParallel: GetSimulationSummaryResult = {
   simulationId: 8,
   simulationName: "병렬 완료 시뮬레이션",
-  status: "COMPLETED",
+  latestExecutionStatus: "COMPLETED",
   patternType: "parallel",
   totalExecutionTime: 450,
   autonomousAgentCount: 8,
@@ -416,7 +419,7 @@ export const mockCompletedParallel: GetSimulationSummaryResult = {
 export const mockFailedParallel: GetSimulationSummaryResult = {
   simulationId: 9,
   simulationName: "병렬 오류 시뮬레이션",
-  status: "FAILED",
+  latestExecutionStatus: "FAILED",
   patternType: "parallel",
   totalExecutionTime: 180,
   autonomousAgentCount: 6,
@@ -442,7 +445,7 @@ export const mockFailedParallel: GetSimulationSummaryResult = {
 export const mockFailedSequential: GetSimulationSummaryResult = {
   simulationId: 10,
   simulationName: "순차 오류 시뮬레이션",
-  status: "FAILED",
+  latestExecutionStatus: "FAILED",
   patternType: "sequential",
   totalExecutionTime: 120,
   autonomousAgentCount: 3,
@@ -477,7 +480,7 @@ export const mockSimulations: GetSimulationsResult = {
       simulationId: 1,
       simulationName: "Traffic Flow Analysis",
       patternType: "sequential",
-      status: "RUNNING",
+      latestExecutionStatus: "RUNNING",
       mecId: "mec-001",
       createdAt: "2024-08-15T09:00:00Z",
       updatedAt: "2024-08-15T11:20:15Z",
@@ -486,7 +489,7 @@ export const mockSimulations: GetSimulationsResult = {
       simulationId: 2,
       simulationName: "Smart Grid Optimization",
       patternType: "parallel",
-      status: "COMPLETED",
+      latestExecutionStatus: "COMPLETED",
       mecId: "mec-002",
       createdAt: "2024-08-10T13:25:00Z",
       updatedAt: "2024-08-10T15:40:00Z",
@@ -495,7 +498,7 @@ export const mockSimulations: GetSimulationsResult = {
       simulationId: 3,
       simulationName: "Autonomous Vehicle Test",
       patternType: "sequential",
-      status: "FAILED",
+      latestExecutionStatus: "FAILED",
       mecId: "mec-003",
       createdAt: "2024-08-12T08:00:00Z",
       updatedAt: "2024-08-12T09:10:00Z",
@@ -504,7 +507,7 @@ export const mockSimulations: GetSimulationsResult = {
       simulationId: 4,
       simulationName: "Drone Delivery Pathfinding",
       patternType: "parallel",
-      status: "PENDING",
+      latestExecutionStatus: "PENDING",
       mecId: "mec-004",
       createdAt: "2024-08-16T10:00:00Z",
       updatedAt: "2024-08-16T10:00:00Z",
@@ -513,7 +516,7 @@ export const mockSimulations: GetSimulationsResult = {
       simulationId: 5,
       simulationName: "Energy Consumption Forecast",
       patternType: "sequential",
-      status: "RUNNING",
+      latestExecutionStatus: "RUNNING",
       mecId: "mec-005",
       createdAt: "2024-08-17T09:30:00Z",
       updatedAt: "2024-08-17T11:00:00Z",

@@ -17,7 +17,7 @@ export default function SimulationInformation({ simulation }: SimulationInformat
       <Title title="시뮬레이션 정보" fontSize="text-xl" fontWeight="font-medium" margin="mb-2.5" />
       <div className="space-y-2">
         <LabeledValue label="상태:" containerClass="justify-between">
-          <StatusBadge status={simulation.status} />
+          <StatusBadge status={simulation.latestExecutionStatus} />
         </LabeledValue>
         <LabeledValue
           label="패턴 유형:"
