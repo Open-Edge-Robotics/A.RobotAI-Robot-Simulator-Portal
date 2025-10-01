@@ -6,6 +6,8 @@ export const SEGMENTS = {
     simulation: "/simulation",
     mec: "/mec",
     template: "/template",
+    signup: "/signup",
+    login: "/login",
   },
   // 상대 경로들 (중첩 라우트)
   relative: {

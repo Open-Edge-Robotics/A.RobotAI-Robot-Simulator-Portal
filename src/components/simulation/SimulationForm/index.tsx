@@ -10,7 +10,7 @@ import type { TemplateLite } from "@/types/template/domain.ts";
 
 import { errorToast } from "@/utils/common/toast.ts";
 import { getCurrentStepInfo, getPatternDataWithDefaultAgentGroup } from "@/utils/simulation/data.ts";
-import { createFormValidator } from "@/utils/simulation/validation.ts";
+import { createFormValidator } from "@/utils/simulation/validations.ts";
 
 import InfoBox from "./InfoBox.tsx";
 import NavigationButtons from "./NavigationButtons.tsx";

@@ -15,7 +15,7 @@ import type { GroupExecutionDetail, GroupExecutionDetailFormData, PatternType } 
 
 import { errorToast } from "@/utils/common/toast";
 import { patternGroupFormToCreateRequest, patternGroupFormToUpdateRequest } from "@/utils/simulation/mappers";
-import { validatePatternGroupForm } from "@/utils/simulation/validation";
+import { validatePatternGroupForm } from "@/utils/simulation/validations";
 
 import GroupDetailItem from "./GroupDetailItem";
 import GroupItemEditor from "./GroupItemEditor";

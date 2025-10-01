@@ -22,7 +22,7 @@ import type {
   StatusFilterOption,
 } from "@/types/simulation/domain";
 
-import { getValidSearchParams } from "@/utils/simulation/validation";
+import { getValidSearchParams } from "@/utils/simulation/validations";
 
 export default function SimulationListPage() {
   const [searchParams, setSearchParams] = useSearchParams();

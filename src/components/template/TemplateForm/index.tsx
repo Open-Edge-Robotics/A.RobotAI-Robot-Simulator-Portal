@@ -6,7 +6,7 @@ import { Button } from "innogrid-ui";
 import type { TemplateFormData } from "@/types/template/domain";
 
 import { errorToast } from "@/utils/common/toast";
-import { validateTemplateForm } from "@/utils/template/validation";
+import { validateTemplateForm } from "@/utils/template/validations";
 
 import BasicInformationSection from "./BasicInformationSection";
 import FileSection from "./FileSection";

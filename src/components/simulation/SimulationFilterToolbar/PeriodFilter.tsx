@@ -8,7 +8,7 @@ import type { PeriodFilterOption } from "@/types/simulation/domain";
 
 import { formatDateToYYYYMMDD } from "@/utils/common/formatting";
 import { errorToast } from "@/utils/common/toast";
-import { validatePeriodField } from "@/utils/simulation/validation";
+import { validatePeriodField } from "@/utils/simulation/validations";
 
 interface PeriodFilterProps {
   selectedPeriod: PeriodFilterOption | null;

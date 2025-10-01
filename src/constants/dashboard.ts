@@ -22,7 +22,7 @@ export const SYSTEM_OVERVIEW_CONFIGS: Record<keyof Omit<SystemOverviewData, "tim
     iconBgColor: "bg-purple-50",
   },
   totalInstances: {
-    label: "전체 인스턴스 개수",
+    label: "전체 가상 자율행동체 개수",
     iconName: ICONS.robot,
     iconColor: "text-green-500",
     iconBgColor: "bg-green-50",

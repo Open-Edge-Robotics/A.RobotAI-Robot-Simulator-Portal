@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Layout from "./components/layout";
 import { SEGMENTS } from "./constants/navigation";
+import LoginPage from "./pages/(auth)/login";
+import SignupPage from "./pages/(auth)/signup";
 import DashboardPage from "./pages/dashboard";
 import MecPage from "./pages/mec";
 import SimulationListPage from "./pages/simulation";
@@ -30,6 +32,8 @@ function AppRoutes() {
         <Route path={`:id/${SEGMENTS.relative.edit}`} element={<TemplateEditPage />} />
       </Route>
       <Route path={SEGMENTS.absolute.mec} element={<MecPage />} />
+      <Route path={SEGMENTS.absolute.signup} element={<SignupPage />} />
+      <Route path={SEGMENTS.absolute.login} element={<LoginPage />} />
     </Routes>
   );
 }

@@ -3,9 +3,13 @@ import { Link } from "react-router-dom";
 import { Button } from "innogrid-ui";
 
 import IconButton from "@/components/common/IconButton.tsx";
+import LinkButton from "@/components/common/LinkButton";
 
 import { ICONS } from "@/constants/icon";
+import { SEGMENTS } from "@/constants/navigation";
 
+import { useAuth } from "@/hooks/auth/useAuth";
+import { useLogout } from "@/hooks/auth/useLogout";
 import { useScreenSize } from "@/hooks/useScreenSize";
 
 interface HeaderProps {
@@ -14,6 +18,8 @@ interface HeaderProps {
 
 export default function Header({ onMenuToggle }: HeaderProps) {
   const { isMobile } = useScreenSize();
+  const { isAuthenticated } = useAuth();
+  const { mutate: logout, isPending: isLoggingOut } = useLogout();
 
   return (
     <header className="flex h-18 items-center justify-between border-b border-gray-100 bg-white px-4 py-5 lg:h-24 lg:px-6">
@@ -44,9 +50,28 @@ export default function Header({ onMenuToggle }: HeaderProps) {
         )}
       </div>
 
-      <Button color="secondary" title="로그아웃">
-        로그아웃
-      </Button>
+      <div className="flex items-center gap-2">
+        {isAuthenticated ? (
+          <LogoutButton onClick={logout} disabled={isLoggingOut} />
+        ) : (
+          <>
+            <LinkButton to={SEGMENTS.absolute.signup} title="회원가입" color="tertiary" size="medium">
+              회원가입
+            </LinkButton>
+            <LinkButton to={SEGMENTS.absolute.login} title="로그인" color="secondary" size="medium">
+              로그인
+            </LinkButton>
+          </>
+        )}
+      </div>
     </header>
+  );
+}
+
+function LogoutButton({ onClick, disabled }: { onClick: () => void; disabled: boolean }) {
+  return (
+    <Button color="secondary" onClick={onClick} disabled={disabled}>
+      로그아웃
+    </Button>
   );
 }

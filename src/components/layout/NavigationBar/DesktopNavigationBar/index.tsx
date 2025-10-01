@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 
-import { NAV_ITEMS } from "../../../../constants/navigation";
+import { NAV_ITEMS } from "@/constants/navigation";
+
 import LogoSection from "../LogoSection";
 import NavItem from "../NavItem";
 import UserInfoSection from "../UserInfoSection";

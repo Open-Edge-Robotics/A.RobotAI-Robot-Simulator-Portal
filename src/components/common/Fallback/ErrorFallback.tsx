@@ -10,6 +10,7 @@ interface ErrorFallbackProps {
   message?: string;
   subMessage?: string;
   showBackButton?: boolean;
+  children?: React.ReactNode;
 }
 
 export default function ErrorFallback({
@@ -17,6 +18,7 @@ export default function ErrorFallback({
   message = "에러가 발생했습니다",
   subMessage,
   showBackButton = false,
+  children,
 }: ErrorFallbackProps) {
   const navigate = useNavigate();
 
@@ -24,9 +26,10 @@ export default function ErrorFallback({
     <Container shadow>
       <div className="flex flex-col items-center px-6 py-12 text-center">
         <Icon name="error" className="mb-3 text-red-500" size="48px" />
-        <h3 className="mb-2.5 text-lg font-semibold">{message}</h3>
-        {subMessage && <p className="mb-6 text-sm text-gray-500">{subMessage}</p>}
-        <div className="flex gap-3">
+        <h3 className="text-lg font-semibold">{message}</h3>
+        {subMessage && <p className="mt-2.5 text-sm text-gray-500">{subMessage}</p>}
+        {children && <div className="mt-3">{children}</div>}
+        <div className="mt-6 flex gap-3">
           {onRetry && (
             <Button onClick={onRetry} size="medium" color="primary">
               <div className="flex items-center gap-1">

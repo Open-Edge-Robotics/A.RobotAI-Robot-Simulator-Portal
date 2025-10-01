@@ -8,6 +8,7 @@ export const ENDPOINTS = {
   simulation: "/simulation",
   template: "/template",
   mec: "/mec",
+  auth: "/auth",
 } as const;
 
 export const API_DEFAULT_TIMEOUT = 30000;

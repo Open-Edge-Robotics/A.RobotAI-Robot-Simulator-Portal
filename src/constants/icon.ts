@@ -22,4 +22,5 @@ export const ICONS = {
   layers: "layers",
   adjust: "adjust",
   checkCircle: "check_circle",
+  user: "person",
 };
