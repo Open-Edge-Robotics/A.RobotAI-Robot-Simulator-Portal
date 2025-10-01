@@ -3,7 +3,7 @@ import type { UserRole } from "./domain";
 export interface SignupRequest {
   email: string;
   password: string;
-  passwordConfirm: string;
+  password_confirm: string;
   role: UserRole;
 }
 

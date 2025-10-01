@@ -10,7 +10,7 @@ export interface LoginFormData {
   password: string;
 }
 
-export type UserRole = "master" | "general";
+export type UserRole = "admin" | "general";
 
 export interface User {
   email: string;

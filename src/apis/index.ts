@@ -34,7 +34,7 @@ instance.interceptors.request.use(
   },
 );
 
-// 응답 인터셉터: 401 에러 시 토큰 갱신
+// 응답 인터셉터: 401, 403 에러 시 토큰 갱신
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {

@@ -70,7 +70,7 @@ function EmailFieldset({ value, onChange }: { value: string; onChange: (value: s
     <Fieldset>
       <Label label="이메일" required />
       <Input
-        type="text"
+        type="email"
         value={value}
         placeholder="이메일을 입력하세요"
         size={{ width: "100%", height: "40px" }}
@@ -85,7 +85,7 @@ function PasswordFieldset({ value, onChange }: { value: string; onChange: (value
     <Fieldset>
       <Label label="비밀번호" required />
       <Input
-        type="text"
+        type="password"
         value={value}
         placeholder="비밀번호를 입력하세요"
         size={{ width: "100%", height: "40px" }}

@@ -14,6 +14,7 @@ import { useSignup } from "@/hooks/auth/useSignup";
 
 import type { SignupFormData, UserRole } from "@/types/auth/domain";
 
+import { signupFormToRequest } from "@/utils/auth/mappers";
 import { validateSignupForm } from "@/utils/auth/validations";
 import { errorToast } from "@/utils/common/toast";
 
@@ -41,7 +42,8 @@ export default function SignupPage() {
       errorToast(validation.error);
       return;
     }
-    signup(formData);
+    const requestBody = signupFormToRequest(formData);
+    signup(requestBody);
   };
 
   return (
@@ -149,6 +151,6 @@ function RoleFieldset({ role, onChange }: { role: UserRole; onChange: (value: Us
 }
 
 const ROLE_OPTIONS: { value: UserRole; label: string }[] = [
-  { value: "master", label: "관리자" },
+  { value: "admin", label: "관리자" },
   { value: "general", label: "일반 사용자" },
 ];

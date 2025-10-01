@@ -7,7 +7,7 @@ import { InnogridUIProvider } from "innogrid-ui";
 import { createRoot } from "react-dom/client";
 
 import App from "./App.tsx";
-import AuthProvider from "./contexts/AuthProvider.tsx";
+import AuthProvider from "./contexts/auth/AuthProvider.tsx";
 import { handleMutationError, handleQueryError } from "./utils/common/error.ts";
 
 const queryClient = new QueryClient({

@@ -9,7 +9,7 @@ const ENDPOINT = ENDPOINTS.auth;
 export const authAPI = {
   signup: (data: SignupRequest) => apiClient.postApi<Pick<SignupRequest, "email" | "role">>(`${ENDPOINT}/signup`, data),
 
-  login: (data: LoginRequest) => apiClient.postApi<LoginResponse>(`${ENDPOINT}/login`, data),
+  login: (data: LoginRequest) => apiClient.postApi<LoginResponse>(`${ENDPOINT}/signin`, data),
 
   logout: () => apiClient.postApi<unknown>(`${ENDPOINT}/logout`),
 
