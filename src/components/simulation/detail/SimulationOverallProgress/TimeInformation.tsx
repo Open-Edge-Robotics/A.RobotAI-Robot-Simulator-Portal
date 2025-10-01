@@ -4,8 +4,8 @@ import { getField } from "@/utils/common/field";
 import { formatDateTime, formatMsToGeneralForm } from "@/utils/common/formatting";
 
 interface TimeInformationProps {
-  status: GetStatusResponseFinal["currentStatus"]["status"];
-  timestamps: GetStatusResponseFinal["currentStatus"]["timestamps"];
+  status: GetStatusResponseFinal["execution"]["currentStatus"]["status"];
+  timestamps: GetStatusResponseFinal["execution"]["currentStatus"]["timestamps"];
 }
 export default function TimeInformation({ status, timestamps }: TimeInformationProps) {
   const hasStartTime = "startedAt" in timestamps;
@@ -44,8 +44,8 @@ export default function TimeInformation({ status, timestamps }: TimeInformationP
 
 // 상태별 종료 시간 추출
 function getEndedAt(
-  status: GetStatusResponseFinal["currentStatus"]["status"],
-  timestamps: GetStatusResponseFinal["currentStatus"]["timestamps"],
+  status: GetStatusResponseFinal["execution"]["currentStatus"]["status"],
+  timestamps: GetStatusResponseFinal["execution"]["currentStatus"]["timestamps"],
 ): string | null {
   switch (status) {
     case "COMPLETED":

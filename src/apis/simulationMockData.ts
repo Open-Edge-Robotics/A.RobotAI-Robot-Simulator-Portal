@@ -533,450 +533,486 @@ export const mockSimulations: GetSimulationsResult = {
 
 // 🔹 INITIATING 상태
 export const mockSequentialInitiatingStatus: GetStatusResponseFinal = {
-  simulationId: 1,
-  patternType: "sequential",
-  currentStatus: {
-    status: "INITIATING",
-    message: "시뮬레이션 초기화 중...",
-    timestamps: {
-      createdAt: "2025-09-01T10:00:00Z",
-      lastUpdated: "2025-09-01T10:01:00Z",
+  execution: {
+    executionId: 23,
+    simulationId: 1,
+    patternType: "sequential",
+    currentStatus: {
+      status: "INITIATING",
+      message: "시뮬레이션 초기화 중...",
+      timestamps: {
+        createdAt: "2025-09-01T10:00:00Z",
+        lastUpdated: "2025-09-01T10:01:00Z",
+      },
     },
   },
 };
 
 export const mockParallelInitiatingStatus: GetStatusResponseFinal = {
-  simulationId: 7,
-  patternType: "parallel",
-  currentStatus: {
-    status: "INITIATING",
-    message: "시뮬레이션 초기화 중...",
-    timestamps: {
-      createdAt: "2025-09-01T11:00:00Z",
-      lastUpdated: "2025-09-01T11:01:00Z",
+  execution: {
+    executionId: 1001,
+    simulationId: 7,
+    patternType: "parallel",
+    currentStatus: {
+      status: "INITIATING",
+      message: "시뮬레이션 초기화 중...",
+      timestamps: {
+        createdAt: "2025-09-01T11:00:00Z",
+        lastUpdated: "2025-09-01T11:01:00Z",
+      },
     },
   },
 };
 
 // 🔹 PENDING 상태
 export const mockSequentialPendingStatus: GetStatusResponseFinal = {
-  simulationId: 2,
-  patternType: "sequential",
-  currentStatus: {
-    status: "PENDING",
-    message: "대기 중...",
-    timestamps: {
-      createdAt: "2025-09-01T10:00:00Z",
-      lastUpdated: "2025-09-01T10:02:00Z",
+  execution: {
+    executionId: 45,
+    simulationId: 2,
+    patternType: "sequential",
+    currentStatus: {
+      status: "PENDING",
+      message: "대기 중...",
+      timestamps: {
+        createdAt: "2025-09-01T10:00:00Z",
+        lastUpdated: "2025-09-01T10:02:00Z",
+      },
+      progress: {
+        overallProgress: 0,
+        totalSteps: 3,
+        completedSteps: 0,
+        currentStep: 0,
+      },
+      stepDetails: [
+        { stepOrder: 1, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
+        { stepOrder: 2, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
+        { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
+      ],
     },
-    progress: {
-      overallProgress: 0,
-      totalSteps: 3,
-      completedSteps: 0,
-      currentStep: 0,
-    },
-    stepDetails: [
-      { stepOrder: 1, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
-      { stepOrder: 2, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
-      { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
-    ],
   },
 };
 
 export const mockParallelPendingStatus: GetStatusResponseFinal = {
-  simulationId: 8,
-  patternType: "parallel",
-  currentStatus: {
-    status: "PENDING",
-    message: "대기 중...",
-    timestamps: {
-      createdAt: "2025-09-01T11:00:00Z",
-      lastUpdated: "2025-09-01T11:02:00Z",
+  execution: {
+    executionId: 78,
+    simulationId: 8,
+    patternType: "parallel",
+    currentStatus: {
+      status: "PENDING",
+      message: "대기 중...",
+      timestamps: {
+        createdAt: "2025-09-01T11:00:00Z",
+        lastUpdated: "2025-09-01T11:02:00Z",
+      },
+      progress: {
+        overallProgress: 0,
+        totalGroups: 3,
+        completedGroups: 0,
+        runningGroups: 0,
+      },
+      groupDetails: [
+        { groupId: 1, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 1 },
+        { groupId: 2, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
+        { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 1, currentRepeat: 0, totalRepeats: 1 },
+      ],
     },
-    progress: {
-      overallProgress: 0,
-      totalGroups: 3,
-      completedGroups: 0,
-      runningGroups: 0,
-    },
-    groupDetails: [
-      { groupId: 1, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 1 },
-      { groupId: 2, status: "PENDING", progress: 0, autonomousAgents: 2, currentRepeat: 0, totalRepeats: 1 },
-      { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 1, currentRepeat: 0, totalRepeats: 1 },
-    ],
   },
 };
 
 // 🔹 RUNNING 상태
 export const mockSequentialRunningStatus: GetStatusResponseFinal = {
-  simulationId: 3,
-  patternType: "sequential",
-  currentStatus: {
-    status: "RUNNING",
-    message: "단계 실행 중...",
-    timestamps: {
-      createdAt: "2025-09-01T10:00:00Z",
-      lastUpdated: "2025-09-01T10:05:00Z",
-      startedAt: "2025-09-01T10:02:00Z",
-    },
-    progress: {
-      overallProgress: 50,
-      currentStep: 2,
-      totalSteps: 4,
-      completedSteps: 1,
-    },
-    stepDetails: [
-      {
-        stepOrder: 1,
-        status: "COMPLETED",
-        progress: 100,
+  execution: {
+    executionId: 56,
+    simulationId: 3,
+    patternType: "sequential",
+    currentStatus: {
+      status: "RUNNING",
+      message: "단계 실행 중...",
+      timestamps: {
+        createdAt: "2025-09-01T10:00:00Z",
+        lastUpdated: "2025-09-01T10:05:00Z",
         startedAt: "2025-09-01T10:02:00Z",
-        completedAt: "2025-09-01T10:03:00Z",
-        autonomousAgents: 2,
-        currentRepeat: 1,
-        totalRepeats: 1,
       },
-      {
-        stepOrder: 2,
-        status: "RUNNING",
-        progress: 50,
-        startedAt: "2025-09-01T10:03:30Z",
-        autonomousAgents: 3,
-        currentRepeat: 1,
-        totalRepeats: 2,
+      progress: {
+        overallProgress: 50,
+        currentStep: 2,
+        totalSteps: 4,
+        completedSteps: 1,
       },
-      { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 4, currentRepeat: 0, totalRepeats: 1 },
-      { stepOrder: 4, status: "PENDING", progress: 0, autonomousAgents: 5, currentRepeat: 0, totalRepeats: 1 },
-    ],
+      stepDetails: [
+        {
+          stepOrder: 1,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T10:02:00Z",
+          completedAt: "2025-09-01T10:03:00Z",
+          autonomousAgents: 2,
+          currentRepeat: 1,
+          totalRepeats: 1,
+        },
+        {
+          stepOrder: 2,
+          status: "RUNNING",
+          progress: 50,
+          startedAt: "2025-09-01T10:03:30Z",
+          autonomousAgents: 3,
+          currentRepeat: 1,
+          totalRepeats: 2,
+        },
+        { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 4, currentRepeat: 0, totalRepeats: 1 },
+        { stepOrder: 4, status: "PENDING", progress: 0, autonomousAgents: 5, currentRepeat: 0, totalRepeats: 1 },
+      ],
+    },
   },
 };
 
 export const mockParallelRunningStatus: GetStatusResponseFinal = {
-  simulationId: 9,
-  patternType: "parallel",
-  currentStatus: {
-    status: "RUNNING",
-    message: "병렬 그룹 실행 중...",
-    timestamps: {
-      createdAt: "2025-09-01T11:00:00Z",
-      lastUpdated: "2025-09-01T11:05:00Z",
-      startedAt: "2025-09-01T11:02:00Z",
-    },
-    progress: {
-      overallProgress: 60,
-      runningGroups: 2,
-      totalGroups: 3,
-      completedGroups: 1,
-    },
-    groupDetails: [
-      {
-        groupId: 1,
-        status: "COMPLETED",
-        progress: 100,
+  execution: {
+    executionId: 89,
+    simulationId: 9,
+    patternType: "parallel",
+    currentStatus: {
+      status: "RUNNING",
+      message: "병렬 그룹 실행 중...",
+      timestamps: {
+        createdAt: "2025-09-01T11:00:00Z",
+        lastUpdated: "2025-09-01T11:05:00Z",
         startedAt: "2025-09-01T11:02:00Z",
-        completedAt: "2025-09-01T11:03:00Z",
-        autonomousAgents: 2,
-        currentRepeat: 1,
-        totalRepeats: 1,
       },
-      {
-        groupId: 2,
-        status: "RUNNING",
-        progress: 40,
-        startedAt: "2025-09-01T11:03:30Z",
-        autonomousAgents: 4,
-        currentRepeat: 1,
-        totalRepeats: 3,
+      progress: {
+        overallProgress: 60,
+        runningGroups: 2,
+        totalGroups: 3,
+        completedGroups: 1,
       },
-      { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 2 },
-    ],
+      groupDetails: [
+        {
+          groupId: 1,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T11:02:00Z",
+          completedAt: "2025-09-01T11:03:00Z",
+          autonomousAgents: 2,
+          currentRepeat: 1,
+          totalRepeats: 1,
+        },
+        {
+          groupId: 2,
+          status: "RUNNING",
+          progress: 40,
+          startedAt: "2025-09-01T11:03:30Z",
+          autonomousAgents: 4,
+          currentRepeat: 1,
+          totalRepeats: 3,
+        },
+        { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 2 },
+      ],
+    },
   },
 };
 
 // 🔹 COMPLETED 상태
 export const mockSequentialCompletedStatus: GetStatusResponseFinal = {
-  simulationId: 4,
-  patternType: "sequential",
-  currentStatus: {
-    status: "COMPLETED",
-    message: "모든 단계 완료",
-    timestamps: {
-      createdAt: "2025-09-01T10:00:00Z",
-      lastUpdated: "2025-09-01T10:20:00Z",
-      startedAt: "2025-09-01T10:02:00Z",
-      completedAt: "2025-09-01T10:20:00Z",
-    },
-    progress: {
-      overallProgress: 100,
-      totalSteps: 3,
-      completedSteps: 3,
-    },
-    stepDetails: [
-      {
-        stepOrder: 1,
-        status: "COMPLETED",
-        progress: 100,
+  execution: {
+    executionId: 78,
+    simulationId: 4,
+    patternType: "sequential",
+    currentStatus: {
+      status: "COMPLETED",
+      message: "모든 단계 완료",
+      timestamps: {
+        createdAt: "2025-09-01T10:00:00Z",
+        lastUpdated: "2025-09-01T10:20:00Z",
         startedAt: "2025-09-01T10:02:00Z",
-        completedAt: "2025-09-01T10:05:00Z",
-        autonomousAgents: 2,
-        currentRepeat: 1,
-        totalRepeats: 1,
-      },
-      {
-        stepOrder: 2,
-        status: "COMPLETED",
-        progress: 100,
-        startedAt: "2025-09-01T10:05:30Z",
-        completedAt: "2025-09-01T10:10:00Z",
-        autonomousAgents: 3,
-        currentRepeat: 2,
-        totalRepeats: 2,
-      },
-      {
-        stepOrder: 3,
-        status: "COMPLETED",
-        progress: 100,
-        startedAt: "2025-09-01T10:11:00Z",
         completedAt: "2025-09-01T10:20:00Z",
-        autonomousAgents: 4,
-        currentRepeat: 1,
-        totalRepeats: 1,
       },
-    ],
+      progress: {
+        overallProgress: 100,
+        totalSteps: 3,
+        completedSteps: 3,
+      },
+      stepDetails: [
+        {
+          stepOrder: 1,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T10:02:00Z",
+          completedAt: "2025-09-01T10:05:00Z",
+          autonomousAgents: 2,
+          currentRepeat: 1,
+          totalRepeats: 1,
+        },
+        {
+          stepOrder: 2,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T10:05:30Z",
+          completedAt: "2025-09-01T10:10:00Z",
+          autonomousAgents: 3,
+          currentRepeat: 2,
+          totalRepeats: 2,
+        },
+        {
+          stepOrder: 3,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T10:11:00Z",
+          completedAt: "2025-09-01T10:20:00Z",
+          autonomousAgents: 4,
+          currentRepeat: 1,
+          totalRepeats: 1,
+        },
+      ],
+    },
   },
 };
 
 export const mockParallelCompletedStatus: GetStatusResponseFinal = {
-  simulationId: 10,
-  patternType: "parallel",
-  currentStatus: {
-    status: "COMPLETED",
-    message: "모든 그룹 완료",
-    timestamps: {
-      createdAt: "2025-09-01T11:00:00Z",
-      lastUpdated: "2025-09-01T11:20:00Z",
-      startedAt: "2025-09-01T11:02:00Z",
-      completedAt: "2025-09-01T11:20:00Z",
-    },
-    progress: {
-      overallProgress: 100,
-      totalGroups: 3,
-      completedGroups: 3,
-    },
-    groupDetails: [
-      {
-        groupId: 1,
-        status: "COMPLETED",
-        progress: 100,
+  execution: {
+    executionId: 90,
+    simulationId: 10,
+    patternType: "parallel",
+    currentStatus: {
+      status: "COMPLETED",
+      message: "모든 그룹 완료",
+      timestamps: {
+        createdAt: "2025-09-01T11:00:00Z",
+        lastUpdated: "2025-09-01T11:20:00Z",
         startedAt: "2025-09-01T11:02:00Z",
-        completedAt: "2025-09-01T11:05:00Z",
-        autonomousAgents: 2,
-        currentRepeat: 1,
-        totalRepeats: 1,
-      },
-      {
-        groupId: 2,
-        status: "COMPLETED",
-        progress: 100,
-        startedAt: "2025-09-01T11:06:00Z",
-        completedAt: "2025-09-01T11:10:00Z",
-        autonomousAgents: 5,
-        currentRepeat: 3,
-        totalRepeats: 3,
-      },
-      {
-        groupId: 3,
-        status: "COMPLETED",
-        progress: 100,
-        startedAt: "2025-09-01T11:11:00Z",
         completedAt: "2025-09-01T11:20:00Z",
-        autonomousAgents: 3,
-        currentRepeat: 2,
-        totalRepeats: 2,
       },
-    ],
+      progress: {
+        overallProgress: 100,
+        totalGroups: 3,
+        completedGroups: 3,
+      },
+      groupDetails: [
+        {
+          groupId: 1,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T11:02:00Z",
+          completedAt: "2025-09-01T11:05:00Z",
+          autonomousAgents: 2,
+          currentRepeat: 1,
+          totalRepeats: 1,
+        },
+        {
+          groupId: 2,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T11:06:00Z",
+          completedAt: "2025-09-01T11:10:00Z",
+          autonomousAgents: 5,
+          currentRepeat: 3,
+          totalRepeats: 3,
+        },
+        {
+          groupId: 3,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T11:11:00Z",
+          completedAt: "2025-09-01T11:20:00Z",
+          autonomousAgents: 3,
+          currentRepeat: 2,
+          totalRepeats: 2,
+        },
+      ],
+    },
   },
 };
 
 // 🔹 FAILED 상태
 export const mockSequentialFailedStatus: GetStatusResponseFinal = {
-  simulationId: 5,
-  patternType: "sequential",
-  currentStatus: {
-    status: "FAILED",
-    message: "2단계에서 오류 발생",
-    timestamps: {
-      createdAt: "2025-09-01T10:00:00Z",
-      lastUpdated: "2025-09-01T10:07:00Z",
-      startedAt: "2025-09-01T10:02:00Z",
-      failedAt: "2025-09-01T10:07:00Z",
-    },
-    progress: {
-      overallProgress: 30,
-      currentStep: 2,
-      totalSteps: 4,
-      completedSteps: 1,
-    },
-    stepDetails: [
-      {
-        stepOrder: 1,
-        status: "COMPLETED",
-        progress: 100,
+  execution: {
+    executionId: 57,
+    simulationId: 5,
+    patternType: "sequential",
+    currentStatus: {
+      status: "FAILED",
+      message: "2단계에서 오류 발생",
+      timestamps: {
+        createdAt: "2025-09-01T10:00:00Z",
+        lastUpdated: "2025-09-01T10:07:00Z",
         startedAt: "2025-09-01T10:02:00Z",
-        completedAt: "2025-09-01T10:03:30Z",
-        autonomousAgents: 2,
-        currentRepeat: 1,
-        totalRepeats: 1,
-      },
-      {
-        stepOrder: 2,
-        status: "FAILED",
-        progress: 20,
         failedAt: "2025-09-01T10:07:00Z",
-        autonomousAgents: 3,
-        currentRepeat: 1,
-        totalRepeats: 2,
-        error: "네트워크 연결 실패",
-        startedAt: "2025-09-01T10:03:30Z",
       },
-      { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 4, currentRepeat: 0, totalRepeats: 1 },
-      { stepOrder: 4, status: "PENDING", progress: 0, autonomousAgents: 5, currentRepeat: 0, totalRepeats: 1 },
-    ],
+      progress: {
+        overallProgress: 30,
+        currentStep: 2,
+        totalSteps: 4,
+        completedSteps: 1,
+      },
+      stepDetails: [
+        {
+          stepOrder: 1,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T10:02:00Z",
+          completedAt: "2025-09-01T10:03:30Z",
+          autonomousAgents: 2,
+          currentRepeat: 1,
+          totalRepeats: 1,
+        },
+        {
+          stepOrder: 2,
+          status: "FAILED",
+          progress: 20,
+          failedAt: "2025-09-01T10:07:00Z",
+          autonomousAgents: 3,
+          currentRepeat: 1,
+          totalRepeats: 2,
+          error: "네트워크 연결 실패",
+          startedAt: "2025-09-01T10:03:30Z",
+        },
+        { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 4, currentRepeat: 0, totalRepeats: 1 },
+        { stepOrder: 4, status: "PENDING", progress: 0, autonomousAgents: 5, currentRepeat: 0, totalRepeats: 1 },
+      ],
+    },
   },
 };
 
 export const mockParallelFailedStatus: GetStatusResponseFinal = {
-  simulationId: 11,
-  patternType: "parallel",
-  currentStatus: {
-    status: "FAILED",
-    message: "2번 그룹에서 오류 발생",
-    timestamps: {
-      createdAt: "2025-09-01T11:00:00Z",
-      lastUpdated: "2025-09-01T11:07:00Z",
-      startedAt: "2025-09-01T11:02:00Z",
-      failedAt: "2025-09-01T11:07:00Z",
-    },
-    progress: {
-      overallProgress: 40,
-      runningGroups: 2,
-      totalGroups: 3,
-      completedGroups: 1,
-    },
-    groupDetails: [
-      {
-        groupId: 1,
-        status: "COMPLETED",
-        progress: 100,
+  execution: {
+    executionId: 91,
+    simulationId: 11,
+    patternType: "parallel",
+    currentStatus: {
+      status: "FAILED",
+      message: "2번 그룹에서 오류 발생",
+      timestamps: {
+        createdAt: "2025-09-01T11:00:00Z",
+        lastUpdated: "2025-09-01T11:07:00Z",
         startedAt: "2025-09-01T11:02:00Z",
-        completedAt: "2025-09-01T11:03:30Z",
-        autonomousAgents: 1,
-        currentRepeat: 1,
-        totalRepeats: 1,
-      },
-      {
-        groupId: 2,
-        status: "FAILED",
-        progress: 30,
         failedAt: "2025-09-01T11:07:00Z",
-        autonomousAgents: 4,
-        currentRepeat: 1,
-        totalRepeats: 3,
-        error: "메모리 부족 오류",
-        startedAt: "2025-09-01T11:03:30Z",
       },
-      { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 2 },
-    ],
+      progress: {
+        overallProgress: 40,
+        runningGroups: 2,
+        totalGroups: 3,
+        completedGroups: 1,
+      },
+      groupDetails: [
+        {
+          groupId: 1,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T11:02:00Z",
+          completedAt: "2025-09-01T11:03:30Z",
+          autonomousAgents: 1,
+          currentRepeat: 1,
+          totalRepeats: 1,
+        },
+        {
+          groupId: 2,
+          status: "FAILED",
+          progress: 30,
+          failedAt: "2025-09-01T11:07:00Z",
+          autonomousAgents: 4,
+          currentRepeat: 1,
+          totalRepeats: 3,
+          error: "메모리 부족 오류",
+          startedAt: "2025-09-01T11:03:30Z",
+        },
+        { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 2 },
+      ],
+    },
   },
 };
 
 // 🔹 STOPPED 상태
 export const mockSequentialStoppedStatus: GetStatusResponseFinal = {
-  simulationId: 6,
-  patternType: "sequential",
-  currentStatus: {
-    status: "STOPPED",
-    message: "사용자에 의해 중지됨",
-    timestamps: {
-      createdAt: "2025-09-01T10:00:00Z",
-      lastUpdated: "2025-09-01T10:08:00Z",
-      startedAt: "2025-09-01T10:02:00Z",
-      stoppedAt: "2025-09-01T10:08:00Z",
-    },
-    progress: {
-      overallProgress: 40,
-      currentStep: 2,
-      totalSteps: 4,
-      completedSteps: 1,
-    },
-    stepDetails: [
-      {
-        stepOrder: 1,
-        status: "COMPLETED",
-        progress: 100,
+  execution: {
+    executionId: 60,
+    simulationId: 6,
+    patternType: "sequential",
+    currentStatus: {
+      status: "STOPPED",
+      message: "사용자에 의해 중지됨",
+      timestamps: {
+        createdAt: "2025-09-01T10:00:00Z",
+        lastUpdated: "2025-09-01T10:08:00Z",
         startedAt: "2025-09-01T10:02:00Z",
-        completedAt: "2025-09-01T10:03:00Z",
-        autonomousAgents: 1,
-        currentRepeat: 1,
-        totalRepeats: 1,
-      },
-      {
-        stepOrder: 2,
-        status: "STOPPED",
-        progress: 40,
         stoppedAt: "2025-09-01T10:08:00Z",
-        autonomousAgents: 3,
-        currentRepeat: 1,
-        totalRepeats: 2,
-        startedAt: "2025-09-01T10:03:30Z",
       },
-      { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 4, currentRepeat: 0, totalRepeats: 1 },
-      { stepOrder: 4, status: "PENDING", progress: 0, autonomousAgents: 5, currentRepeat: 0, totalRepeats: 1 },
-    ],
+      progress: {
+        overallProgress: 40,
+        currentStep: 2,
+        totalSteps: 4,
+        completedSteps: 1,
+      },
+      stepDetails: [
+        {
+          stepOrder: 1,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T10:02:00Z",
+          completedAt: "2025-09-01T10:03:00Z",
+          autonomousAgents: 1,
+          currentRepeat: 1,
+          totalRepeats: 1,
+        },
+        {
+          stepOrder: 2,
+          status: "STOPPED",
+          progress: 40,
+          stoppedAt: "2025-09-01T10:08:00Z",
+          autonomousAgents: 3,
+          currentRepeat: 1,
+          totalRepeats: 2,
+          startedAt: "2025-09-01T10:03:30Z",
+        },
+        { stepOrder: 3, status: "PENDING", progress: 0, autonomousAgents: 4, currentRepeat: 0, totalRepeats: 1 },
+        { stepOrder: 4, status: "PENDING", progress: 0, autonomousAgents: 5, currentRepeat: 0, totalRepeats: 1 },
+      ],
+    },
   },
 };
 
 export const mockParallelStoppedStatus: GetStatusResponseFinal = {
-  simulationId: 12,
-  patternType: "parallel",
-  currentStatus: {
-    status: "STOPPED",
-    message: "사용자에 의해 중지됨",
-    timestamps: {
-      createdAt: "2025-09-01T11:00:00Z",
-      lastUpdated: "2025-09-01T11:08:00Z",
-      startedAt: "2025-09-01T11:02:00Z",
-      stoppedAt: "2025-09-01T11:08:00Z",
-    },
-    progress: {
-      overallProgress: 50,
-      runningGroups: 2,
-      totalGroups: 3,
-      completedGroups: 1,
-    },
-    groupDetails: [
-      {
-        groupId: 1,
-        status: "COMPLETED",
-        progress: 100,
+  execution: {
+    executionId: 92,
+    simulationId: 12,
+    patternType: "parallel",
+    currentStatus: {
+      status: "STOPPED",
+      message: "사용자에 의해 중지됨",
+      timestamps: {
+        createdAt: "2025-09-01T11:00:00Z",
+        lastUpdated: "2025-09-01T11:08:00Z",
         startedAt: "2025-09-01T11:02:00Z",
-        completedAt: "2025-09-01T11:03:00Z",
-        autonomousAgents: 2,
-        currentRepeat: 1,
-        totalRepeats: 1,
-      },
-      {
-        groupId: 2,
-        status: "STOPPED",
-        progress: 40,
         stoppedAt: "2025-09-01T11:08:00Z",
-        autonomousAgents: 4,
-        currentRepeat: 1,
-        totalRepeats: 3,
-        startedAt: "2025-09-01T11:03:30Z",
       },
-      { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 2 },
-    ],
+      progress: {
+        overallProgress: 50,
+        runningGroups: 2,
+        totalGroups: 3,
+        completedGroups: 1,
+      },
+      groupDetails: [
+        {
+          groupId: 1,
+          status: "COMPLETED",
+          progress: 100,
+          startedAt: "2025-09-01T11:02:00Z",
+          completedAt: "2025-09-01T11:03:00Z",
+          autonomousAgents: 2,
+          currentRepeat: 1,
+          totalRepeats: 1,
+        },
+        {
+          groupId: 2,
+          status: "STOPPED",
+          progress: 40,
+          stoppedAt: "2025-09-01T11:08:00Z",
+          autonomousAgents: 4,
+          currentRepeat: 1,
+          totalRepeats: 3,
+          startedAt: "2025-09-01T11:03:30Z",
+        },
+        { groupId: 3, status: "PENDING", progress: 0, autonomousAgents: 3, currentRepeat: 0, totalRepeats: 2 },
+      ],
+    },
   },
 };
 
