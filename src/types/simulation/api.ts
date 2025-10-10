@@ -1,10 +1,10 @@
-import type { Pagination, Timestamp } from "../common";
+import type { Pagination } from "../common";
 import type {
-  ParallelAgentGroup,
+  ParallelAgentGroupFormData,
   PatternType,
   PodStatusData,
   ResourceUsageData,
-  SequentialAgentGroup,
+  SequentialAgentGroupFormData,
   Simulation,
   SimulationExecutionRecord,
   SimulationLite,
@@ -12,18 +12,16 @@ import type {
   SimulationStatus,
 } from "./domain";
 
-// ========== API 요청 타입 ==========
+// ========== 시뮬레이션 생성 관련 API 응답 타입 ==========
 
-// 공통 베이스 요청
-interface BaseSimulationRequest {
+interface CreateSimulationRequestBase {
   simulationName: string;
   simulationDescription: string;
   patternType: PatternType;
   mecId: string;
 }
 
-// 순차 실행 시뮬레이션 요청
-interface SequentialSimulationRequest extends BaseSimulationRequest {
+interface CreateSequentialSimulationRequest extends CreateSimulationRequestBase {
   patternType: "sequential";
   pattern: {
     steps: {
@@ -37,8 +35,7 @@ interface SequentialSimulationRequest extends BaseSimulationRequest {
   };
 }
 
-// 병렬 실행 시뮬레이션 요청
-interface ParallelSimulationRequest extends BaseSimulationRequest {
+interface CreateParallelSimulationRequest extends CreateSimulationRequestBase {
   patternType: "parallel";
   pattern: {
     groups: {
@@ -50,13 +47,9 @@ interface ParallelSimulationRequest extends BaseSimulationRequest {
   };
 }
 
-// 최종 createSimulation request body data 타입
-export type CreateSimulationRequest = SequentialSimulationRequest | ParallelSimulationRequest;
+export type CreateSimulationRequest = CreateSequentialSimulationRequest | CreateParallelSimulationRequest;
 
-// ========== API 응답 타입 ==========
-
-// createSimulation response data 타입
-export interface CreateSimulationResult {
+export interface CreateSimulationResponse {
   simulation_id: number;
   simulation_name: string;
   simulation_description: string;
@@ -64,21 +57,21 @@ export interface CreateSimulationResult {
   status: SimulationStatus;
   simulation_namespace: string;
   mec_id: string;
-  created_at: Timestamp;
+  created_at: string;
   total_expected_pods: number;
 }
 
-export interface GetSimulationsResult {
+// ========== 시뮬레이션 목록 조회 관련 API 응답 타입 ==========
+
+export interface GetSimulationsResponse {
   overview: SimulationOverview;
   simulations: Simulation[];
   pagination: Pagination;
 }
 
-export type GetSimulationsLiteResult = SimulationLite[];
+export type GetSimulationsLiteResponse = SimulationLite[];
 
-// ------------ Simulation Summary ---------------
-
-export interface GetSimulationSummaryResult {
+export interface GetSimulationSummaryResponse {
   simulationId: number;
   simulationName: string;
   latestExecutionStatus: SimulationStatus;
@@ -89,14 +82,16 @@ export interface GetSimulationSummaryResult {
   podStatus: PodStatusData;
 }
 
-interface SimulationStaticResultBase {
+// ========== 시뮬레이션 정적 정보 관련 API 응답 타입 ==========
+
+interface SimulationStaticResponseBase {
   simulationId: number;
   simulationName: string;
   simulationDescription: string;
   patternType: PatternType;
   mecId: string;
   namespace: string;
-  createdAt: Timestamp;
+  createdAt: string;
   latestExecutionStatus: {
     executionId: number;
     status: SimulationStatus;
@@ -125,25 +120,23 @@ interface ParallelGroupStatic extends GroupStaticBase {
   groupId: number;
 }
 
-interface GetSequentialSimulationStaticResult extends SimulationStaticResultBase {
+interface GetSequentialSimulationStaticResponse extends SimulationStaticResponseBase {
   patternType: "sequential";
   executionPlan: {
     steps: SequentialGroupStatic[];
   };
 }
 
-interface GetParallelSimulationStaticResult extends SimulationStaticResultBase {
+interface GetParallelSimulationStaticResponse extends SimulationStaticResponseBase {
   patternType: "parallel";
   executionPlan: {
     groups: ParallelGroupStatic[];
   };
 }
 
-// -------------- 시뮬레이션 상세 정보 (정적) -----------------
+export type GetSimulationStaticResponse = GetSequentialSimulationStaticResponse | GetParallelSimulationStaticResponse;
 
-export type GetSimulationStaticResult = GetSequentialSimulationStaticResult | GetParallelSimulationStaticResult;
-
-export interface GetSimulationDeletionStatusResult {
+export interface GetSimulationDeletionStatusResponse {
   simulationId: number;
   status: "PENDING" | "RUNNING" | "COMPLETED" | "FAILED";
   progress: number;
@@ -157,17 +150,19 @@ export interface GetSimulationDeletionStatusResult {
   errorMessage: string | null;
 }
 
+// ========== 패턴 그룹 편집 관련 API 요청 타입 ==========
+
 export type CreatePatternGroupRequest =
   | {
-      step: SequentialAgentGroup;
+      step: SequentialAgentGroupFormData;
     }
-  | { group: ParallelAgentGroup };
+  | { group: ParallelAgentGroupFormData };
 
 export type UpdatePatternGroupRequest =
   | {
-      step: SequentialAgentGroup;
+      step: SequentialAgentGroupFormData;
     }
-  | { group: ParallelAgentGroup & { groupId: number } };
+  | { group: ParallelAgentGroupFormData & { groupId: number } };
 
 export type DeletePatternGroupRequest =
   | {
@@ -175,7 +170,9 @@ export type DeletePatternGroupRequest =
     }
   | { group: { groupId: number } };
 
-export interface GetSimulationExecutionHistoryResult {
+// ========== 시뮬레이션 실행 이력 관련 API 응답 타입 ==========
+
+export interface GetSimulationExecutionHistoryResponse {
   executions: SimulationExecutionRecord[];
   pagination: Pagination;
 }

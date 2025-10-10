@@ -3,18 +3,18 @@ import { ENDPOINTS } from "@/constants/api";
 import type { APIResponse } from "@/types/api";
 import type {
   CreateSimulationRequest,
-  CreateSimulationResult,
-  GetSimulationsLiteResult,
-  GetSimulationStaticResult,
-  GetSimulationsResult,
-  GetSimulationSummaryResult,
-  GetSimulationDeletionStatusResult,
+  CreateSimulationResponse,
+  GetSimulationsLiteResponse,
+  GetSimulationStaticResponse,
+  GetSimulationsResponse,
+  GetSimulationSummaryResponse,
+  GetSimulationDeletionStatusResponse,
   DeletePatternGroupRequest,
   CreatePatternGroupRequest,
   UpdatePatternGroupRequest,
-  GetSimulationExecutionHistoryResult,
+  GetSimulationExecutionHistoryResponse,
 } from "@/types/simulation/api";
-import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
+import type { GetStatusResponse } from "@/types/simulation/statusResult";
 
 import { apiClient } from ".";
 import {
@@ -32,7 +32,7 @@ const ENDPOINT = ENDPOINTS.simulation;
 
 export const simulationAPI = {
   // 시뮬레이션 목록 조회
-  getSimulations: (params: URLSearchParams) => apiClient.getApi<GetSimulationsResult>(`${ENDPOINT}`, { params }),
+  getSimulations: (params: URLSearchParams) => apiClient.getApi<GetSimulationsResponse>(`${ENDPOINT}`, { params }),
 
   getMockSimulations: (params: URLSearchParams) =>
     Promise.resolve({
@@ -42,7 +42,7 @@ export const simulationAPI = {
     }),
 
   // 드롭다운용 시뮬레이션 목록 조회
-  getSimulationsLite: () => apiClient.getApi<GetSimulationsLiteResult>(`${ENDPOINT}/summary`),
+  getSimulationsLite: () => apiClient.getApi<GetSimulationsLiteResponse>(`${ENDPOINT}/summary`),
 
   getMockSimulationsLite: () =>
     Promise.resolve({
@@ -52,9 +52,9 @@ export const simulationAPI = {
     }),
 
   // 시뮬레이션 상세 조회
-  getSimulation: (id: number) => apiClient.getApi<GetSimulationStaticResult>(`${ENDPOINT}/${id}?view=detail`),
+  getSimulation: (id: number) => apiClient.getApi<GetSimulationStaticResponse>(`${ENDPOINT}/${id}?view=detail`),
 
-  getMockSimulation: (simulationId: number): Promise<APIResponse<GetSimulationStaticResult>> =>
+  getMockSimulation: (simulationId: number): Promise<APIResponse<GetSimulationStaticResponse>> =>
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 정보를 성공적으로 조회했습니다.",
@@ -62,7 +62,7 @@ export const simulationAPI = {
     }),
 
   getSimulationExecutionHistory: (id: number, params: URLSearchParams) =>
-    apiClient.getApi<GetSimulationExecutionHistoryResult>(`${ENDPOINT}/${id}/execution`, { params }),
+    apiClient.getApi<GetSimulationExecutionHistoryResponse>(`${ENDPOINT}/${id}/execution`, { params }),
 
   getMockSimulationExecutionHistory: (id: number, params: URLSearchParams) => {
     return Promise.resolve({
@@ -74,7 +74,7 @@ export const simulationAPI = {
 
   // 대시보드용 시뮬레이션 조회
   getSimulationSummary: (id: number) =>
-    apiClient.getApi<GetSimulationSummaryResult>(`${ENDPOINT}/${id}?view=dashboard`),
+    apiClient.getApi<GetSimulationSummaryResponse>(`${ENDPOINT}/${id}?view=dashboard`),
 
   getMockSimulationSummary: (simulationId: number) =>
     Promise.resolve({
@@ -85,12 +85,12 @@ export const simulationAPI = {
 
   // 시뮬레이션 동적 상태 조회
   getSimulationExecutionRecord: (simulationId: number, executionId: number) =>
-    apiClient.getApi<GetStatusResponseFinal>(`${ENDPOINT}/${simulationId}/execution/${executionId}`),
+    apiClient.getApi<GetStatusResponse>(`${ENDPOINT}/${simulationId}/execution/${executionId}`),
 
   getMockSimulationExecutionRecord: (
     simulationId: number,
     executionId: number,
-  ): Promise<APIResponse<GetStatusResponseFinal>> =>
+  ): Promise<APIResponse<GetStatusResponse>> =>
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 상태를 성공적으로 조회했습니다.",
@@ -98,7 +98,7 @@ export const simulationAPI = {
     }),
 
   // 시뮬레이션 생성
-  createSimulation: (data: CreateSimulationRequest) => apiClient.postApi<CreateSimulationResult>(`${ENDPOINT}`, data),
+  createSimulation: (data: CreateSimulationRequest) => apiClient.postApi<CreateSimulationResponse>(`${ENDPOINT}`, data),
 
   // 시뮬레이션 삭제
   deleteSimulation: (id: number) => apiClient.deleteApi(`${ENDPOINT}/${id}`),
@@ -116,7 +116,7 @@ export const simulationAPI = {
   },
 
   getSimulationDeletionStatus: (id: number) =>
-    apiClient.getApi<GetSimulationDeletionStatusResult>(`${ENDPOINT}/${id}/deletion`),
+    apiClient.getApi<GetSimulationDeletionStatusResponse>(`${ENDPOINT}/${id}/deletion`),
 
   // 시뮬레이션 실행
   startSimulation: (id: number) => apiClient.postApi(`${ENDPOINT}/${id}/start`),

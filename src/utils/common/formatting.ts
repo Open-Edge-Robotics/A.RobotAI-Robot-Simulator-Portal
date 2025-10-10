@@ -1,9 +1,7 @@
-import type { Timestamp } from "@/types/common";
-
 /**
  * ISO Datestring을 yyyy-mm-dd hh:mm 형식으로 변환
  */
-export const formatDateTime = (dateString: Timestamp): string => {
+export const formatDateTime = (dateString: string): string => {
   // +00:00Z 형식에서 중복된 Z 제거 (+00:00과 Z 모두 UTC를 의미하므로)
   const normalizedDateString = dateString.replace(/\+00:00Z$/, "+00:00");
   const date = new Date(normalizedDateString);

@@ -4,15 +4,19 @@ import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
 
-import type { ParallelAgentGroup } from "@/types/simulation/domain";
+import type { ParallelAgentGroupFormData } from "@/types/simulation/domain";
 import type { TemplateLite } from "@/types/template/domain";
 
 interface ParallelAgentGroupRowProps {
   index: number;
   templateList: TemplateLite[];
-  agentGroup: ParallelAgentGroup;
+  agentGroup: ParallelAgentGroupFormData;
   hideDeleteButton?: boolean;
-  onUpdate: <K extends keyof ParallelAgentGroup>(index: number, field: K, value: ParallelAgentGroup[K]) => void;
+  onUpdate: <K extends keyof ParallelAgentGroupFormData>(
+    index: number,
+    field: K,
+    value: ParallelAgentGroupFormData[K],
+  ) => void;
   onRemove: (index: number) => void;
 }
 

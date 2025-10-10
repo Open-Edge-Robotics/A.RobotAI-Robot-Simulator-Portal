@@ -1,15 +1,13 @@
 import { CustomVerticalLabeledValue } from "@/components/common/LabeledValue";
 import Title from "@/components/common/Title";
 
-import type { Timestamp } from "@/types/common";
-
 import { formatDateTime } from "@/utils/common/formatting";
 
 interface SimulationInformationProps {
   id: number;
   namespace: string;
   mecId: string;
-  createdAt: Timestamp;
+  createdAt: string;
 }
 
 export default function SimulationInformation({ id, namespace, mecId, createdAt }: SimulationInformationProps) {

@@ -1,39 +1,39 @@
 import type { ParallelProgress, SequentialProgress } from "./domain";
 import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
 
-export type GetStatusResponseFinal = { execution: SequentialResponseBase | ParallelResponseBase };
+export type GetStatusResponse = { execution: SequentialResponseBase | ParallelResponseBase };
 
 interface SequentialResponseBase {
   simulationId: number;
   patternType: "sequential";
-  currentStatus: GetSequentialStatusResult;
+  currentStatus: GetSequentialStatusResponse;
   executionId: number;
 }
 
 interface ParallelResponseBase {
   simulationId: number;
   patternType: "parallel";
-  currentStatus: GetParallelStatusResult;
+  currentStatus: GetParallelStatusResponse;
   executionId: number;
 }
 
-export type GetSequentialStatusResult =
-  | GetSequentialInitiatingStatusResult
-  | GetSequentialPendingStatusResult
-  | GetSequentialRunningStatusResult
-  | GetSequentialCompletedStatusResult
-  | GetSequentialFailedStatusResult
-  | GetSequentialStoppedStatusResult;
+export type GetSequentialStatusResponse =
+  | GetSequentialInitiatingStatusResponse
+  | GetSequentialPendingStatusResponse
+  | GetSequentialRunningStatusResponse
+  | GetSequentialCompletedStatusResponse
+  | GetSequentialFailedStatusResponse
+  | GetSequentialStoppedStatusResponse;
 
-export type GetParallelStatusResult =
-  | GetParallelInitiatingStatusResult
-  | GetParallelPendingStatusResult
-  | GetParallelRunningStatusResult
-  | GetParallelCompletedStatusResult
-  | GetParallelFailedStatusResult
-  | GetParallelStoppedStatusResult;
+export type GetParallelStatusResponse =
+  | GetParallelInitiatingStatusResponse
+  | GetParallelPendingStatusResponse
+  | GetParallelRunningStatusResponse
+  | GetParallelCompletedStatusResponse
+  | GetParallelFailedStatusResponse
+  | GetParallelStoppedStatusResponse;
 
-interface GetSequentialInitiatingStatusResult {
+interface GetSequentialInitiatingStatusResponse {
   status: "INITIATING";
   message: string;
   timestamps: {
@@ -42,7 +42,7 @@ interface GetSequentialInitiatingStatusResult {
   };
 }
 
-interface GetParallelInitiatingStatusResult {
+interface GetParallelInitiatingStatusResponse {
   status: "INITIATING";
   message: string;
   timestamps: {
@@ -51,7 +51,7 @@ interface GetParallelInitiatingStatusResult {
   };
 }
 
-interface GetSequentialPendingStatusResult {
+interface GetSequentialPendingStatusResponse {
   status: "PENDING";
   message: string;
   timestamps: {
@@ -62,7 +62,7 @@ interface GetSequentialPendingStatusResult {
   stepDetails: SequentialPatternGroupDetail[];
 }
 
-interface GetParallelPendingStatusResult {
+interface GetParallelPendingStatusResponse {
   status: "PENDING";
   message: string;
   timestamps: {
@@ -73,7 +73,7 @@ interface GetParallelPendingStatusResult {
   groupDetails: ParallelPatternGroupDetail[];
 }
 
-export interface GetSequentialRunningStatusResult {
+export interface GetSequentialRunningStatusResponse {
   status: "RUNNING";
   message: string;
   timestamps: {
@@ -85,7 +85,7 @@ export interface GetSequentialRunningStatusResult {
   stepDetails: SequentialPatternGroupDetail[];
 }
 
-export interface GetParallelRunningStatusResult {
+export interface GetParallelRunningStatusResponse {
   status: "RUNNING";
   message: string;
   timestamps: {
@@ -97,7 +97,7 @@ export interface GetParallelRunningStatusResult {
   groupDetails: ParallelPatternGroupDetail[];
 }
 
-interface GetSequentialCompletedStatusResult {
+interface GetSequentialCompletedStatusResponse {
   status: "COMPLETED";
   message: string;
   timestamps: {
@@ -110,7 +110,7 @@ interface GetSequentialCompletedStatusResult {
   stepDetails: SequentialPatternGroupDetail[];
 }
 
-interface GetParallelCompletedStatusResult {
+interface GetParallelCompletedStatusResponse {
   status: "COMPLETED";
   message: string;
   timestamps: {
@@ -123,7 +123,7 @@ interface GetParallelCompletedStatusResult {
   groupDetails: ParallelPatternGroupDetail[];
 }
 
-interface GetSequentialFailedStatusResult {
+interface GetSequentialFailedStatusResponse {
   status: "FAILED";
   message: string;
   timestamps: {
@@ -136,7 +136,7 @@ interface GetSequentialFailedStatusResult {
   stepDetails: SequentialPatternGroupDetail[];
 }
 
-interface GetParallelFailedStatusResult {
+interface GetParallelFailedStatusResponse {
   status: "FAILED";
   message: string;
   timestamps: {
@@ -149,7 +149,7 @@ interface GetParallelFailedStatusResult {
   groupDetails: ParallelPatternGroupDetail[];
 }
 
-interface GetSequentialStoppedStatusResult {
+interface GetSequentialStoppedStatusResponse {
   status: "STOPPED";
   message: string;
   timestamps: {
@@ -163,7 +163,7 @@ interface GetSequentialStoppedStatusResult {
   stepDetails: SequentialPatternGroupDetail[];
 }
 
-interface GetParallelStoppedStatusResult {
+interface GetParallelStoppedStatusResponse {
   status: "STOPPED";
   message: string;
   timestamps: {

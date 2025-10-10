@@ -9,5 +9,4 @@ export interface APIResponse<T = unknown> {
 export interface APIError {
   statusCode: number;
   message: string;
-  data?: null;
 }

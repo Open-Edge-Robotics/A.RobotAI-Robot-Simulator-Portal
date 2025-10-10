@@ -7,7 +7,7 @@ import Title from "@/components/common/Title";
 import { useStopSimulation } from "@/hooks/simulation/detail/useStopSimulation";
 
 import type { SimulationStatus } from "@/types/simulation/domain";
-import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
+import type { GetStatusResponse } from "@/types/simulation/statusResult";
 
 import { formatDateTime } from "@/utils/common/formatting";
 
@@ -17,7 +17,7 @@ import TimeInformation from "./TimeInformation";
 import { StopButton } from "../../SimulationActionButtons";
 
 interface SimulationOverallProgressProps {
-  result: GetStatusResponseFinal["execution"];
+  result: GetStatusResponse["execution"];
 }
 
 export default function SimulationOverallProgress({ result }: SimulationOverallProgressProps) {

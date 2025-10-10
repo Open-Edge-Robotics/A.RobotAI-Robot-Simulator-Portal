@@ -5,10 +5,10 @@ import Title from "@/components/common/Title";
 
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
-import type { GetSimulationSummaryResult } from "@/types/simulation/api";
+import type { GetSimulationSummaryResponse } from "@/types/simulation/api";
 
 interface SimulationInformationProps {
-  simulation: GetSimulationSummaryResult;
+  simulation: GetSimulationSummaryResponse;
 }
 
 export default function SimulationInformation({ simulation }: SimulationInformationProps) {
@@ -30,7 +30,7 @@ export default function SimulationInformation({ simulation }: SimulationInformat
           containerClass="justify-between"
         />
         <LabeledValue
-          label="자율행동체 수:"
+          label="가상 자율행동체 수:"
           value={`${simulation.autonomousAgentCount.toString()}대`}
           containerClass="justify-between"
         />

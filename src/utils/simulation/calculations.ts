@@ -1,10 +1,10 @@
-import type { SimulationPattern } from "@/types/simulation/domain";
+import type { SimulationPatternFormData } from "@/types/simulation/domain";
 
 export const calculateTotalAgentCount = <K extends { autonomousAgentCount: number }>(agentGroups: K[]) => {
   return agentGroups.reduce((sum, group) => sum + group.autonomousAgentCount, 0);
 };
 
-export const calculateTotalExecutionTime = (pattern: SimulationPattern) => {
+export const calculateTotalExecutionTime = (pattern: SimulationPatternFormData) => {
   if (!pattern) return 0;
 
   if (pattern.type === "sequential") {

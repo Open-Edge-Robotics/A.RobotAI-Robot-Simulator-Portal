@@ -1,9 +1,8 @@
 import type { ALLOWED_PARAMS, FILTER_OPTIONS, SIMULATION_ACTION_TYPES } from "@/constants/simulation";
 
-import type { Timestamp } from "../common";
 import type { CreatePatternGroupRequest, DeletePatternGroupRequest, UpdatePatternGroupRequest } from "./api";
 import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
-import type { GetParallelStatusResult, GetSequentialStatusResult } from "./statusResult";
+import type { GetParallelStatusResponse, GetSequentialStatusResponse } from "./statusResult";
 import type { TemplateLite } from "../template/domain";
 
 // ========== 기본 엔티티 타입 ==========
@@ -13,9 +12,10 @@ export interface Simulation {
   simulationName: string;
   patternType: PatternType;
   latestExecutionStatus: SimulationStatus;
+  status: SimulationStatus;
   mecId: string;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type SimulationLite = Pick<Simulation, "simulationId" | "simulationName">;
@@ -46,36 +46,30 @@ export type PatternType = "sequential" | "parallel";
 export type SimulationActionType = (typeof SIMULATION_ACTION_TYPES)[number];
 export type PodStatus = "PENDING" | "RUNNING" | "SUCCESS" | "FAILED" | "STOPPED";
 
-// ========== 에이전트 그룹 타입 ==========
-
-interface BaseAgentGroup {
+interface BaseAgentGroupFormData {
   templateId: number | null;
   autonomousAgentCount: number;
   executionTime: number; // in seconds
   repeatCount: number;
 }
 
-export interface SequentialAgentGroup extends BaseAgentGroup {
+export interface SequentialAgentGroupFormData extends BaseAgentGroupFormData {
   stepOrder: number;
   delayAfterCompletion: number; // in seconds
 }
 
-export interface ParallelAgentGroup extends BaseAgentGroup {} // 병렬 그룹에는 추가 필드 없음
+export interface ParallelAgentGroupFormData extends BaseAgentGroupFormData {} // 병렬 그룹에는 추가 필드 없음
 
-// ========== 패턴 타입 ==========
-
-export type SimulationPattern =
-  | { type: "sequential"; agentGroups: SequentialAgentGroup[] }
-  | { type: "parallel"; agentGroups: ParallelAgentGroup[] }
+export type SimulationPatternFormData =
+  | { type: "sequential"; agentGroups: SequentialAgentGroupFormData[] }
+  | { type: "parallel"; agentGroups: ParallelAgentGroupFormData[] }
   | null;
-
-// ========== 폼 데이터 타입 ==========
 
 export interface SimulationFormData {
   name: string;
   description: string;
   mecId: string | null;
-  pattern: SimulationPattern;
+  pattern: SimulationPatternFormData;
 }
 
 // ========== UI 구성 타입 ==========
@@ -229,10 +223,10 @@ export type SimulationExecutionRecord = {
 } & (
   | {
       patternType: "sequential";
-      currentStatus: RemoveDetails<Extract<GetSequentialStatusResult, { status: SimulationExecutionHistoryStatus }>>;
+      currentStatus: RemoveDetails<Extract<GetSequentialStatusResponse, { status: SimulationExecutionHistoryStatus }>>;
     }
   | {
       patternType: "parallel";
-      currentStatus: RemoveDetails<Extract<GetParallelStatusResult, { status: SimulationExecutionHistoryStatus }>>;
+      currentStatus: RemoveDetails<Extract<GetParallelStatusResponse, { status: SimulationExecutionHistoryStatus }>>;
     }
 );

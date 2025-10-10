@@ -15,4 +15,7 @@ export const authAPI = {
 
   verifyToken: (accessToken: string) =>
     apiClient.postApi<TokenVerificationResponse>(`${ENDPOINT}/verify`, { accessToken }),
+
+  renewAccessToken: () =>
+    apiClient.postApi<{ accessToken: string }>(`${ENDPOINT}/refresh`, {}, { withCredentials: true }),
 };

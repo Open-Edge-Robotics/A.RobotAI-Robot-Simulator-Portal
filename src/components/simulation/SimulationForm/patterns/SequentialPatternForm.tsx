@@ -3,7 +3,7 @@ import { Button } from "innogrid-ui";
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
 
-import type { SequentialAgentGroup } from "@/types/simulation/domain";
+import type { SequentialAgentGroupFormData } from "@/types/simulation/domain";
 import type { TemplateLite } from "@/types/template/domain";
 
 import SequentialAgentGroupRow from "./SequentialAgentGroupRow";
@@ -11,8 +11,8 @@ import SequentialAgentGroupRow from "./SequentialAgentGroupRow";
 // 순차 패턴 폼 컴포넌트
 interface SequentialPatternFormProps {
   templateList: TemplateLite[];
-  agentGroups: SequentialAgentGroup[];
-  onChangeAgentGroups: (agentGroups: SequentialAgentGroup[]) => void;
+  agentGroups: SequentialAgentGroupFormData[];
+  onChangeAgentGroups: (agentGroups: SequentialAgentGroupFormData[]) => void;
 }
 
 export default function SequentialPatternForm({
@@ -22,7 +22,7 @@ export default function SequentialPatternForm({
 }: SequentialPatternFormProps) {
   // 새 에이전트 그룹 추가
   const handleAddNewAgentGroup = () => {
-    const newAgentGroup: SequentialAgentGroup = {
+    const newAgentGroup: SequentialAgentGroupFormData = {
       stepOrder: agentGroups.length + 1,
       templateId: null,
       autonomousAgentCount: 1,
@@ -47,10 +47,10 @@ export default function SequentialPatternForm({
   };
 
   // 에이전트 그룹 업데이트
-  const handleUpdateAgentGroup = <K extends keyof SequentialAgentGroup>(
+  const handleUpdateAgentGroup = <K extends keyof SequentialAgentGroupFormData>(
     stepOrder: number,
     field: K,
-    value: SequentialAgentGroup[K],
+    value: SequentialAgentGroupFormData[K],
   ) => {
     const updatedGroups = agentGroups.map((group) =>
       group.stepOrder === stepOrder ? { ...group, [field]: value } : group,

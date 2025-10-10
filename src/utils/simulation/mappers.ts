@@ -2,7 +2,7 @@ import type { APIResponse } from "@/types/api";
 import type {
   CreatePatternGroupRequest,
   CreateSimulationRequest,
-  GetSimulationStaticResult,
+  GetSimulationStaticResponse,
   UpdatePatternGroupRequest,
 } from "@/types/simulation/api";
 import type {
@@ -13,7 +13,7 @@ import type {
 } from "@/types/simulation/domain";
 
 // API 응답 데이터를 폼 데이터 형식에 맞게 변환
-export const simulationApiToForm = (data: APIResponse<GetSimulationStaticResult>): SimulationFormData => {
+export const simulationApiToForm = (data: APIResponse<GetSimulationStaticResponse>): SimulationFormData => {
   const simulation = data.data;
   return {
     name: simulation.simulationName,
@@ -132,7 +132,7 @@ export const patternGroupToForm = (group: GroupExecutionDetail): GroupExecutionD
   delayAfterCompletion: group.delayAfterCompletion,
 });
 
-export const executionPlanToGroupDetail = (simulation: GetSimulationStaticResult): GroupExecutionDetail[] => {
+export const executionPlanToGroupDetail = (simulation: GetSimulationStaticResponse): GroupExecutionDetail[] => {
   switch (simulation.patternType) {
     case "sequential":
       return simulation.executionPlan.steps.map((step, index) => ({

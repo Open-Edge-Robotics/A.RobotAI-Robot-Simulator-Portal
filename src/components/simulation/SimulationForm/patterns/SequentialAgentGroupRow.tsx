@@ -4,17 +4,21 @@ import Container from "@/components/common/Container.tsx";
 import Fieldset from "@/components/common/Fieldset";
 import Label from "@/components/common/Label";
 
-import type { SequentialAgentGroup } from "@/types/simulation/domain";
+import type { SequentialAgentGroupFormData } from "@/types/simulation/domain";
 import type { TemplateLite } from "@/types/template/domain";
 
 import { infoToast } from "@/utils/common/toast";
 
 interface SequentialAgentGroupRowProps {
   templateList: TemplateLite[];
-  agentGroup: SequentialAgentGroup;
+  agentGroup: SequentialAgentGroupFormData;
   hideDeleteButton?: boolean;
   disableDelayInput?: boolean;
-  onUpdate: <K extends keyof SequentialAgentGroup>(stepOrder: number, field: K, value: SequentialAgentGroup[K]) => void;
+  onUpdate: <K extends keyof SequentialAgentGroupFormData>(
+    stepOrder: number,
+    field: K,
+    value: SequentialAgentGroupFormData[K],
+  ) => void;
   onRemove: (stepOrder: number) => void;
 }
 

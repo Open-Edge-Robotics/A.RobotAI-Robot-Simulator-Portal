@@ -2,11 +2,11 @@ import { ENDPOINTS } from "@/constants/api";
 
 import type {
   CreateTemplateRequest,
-  GetTemplateResult,
-  CreateTemplateResult,
-  GetTemplatesResult,
+  GetTemplateResponse,
+  CreateTemplateResponse,
+  GetTemplatesResponse,
   UpdateTemplateRequest,
-  UpdateTemplateResult,
+  UpdateTemplateResponse,
 } from "@/types/template/api";
 import type { Template } from "@/types/template/domain";
 
@@ -15,7 +15,7 @@ import { apiClient } from ".";
 const ENDPOINT = ENDPOINTS.template;
 
 export const templateAPI = {
-  getTemplates: () => apiClient.getApi<GetTemplatesResult>(`${ENDPOINT}`),
+  getTemplates: () => apiClient.getApi<GetTemplatesResponse>(`${ENDPOINT}`),
   getMockTemplates: () =>
     Promise.resolve({
       status: "success",
@@ -23,7 +23,7 @@ export const templateAPI = {
       data: mockTemplates,
     }),
 
-  getTemplate: (id: number) => apiClient.getApi<GetTemplateResult>(`${ENDPOINT}/${id}`),
+  getTemplate: (id: number) => apiClient.getApi<GetTemplateResponse>(`${ENDPOINT}/${id}`),
   getMockTemplate: (id: number) =>
     Promise.resolve({
       status: "success",
@@ -31,10 +31,11 @@ export const templateAPI = {
       data: { template: mockTemplates[0] },
     }),
 
-  createTemplate: (data: CreateTemplateRequest) => apiClient.postFormDataApi<CreateTemplateResult>(`${ENDPOINT}`, data),
+  createTemplate: (data: CreateTemplateRequest) =>
+    apiClient.postFormDataApi<CreateTemplateResponse>(`${ENDPOINT}`, data),
 
   updateTemplate: (id: number, data: UpdateTemplateRequest) =>
-    apiClient.patchFormDataApi<UpdateTemplateResult>(`${ENDPOINT}/${id}`, data),
+    apiClient.patchFormDataApi<UpdateTemplateResponse>(`${ENDPOINT}/${id}`, data),
 
   updateMockTemplate: (id: number, data: UpdateTemplateRequest): Promise<void> => {
     return new Promise((resolve, reject) => {

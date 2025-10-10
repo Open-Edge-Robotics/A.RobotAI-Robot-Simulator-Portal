@@ -7,13 +7,13 @@ import { PATTERN_CONFIGS } from "@/constants/simulation";
 
 import type { PatternType } from "@/types/simulation/domain";
 import type { PatternGroupDetail } from "@/types/simulation/groupDetail";
-import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
+import type { GetStatusResponse } from "@/types/simulation/statusResult";
 
 import GroupBody from "./GroupBody";
 import GroupHeader from "./GroupHeader";
 
 interface StepMonitoringProps {
-  result: GetStatusResponseFinal["execution"];
+  result: GetStatusResponse["execution"];
 }
 
 export default function StepMonitoring({ result }: StepMonitoringProps) {

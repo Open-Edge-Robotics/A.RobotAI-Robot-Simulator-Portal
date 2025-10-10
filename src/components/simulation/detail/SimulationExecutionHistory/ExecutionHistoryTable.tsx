@@ -10,7 +10,10 @@ import { POLLING_REQUIRED_STATUSES, STATUS_CONFIGS } from "@/constants/simulatio
 import { useSimulationExecutionRecord } from "@/hooks/simulation/detail/useSimulationExecutionRecord";
 
 import type { SimulationExecutionRecord } from "@/types/simulation/domain";
-import type { GetParallelRunningStatusResult, GetSequentialRunningStatusResult } from "@/types/simulation/statusResult";
+import type {
+  GetParallelRunningStatusResponse,
+  GetSequentialRunningStatusResponse,
+} from "@/types/simulation/statusResult";
 
 import { formatDateTime } from "@/utils/common/formatting";
 
@@ -84,7 +87,9 @@ function TableBodyRow({ record }: TableBodyRowProps) {
 
   const displayStatus =
     liveStatus && isRunning
-      ? (liveStatus.data.execution.currentStatus as GetSequentialRunningStatusResult | GetParallelRunningStatusResult)
+      ? (liveStatus.data.execution.currentStatus as
+          | GetSequentialRunningStatusResponse
+          | GetParallelRunningStatusResponse)
       : currentStatus;
 
   return (

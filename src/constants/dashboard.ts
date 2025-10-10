@@ -1,8 +1,9 @@
-import type { SystemOverviewConfig, SystemOverviewData } from "@/types/dashboard/domain";
+import type { OverviewConfig } from "@/types/common";
+import type { SystemOverviewData } from "@/types/dashboard/domain";
 
 import { ICONS } from "./icon";
 
-export const SYSTEM_OVERVIEW_CONFIGS: Record<keyof Omit<SystemOverviewData, "timestamp">, SystemOverviewConfig> = {
+export const SYSTEM_OVERVIEW_CONFIGS: Record<keyof Omit<SystemOverviewData, "timestamp">, OverviewConfig> = {
   totalSimulations: {
     label: "전체 시뮬레이션 개수",
     iconName: ICONS.chart,

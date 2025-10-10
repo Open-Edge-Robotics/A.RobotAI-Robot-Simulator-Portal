@@ -1,11 +1,11 @@
 import { PATTERN_CONFIGS, STEPS_INFO } from "@/constants/simulation";
 
-import type { GetSimulationStaticResult } from "@/types/simulation/api";
+import type { GetSimulationStaticResponse } from "@/types/simulation/api";
 import type {
-  ParallelAgentGroup,
+  ParallelAgentGroupFormData,
   PatternType,
-  SequentialAgentGroup,
-  SimulationPattern,
+  SequentialAgentGroupFormData,
+  SimulationPatternFormData,
   StepInfo,
   SimulationCreationStep,
 } from "@/types/simulation/domain";
@@ -18,7 +18,7 @@ export const getCurrentStepInfo = (step: SimulationCreationStep, pattern: Patter
   return STEPS_INFO[step] as StepInfo;
 };
 
-const sequentialDefaultData: SequentialAgentGroup = {
+const sequentialDefaultData: SequentialAgentGroupFormData = {
   stepOrder: 1,
   templateId: null,
   autonomousAgentCount: 1,
@@ -27,7 +27,7 @@ const sequentialDefaultData: SequentialAgentGroup = {
   repeatCount: 1,
 };
 
-const parallelDefaultData: ParallelAgentGroup = {
+const parallelDefaultData: ParallelAgentGroupFormData = {
   templateId: null,
   autonomousAgentCount: 1,
   executionTime: 60,
@@ -35,7 +35,7 @@ const parallelDefaultData: ParallelAgentGroup = {
 };
 
 // 패턴 타입에 따른 기본 에이전트 그룹 데이터 반환
-export function getPatternDataWithDefaultAgentGroup(type: PatternType): SimulationPattern {
+export function getPatternDataWithDefaultAgentGroup(type: PatternType): SimulationPatternFormData {
   if (type === "sequential") {
     return { type: "sequential", agentGroups: [sequentialDefaultData] };
   }
@@ -43,7 +43,7 @@ export function getPatternDataWithDefaultAgentGroup(type: PatternType): Simulati
 }
 
 // 시뮬레이션 실행 개요 정보(패턴명, 그룹 수, 총 에이전트 수) 생성
-export const getExecutionOverview = (simulation: GetSimulationStaticResult) => {
+export const getExecutionOverview = (simulation: GetSimulationStaticResponse) => {
   switch (simulation.patternType) {
     case "sequential":
       return {

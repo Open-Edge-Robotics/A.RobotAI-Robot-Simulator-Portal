@@ -2,9 +2,9 @@ import type {
   AllowedParam,
   GroupExecutionDetailFormData,
   PeriodFilterOption,
-  ParallelAgentGroup,
+  ParallelAgentGroupFormData,
   PatternTypeFilterOption,
-  SequentialAgentGroup,
+  SequentialAgentGroupFormData,
   SimulationFormData,
   StatusFilterOption,
   SimulationCreationStep,
@@ -58,7 +58,7 @@ const MIN_EXECUTION_TIME = 60; // 초
 const MIN_REPEAT_COUNT = 1; // 회
 const MIN_DELAY_AFTER_COMPLETION = 0; // 초
 
-const validateAgentGroup = (group: SequentialAgentGroup | ParallelAgentGroup, groupNumber: number) => {
+const validateAgentGroup = (group: SequentialAgentGroupFormData | ParallelAgentGroupFormData, groupNumber: number) => {
   const groupLabel = `${groupNumber}번 그룹`;
 
   if (!group.templateId) {
@@ -375,7 +375,7 @@ export const validatePatternGroupForm = (formData: GroupExecutionDetailFormData)
   // 검증 규칙 정의
   const validations = [
     () => validateObjectField(formData.template, "템플릿"),
-    () => validateNumberField(formData.autonomousAgentCount, "자율행동체 수", MIN_AGENT_COUNT),
+    () => validateNumberField(formData.autonomousAgentCount, "가상 자율행동체 수", MIN_AGENT_COUNT),
     () => validateNumberField(formData.executionTime, "실행 시간", MIN_EXECUTION_TIME),
     () => validateNumberField(formData.repeatCount, "반복 횟수", MIN_REPEAT_COUNT),
   ];

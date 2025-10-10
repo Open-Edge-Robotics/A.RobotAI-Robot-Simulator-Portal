@@ -35,7 +35,7 @@ const createTimeFields = {
 export function getFieldConfigs(group: PatternGroupDetail, lastUpdatedAt: string): FieldConfig[] {
   const baseFields: FieldConfig[] = [
     { label: "상태", value: STATUS_CONFIGS[group.status].text },
-    { label: "자율행동체 수", value: group.autonomousAgents.toString() },
+    { label: "가상 자율행동체 수", value: group.autonomousAgents.toString() },
     { label: "반복 횟수", value: `${group.currentRepeat}/${group.totalRepeats}` },
   ];
 

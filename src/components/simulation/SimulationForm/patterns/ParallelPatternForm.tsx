@@ -3,7 +3,7 @@ import { Button } from "innogrid-ui";
 import Container from "@/components/common/Container.tsx";
 import Icon from "@/components/common/Icon";
 
-import type { ParallelAgentGroup } from "@/types/simulation/domain";
+import type { ParallelAgentGroupFormData } from "@/types/simulation/domain";
 import type { TemplateLite } from "@/types/template/domain";
 
 import ParallelAgentGroupRow from "./ParallelAgentGroupRow";
@@ -11,8 +11,8 @@ import ParallelAgentGroupRow from "./ParallelAgentGroupRow";
 // 병렬 패턴 폼 컴포넌트
 interface ParallelPatternFormProps {
   templateList: TemplateLite[];
-  agentGroups: ParallelAgentGroup[];
-  onChangeAgentGroups: (agentGroups: ParallelAgentGroup[]) => void;
+  agentGroups: ParallelAgentGroupFormData[];
+  onChangeAgentGroups: (agentGroups: ParallelAgentGroupFormData[]) => void;
 }
 
 export default function ParallelPatternForm({
@@ -22,7 +22,7 @@ export default function ParallelPatternForm({
 }: ParallelPatternFormProps) {
   // 새 가상 자율행동체 그룹 추가
   const handleAddNewAgentGroup = () => {
-    const newAgentGroup: ParallelAgentGroup = {
+    const newAgentGroup: ParallelAgentGroupFormData = {
       templateId: null,
       autonomousAgentCount: 1,
       executionTime: 60,
@@ -40,10 +40,10 @@ export default function ParallelPatternForm({
   };
 
   // 가상 자율행동체 그룹 업데이트
-  const handleUpdateAgentGroup = <K extends keyof ParallelAgentGroup>(
+  const handleUpdateAgentGroup = <K extends keyof ParallelAgentGroupFormData>(
     index: number,
     field: K,
-    value: ParallelAgentGroup[K],
+    value: ParallelAgentGroupFormData[K],
   ) => {
     const updatedGroups = agentGroups.map((group, i) => (i === index ? { ...group, [field]: value } : group));
     onChangeAgentGroups(updatedGroups);

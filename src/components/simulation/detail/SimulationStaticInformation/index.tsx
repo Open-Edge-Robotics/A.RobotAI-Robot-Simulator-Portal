@@ -10,7 +10,7 @@ import { ALLOWED_ACTIONS_BY_STATUS } from "@/constants/simulation";
 import { useDeleteSimulation } from "@/hooks/simulation/core/useDeleteSimulation";
 import { useStartSimulation } from "@/hooks/simulation/detail/useStartSimulation";
 
-import type { GetSimulationStaticResult } from "@/types/simulation/api";
+import type { GetSimulationStaticResponse } from "@/types/simulation/api";
 
 import { getExecutionOverview } from "@/utils/simulation/data";
 import { executionPlanToGroupDetail } from "@/utils/simulation/mappers";
@@ -21,7 +21,7 @@ import SimulationInformation from "./SimulationInformation";
 import { DeleteButton, StartButton } from "../../SimulationActionButtons";
 
 interface SimulationSpecificationProps {
-  simulation: GetSimulationStaticResult;
+  simulation: GetSimulationStaticResponse;
   editMode: boolean;
   toggleEditMode: () => void;
 }
@@ -62,7 +62,7 @@ export default function SimulationStaticInformation({
 }
 
 interface HeaderProps {
-  simulation: GetSimulationStaticResult;
+  simulation: GetSimulationStaticResponse;
   editMode: boolean;
   toggleEditMode: () => void;
 }

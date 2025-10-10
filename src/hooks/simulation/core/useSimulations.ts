@@ -5,7 +5,7 @@ import { simulationAPI } from "@/apis/simulation";
 import { QUERY_KEYS } from "@/constants/api";
 
 import type { APIResponse } from "@/types/api";
-import type { GetSimulationsResult } from "@/types/simulation/api";
+import type { GetSimulationsResponse } from "@/types/simulation/api";
 import type { PeriodFilterOption } from "@/types/simulation/domain";
 
 import { getDaysAgo } from "@/utils/common/date";
@@ -14,7 +14,7 @@ import { formatDateToYYYYMMDD } from "@/utils/common/formatting";
 const REFETCH_INTERVAL_MS = 30000; // 30초
 
 export function useSimulations(searchParams: URLSearchParams) {
-  return useQuery<APIResponse<GetSimulationsResult>>({
+  return useQuery<APIResponse<GetSimulationsResponse>>({
     queryKey: [...QUERY_KEYS.simulation.list("full", searchParams)],
     queryFn: () => simulationAPI.getSimulations(buildAPIParams(searchParams)),
     refetchInterval: REFETCH_INTERVAL_MS,

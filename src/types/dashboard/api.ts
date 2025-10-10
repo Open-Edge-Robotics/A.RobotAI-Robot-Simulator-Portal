@@ -1,9 +1,7 @@
-import type { Timestamp } from "../common";
-
-export interface GetDashboardOverviewResult {
+export interface GetDashboardOverviewResponse {
   totalSimulations: number;
   runningSimulations: number;
   totalMec: number;
   totalInstances: number;
-  timestamp: Timestamp;
+  timestamp: string;
 }

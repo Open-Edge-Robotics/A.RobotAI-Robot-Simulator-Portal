@@ -6,7 +6,7 @@ import { QUERY_KEYS } from "@/constants/api";
 import { POLLING_REQUIRED_STATUSES, SIMULATION_STATUS_REFETCH_INTERVAL_MS } from "@/constants/simulation";
 
 import type { APIResponse } from "@/types/api";
-import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
+import type { GetStatusResponse } from "@/types/simulation/statusResult";
 
 export function useSimulationExecutionRecord(simulationId: number, executionId: number, enabled: boolean = true) {
   const queryClient = useQueryClient();
@@ -15,7 +15,7 @@ export function useSimulationExecutionRecord(simulationId: number, executionId: 
     queryKey: QUERY_KEYS.simulation.byExecutionId(simulationId, executionId),
     queryFn: async () => {
       // 이전 상태 데이터 가져오기
-      const previousData = queryClient.getQueryData<APIResponse<GetStatusResponseFinal>>(
+      const previousData = queryClient.getQueryData<APIResponse<GetStatusResponse>>(
         QUERY_KEYS.simulation.byExecutionId(simulationId, executionId),
       );
 

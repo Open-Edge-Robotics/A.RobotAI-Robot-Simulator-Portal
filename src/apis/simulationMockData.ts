@@ -1,13 +1,13 @@
 import type {
-  GetSimulationExecutionHistoryResult,
-  GetSimulationsResult,
-  GetSimulationStaticResult,
-  GetSimulationSummaryResult,
+  GetSimulationExecutionHistoryResponse,
+  GetSimulationsResponse,
+  GetSimulationStaticResponse,
+  GetSimulationSummaryResponse,
 } from "@/types/simulation/api";
-import type { GetStatusResponseFinal } from "@/types/simulation/statusResult";
+import type { GetStatusResponse } from "@/types/simulation/statusResult";
 
 // Sequential Pattern Mock Data
-export const mockSimulationSequentialPending: GetSimulationStaticResult = {
+export const mockSimulationSequentialPending: GetSimulationStaticResponse = {
   simulationId: 12345,
   simulationName: "IoT Device Load Test Simulation",
   simulationDescription: "IoT 디바이스의 부하 테스트를 위한 순차적 실행 시뮬레이션",
@@ -61,7 +61,7 @@ export const mockSimulationSequentialPending: GetSimulationStaticResult = {
 };
 
 // Parallel Pattern Mock Data
-export const mockSimulationParallelRunning: GetSimulationStaticResult = {
+export const mockSimulationParallelRunning: GetSimulationStaticResponse = {
   simulationId: 67890,
   simulationName: "Multi-Service Parallel Test",
   simulationDescription: "여러 서비스의 동시 부하 테스트를 위한 병렬 실행 시뮬레이션",
@@ -113,7 +113,7 @@ export const mockSimulationParallelRunning: GetSimulationStaticResult = {
   },
 };
 
-export const mockSimulationParallelCompleted: GetSimulationStaticResult = {
+export const mockSimulationParallelCompleted: GetSimulationStaticResponse = {
   simulationId: 78901,
   simulationName: "E-Commerce Platform Load Test",
   simulationDescription: "온라인 쇼핑몰의 주요 기능들에 대한 종합적인 부하 테스트 완료",
@@ -194,7 +194,7 @@ export const mockSimulationsLite = [
   },
 ];
 
-export const mockSimulationSummaryData: GetSimulationSummaryResult = {
+export const mockSimulationSummaryData: GetSimulationSummaryResponse = {
   simulationId: 12345,
   simulationName: "대규모 트래픽 시뮬레이션 v2.1",
   latestExecutionStatus: "RUNNING",
@@ -220,7 +220,7 @@ export const mockSimulationSummaryData: GetSimulationSummaryResult = {
 };
 
 // 1. INITIATING (생성 중) - 순차
-export const mockInitiatingSequential: GetSimulationSummaryResult = {
+export const mockInitiatingSequential: GetSimulationSummaryResponse = {
   simulationId: 1,
   simulationName: "순차 시뮬레이션 예시",
   latestExecutionStatus: "INITIATING",
@@ -240,7 +240,7 @@ export const mockInitiatingSequential: GetSimulationSummaryResult = {
 };
 
 // 1. INITIATING (생성 중) - 병렬
-export const mockInitiatingParallel: GetSimulationSummaryResult = {
+export const mockInitiatingParallel: GetSimulationSummaryResponse = {
   simulationId: 2,
   simulationName: "병렬 시뮬레이션 예시",
   latestExecutionStatus: "INITIATING",
@@ -260,7 +260,7 @@ export const mockInitiatingParallel: GetSimulationSummaryResult = {
 };
 
 // 2. PENDING (대기 중) - 순차
-export const mockPendingSequential: GetSimulationSummaryResult = {
+export const mockPendingSequential: GetSimulationSummaryResponse = {
   simulationId: 3,
   simulationName: "순차 대기 시뮬레이션",
   latestExecutionStatus: "PENDING",
@@ -286,7 +286,7 @@ export const mockPendingSequential: GetSimulationSummaryResult = {
 };
 
 // 2. PENDING (대기 중) - 병렬
-export const mockPendingParallel: GetSimulationSummaryResult = {
+export const mockPendingParallel: GetSimulationSummaryResponse = {
   simulationId: 4,
   simulationName: "병렬 대기 시뮬레이션",
   latestExecutionStatus: "PENDING",
@@ -312,7 +312,7 @@ export const mockPendingParallel: GetSimulationSummaryResult = {
 };
 
 // 3. RUNNING (실행 중) - 순차
-export const mockRunningSequential: GetSimulationSummaryResult = {
+export const mockRunningSequential: GetSimulationSummaryResponse = {
   simulationId: 5,
   simulationName: "순차 실행 중 시뮬레이션",
   latestExecutionStatus: "RUNNING",
@@ -338,7 +338,7 @@ export const mockRunningSequential: GetSimulationSummaryResult = {
 };
 
 // 3. RUNNING (실행 중) - 병렬
-export const mockRunningParallel: GetSimulationSummaryResult = {
+export const mockRunningParallel: GetSimulationSummaryResponse = {
   simulationId: 6,
   simulationName: "병렬 실행 중 시뮬레이션",
   latestExecutionStatus: "RUNNING",
@@ -364,7 +364,7 @@ export const mockRunningParallel: GetSimulationSummaryResult = {
 };
 
 // 4. COMPLETED (완료) - 순차
-export const mockCompletedSequential: GetSimulationSummaryResult = {
+export const mockCompletedSequential: GetSimulationSummaryResponse = {
   simulationId: 7,
   simulationName: "순차 완료 시뮬레이션",
   latestExecutionStatus: "COMPLETED",
@@ -390,7 +390,7 @@ export const mockCompletedSequential: GetSimulationSummaryResult = {
 };
 
 // 4. COMPLETED (완료) - 병렬
-export const mockCompletedParallel: GetSimulationSummaryResult = {
+export const mockCompletedParallel: GetSimulationSummaryResponse = {
   simulationId: 8,
   simulationName: "병렬 완료 시뮬레이션",
   latestExecutionStatus: "COMPLETED",
@@ -416,7 +416,7 @@ export const mockCompletedParallel: GetSimulationSummaryResult = {
 };
 
 // 5. FAILED (오류) - 병렬
-export const mockFailedParallel: GetSimulationSummaryResult = {
+export const mockFailedParallel: GetSimulationSummaryResponse = {
   simulationId: 9,
   simulationName: "병렬 오류 시뮬레이션",
   latestExecutionStatus: "FAILED",
@@ -442,7 +442,7 @@ export const mockFailedParallel: GetSimulationSummaryResult = {
 };
 
 // 5. FAILED (오류) - 순차
-export const mockFailedSequential: GetSimulationSummaryResult = {
+export const mockFailedSequential: GetSimulationSummaryResponse = {
   simulationId: 10,
   simulationName: "순차 오류 시뮬레이션",
   latestExecutionStatus: "FAILED",
@@ -467,7 +467,7 @@ export const mockFailedSequential: GetSimulationSummaryResult = {
   },
 };
 
-export const mockSimulations: GetSimulationsResult = {
+export const mockSimulations: GetSimulationsResponse = {
   overview: {
     total: 5,
     pending: 1,
@@ -481,6 +481,7 @@ export const mockSimulations: GetSimulationsResult = {
       simulationName: "Traffic Flow Analysis",
       patternType: "sequential",
       latestExecutionStatus: "RUNNING",
+      status: "RUNNING",
       mecId: "mec-001",
       createdAt: "2024-08-15T09:00:00Z",
       updatedAt: "2024-08-15T11:20:15Z",
@@ -490,6 +491,7 @@ export const mockSimulations: GetSimulationsResult = {
       simulationName: "Smart Grid Optimization",
       patternType: "parallel",
       latestExecutionStatus: "COMPLETED",
+      status: "COMPLETED",
       mecId: "mec-002",
       createdAt: "2024-08-10T13:25:00Z",
       updatedAt: "2024-08-10T15:40:00Z",
@@ -499,6 +501,7 @@ export const mockSimulations: GetSimulationsResult = {
       simulationName: "Autonomous Vehicle Test",
       patternType: "sequential",
       latestExecutionStatus: "FAILED",
+      status: "FAILED",
       mecId: "mec-003",
       createdAt: "2024-08-12T08:00:00Z",
       updatedAt: "2024-08-12T09:10:00Z",
@@ -508,6 +511,7 @@ export const mockSimulations: GetSimulationsResult = {
       simulationName: "Drone Delivery Pathfinding",
       patternType: "parallel",
       latestExecutionStatus: "PENDING",
+      status: "PENDING",
       mecId: "mec-004",
       createdAt: "2024-08-16T10:00:00Z",
       updatedAt: "2024-08-16T10:00:00Z",
@@ -517,6 +521,7 @@ export const mockSimulations: GetSimulationsResult = {
       simulationName: "Energy Consumption Forecast",
       patternType: "sequential",
       latestExecutionStatus: "RUNNING",
+      status: "RUNNING",
       mecId: "mec-005",
       createdAt: "2024-08-17T09:30:00Z",
       updatedAt: "2024-08-17T11:00:00Z",
@@ -535,7 +540,7 @@ export const mockSimulations: GetSimulationsResult = {
 // ------------ Status Mock Data ---------------
 
 // 🔹 INITIATING 상태
-export const mockSequentialInitiatingStatus: GetStatusResponseFinal = {
+export const mockSequentialInitiatingStatus: GetStatusResponse = {
   execution: {
     executionId: 23,
     simulationId: 1,
@@ -551,7 +556,7 @@ export const mockSequentialInitiatingStatus: GetStatusResponseFinal = {
   },
 };
 
-export const mockParallelInitiatingStatus: GetStatusResponseFinal = {
+export const mockParallelInitiatingStatus: GetStatusResponse = {
   execution: {
     executionId: 1001,
     simulationId: 7,
@@ -568,7 +573,7 @@ export const mockParallelInitiatingStatus: GetStatusResponseFinal = {
 };
 
 // 🔹 PENDING 상태
-export const mockSequentialPendingStatus: GetStatusResponseFinal = {
+export const mockSequentialPendingStatus: GetStatusResponse = {
   execution: {
     executionId: 45,
     simulationId: 2,
@@ -595,7 +600,7 @@ export const mockSequentialPendingStatus: GetStatusResponseFinal = {
   },
 };
 
-export const mockParallelPendingStatus: GetStatusResponseFinal = {
+export const mockParallelPendingStatus: GetStatusResponse = {
   execution: {
     executionId: 78,
     simulationId: 8,
@@ -623,7 +628,7 @@ export const mockParallelPendingStatus: GetStatusResponseFinal = {
 };
 
 // 🔹 RUNNING 상태
-export const mockSequentialRunningStatus: GetStatusResponseFinal = {
+export const mockSequentialRunningStatus: GetStatusResponse = {
   execution: {
     executionId: 56,
     simulationId: 3,
@@ -669,7 +674,7 @@ export const mockSequentialRunningStatus: GetStatusResponseFinal = {
   },
 };
 
-export const mockParallelRunningStatus: GetStatusResponseFinal = {
+export const mockParallelRunningStatus: GetStatusResponse = {
   execution: {
     executionId: 89,
     simulationId: 9,
@@ -715,7 +720,7 @@ export const mockParallelRunningStatus: GetStatusResponseFinal = {
 };
 
 // 🔹 COMPLETED 상태
-export const mockSequentialCompletedStatus: GetStatusResponseFinal = {
+export const mockSequentialCompletedStatus: GetStatusResponse = {
   execution: {
     executionId: 78,
     simulationId: 4,
@@ -770,7 +775,7 @@ export const mockSequentialCompletedStatus: GetStatusResponseFinal = {
   },
 };
 
-export const mockParallelCompletedStatus: GetStatusResponseFinal = {
+export const mockParallelCompletedStatus: GetStatusResponse = {
   execution: {
     executionId: 90,
     simulationId: 10,
@@ -826,7 +831,7 @@ export const mockParallelCompletedStatus: GetStatusResponseFinal = {
 };
 
 // 🔹 FAILED 상태
-export const mockSequentialFailedStatus: GetStatusResponseFinal = {
+export const mockSequentialFailedStatus: GetStatusResponse = {
   execution: {
     executionId: 57,
     simulationId: 5,
@@ -875,7 +880,7 @@ export const mockSequentialFailedStatus: GetStatusResponseFinal = {
   },
 };
 
-export const mockParallelFailedStatus: GetStatusResponseFinal = {
+export const mockParallelFailedStatus: GetStatusResponse = {
   execution: {
     executionId: 91,
     simulationId: 11,
@@ -924,7 +929,7 @@ export const mockParallelFailedStatus: GetStatusResponseFinal = {
 };
 
 // 🔹 STOPPED 상태
-export const mockSequentialStoppedStatus: GetStatusResponseFinal = {
+export const mockSequentialStoppedStatus: GetStatusResponse = {
   execution: {
     executionId: 60,
     simulationId: 6,
@@ -972,7 +977,7 @@ export const mockSequentialStoppedStatus: GetStatusResponseFinal = {
   },
 };
 
-export const mockParallelStoppedStatus: GetStatusResponseFinal = {
+export const mockParallelStoppedStatus: GetStatusResponse = {
   execution: {
     executionId: 92,
     simulationId: 12,
@@ -1028,7 +1033,7 @@ export const mockStatusData = {
   stopped: { sequential: mockSequentialStoppedStatus, parallel: mockParallelStoppedStatus },
 };
 
-export const mockExecutionHistoryData: GetSimulationExecutionHistoryResult = {
+export const mockExecutionHistoryData: GetSimulationExecutionHistoryResponse = {
   executions: [
     // 4회차 실행: RUNNING (현재 진행중)
     {

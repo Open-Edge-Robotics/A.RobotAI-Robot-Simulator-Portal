@@ -3,7 +3,6 @@ import Title from "@/components/common/Title";
 
 import { ICONS } from "@/constants/icon";
 
-import type { Timestamp } from "@/types/common";
 import type { SystemOverviewData } from "@/types/dashboard/domain";
 
 import { formatDateTime } from "@/utils/common/formatting";
@@ -31,7 +30,7 @@ export default function SystemOverviewSection({ overview, refetch }: SystemOverv
 }
 
 interface SystemOverviewSectionHeaderProps {
-  timestamp?: Timestamp;
+  timestamp?: string;
   onRefreshClick: () => void;
 }
 
