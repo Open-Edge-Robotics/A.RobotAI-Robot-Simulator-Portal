@@ -5,6 +5,7 @@ import { API_BASE_URL, API_DEFAULT_TIMEOUT, ENDPOINTS } from "@/constants/api";
 import type { APIResponse } from "@/types/api";
 
 import { clearAuthData, getAccessToken, updateAccessToken } from "@/utils/auth/storage";
+import { errorToast } from "@/utils/common/toast";
 
 type Url = string;
 
@@ -40,8 +41,8 @@ instance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // 401이나 403 에러이고, 재시도하지 않은 요청인 경우
-    if ([401, 403].includes(error.response?.status) && !originalRequest._retry) {
+    // 403 에러이고, 재시도하지 않은 요청인 경우
+    if ([403].includes(error.response?.status) && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
@@ -65,7 +66,7 @@ instance.interceptors.response.use(
       } catch (refreshError) {
         // Refresh Token도 만료된 경우 로그아웃 처리
         clearAuthData();
-        window.location.href = "/login";
+        errorToast("세션이 만료되었습니다. 다시 로그인해주세요.");
         return Promise.reject(refreshError);
       }
     }
