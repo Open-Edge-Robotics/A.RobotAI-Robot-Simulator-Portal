@@ -14,7 +14,7 @@ import SimulationStaticInformation from "@/components/simulation/detail/Simulati
 
 import { ICONS } from "@/constants/icon";
 import { SEGMENTS } from "@/constants/navigation";
-import { DELETING_STATUSES, POLLING_REQUIRED_STATUSES, SIMULATION_REFETCH_INTERVAL_MS } from "@/constants/simulation";
+import { DELETING_STATUSES, POLLING_REQUIRED_STATUSES } from "@/constants/simulation";
 
 import { useSimulationDetail } from "@/hooks/simulation/detail/useSimulationDetail";
 
@@ -39,29 +39,24 @@ export default function SimulationDetailPage() {
 
 function SimulationDetailPageContent({ id }: { id: number }) {
   const [editMode, toggleEditMode] = useReducer((x) => !x, false);
-  const { status, data, refetch } = useSimulationDetail(id, {
-    refetchInterval: (query) => {
-      const data = query.state.data;
-
-      // 데이터가 없으면 polling 계속
-      if (!data) return SIMULATION_REFETCH_INTERVAL_MS;
-
-      const status = data.data.latestExecutionStatus.status;
-
-      // PENDING, RUNNING 상태면 1분마다 polling
-      if (!editMode && POLLING_REQUIRED_STATUSES.includes(status)) {
-        return SIMULATION_REFETCH_INTERVAL_MS;
-      }
-
-      return false;
-    },
-  });
+  const { status, data, refetch, error } = useSimulationDetail(id, !editMode);
 
   if (status === "pending") {
     return <LoadingFallback message="시뮬레이션 정보를 불러오는 중입니다." />;
   }
 
   if (status === "error") {
+    // 404 에러인 경우 별도 처리
+    if (error.response?.status === 404) {
+      return (
+        <ErrorFallback
+          message="시뮬레이션을 찾을 수 없습니다."
+          subMessage="삭제되었거나 존재하지 않는 시뮬레이션입니다."
+          showBackButton
+        />
+      );
+    }
+
     return (
       <ErrorFallback
         onRetry={refetch}

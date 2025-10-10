@@ -123,7 +123,6 @@ export const STATUS_CONFIGS: Record<SimulationStatus, SimulationStatusConfig> = 
   },
 } as const;
 
-// TODO: DELETED 상태 제외
 // Pod Status별 설정 상수
 export const POD_STATUS_CONFIGS: Record<PodStatus, PodStatusConfig> = {
   PENDING: {
@@ -259,7 +258,6 @@ export const ALLOWED_ACTIONS_BY_STATUS: Record<SimulationStatus, SimulationActio
 
 // ========== 필터 옵션 ==========
 
-// TODO: 이거 활용해서 config랑 type 만들기
 export const FILTER_OPTIONS = {
   status: [
     { value: "", label: "전체 상태" },
