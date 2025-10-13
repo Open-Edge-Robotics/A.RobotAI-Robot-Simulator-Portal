@@ -3,6 +3,7 @@ import { TABLE_GRID_COLS } from ".";
 export default function TableHeader() {
   return (
     <div className={`bg-gray-25 grid ${TABLE_GRID_COLS}`}>
+      <TableHeaderCell>ID</TableHeaderCell>
       <TableHeaderCell>시뮬레이션 이름</TableHeaderCell>
       <TableHeaderCell justifyCenter>상태</TableHeaderCell>
       <TableHeaderCell>실행 패턴</TableHeaderCell>

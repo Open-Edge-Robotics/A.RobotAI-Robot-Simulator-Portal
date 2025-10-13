@@ -38,6 +38,7 @@ function TableBodyRow({ simulation }: TableBodyRowProps) {
   return (
     <Link to={`${simulation.simulationId}`}>
       <li key={simulation.simulationId} className={`hover:bg-gray-10 grid ${TABLE_GRID_COLS}`}>
+        <TableBodyCell>{simulation.simulationId}</TableBodyCell>
         <TableBodyCell>{simulation.simulationName}</TableBodyCell>
         <TableBodyCell justifyCenter>
           <StatusBadge status={simulation.status} />
