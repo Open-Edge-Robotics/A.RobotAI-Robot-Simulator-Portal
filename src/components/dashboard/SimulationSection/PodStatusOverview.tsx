@@ -12,11 +12,11 @@ interface PodStatusOverviewProps {
 }
 
 const STATUS_BREAKDOWN_DEFAULT_DATA: PodStatusBreakdownData = {
-  PENDING: { count: 0, percentage: 0 },
-  RUNNING: { count: 0, percentage: 0 },
-  SUCCESS: { count: 0, percentage: 0 },
-  FAILED: { count: 0, percentage: 0 },
-  STOPPED: { count: 0, percentage: 0 },
+  pending: { count: 0, percentage: 0 },
+  running: { count: 0, percentage: 0 },
+  success: { count: 0, percentage: 0 },
+  failed: { count: 0, percentage: 0 },
+  stopped: { count: 0, percentage: 0 },
 };
 
 export default function PodStatusOverview({ pods }: PodStatusOverviewProps) {

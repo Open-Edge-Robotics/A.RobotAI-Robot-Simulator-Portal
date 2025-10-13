@@ -2,7 +2,7 @@ import type { ALLOWED_PARAMS, FILTER_OPTIONS, SIMULATION_ACTION_TYPES } from "@/
 
 import type { CreatePatternGroupRequest, DeletePatternGroupRequest, UpdatePatternGroupRequest } from "./api";
 import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
-import type { GetParallelStatusResponse, GetSequentialStatusResponse } from "./statusResult";
+import type { ParallelStatusResponse, SequentialStatusResponse } from "./executionRecord";
 import type { TemplateLite } from "../template/domain";
 
 // ========== 기본 엔티티 타입 ==========
@@ -44,7 +44,7 @@ export type PatternGroupStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED" 
 export type SimulationCreationStep = 1 | 2 | 3 | 4;
 export type PatternType = "sequential" | "parallel";
 export type SimulationActionType = (typeof SIMULATION_ACTION_TYPES)[number];
-export type PodStatus = "PENDING" | "RUNNING" | "SUCCESS" | "FAILED" | "STOPPED";
+export type PodStatus = "pending" | "running" | "success" | "failed" | "stopped";
 
 interface BaseAgentGroupFormData {
   templateId: number | null;
@@ -223,10 +223,10 @@ export type SimulationExecutionRecord = {
 } & (
   | {
       patternType: "sequential";
-      currentStatus: RemoveDetails<Extract<GetSequentialStatusResponse, { status: SimulationExecutionHistoryStatus }>>;
+      currentStatus: RemoveDetails<Extract<SequentialStatusResponse, { status: SimulationExecutionHistoryStatus }>>;
     }
   | {
       patternType: "parallel";
-      currentStatus: RemoveDetails<Extract<GetParallelStatusResponse, { status: SimulationExecutionHistoryStatus }>>;
+      currentStatus: RemoveDetails<Extract<ParallelStatusResponse, { status: SimulationExecutionHistoryStatus }>>;
     }
 );

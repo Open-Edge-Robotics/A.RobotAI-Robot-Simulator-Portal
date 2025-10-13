@@ -36,7 +36,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         }
       } catch (error) {
         // 검증 실패 (만료, 유효하지 않음 등) - Refresh Token으로 갱신 시도
-        console.error("Token verification failed:", error);
+        console.log("Token verification failed (retry with refresh token):", error);
         await refreshTokenAndVerify(storedUser);
       }
     };
@@ -65,7 +65,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         }
       } catch (refreshError) {
         // Refresh Token도 만료되었거나 갱신 실패
-        console.error("Token refresh failed:", refreshError);
+        console.error("Token refresh failed (clear all auth data):", refreshError);
         clearAuthData();
       }
     };

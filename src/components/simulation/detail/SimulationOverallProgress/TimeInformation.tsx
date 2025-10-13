@@ -1,11 +1,11 @@
-import type { GetStatusResponse } from "@/types/simulation/statusResult";
+import type { GetExecutionRecordResponse } from "@/types/simulation/executionRecord";
 
 import { getField } from "@/utils/common/field";
 import { formatDateTime, formatMsToGeneralForm } from "@/utils/common/formatting";
 
 interface TimeInformationProps {
-  status: GetStatusResponse["execution"]["currentStatus"]["status"];
-  timestamps: GetStatusResponse["execution"]["currentStatus"]["timestamps"];
+  status: GetExecutionRecordResponse["execution"]["currentStatus"]["status"];
+  timestamps: GetExecutionRecordResponse["execution"]["currentStatus"]["timestamps"];
 }
 export default function TimeInformation({ status, timestamps }: TimeInformationProps) {
   const hasStartTime = "startedAt" in timestamps;
@@ -44,8 +44,8 @@ export default function TimeInformation({ status, timestamps }: TimeInformationP
 
 // 상태별 종료 시간 추출
 function getEndedAt(
-  status: GetStatusResponse["execution"]["currentStatus"]["status"],
-  timestamps: GetStatusResponse["execution"]["currentStatus"]["timestamps"],
+  status: GetExecutionRecordResponse["execution"]["currentStatus"]["status"],
+  timestamps: GetExecutionRecordResponse["execution"]["currentStatus"]["timestamps"],
 ): string | null {
   switch (status) {
     case "COMPLETED":

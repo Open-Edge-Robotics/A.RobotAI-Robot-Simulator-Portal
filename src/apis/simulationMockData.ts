@@ -4,7 +4,7 @@ import type {
   GetSimulationStaticResponse,
   GetSimulationSummaryResponse,
 } from "@/types/simulation/api";
-import type { GetStatusResponse } from "@/types/simulation/statusResult";
+import type { GetExecutionRecordResponse } from "@/types/simulation/executionRecord";
 
 // Sequential Pattern Mock Data
 export const mockSimulationSequentialPending: GetSimulationStaticResponse = {
@@ -540,7 +540,7 @@ export const mockSimulations: GetSimulationsResponse = {
 // ------------ Status Mock Data ---------------
 
 // 🔹 INITIATING 상태
-export const mockSequentialInitiatingStatus: GetStatusResponse = {
+export const mockSequentialInitiatingStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 23,
     simulationId: 1,
@@ -556,7 +556,7 @@ export const mockSequentialInitiatingStatus: GetStatusResponse = {
   },
 };
 
-export const mockParallelInitiatingStatus: GetStatusResponse = {
+export const mockParallelInitiatingStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 1001,
     simulationId: 7,
@@ -573,7 +573,7 @@ export const mockParallelInitiatingStatus: GetStatusResponse = {
 };
 
 // 🔹 PENDING 상태
-export const mockSequentialPendingStatus: GetStatusResponse = {
+export const mockSequentialPendingStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 45,
     simulationId: 2,
@@ -600,7 +600,7 @@ export const mockSequentialPendingStatus: GetStatusResponse = {
   },
 };
 
-export const mockParallelPendingStatus: GetStatusResponse = {
+export const mockParallelPendingStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 78,
     simulationId: 8,
@@ -628,7 +628,7 @@ export const mockParallelPendingStatus: GetStatusResponse = {
 };
 
 // 🔹 RUNNING 상태
-export const mockSequentialRunningStatus: GetStatusResponse = {
+export const mockSequentialRunningStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 56,
     simulationId: 3,
@@ -674,7 +674,7 @@ export const mockSequentialRunningStatus: GetStatusResponse = {
   },
 };
 
-export const mockParallelRunningStatus: GetStatusResponse = {
+export const mockParallelRunningStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 89,
     simulationId: 9,
@@ -720,7 +720,7 @@ export const mockParallelRunningStatus: GetStatusResponse = {
 };
 
 // 🔹 COMPLETED 상태
-export const mockSequentialCompletedStatus: GetStatusResponse = {
+export const mockSequentialCompletedStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 78,
     simulationId: 4,
@@ -775,7 +775,7 @@ export const mockSequentialCompletedStatus: GetStatusResponse = {
   },
 };
 
-export const mockParallelCompletedStatus: GetStatusResponse = {
+export const mockParallelCompletedStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 90,
     simulationId: 10,
@@ -831,7 +831,7 @@ export const mockParallelCompletedStatus: GetStatusResponse = {
 };
 
 // 🔹 FAILED 상태
-export const mockSequentialFailedStatus: GetStatusResponse = {
+export const mockSequentialFailedStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 57,
     simulationId: 5,
@@ -880,7 +880,7 @@ export const mockSequentialFailedStatus: GetStatusResponse = {
   },
 };
 
-export const mockParallelFailedStatus: GetStatusResponse = {
+export const mockParallelFailedStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 91,
     simulationId: 11,
@@ -929,7 +929,7 @@ export const mockParallelFailedStatus: GetStatusResponse = {
 };
 
 // 🔹 STOPPED 상태
-export const mockSequentialStoppedStatus: GetStatusResponse = {
+export const mockSequentialStoppedStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 60,
     simulationId: 6,
@@ -977,7 +977,7 @@ export const mockSequentialStoppedStatus: GetStatusResponse = {
   },
 };
 
-export const mockParallelStoppedStatus: GetStatusResponse = {
+export const mockParallelStoppedStatus: GetExecutionRecordResponse = {
   execution: {
     executionId: 92,
     simulationId: 12,

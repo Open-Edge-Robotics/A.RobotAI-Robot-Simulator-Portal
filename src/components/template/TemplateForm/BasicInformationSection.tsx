@@ -54,7 +54,7 @@ function NameFieldset({ name, onChange }: { name: string; onChange: (newName: st
 function TypeFieldset({ type, onChange }: { type: string; onChange: (newType: string) => void }) {
   return (
     <Fieldset>
-      <Label label="템플릿 타입" htmlFor="template-type" required />
+      <Label label="템플릿 유형" htmlFor="template-type" required />
       <Input
         id="template-type"
         type="text"

@@ -14,7 +14,7 @@ import type {
   UpdatePatternGroupRequest,
   GetSimulationExecutionHistoryResponse,
 } from "@/types/simulation/api";
-import type { GetStatusResponse } from "@/types/simulation/statusResult";
+import type { GetExecutionRecordResponse } from "@/types/simulation/executionRecord";
 
 import { apiClient } from ".";
 import {
@@ -85,12 +85,12 @@ export const simulationAPI = {
 
   // 시뮬레이션 동적 상태 조회
   getSimulationExecutionRecord: (simulationId: number, executionId: number) =>
-    apiClient.getApi<GetStatusResponse>(`${ENDPOINT}/${simulationId}/execution/${executionId}`),
+    apiClient.getApi<GetExecutionRecordResponse>(`${ENDPOINT}/${simulationId}/execution/${executionId}`),
 
   getMockSimulationExecutionRecord: (
     simulationId: number,
     executionId: number,
-  ): Promise<APIResponse<GetStatusResponse>> =>
+  ): Promise<APIResponse<GetExecutionRecordResponse>> =>
     Promise.resolve({
       status: "success",
       message: "시뮬레이션 상태를 성공적으로 조회했습니다.",

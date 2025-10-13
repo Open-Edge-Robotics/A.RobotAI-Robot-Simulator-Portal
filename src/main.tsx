@@ -26,7 +26,7 @@ createRoot(document.getElementById("root")!).render(
         </AuthProvider>
         <ToastContainer position="top-center" newestOnTop autoClose={3000} />
       </InnogridUIProvider>
-      <ReactQueryDevtools />
+      <ReactQueryDevtools buttonPosition="bottom-left" />
     </QueryClientProvider>
   </StrictMode>,
 );

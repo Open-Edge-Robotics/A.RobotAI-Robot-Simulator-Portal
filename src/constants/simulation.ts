@@ -125,35 +125,35 @@ export const STATUS_CONFIGS: Record<SimulationStatus, SimulationStatusConfig> = 
 
 // Pod Status별 설정 상수
 export const POD_STATUS_CONFIGS: Record<PodStatus, PodStatusConfig> = {
-  PENDING: {
+  pending: {
     bgColor: "bg-yellow-10",
     borderColor: "border-yellow-200",
     textColor: "text-yellow-700",
     highlightColor: "bg-yellow-500",
     text: "대기",
   },
-  RUNNING: {
+  running: {
     bgColor: "bg-blue-10",
     borderColor: "border-blue-200",
     textColor: "text-blue-700",
     highlightColor: "bg-blue-500",
     text: "실행중",
   },
-  SUCCESS: {
+  success: {
     bgColor: "bg-green-10",
     borderColor: "border-green-200",
     textColor: "text-green-700",
     highlightColor: "bg-green-500",
     text: "성공",
   },
-  FAILED: {
+  failed: {
     bgColor: "bg-red-10",
     borderColor: "border-red-200",
     textColor: "text-red-700",
     highlightColor: "bg-red-500",
     text: "실패",
   },
-  STOPPED: {
+  stopped: {
     bgColor: "bg-gray-10",
     borderColor: "border-gray-200",
     textColor: "text-gray-700",

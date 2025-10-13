@@ -10,10 +10,7 @@ import { POLLING_REQUIRED_STATUSES, STATUS_CONFIGS } from "@/constants/simulatio
 import { useSimulationExecutionRecord } from "@/hooks/simulation/detail/useSimulationExecutionRecord";
 
 import type { SimulationExecutionRecord } from "@/types/simulation/domain";
-import type {
-  GetParallelRunningStatusResponse,
-  GetSequentialRunningStatusResponse,
-} from "@/types/simulation/statusResult";
+import type { ParallelRunningStatus, SequentialRunningStatus } from "@/types/simulation/executionRecord";
 
 import { formatDateTime } from "@/utils/common/formatting";
 
@@ -87,9 +84,7 @@ function TableBodyRow({ record }: TableBodyRowProps) {
 
   const displayStatus =
     liveStatus && isRunning
-      ? (liveStatus.data.execution.currentStatus as
-          | GetSequentialRunningStatusResponse
-          | GetParallelRunningStatusResponse)
+      ? (liveStatus.data.execution.currentStatus as SequentialRunningStatus | ParallelRunningStatus)
       : currentStatus;
 
   return (
@@ -104,11 +99,11 @@ function TableBodyRow({ record }: TableBodyRowProps) {
         <TableBodyCell>
           <div className="flex grow flex-col items-end gap-1.5">
             <ProgressBar
-              progress={displayStatus.progress.overallProgress * 100}
+              progress={displayStatus.progress.overallProgress}
               color={STATUS_CONFIGS[displayStatus.status].highlightColor}
               className="w-full"
             />
-            <span>{displayStatus.progress.overallProgress * 100}%</span>
+            <span>{displayStatus.progress.overallProgress}%</span>
           </div>
         </TableBodyCell>
       </li>

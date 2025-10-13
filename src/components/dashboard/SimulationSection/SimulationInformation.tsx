@@ -14,7 +14,12 @@ interface SimulationInformationProps {
 export default function SimulationInformation({ simulation }: SimulationInformationProps) {
   return (
     <Container shadow className="grow p-6">
-      <Title title="시뮬레이션 정보" fontSize="text-xl" fontWeight="font-medium" margin="mb-2.5" />
+      <Title
+        title={`시뮬레이션 정보 (ID: ${simulation.simulationId})`}
+        fontSize="text-xl"
+        fontWeight="font-medium"
+        margin="mb-2.5"
+      />
       <div className="space-y-2">
         <LabeledValue label="상태:" containerClass="justify-between">
           <StatusBadge status={simulation.latestExecutionStatus} />
