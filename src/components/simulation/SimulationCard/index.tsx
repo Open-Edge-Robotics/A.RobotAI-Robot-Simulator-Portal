@@ -42,6 +42,7 @@ export default function SimulationCard({ simulation }: SimulationCardProps) {
       </div>
       {/* Card Details */}
       <div className="space-y-2 text-gray-500">
+        <LabeledValue label="ID" value={simulation.simulationId.toString()} containerClass="justify-between" />
         <LabeledValue
           label="실행 패턴"
           value={PATTERN_CONFIGS[simulation.patternType].title}
