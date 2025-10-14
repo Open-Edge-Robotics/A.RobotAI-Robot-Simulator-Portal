@@ -263,9 +263,7 @@ export const FILTER_OPTIONS = {
     { value: "", label: "전체 상태" },
     { value: "PENDING", label: "대기중" },
     { value: "RUNNING", label: "실행중" },
-    { value: "COMPLETED", label: "완료" },
-    { value: "FAILED", label: "실패" },
-    { value: "STOPPED", label: "중지" },
+    { value: "DELETED", label: "삭제됨" },
   ],
   patternType: [
     { value: "", label: "전체 패턴 타입" },
