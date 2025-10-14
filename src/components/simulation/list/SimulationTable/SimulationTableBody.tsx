@@ -11,7 +11,7 @@ import type { Simulation } from "@/types/simulation/domain";
 import { formatDateTime } from "@/utils/common/formatting";
 
 import { TABLE_GRID_COLS } from ".";
-import { StartButton } from "../SimulationActionButtons";
+import { StartButton } from "../../shared/SimulationActionButtons";
 
 interface TableBodyProps {
   simulations: Simulation[];

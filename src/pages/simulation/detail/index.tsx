@@ -8,7 +8,7 @@ import Icon from "@/components/common/Icon";
 import IconButton from "@/components/common/IconButton.tsx";
 import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
-import DeleteActionProgressFallback from "@/components/simulation/DeleteActionProgressFallback";
+import DeleteActionProgressFallback from "@/components/simulation/detail/DeleteActionProgressFallback";
 import SimulationExecutionHistory from "@/components/simulation/detail/SimulationExecutionHistory";
 import SimulationStaticInformation from "@/components/simulation/detail/SimulationStaticInformation";
 

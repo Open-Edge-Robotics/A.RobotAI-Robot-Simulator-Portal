@@ -18,7 +18,7 @@ import { executionPlanToGroupDetail } from "@/utils/simulation/mappers";
 import ExecutionConfiguration from "./ExecutionConfiguration";
 import GroupDetailConfiguration from "./GroupDetailConfiguration";
 import SimulationInformation from "./SimulationInformation";
-import { DeleteButton, StartButton } from "../../SimulationActionButtons";
+import { DeleteButton, StartButton } from "../../shared/SimulationActionButtons";
 
 interface SimulationSpecificationProps {
   simulation: GetSimulationStaticResponse;

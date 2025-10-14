@@ -1,6 +1,6 @@
 import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
 import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
-import SimulationHeader from "@/components/simulation/SimluationHeader";
+import SimulationHeader from "@/components/simulation/shared/SimluationHeader";
 import SimulationForm from "@/components/simulation/SimulationForm";
 
 import { useCreateSimulation } from "@/hooks/simulation/core/useCreateSimulation";

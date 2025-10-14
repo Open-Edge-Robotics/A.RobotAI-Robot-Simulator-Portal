@@ -7,8 +7,8 @@ import Icon from "@/components/common/Icon";
 import IconButton from "@/components/common/IconButton.tsx";
 import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
-import SimulationOverallProgress from "@/components/simulation/detail/SimulationOverallProgress";
-import StepMonitoring from "@/components/simulation/detail/StepMonitoring";
+import SimulationOverallProgress from "@/components/simulation/result/SimulationOverallProgress";
+import StepMonitoring from "@/components/simulation/result/StepMonitoring";
 
 import { ICONS } from "@/constants/icon";
 import { SEGMENTS } from "@/constants/navigation";

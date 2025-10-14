@@ -7,9 +7,9 @@ import Icon from "@/components/common/Icon";
 import LinkButton from "@/components/common/LinkButton";
 import Pagination from "@/components/common/Pagination";
 import Title from "@/components/common/Title";
-import SimulationFilterToolbar from "@/components/simulation/SimulationFilterToolbar";
-import SimulationList from "@/components/simulation/SimulationList";
-import SimulationOverview from "@/components/simulation/SimulationOverview";
+import SimulationFilterToolbar from "@/components/simulation/list/SimulationFilterToolbar";
+import SimulationList from "@/components/simulation/list/SimulationList";
+import SimulationOverview from "@/components/simulation/list/SimulationOverview";
 
 import { SEGMENTS } from "@/constants/navigation";
 

@@ -14,7 +14,7 @@ import { formatDateTime } from "@/utils/common/formatting";
 import ProgressIndicator from "./ProgressIndicator";
 import ProgressOverview from "./ProgressOverview";
 import TimeInformation from "./TimeInformation";
-import { StopButton } from "../../SimulationActionButtons";
+import { StopButton } from "../../shared/SimulationActionButtons";
 
 interface SimulationOverallProgressProps {
   result: GetExecutionRecordResponse["execution"];
