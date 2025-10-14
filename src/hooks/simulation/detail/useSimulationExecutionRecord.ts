@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { simulationAPI } from "@/apis/simulation";
 
 import { QUERY_KEYS } from "@/constants/api";
-import { POLLING_REQUIRED_STATUSES, SIMULATION_STATUS_REFETCH_INTERVAL_MS } from "@/constants/simulation";
+import { POLLING_REQUIRED_STATUSES, SIMULATION_REFETCH_INTERVAL_SHORT } from "@/constants/simulation";
 
 import type { APIResponse } from "@/types/api";
 import type { GetExecutionRecordResponse } from "@/types/simulation/executionRecord";
@@ -14,8 +14,9 @@ export function useSimulationExecutionRecord(simulationId: number, executionId: 
   return useQuery({
     queryKey: QUERY_KEYS.simulation.byExecutionId(simulationId, executionId),
     queryFn: async () => {
-      // 이전 상태 데이터 가져오기
       console.log("Fetching live status for simulationId:", simulationId, "executionId:", executionId);
+
+      // 이전 상태 데이터 가져오기
       const previousData = queryClient.getQueryData<APIResponse<GetExecutionRecordResponse>>(
         QUERY_KEYS.simulation.byExecutionId(simulationId, executionId),
       );
@@ -49,13 +50,13 @@ export function useSimulationExecutionRecord(simulationId: number, executionId: 
       if (query.state.error) return false;
 
       // 데이터가 없으면 polling 계속
-      if (!data) return SIMULATION_STATUS_REFETCH_INTERVAL_MS;
+      if (!data) return SIMULATION_REFETCH_INTERVAL_SHORT;
 
       const status = data.data.execution.currentStatus.status;
 
       // polling이 필요한 상태라면 지정한 간격으로 polling
       if (POLLING_REQUIRED_STATUSES.includes(status)) {
-        return SIMULATION_STATUS_REFETCH_INTERVAL_MS;
+        return SIMULATION_REFETCH_INTERVAL_SHORT;
       }
 
       return false;

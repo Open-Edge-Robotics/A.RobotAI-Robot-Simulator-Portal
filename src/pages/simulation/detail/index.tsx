@@ -14,7 +14,7 @@ import SimulationStaticInformation from "@/components/simulation/detail/Simulati
 
 import { ICONS } from "@/constants/icon";
 import { SEGMENTS } from "@/constants/navigation";
-import { DELETING_STATUSES, POLLING_REQUIRED_STATUSES } from "@/constants/simulation";
+import { DELETING_STATUSES } from "@/constants/simulation";
 
 import { useSimulationDetail } from "@/hooks/simulation/detail/useSimulationDetail";
 
@@ -78,9 +78,7 @@ function SimulationDetailPageContent({ id }: { id: number }) {
     <div className="relative flex flex-col gap-6">
       <SimulationDetailPageHeader
         lastUpdated={simulation.latestExecutionStatus.timestamps.lastUpdated}
-        onRefreshClick={
-          POLLING_REQUIRED_STATUSES.includes(simulation.latestExecutionStatus.status) ? handleRefresh : undefined
-        }
+        onRefreshClick={handleRefresh}
       />
       {DELETING_STATUSES.includes(simulation.latestExecutionStatus.status) ? (
         <DeleteActionProgressFallback id={id} />

@@ -285,8 +285,8 @@ export const FILTER_OPTIONS = {
 
 export const ALLOWED_PARAMS = ["page", "size", "status", "pattern_type", "start_date", "end_date", "period"] as const;
 
-export const SIMULATION_REFETCH_INTERVAL_MS = 60000; // 1 minute
-export const SIMULATION_STATUS_REFETCH_INTERVAL_MS = 1000; // 1 second
+export const SIMULATION_REFETCH_INTERVAL_LONG = 60000; // 1 minute
+export const SIMULATION_REFETCH_INTERVAL_SHORT = 1000; // 1 second
 
 export const POLLING_REQUIRED_STATUSES: SimulationStatus[] = ["PENDING", "RUNNING", "DELETING"];
 export const DELETING_STATUSES: SimulationStatus[] = ["DELETING", "DELETED"];

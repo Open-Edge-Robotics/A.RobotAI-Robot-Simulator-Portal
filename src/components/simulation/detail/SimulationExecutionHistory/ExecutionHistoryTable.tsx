@@ -79,12 +79,12 @@ interface TableBodyRowProps {
 function TableBodyRow({ record }: TableBodyRowProps) {
   const { currentStatus, executionId, simulationId } = record;
 
-  const isRunning = POLLING_REQUIRED_STATUSES.includes(currentStatus.status);
-  const { data: liveStatus } = useSimulationExecutionRecord(simulationId, executionId, isRunning);
+  const isRunning = currentStatus.status === "RUNNING";
+  const { data: liveRecord } = useSimulationExecutionRecord(simulationId, executionId, isRunning);
 
   const displayStatus =
-    liveStatus && isRunning
-      ? (liveStatus.data.execution.currentStatus as SequentialRunningStatus | ParallelRunningStatus)
+    liveRecord && isRunning
+      ? (liveRecord.data.execution.currentStatus as SequentialRunningStatus | ParallelRunningStatus)
       : currentStatus;
 
   return (
@@ -92,10 +92,10 @@ function TableBodyRow({ record }: TableBodyRowProps) {
       <li key={executionId} className={`hover:bg-gray-10 grid ${TABLE_GRID_COLS}`}>
         <TableBodyCell>{executionId}</TableBodyCell>
         <TableBodyCell justifyCenter>
-          <StatusBadge status={currentStatus.status} />
+          <StatusBadge status={displayStatus.status} />
         </TableBodyCell>
-        <TableBodyCell>{formatDateTime(currentStatus.timestamps.startedAt)}</TableBodyCell>
-        <TableBodyCell>{formatDateTime(currentStatus.timestamps.lastUpdated)}</TableBodyCell>
+        <TableBodyCell>{formatDateTime(displayStatus.timestamps.startedAt)}</TableBodyCell>
+        <TableBodyCell>{formatDateTime(displayStatus.timestamps.lastUpdated)}</TableBodyCell>
         <TableBodyCell>
           <div className="flex grow flex-col items-end gap-1.5">
             <ProgressBar
