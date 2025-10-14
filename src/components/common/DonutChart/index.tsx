@@ -1,3 +1,7 @@
+import { ICONS } from "@/constants/icon";
+
+import Icon from "../Icon";
+
 // 상수 정의
 const DEFAULT_RADIUS = 40;
 const DEFAULT_STROKE_WIDTH = 8;
@@ -51,6 +55,8 @@ export default function DonutChart({
   // 중앙 텍스트 결정
   const displayText = centerText || (showPercentage ? `${clampedPercentage}%` : "");
 
+  const isError = percentage < 0;
+
   return (
     <div className="text-center">
       <div className="relative mx-auto mb-3" style={{ width: sizeConfig.size, height: sizeConfig.size }}>
@@ -70,7 +76,7 @@ export default function DonutChart({
             cx="50"
             cy="50"
             r={DEFAULT_RADIUS}
-            stroke={color}
+            stroke={isError ? "var(--color-red-500)" : color}
             strokeWidth={sizeConfig.strokeWidth}
             fill="none"
             strokeDasharray={strokeDasharray}
@@ -82,13 +88,17 @@ export default function DonutChart({
         {/* 중앙 텍스트 */}
         {displayText && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className={`font-semibold text-gray-900 ${sizeConfig.textSize}`}>{displayText}</span>
+            {isError ? (
+              <Icon name={ICONS.warning} className="text-red-600" />
+            ) : (
+              <span className={`font-semibold ${sizeConfig.textSize}`}>{displayText}</span>
+            )}
           </div>
         )}
       </div>
 
       {/* 라벨 */}
-      {showLabel && <p className="font-medium text-gray-900">{label}</p>}
+      {showLabel && <p className="font-medium">{label}</p>}
     </div>
   );
 }

@@ -31,6 +31,8 @@ export default function SimulationSummary({ simulationId }: SimulationDetailProp
 
   const simulation = data.data;
 
+  console.log(simulation);
+
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
       <ResourceUsage resource={simulation.resourceUsage} />

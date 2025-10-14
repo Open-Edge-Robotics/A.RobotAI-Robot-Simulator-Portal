@@ -30,4 +30,4 @@ export const SYSTEM_OVERVIEW_CONFIGS: Record<keyof Omit<SystemOverviewData, "tim
   },
 } as const;
 
-export const DASHBOARD_REFETCH_INTERVAL_MS = 60000; // 1 minute
+export const DASHBOARD_REFETCH_INTERVAL = 60000; // 1 minute

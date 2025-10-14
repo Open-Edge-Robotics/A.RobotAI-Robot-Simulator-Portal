@@ -9,20 +9,24 @@ import Title from "@/components/common/Title";
 
 import { SEGMENTS } from "@/constants/navigation";
 
+import type { SimulationLite } from "@/types/simulation/domain";
+
 import SimulationSummary from "./SimulationSummary";
 
 interface SimulationSectionProps {
-  simulations: { simulationId: number; simulationName: string }[];
+  simulationDropDownList: SimulationLite[];
 }
 
-export default function SimulationSection({ simulations }: SimulationSectionProps) {
+export default function SimulationSection({ simulationDropDownList }: SimulationSectionProps) {
   const [selectedSimulationId, setSelectedSimulationId] = useState<number | null>(null);
 
   const handleSimulationChange = (simulationId: number | null) => {
     setSelectedSimulationId(simulationId);
   };
 
-  const selectedSimulation = simulations.find((simulation) => simulation.simulationId === selectedSimulationId);
+  const selectedSimulation = simulationDropDownList.find(
+    (simulation) => simulation.simulationId === selectedSimulationId,
+  );
 
   return (
     <div>
@@ -38,8 +42,8 @@ export default function SimulationSection({ simulations }: SimulationSectionProp
           <Title title="시뮬레이션 선택" />
         )}
         <Select
-          options={simulations}
-          value={simulations.find((simulation) => simulation.simulationId === selectedSimulationId) || null}
+          options={simulationDropDownList}
+          value={simulationDropDownList.find((simulation) => simulation.simulationId === selectedSimulationId) || null}
           getOptionLabel={(option) => option.simulationName}
           getOptionValue={(option) => option.simulationId.toString()}
           size="l-medium"

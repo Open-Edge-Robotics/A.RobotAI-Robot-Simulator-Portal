@@ -3,8 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { simulationAPI } from "@/apis/simulation";
 
 import { QUERY_KEYS } from "@/constants/api";
-
-const REFETCH_INTERVAL_MS = 60000; // 1분
+import { SIMULATION_REFETCH_INTERVAL_LONG, SIMULATION_REFETCH_INTERVAL_SHORT } from "@/constants/simulation";
 
 export function useSimulationSummary(selectedSimulationId: number) {
   return useQuery({
@@ -13,8 +12,11 @@ export function useSimulationSummary(selectedSimulationId: number) {
     // queryFn: () => simulationAPI.getMockSimulationSummary(selectedSimulationId),
     enabled: selectedSimulationId !== null,
     refetchInterval: (query) => {
-      // simulationId가 있고 에러 상태가 아닐 때만 1분(60000ms) 간격으로 polling
-      return selectedSimulationId !== null && query.state.status !== "error" ? REFETCH_INTERVAL_MS : false;
+      if (selectedSimulationId === null || query.state.status === "error") return false;
+
+      const data = query.state.data;
+      if (data?.data.latestExecutionStatus === "RUNNING") return SIMULATION_REFETCH_INTERVAL_SHORT;
+      return SIMULATION_REFETCH_INTERVAL_LONG;
     },
   });
 }

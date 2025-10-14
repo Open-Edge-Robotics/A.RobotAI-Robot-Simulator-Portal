@@ -23,4 +23,5 @@ export const ICONS = {
   adjust: "adjust",
   checkCircle: "check_circle",
   user: "person",
+  warning: "warning",
 };

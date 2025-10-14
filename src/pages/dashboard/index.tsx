@@ -43,7 +43,7 @@ export default function DashboardPage() {
   return (
     <div className="bg-gray-10 flex min-h-full flex-col gap-9 p-6">
       <SystemOverviewSection overview={overview} refetch={overviewQuery.refetch} />
-      <SimulationSection simulations={simulations} />
+      <SimulationSection simulationDropDownList={simulations} />
     </div>
   );
 }

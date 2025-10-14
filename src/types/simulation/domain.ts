@@ -1,8 +1,8 @@
 import type { ALLOWED_PARAMS, FILTER_OPTIONS, SIMULATION_ACTION_TYPES } from "@/constants/simulation";
 
 import type { CreatePatternGroupRequest, DeletePatternGroupRequest, UpdatePatternGroupRequest } from "./api";
-import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
 import type { ParallelStatusResponse, SequentialStatusResponse } from "./executionRecord";
+import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
 import type { TemplateLite } from "../template/domain";
 
 // ========== 기본 엔티티 타입 ==========
@@ -45,6 +45,7 @@ export type SimulationCreationStep = 1 | 2 | 3 | 4;
 export type PatternType = "sequential" | "parallel";
 export type SimulationActionType = (typeof SIMULATION_ACTION_TYPES)[number];
 export type PodStatus = "pending" | "running" | "success" | "failed" | "stopped";
+export type ResourceUsageStatus = "normal" | "collecting" | "error";
 
 interface BaseAgentGroupFormData {
   templateId: number | null;
@@ -143,9 +144,9 @@ export type PatternTypeFilterOption = (typeof FILTER_OPTIONS.patternType)[number
 export type PeriodFilterOption = (typeof FILTER_OPTIONS.period)[number]["value"];
 
 export interface ResourceUsageData {
-  cpu: { usagePercent: number; status: string };
-  memory: { usagePercent: number; status: string };
-  disk: { usagePercent: number; status: string };
+  cpu: { usagePercent: number; status: ResourceUsageStatus };
+  memory: { usagePercent: number; status: ResourceUsageStatus };
+  disk: { usagePercent: number; status: ResourceUsageStatus };
 }
 
 export interface PodStatusData {
