@@ -1,7 +1,4 @@
-export const API_BASE_URL = {
-  local: "http://localhost:8000/api",
-  dev: "/api",
-} as const;
+export const API_BASE_URL = "/api";
 
 export const ENDPOINTS = {
   dashboard: "/dashboard",

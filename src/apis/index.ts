@@ -11,7 +11,7 @@ type Url = string;
 
 // Axios 인스턴스 생성
 const instance = axios.create({
-  baseURL: API_BASE_URL.dev,
+  baseURL: API_BASE_URL,
   timeout: API_DEFAULT_TIMEOUT,
   headers: {
     "Content-Type": "application/json",
@@ -48,7 +48,7 @@ instance.interceptors.response.use(
       try {
         // Refresh Token으로 새 Access Token 요청
         const response = await axios.post<APIResponse<{ accessToken: string }>>(
-          `${API_BASE_URL.dev}${ENDPOINTS.auth}/refresh`,
+          `${API_BASE_URL}${ENDPOINTS.auth}/refresh`,
           {},
           { withCredentials: true },
         );

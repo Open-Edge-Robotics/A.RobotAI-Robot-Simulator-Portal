@@ -31,8 +31,11 @@ FROM nginx:alpine
 # 빌드된 파일을 nginx html 디렉토리로 복사
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# nginx 설정 파일 복사
-COPY nginx.conf /etc/nginx/nginx.conf
+# nginx 템플릿 파일을 templates 디렉토리에 복사
+COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
+
+# 환경변수 기본값 설정
+ENV BACKEND_API_URL=http://101.79.72.52:30020
 
 EXPOSE 80
 
