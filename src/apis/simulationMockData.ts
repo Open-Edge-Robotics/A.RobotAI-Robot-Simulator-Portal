@@ -346,7 +346,7 @@ export const mockRunningParallel: GetSimulationSummaryResponse = {
   totalExecutionTime: 300,
   autonomousAgentCount: 6,
   resourceUsage: {
-    cpu: { usagePercent: 70, status: "warning" },
+    cpu: { usagePercent: 70, status: "collecting" },
     memory: { usagePercent: 40, status: "normal" },
     disk: { usagePercent: 20, status: "normal" },
   },
@@ -424,8 +424,8 @@ export const mockFailedParallel: GetSimulationSummaryResponse = {
   totalExecutionTime: 180,
   autonomousAgentCount: 6,
   resourceUsage: {
-    cpu: { usagePercent: 90, status: "critical" },
-    memory: { usagePercent: 80, status: "warning" },
+    cpu: { usagePercent: 90, status: "collecting" },
+    memory: { usagePercent: 80, status: "normal" },
     disk: { usagePercent: 70, status: "normal" },
   },
   podStatus: {
@@ -450,9 +450,9 @@ export const mockFailedSequential: GetSimulationSummaryResponse = {
   totalExecutionTime: 120,
   autonomousAgentCount: 3,
   resourceUsage: {
-    cpu: { usagePercent: 95, status: "critical" },
-    memory: { usagePercent: 85, status: "critical" },
-    disk: { usagePercent: 60, status: "warning" },
+    cpu: { usagePercent: 95, status: "collecting" },
+    memory: { usagePercent: 85, status: "normal" },
+    disk: { usagePercent: 60, status: "error" },
   },
   podStatus: {
     totalCount: 3,
