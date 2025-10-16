@@ -4,6 +4,7 @@ import type {
   PatternType,
   PodStatus,
   PodStatusConfig,
+  ResourceUsageData,
   SimulationActionConfig,
   SimulationActionType,
   SimulationOverviewConfig,
@@ -288,3 +289,9 @@ export const SIMULATION_REFETCH_INTERVAL_SHORT = 1000; // 1 second
 
 export const POLLING_REQUIRED_STATUSES: SimulationStatus[] = ["PENDING", "RUNNING", "DELETING"];
 export const DELETING_STATUSES: SimulationStatus[] = ["DELETING", "DELETED"];
+
+export const DEFAULT_RESOURCE_USAGE: ResourceUsageData = {
+  cpu: { usagePercent: 0, status: "normal" },
+  memory: { usagePercent: 0, status: "normal" },
+  disk: { usagePercent: 0, status: "normal" },
+};

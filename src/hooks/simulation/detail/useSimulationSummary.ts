@@ -3,7 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { simulationAPI } from "@/apis/simulation";
 
 import { QUERY_KEYS } from "@/constants/api";
-import { SIMULATION_REFETCH_INTERVAL_LONG, SIMULATION_REFETCH_INTERVAL_SHORT } from "@/constants/simulation";
+import {
+  DEFAULT_RESOURCE_USAGE,
+  SIMULATION_REFETCH_INTERVAL_LONG,
+  SIMULATION_REFETCH_INTERVAL_SHORT,
+} from "@/constants/simulation";
 
 export function useSimulationSummary(selectedSimulationId: number) {
   return useQuery({
@@ -11,6 +15,13 @@ export function useSimulationSummary(selectedSimulationId: number) {
     queryFn: () => simulationAPI.getSimulationSummary(selectedSimulationId),
     // queryFn: () => simulationAPI.getMockSimulationSummary(selectedSimulationId),
     enabled: selectedSimulationId !== null,
+    select: (res) => ({
+      ...res,
+      data: {
+        ...res.data,
+        resourceUsage: res.data.latestExecutionStatus === "RUNNING" ? res.data.resourceUsage : DEFAULT_RESOURCE_USAGE,
+      },
+    }),
     refetchInterval: (query) => {
       if (selectedSimulationId === null || query.state.status === "error") return false;
 
