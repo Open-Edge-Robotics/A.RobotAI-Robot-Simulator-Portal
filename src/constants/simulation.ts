@@ -120,7 +120,7 @@ export const STATUS_CONFIGS: Record<SimulationStatus, SimulationStatusConfig> = 
     bgColor: "bg-gray-50",
     highlightColor: "bg-gray-500",
     textColor: "text-gray-700",
-    text: "삭제완료",
+    text: "삭제됨",
   },
 } as const;
 

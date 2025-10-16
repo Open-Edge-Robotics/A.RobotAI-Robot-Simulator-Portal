@@ -72,7 +72,7 @@ function TemplateEditPageContent({ id }: { id: number }) {
   };
 
   return (
-    <div className="bg-gray-10 flex h-full flex-col gap-6 p-6">
+    <div className="bg-gray-10 flex h-full flex-col gap-6">
       <TemplateHeader title="템플릿 수정" />
       <TemplateForm
         initialData={templateFormData}
