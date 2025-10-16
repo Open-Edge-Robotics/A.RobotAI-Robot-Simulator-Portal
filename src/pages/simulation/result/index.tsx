@@ -7,6 +7,7 @@ import Icon from "@/components/common/Icon";
 import IconButton from "@/components/common/IconButton.tsx";
 import LinkButton from "@/components/common/LinkButton";
 import Title from "@/components/common/Title";
+import SimulationExecutionInformation from "@/components/simulation/result/SimulationExecutionInformation";
 import SimulationOverallProgress from "@/components/simulation/result/SimulationOverallProgress";
 import StepMonitoring from "@/components/simulation/result/StepMonitoring";
 
@@ -77,10 +78,8 @@ function SimulationResultPageContent({ simulationId, executionId }: { simulation
         lastUpdated={result.currentStatus.timestamps.lastUpdated}
         onRefreshClick={POLLING_REQUIRED_STATUSES.includes(result.currentStatus.status) ? handleRefresh : undefined}
       />
-
-      {/* 전체 진행 상황 */}
+      <SimulationExecutionInformation result={result} />
       <SimulationOverallProgress result={result} />
-      {/* 스텝별 진행 상황 */}
       <StepMonitoring result={result} />
     </div>
   );

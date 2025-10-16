@@ -111,12 +111,12 @@ interface GroupStaticBase {
   executionTime: number;
 }
 
-interface SequentialGroupStatic extends GroupStaticBase {
+export interface SequentialGroupStatic extends GroupStaticBase {
   stepOrder: number;
   delayAfterCompletion: number;
 }
 
-interface ParallelGroupStatic extends GroupStaticBase {
+export interface ParallelGroupStatic extends GroupStaticBase {
   groupId: number;
 }
 

@@ -1,3 +1,4 @@
+import type { ParallelGroupStatic, SequentialGroupStatic } from "./api";
 import type { ParallelProgress, SequentialProgress } from "./domain";
 import type { ParallelPatternGroupDetail, SequentialPatternGroupDetail } from "./groupDetail";
 
@@ -10,6 +11,9 @@ interface GetSequentialExecutionRecordResponse {
   patternType: "sequential";
   currentStatus: SequentialStatusResponse;
   executionId: number;
+  executionPlan: {
+    steps: SequentialGroupStatic[];
+  };
 }
 
 interface ParallelExecutionRecordResponse {
@@ -17,6 +21,9 @@ interface ParallelExecutionRecordResponse {
   patternType: "parallel";
   currentStatus: ParallelStatusResponse;
   executionId: number;
+  executionPlan: {
+    groups: ParallelGroupStatic[];
+  };
 }
 
 export type SequentialStatusResponse =

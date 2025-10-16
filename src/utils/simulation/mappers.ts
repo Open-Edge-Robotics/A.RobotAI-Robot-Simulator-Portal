@@ -3,6 +3,8 @@ import type {
   CreatePatternGroupRequest,
   CreateSimulationRequest,
   GetSimulationStaticResponse,
+  ParallelGroupStatic,
+  SequentialGroupStatic,
   UpdatePatternGroupRequest,
 } from "@/types/simulation/api";
 import type {
@@ -132,7 +134,21 @@ export const patternGroupToForm = (group: GroupExecutionDetail): GroupExecutionD
   delayAfterCompletion: group.delayAfterCompletion,
 });
 
-export const executionPlanToGroupDetail = (simulation: GetSimulationStaticResponse): GroupExecutionDetail[] => {
+type ExecutionPlanInfo =
+  | {
+      patternType: "sequential";
+      executionPlan: {
+        steps: SequentialGroupStatic[];
+      };
+    }
+  | {
+      patternType: "parallel";
+      executionPlan: {
+        groups: ParallelGroupStatic[];
+      };
+    };
+
+export const executionPlanToGroupDetail = (simulation: ExecutionPlanInfo): GroupExecutionDetail[] => {
   switch (simulation.patternType) {
     case "sequential":
       return simulation.executionPlan.steps.map((step, index) => ({

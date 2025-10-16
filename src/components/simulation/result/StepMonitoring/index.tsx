@@ -6,8 +6,8 @@ import Title from "@/components/common/Title";
 import { PATTERN_CONFIGS } from "@/constants/simulation";
 
 import type { PatternType } from "@/types/simulation/domain";
-import type { PatternGroupDetail } from "@/types/simulation/groupDetail";
 import type { GetExecutionRecordResponse } from "@/types/simulation/executionRecord";
+import type { PatternGroupDetail } from "@/types/simulation/groupDetail";
 
 import GroupBody from "./GroupBody";
 import GroupHeader from "./GroupHeader";
