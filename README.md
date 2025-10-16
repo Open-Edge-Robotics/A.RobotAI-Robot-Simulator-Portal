@@ -44,7 +44,7 @@
 - Docker Desktop
 - Git
 
-### 배포 환경 (배포 담당자만 필요)
+### 배포 환경
 
 - Docker Desktop
 - SSH 접근 권한 (SSH 키 또는 비밀번호)
