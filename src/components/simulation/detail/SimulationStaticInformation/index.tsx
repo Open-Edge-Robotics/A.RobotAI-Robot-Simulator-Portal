@@ -104,7 +104,11 @@ function Header({ simulation, editMode, toggleEditMode }: HeaderProps) {
             />
           </>
         )}
-        <Button color="tertiary" onClick={toggleEditMode} disabled={!allowedActions.includes("edit")}>
+        <Button
+          color="tertiary"
+          onClick={toggleEditMode}
+          disabled={!allowedActions.includes("edit") || isStarting || isDeleting}
+        >
           {editMode ? "편집 종료" : "편집 모드"}
         </Button>
       </div>
