@@ -553,6 +553,20 @@ export const mockSequentialInitiatingStatus: GetExecutionRecordResponse = {
         lastUpdated: "2025-09-01T10:01:00Z",
       },
     },
+    executionPlan: {
+      steps: [
+        {
+          stepOrder: 1,
+          autonomousAgentCount: 2,
+          repeatCount: 1,
+          executionTime: 300,
+          templateId: 101,
+          templateName: "Device Connection Template",
+          templateType: "HTTP",
+          delayAfterCompletion: 30,
+        },
+      ],
+    },
   },
 };
 
@@ -569,6 +583,19 @@ export const mockParallelInitiatingStatus: GetExecutionRecordResponse = {
         lastUpdated: "2025-09-01T11:01:00Z",
       },
     },
+    executionPlan: {
+      groups: [
+        {
+          groupId: 1,
+          templateId: 201,
+          templateName: "API Gateway Load Test",
+          autonomousAgentCount: 80,
+          repeatCount: 10,
+          executionTime: 1200,
+          templateType: "HTTP",
+        },
+      ],
+    },
   },
 };
 
@@ -578,6 +605,20 @@ export const mockSequentialPendingStatus: GetExecutionRecordResponse = {
     executionId: 45,
     simulationId: 2,
     patternType: "sequential",
+    executionPlan: {
+      steps: [
+        {
+          autonomousAgentCount: 2,
+          delayAfterCompletion: 30,
+          executionTime: 300,
+          repeatCount: 1,
+          stepOrder: 1,
+          templateId: 101,
+          templateName: "Device Connection Template",
+          templateType: "HTTP",
+        },
+      ],
+    },
     currentStatus: {
       status: "PENDING",
       message: "대기 중...",
@@ -605,6 +646,19 @@ export const mockParallelPendingStatus: GetExecutionRecordResponse = {
     executionId: 78,
     simulationId: 8,
     patternType: "parallel",
+    executionPlan: {
+      groups: [
+        {
+          groupId: 1,
+          templateId: 201,
+          templateName: "API Gateway Load Test",
+          autonomousAgentCount: 80,
+          repeatCount: 10,
+          executionTime: 1200,
+          templateType: "HTTP",
+        },
+      ],
+    },
     currentStatus: {
       status: "PENDING",
       message: "대기 중...",
@@ -633,6 +687,20 @@ export const mockSequentialRunningStatus: GetExecutionRecordResponse = {
     executionId: 56,
     simulationId: 3,
     patternType: "sequential",
+    executionPlan: {
+      steps: [
+        {
+          autonomousAgentCount: 2,
+          delayAfterCompletion: 30,
+          executionTime: 300,
+          repeatCount: 1,
+          stepOrder: 1,
+          templateId: 101,
+          templateName: "Device Connection Template",
+          templateType: "HTTP",
+        },
+      ],
+    },
     currentStatus: {
       status: "RUNNING",
       message: "단계 실행 중...",
@@ -679,6 +747,19 @@ export const mockParallelRunningStatus: GetExecutionRecordResponse = {
     executionId: 89,
     simulationId: 9,
     patternType: "parallel",
+    executionPlan: {
+      groups: [
+        {
+          autonomousAgentCount: 2,
+          executionTime: 300,
+          repeatCount: 1,
+          groupId: 1,
+          templateId: 101,
+          templateName: "Device Connection Template",
+          templateType: "HTTP",
+        },
+      ],
+    },
     currentStatus: {
       status: "RUNNING",
       message: "병렬 그룹 실행 중...",
@@ -725,6 +806,20 @@ export const mockSequentialCompletedStatus: GetExecutionRecordResponse = {
     executionId: 78,
     simulationId: 4,
     patternType: "sequential",
+    executionPlan: {
+      steps: [
+        {
+          stepOrder: 1,
+          templateId: 201,
+          templateName: "첫 번째 단계 템플릿",
+          autonomousAgentCount: 2,
+          repeatCount: 1,
+          executionTime: 180,
+          delayAfterCompletion: 30,
+          templateType: "HTTP",
+        },
+      ],
+    },
     currentStatus: {
       status: "COMPLETED",
       message: "모든 단계 완료",
@@ -780,6 +875,19 @@ export const mockParallelCompletedStatus: GetExecutionRecordResponse = {
     executionId: 90,
     simulationId: 10,
     patternType: "parallel",
+    executionPlan: {
+      groups: [
+        {
+          autonomousAgentCount: 2,
+          executionTime: 300,
+          repeatCount: 1,
+          groupId: 1,
+          templateId: 101,
+          templateName: "Device Connection Template",
+          templateType: "HTTP",
+        },
+      ],
+    },
     currentStatus: {
       status: "COMPLETED",
       message: "모든 그룹 완료",
@@ -836,6 +944,20 @@ export const mockSequentialFailedStatus: GetExecutionRecordResponse = {
     executionId: 57,
     simulationId: 5,
     patternType: "sequential",
+    executionPlan: {
+      steps: [
+        {
+          autonomousAgentCount: 2,
+          delayAfterCompletion: 30,
+          executionTime: 300,
+          repeatCount: 1,
+          stepOrder: 1,
+          templateId: 101,
+          templateName: "Device Connection Template",
+          templateType: "HTTP",
+        },
+      ],
+    },
     currentStatus: {
       status: "FAILED",
       message: "2단계에서 오류 발생",
@@ -885,6 +1007,19 @@ export const mockParallelFailedStatus: GetExecutionRecordResponse = {
     executionId: 91,
     simulationId: 11,
     patternType: "parallel",
+    executionPlan: {
+      groups: [
+        {
+          autonomousAgentCount: 2,
+          executionTime: 300,
+          repeatCount: 1,
+          groupId: 1,
+          templateId: 101,
+          templateName: "Device Connection Template",
+          templateType: "HTTP",
+        },
+      ],
+    },
     currentStatus: {
       status: "FAILED",
       message: "2번 그룹에서 오류 발생",
@@ -934,6 +1069,20 @@ export const mockSequentialStoppedStatus: GetExecutionRecordResponse = {
     executionId: 60,
     simulationId: 6,
     patternType: "sequential",
+    executionPlan: {
+      steps: [
+        {
+          autonomousAgentCount: 2,
+          executionTime: 300,
+          repeatCount: 1,
+          stepOrder: 1,
+          delayAfterCompletion: 30,
+          templateId: 101,
+          templateName: "Device Connection Template",
+          templateType: "HTTP",
+        },
+      ],
+    },
     currentStatus: {
       status: "STOPPED",
       message: "사용자에 의해 중지됨",
@@ -982,6 +1131,19 @@ export const mockParallelStoppedStatus: GetExecutionRecordResponse = {
     executionId: 92,
     simulationId: 12,
     patternType: "parallel",
+    executionPlan: {
+      groups: [
+        {
+          autonomousAgentCount: 2,
+          executionTime: 300,
+          repeatCount: 1,
+          groupId: 1,
+          templateId: 101,
+          templateName: "Device Connection Template",
+          templateType: "HTTP",
+        },
+      ],
+    },
     currentStatus: {
       status: "STOPPED",
       message: "사용자에 의해 중지됨",
