@@ -1,19 +1,26 @@
-import React from "react";
-import { VariantProps } from "class-variance-authority";
-import { labelVariants } from "@/components/common/Label/Label.variant";
-import { cn } from "@/utils/core";
+interface LabelProps {
+  label?: string;
+  required?: boolean;
+  fontSize?: string;
+  fontWeight?: string;
+  marginBottom?: string;
+  htmlFor?: string;
+  children?: React.ReactNode;
+}
 
-type LabelProps = React.ComponentPropsWithoutRef<"label"> &
-  VariantProps<typeof labelVariants> & {
-    className?: string;
-  };
-
-export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
-  ({ className, ...props }: LabelProps, ref) => {
-    return (
-      <label className={cn(labelVariants(), className)} ref={ref} {...props} />
-    );
-  },
-);
-
-Label.displayName = "Label";
+export default function Label({
+  label,
+  fontSize = "text-sm",
+  fontWeight = "font-semibold",
+  marginBottom = "mb-2",
+  required = false,
+  htmlFor,
+  children,
+}: LabelProps) {
+  return (
+    <label htmlFor={htmlFor} className={`${marginBottom} block ${fontSize} ${fontWeight} text-gray-700`}>
+      {label} {required && <span className="text-red-500">*</span>}
+      {children}
+    </label>
+  );
+}

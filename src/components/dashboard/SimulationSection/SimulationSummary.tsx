@@ -1,0 +1,41 @@
+import ErrorFallback from "@/components/common/Fallback/ErrorFallback";
+import LoadingFallback from "@/components/common/Fallback/LoadingFallback";
+
+import { useSimulationSummary } from "@/hooks/simulation/detail/useSimulationSummary";
+
+import PodStatusOverview from "./PodStatusOverview";
+import ResourceUsage from "./ResourceUsage";
+import SimulationInformation from "./SimulationInformation";
+
+interface SimulationDetailProps {
+  simulationId: number;
+}
+
+export default function SimulationSummary({ simulationId }: SimulationDetailProps) {
+  // 선택된 시뮬레이션 상세 정보 조회
+  const { data, status, refetch } = useSimulationSummary(simulationId);
+
+  if (status === "pending") {
+    return <LoadingFallback message="시뮬레이션 정보를 불러오고 있습니다" />;
+  }
+
+  if (status === "error") {
+    return (
+      <ErrorFallback
+        onRetry={refetch}
+        message="시뮬레이션 정보를 불러올 수 없습니다."
+        subMessage="네트워크 연결을 확인하거나 잠시 후 다시 시도해 주세요."
+      />
+    );
+  }
+
+  const simulation = data.data;
+
+  return (
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <ResourceUsage resource={simulation.resourceUsage} />
+      <SimulationInformation simulation={simulation} />
+      <PodStatusOverview pods={simulation.podStatus} />
+    </div>
+  );
+}

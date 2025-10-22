@@ -1,131 +1,165 @@
-# robot-simulator-front 소개
+# Robot Simulator Frontend
 
-## 기술 스택
+> **배포 주소**: http://101.79.72.60:3001/ (2025.10.14 기준)
 
-- **언어**: `TypeScript` `^5`
-- **프레임워크**: `Next.js` `^14.2.16`
-- **Formatter/Linter** : `prettier/ESLint`
-- **CSS**: `Tailwind`, `Styled-Component`, `Emotion`
-- **UI 라이브러리**: `mui material`, `x-data-grid`, `x-tree-view`
-- **상태관리**
-  - 서버 상태 :`tanstack/react-query` `^5.59.16`
-  - 클라이언트 상태 : `zustand` `^5.0.0`
-  - 폼 상태 : `react-hook-form` `^7.53.1`
-- **패키지 매니저** : `pnpm`
+## 📑 목차
 
-# 실행 가이드
+- [🏗️ 기술 스택](#️-기술-스택)
+- [📋 사전 요구사항](#-사전-요구사항)
+- [🔧 개발 환경 설정](#-개발-환경-설정)
+- [📁 프로젝트 구조](#-프로젝트-구조)
+- [🛠️ 개발 워크플로우](#️-개발-워크플로우)
+- [🚀 배포](#-배포)
 
-- `.env.local` 파일에서 `NEXT_PUBLIC_API_URL`(백엔드 api 서버 배포 주소)이 제대로 설정되어있는지 먼저 확인해주세요.
+---
 
-## local에서 실행해보기
+## 🏗️ 기술 스택
 
-### 1. 저장소 Clone
+![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=flat-square&logo=reactrouter&logoColor=white)
+![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=flat-square&logo=reactquery&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=axios&logoColor=white)
+![pnpm](https://img.shields.io/badge/pnpm-F69220?style=flat-square&logo=pnpm&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=nginx&logoColor=white)
+
+- **Frontend**: React 18.3 + TypeScript 5.8 + Vite 7.0
+- **라우팅**: React Router DOM 7.7
+- **상태 관리**: TanStack Query 5.84
+- **스타일링**: Tailwind CSS 4.1 + innogrid-ui
+- **HTTP 통신**: Axios 1.11
+- **패키지 매니저**: pnpm
+- **컨테이너화**: Docker + nginx
+- **배포**: OpenStack + Ubuntu Server
+
+## 📋 사전 요구사항
+
+### 개발 환경
+
+- Node.js 18 이상
+- pnpm 설치
+- Docker Desktop
+- Git
+
+### 배포 환경
+
+- Docker Desktop
+- SSH 접근 권한 (SSH 키 또는 비밀번호)
+
+### 필수 파일 요청
+
+다음 파일들은 보안상 저장소에 포함되지 않습니다. **프로젝트 관리자에게 요청**하세요:
+
+- `.env` - 환경변수 설정
+- `.npmrc` - npm 레지스트리 설정 (사내 패키지 접근용)
+
+---
+
+## 🔧 개발 환경 설정
+
+### 1. 저장소 클론
 
 ```bash
-git clone https://github.com/inno-rnd-project/robot-simulator-front.git
+git clone https://github.com/inno-rnd-project/re-robot-simulator-front.git
+cd re-robot-simulator-front
 ```
 
-```shell
+### 2. 환경 설정
+
+```bash
+# .env.example을 참고하여 루트에 .env 파일 생성
+cp .env.example .env
+
+# 필요한 값들을 프로젝트 관리자에게 요청하여 입력
+nano .env
+
+# 루트에 .npmrc 파일 생성
+touch .npmrc
+
+# 사내 레지스트리 키를 프로젝트 관리자에게 요청하여 입력
+nano .npmrc
+```
+
+### 3. 의존성 설치
+
+```bash
+pnpm install
+```
+
+### 4. 개발 서버 실행
+
+```bash
 pnpm run dev
 ```
 
-## 배포하기
+---
 
-- 해당 프로젝트는 `Docker` 환경에서 배포할 수 있습니다.
+## 📁 프로젝트 구조
 
-### 1. 저장소 Clone
+```
+re-robot-simulator-front/
+├── src/                    # React 소스 코드
+│   ├── apis/               # API 통신 관련
+│   ├── components/         # 재사용 가능한 컴포넌트
+│   ├── constants/          # 상수 정의
+│   ├── contexts/           # React Context
+│   │   └── auth/             # 인증 관련 Context
+│   ├── hooks/              # Custom Hooks (주로 tanstack-query 관련)
+│   ├── pages/              # 페이지 컴포넌트
+│   ├── types/              # TypeScript 타입 정의
+│   ├── utils/              # 유틸리티 함수
+│   ├── App.tsx             # 앱 루트 컴포넌트
+│   ├── App.css             # 글로벌 스타일
+│   └── main.tsx            # 앱 진입점
+├── scripts/                # 배포 스크립트
+├── index.html              # HTML 진입점
+├── README.md               # 이 문서
+└── ...                     # 기타 설정 파일들
+```
 
-- git 저장소를 clone 하여 main 브랜치의 소스코드를 가져옵니다.
+---
+
+## 🛠️ 개발 워크플로우
+
+### 기능 개발 및 배포
+
+1. feature 브랜치 생성
+2. 로컬에서 개발 및 테스트
+3. Pull Request 생성
+4. 코드 리뷰 후 `main` 브랜치 병합 (Squash Merge)
+5. `main` 브랜치에 있는 코드를 `deploy` 브랜치로 병합 (Default Merge)
+6. `deploy` 브랜치 배포
+
+### Git 브랜치 전략
+
+```
+feat/xxx ──┐
+              ├──▶ main ──▶ deploy ──▶ production
+feat/yyy ──┘
+```
+
+**브랜치 역할:**
+
+- `feat/*`: 개별 기능 개발
+- `main`: 안정된 코드 통합
+- `deploy`: 배포 전용
+
+---
+
+## 🚀 배포
+
+배포 관련 상세 가이드는 **[deploy.md](./deploy.md)** 문서를 참고하세요.
+
+### 빠른 배포
 
 ```bash
-git clone https://github.com/inno-rnd-project/robot-simulator-front.git
+# Linux/Mac 환경에서
+./scripts/deploy.sh
 ```
 
-### 2. `package.json` 스크립트 수정
+---
 
-```json
-{
-  "scripts": {
-    "prepare": "if [ \"$HUSKY_ENABLED\" = \"true\" ]; then husky install; fi"
-  }
-}
-```
-
-- <u>docker 이미지 빌드 시에만</u>, 위처럼 `prepare` 스크립트를 수정해야 합니다.
-
-### 3. local에서 docker 이미지 build & docker hub에 push
-
-- 시작 전, **`docker`, `docker desktop`** 설치 및 로그인이 선행되어야 합니다.
-
-1. docker desktop 실행
-2. powershell 접속하여 아래 명령어 실행
-
-```shell
-# 로그인 세션 확인. 로그인 안 되어있을 경우 로그인 진행.
-docker login
-
-# 해당 next.js 폴더로 이동
-cd ./robot-simulator-front
-
-# docker 이미지 빌드 (이미지 이름은 원하는 대로 설정)
-docker build -t robot-simulator-front .
-
-# localhost:3000에서 변경 사항 잘 반영되었는지 확인
-docker run -p 3000:3000 robot-simulator-front
-
-# docker hub 계정 username을 포함해 태그 달기
-docker tag robot-simulator-front username/robot-simulator-front:latest
-
-# docker hub에 이미지 푸시
-docker push username/robot-simulator-front:latest
-```
-
-### 4. 인스턴스 접속
-
-- 시작 전, **`putty`** 설치 및 인스턴스 생성/세팅이 선행되어야 합니다.
-
-### 5. docker 이미지 pull & run
-
-- 아래 명령어를 순서대로 실행해주세요.
-- 사용하지 않는 이미지와 컨테이너들은 바로 정리해주세요.
-
-```shell
-
-# access 권한 없다고 뜰 시 모든 명령어 앞에 sudo 붙이기
-
-# Docker login
-docker login
-
-# Docker hub에 올렸던 이미지 pull받기
-docker pull username/robot-simulator-front:latest
-
-# 실행 중인 컨테이너 확인
-docker ps
-
-# 이전 프론트 배포 컨테이너 중지
-docker stop 컨테이너ID
-
-# 새로 pull 받은 이미지로 컨테이너 실행
-# 3001 말고 원하는 포트 열어서 사용해도 무방
-docker run -d -p 3001:3000 username/robot-simulator-front:latest
-
-# 배포 링크 접속하여 코드 잘 반영되었는지, 버그 없는지 확인
-
-# 전체 컨테이너 목록 확인
-docker ps -a
-
-# 사용하지 않는 기존 컨테이너 삭제
-docker rm 컨테이너ID
-
-# 컨테이너 정상적으로 삭제되었는지 확인
-docker ps -a
-
-# 기존에 pull 받았던 이미지 목록 확인
-docker images
-
-# 사용하지 않는 이미지 삭제
-docker rmi 이미지ID
-
-# 이미지 정상적으로 삭제되었는지 확인
-docker images
-```
+**Happy Coding! 🚀**

@@ -1,0 +1,34 @@
+export interface OverviewConfig {
+  label: string;
+  iconName: string;
+  iconColor: string;
+  iconBgColor: string;
+}
+
+export interface FileInfo {
+  fileName: string;
+  downloadUrl: string;
+}
+
+export type EditorFile = LocalFile | UploadedFile | null;
+
+export interface LocalFile {
+  type: "LOCAL_FILE";
+  file: File;
+}
+
+export interface UploadedFile {
+  type: "UPLOADED_FILE";
+  file: FileInfo;
+}
+
+export type ValidationResult = { isValid: true } | { isValid: false; error: string };
+
+export interface Pagination {
+  currentPage: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+}
